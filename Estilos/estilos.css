@@ -219,3 +219,41 @@ footer {
     width: 90%;
   }
 }
+
+.usuario-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  padding: 5px 15px;
+  background-color: #334155;
+  border-radius: 25px;
+}
+
+.usuario-box img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+}
+
+.usuario-box span {
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.usuario-box button {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.usuario-box button:hover {
+  background: #dc2626;
+}

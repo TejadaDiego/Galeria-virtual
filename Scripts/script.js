@@ -1,3 +1,4 @@
+// ========= FUNCIONES BÁSICAS ========= //
 function redirigir(pagina) {
   window.location.href = pagina;
 }
@@ -13,7 +14,31 @@ function togglePassword(id, el) {
   }
 }
 
-// LOGIN COMPRADOR
+// ========= GUARDAR SESIÓN ========= //
+function guardarSesion(tipo, email) {
+  const usuario = {
+    tipo: tipo,
+    email: email,
+    nombre:
+      tipo === "Admin"
+        ? "Administrador"
+        : tipo === "Estudiante"
+        ? "Estudiante"
+        : "Comprador/Vendedor",
+    foto:
+      tipo === "Admin"
+        ? "img/admin.png"
+        : tipo === "Estudiante"
+        ? "img/student.png"
+        : "img/user.png",
+  };
+
+  localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
+  alert(`Inicio de sesión exitoso como ${usuario.nombre} ✅`);
+  window.location.href = "inicio.html";
+}
+
+// ========= LOGIN COMPRADOR ========= //
 const formComprador = document.getElementById("formComprador");
 if (formComprador) {
   formComprador.addEventListener("submit", (e) => {
@@ -28,12 +53,11 @@ if (formComprador) {
       return;
     }
 
-    alert("Inicio de sesión exitoso como Comprador/Vendedor ✅");
-    window.location.href = "index.html";
+    guardarSesion("Comprador", email);
   });
 }
 
-// LOGIN ESTUDIANTE
+// ========= LOGIN ESTUDIANTE ========= //
 const formEstudiante = document.getElementById("formEstudiante");
 if (formEstudiante) {
   formEstudiante.addEventListener("submit", (e) => {
@@ -48,12 +72,11 @@ if (formEstudiante) {
       return;
     }
 
-    alert("Inicio de sesión exitoso como Estudiante 🎓");
-    window.location.href = "index.html";
+    guardarSesion("Estudiante", email);
   });
 }
 
-// LOGIN ADMIN
+// ========= LOGIN ADMIN ========= //
 const formAdmin = document.getElementById("formAdmin");
 if (formAdmin) {
   formAdmin.addEventListener("submit", (e) => {
@@ -74,7 +97,39 @@ if (formAdmin) {
       return;
     }
 
-    alert("Bienvenido Administrador 🔐");
-    window.location.href = "index.html";
+    guardarSesion("Admin", user);
   });
 }
+
+// ========= MOSTRAR USUARIO LOGEADO EN NAVBAR ========= //
+window.addEventListener("DOMContentLoaded", () => {
+  const nav = document.querySelector(".navbar");
+  if (!nav) return;
+
+  const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
+  if (usuario) {
+    // eliminar botón "Iniciar sesión" si existe
+    const ul = nav.querySelector("ul");
+    if (ul) {
+      const loginBtn = ul.querySelector('a[href="login.html"]');
+      if (loginBtn) loginBtn.style.display = "none";
+    }
+
+    // crear caja de usuario
+    const userBox = document.createElement("div");
+    userBox.classList.add("usuario-box");
+    userBox.innerHTML = `
+      <img src="${usuario.foto}" alt="Usuario" class="usuario-foto">
+      <span class="usuario-nombre">${usuario.nombre}</span>
+      <button id="logoutBtn" class="logout-btn">Cerrar sesión</button>
+    `;
+    nav.appendChild(userBox);
+
+    // cerrar sesión
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      localStorage.removeItem("usuarioActivo");
+      alert("Sesión cerrada correctamente.");
+      window.location.href = "login.html";
+    });
+  }
+});
