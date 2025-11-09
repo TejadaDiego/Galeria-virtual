@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galería Virtual</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body>
+
+  <!-- FONDO DECORATIVO -->
+  <div class="fondo"></div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <h1>Galería <span>Virtual</span></h1>
+    </div>
+
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#contenido">Contenido</a>
+      <a href="#publicar">Publicar</a>
+      <button class="boton">Iniciar Sesión</button>
+      <button class="boton">Registrarse</button>
+    </nav>
+  </header>
+
+  <!-- SECCIÓN INICIO -->
+  <section id="inicio" class="inicio-section">
+    <h2>Bienvenido a la Galería Virtual</h2>
+    <p>Explora el arte digital creado por nuestros estudiantes.</p>
+  </section>
+
+  <!-- SECCIÓN NOSOTROS -->
+  <section id="nosotros" class="nosotros-section">
+    <h2>¿Qué somos?</h2>
+    <p>
+      Somos una galería virtual dedicada a exhibir y promover el arte digital. 
+      Nuestro espacio ofrece una plataforma accesible donde los estudiantes pueden mostrar sus obras 
+      y el público puede disfrutar del arte desde cualquier lugar del mundo.
+    </p>
+    <p>
+      Fomentamos la creatividad, la innovación y la conexión entre el arte y la tecnología, 
+      brindando una experiencia visual moderna e interactiva.
+    </p>
+  </section>
+
+  <!-- SECCIÓN PUBLICAR -->
+  <section id="publicar" class="publicar-section">
+    <h2>Publica tu obra</h2>
+    <p>Comparte tus creaciones con el mundo 🌎. Sube tus imágenes o videos artísticos aquí.</p>
+
+    <form class="upload-form" enctype="multipart/form-data">
+      <label for="titulo">Título de la obra:</label>
+      <input type="text" id="titulo" name="titulo" placeholder="Ej. Atardecer digital" required>
+
+      <label for="descripcion">Descripción:</label>
+      <textarea id="descripcion" name="descripcion" rows="4" placeholder="Describe brevemente tu obra..." required></textarea>
+
+      <label for="archivo">Sube tu archivo (imagen o video):</label>
+      <input type="file" id="archivo" name="archivo" accept="image/*,video/*" required>
+
+      <button type="submit" class="boton">Publicar</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>© 2025 Galería Virtual | Proyecto Académico</p>
+  </footer>
+
+  <!-- Scroll suave -->
+  <script>
+    document.querySelectorAll('a[href^="#"]').forEach(enlace => {
+      enlace.addEventListener('click', function (e) {
+        e.preventDefault();
+        const destino = document.querySelector(this.getAttribute('href'));
+        destino.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+
+</body>
+</html>

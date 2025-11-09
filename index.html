@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio - Galería Virtual</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="gradient-bg">
+  <nav class="navbar">
+    <h2 class="logo">Galería <span>Virtual</span></h2>
+    <ul>
+      <li><a href="#">Inicio</a></li>
+      <li><a href="#">Nosotros</a></li>
+      <li><a href="#">Contenido</a></li>
+      <li><a href="#">Publicar +</a></li>
+    </ul>
+  </nav>
+
+  <section class="select-user">
+    <div class="card">
+      <h1>Selecciona tu tipo de usuario</h1>
+      <button onclick="redirigir('login-comprador.html')" class="btn comprador">Comprador / Vendedor</button>
+      <button onclick="redirigir('login-estudiante.html')" class="btn estudiante">Estudiante</button>
+      <button onclick="redirigir('login-admin.html')" class="btn admin">Administrador</button>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>

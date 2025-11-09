@@ -1,0 +1,221 @@
+/* === RESETEO Y FUENTE GENERAL === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #000;
+  color: white;
+  overflow-x: hidden;
+}
+
+/* === FONDO DECORATIVO === */
+.fondo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 30% 30%, rgba(120, 70, 160, 0.3), transparent),
+              radial-gradient(circle at 80% 80%, rgba(40, 40, 120, 0.4), transparent);
+  z-index: -1;
+}
+
+/* === BARRA DE NAVEGACIÓN === */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+header h1 span {
+  display: block;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #c77dff;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  color: #d08bff;
+}
+
+.boton {
+  background: linear-gradient(90deg, #7f00ff, #e100ff);
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.boton:hover {
+  transform: scale(1.05);
+}
+
+/* === SECCIONES === */
+section {
+  padding: 150px 20px;
+  text-align: center;
+}
+
+.inicio-section {
+  padding-top: 180px;
+}
+
+.nosotros-section {
+  background: radial-gradient(circle at top left, #402c46, #000);
+}
+
+.nosotros-section h2,
+.publicar-section h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  background: linear-gradient(90deg, #c77dff, #9d4edd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nosotros-section p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #f3f3f3;
+  max-width: 800px;
+  margin: 10px auto;
+}
+
+/* === SECCIÓN PUBLICAR === */
+.publicar-section {
+  background: linear-gradient(145deg, #0f0a20, #1a0935);
+}
+
+.publicar-section p {
+  font-size: 1.1rem;
+  color: #ddd;
+  margin-bottom: 40px;
+}
+
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  max-width: 500px;
+  margin: auto;
+  text-align: left;
+}
+
+.upload-form label {
+  align-self: flex-start;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.upload-form input,
+.upload-form textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background-color: #1e1e2e;
+  color: white;
+  font-size: 1rem;
+}
+
+.upload-form input::file-selector-button {
+  background: linear-gradient(90deg, #7f00ff, #e100ff);
+  border: none;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.upload-form button {
+  background: linear-gradient(90deg, #7f00ff, #e100ff);
+  color: white;
+  border: none;
+  padding: 12px 40px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: 0.3s;
+}
+
+.upload-form button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px #e100ff;
+}
+
+/* === FOOTER === */
+footer {
+  background: #0a0615;
+  text-align: center;
+  padding: 20px 0;
+  color: #aaa;
+  font-size: 0.9rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px 30px;
+  }
+
+  nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .nosotros-section h2,
+  .publicar-section h2 {
+    font-size: 2rem;
+  }
+
+  .upload-form {
+    width: 90%;
+  }
+}
