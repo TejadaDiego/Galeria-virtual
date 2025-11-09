@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Publicar Trabajo - Galería Virtual</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .form-container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .form-container h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      color: #333;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-family: inherit;
+    }
+
+    button {
+      width: 100%;
+      background-color: #111;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 1rem;
+    }
+
+    button:hover {
+      background-color: #00bcd4;
+    }
+
+    .preview {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .preview img {
+      width: 200px;
+      border-radius: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- === Menú de navegación === -->
+  <nav class="navbar">
+    <div class="navbar-logo">Galería Virtual</div>
+    <div class="navbar-links">
+        <a href="inicio.html">Inicio</a>
+        <a href="Sobre_nosotros.html">Nosotros</a>
+        <a href="Contenido.html">Contenido</a>
+        <a href="publicar.html">Publicar +</a>
+        <a href="login.html">Iniciar sesión</a>
+    </div>
+  </nav>
+
+  <!-- === Formulario para publicar trabajo === -->
+  <div class="form-container">
+    <h2>Publicar nuevo trabajo</h2>
+    <form id="formPublicar">
+      <label for="nombre">Nombre del trabajo:</label>
+      <input type="text" id="nombre" name="nombre" placeholder="Ej: Ilustración digital de personaje" required>
+
+      <label for="descripcion">Descripción:</label>
+      <textarea id="descripcion" name="descripcion" rows="4" placeholder="Describe brevemente tu trabajo..." required></textarea>
+
+      <label for="precio">Precio (S/):</label>
+      <input type="number" id="precio" name="precio" placeholder="Ej: 50.00" required>
+
+      <label for="imagen">Imagen del trabajo:</label>
+      <input type="file" id="imagen" name="imagen" accept="image/*" required>
+
+      <div class="preview">
+        <img id="previewImg" alt="Vista previa del trabajo">
+      </div>
+
+      <button type="submit">Subir trabajo</button>
+    </form>
+  </div>
+
+  <script>
+    // Mostrar vista previa de la imagen
+    const imagenInput = document.getElementById('imagen');
+    const previewImg = document.getElementById('previewImg');
+
+    imagenInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          previewImg.src = evt.target.result;
+          previewImg.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Simular envío del formulario
+    document.getElementById('formPublicar').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Trabajo publicado correctamente (esta función se conectará a la base de datos más adelante)');
+      this.reset();
+      previewImg.style.display = 'none';
+    });
+  </script>
+
+</body>
+</html>
