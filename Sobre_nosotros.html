@@ -3,29 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Galería Virtual</title>
+  <title>Sobre Nosotros - Galería Virtual</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="Estilos/estilos.css">
 </head>
-
 <body>
 
-  <!-- FONDO DECORATIVO -->
+  <!-- ✅ Fondo decorativo -->
   <div class="fondo"></div>
 
-  <!-- HEADER -->
+  <!-- ✅ Encabezado -->
   <header>
     <div class="logo">
       <h1>Galería <span>Virtual</span></h1>
     </div>
 
-    <nav>
-      <li><a href="inicio.html">Inicio</a></li>
-      <li><a href="Sobre_nosotros.html">Nosotros</a></li>
-      <li><a href="Contenido.html">Contenido</a></li>
-      <li><a href="publicar.html">Publicar +</a></li>
-      <button class="boton">Iniciar Sesión</button>
-      <button class="boton">Registrarse</button>
+    <!-- ✅ Barra de navegación unificada -->
+    <nav class="navbar">
+      <ul>
+        <li><a href="inicio.html">Inicio</a></li>
+        <li><a href="Sobre_nosotros.html">Nosotros</a></li>
+        <li><a href="Contenido.html">Contenido</a></li>
+        <li><a href="publicar.html">Publicar +</a></li>
+        <li><a href="login.html" id="btnLogin">Iniciar sesión</a></li>
+      </ul>
     </nav>
   </header>
 
@@ -83,5 +84,7 @@
     });
   </script>
 
+  <!-- ✅ Script global de sesión -->
+  <script src="Scripts/sesion-global.js"></script>
 </body>
 </html>

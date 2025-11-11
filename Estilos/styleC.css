@@ -13,6 +13,88 @@ body {
   padding: 0;
 }
 
+/* ---------- NAVBAR SUPERIOR ---------- */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #1e293b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  padding: 15px 0;
+  list-style: none;
+  z-index: 1000;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+nav li {
+  display: inline-block;
+}
+
+nav a {
+  color: #f8fafc;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+nav a:hover {
+  background-color: #5E17EB;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(94, 23, 235, 0.5);
+  transform: scale(1.05);
+}
+
+/* ---------- USUARIO BOX ---------- */
+.usuario-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  padding: 5px 15px;
+  background-color: #334155;
+  border-radius: 25px;
+}
+
+.usuario-box img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+}
+
+.usuario-box span {
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.usuario-box button {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.usuario-box button:hover {
+  background: #dc2626;
+}
+
+/* ---------- AJUSTE PARA QUE EL NAV NO CUBRA ---------- */
+body {
+  padding-top: 80px;
+}
+
 /* ---------- TÍTULO ---------- */
 .titulo {
   font-size: 2.4rem;
@@ -63,7 +145,7 @@ body {
   position: relative;
   width: 100%;
   max-width: 1000px;
-  height: 520px; /* 👈 Altura fija */
+  height: 520px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -71,19 +153,6 @@ body {
   border-radius: 25px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
   background: #00000020;
-}
-
-/* ---------- IMAGEN ---------- */
-.img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* 👈 Hace que TODAS las imágenes se ajusten sin deformarse */
-  border-radius: 25px;
-  transition: transform 0.6s ease;
-}
-
-.img img:hover {
-  transform: scale(1.02);
 }
 
 /* ---------- TEXTO SOBRE IMAGEN ---------- */
@@ -145,6 +214,12 @@ body {
 
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 0;
+  }
+
   .imagenes {
     height: 320px;
   }
@@ -167,84 +242,4 @@ body {
     width: 30px;
     height: 30px;
   }
-}
-
-/* ======== BARRA SUPERIOR (NAV) ======== */
-nav {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background-color: #1e293b;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 15px 0;
-  list-style: none;
-  z-index: 1000;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-}
-
-nav li {
-  display: inline-block;
-  margin: 0 20px;
-}
-
-nav a {
-  color: #f8fafc;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  padding: 8px 12px;
-  border-radius: 6px;
-}
-
-nav a:hover {
-  background-color: #5E17EB;
-  color: #fff;
-  box-shadow: 0 0 10px rgba(94, 23, 235, 0.5);
-  transform: scale(1.05);
-}
-
-/* Ajuste para que el contenido no quede detrás del nav fijo */
-body {
-  padding-top: 80px; /* ajusta si la barra cubre el título */
-}
-
-.usuario-box {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-left: auto;
-  padding: 5px 15px;
-  background-color: #334155;
-  border-radius: 25px;
-}
-
-.usuario-box img {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #fff;
-}
-
-.usuario-box span {
-  color: #fff;
-  font-size: 0.95rem;
-  font-weight: 500;
-}
-
-.usuario-box button {
-  background: #ef4444;
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.85rem;
-}
-
-.usuario-box button:hover {
-  background: #dc2626;
 }

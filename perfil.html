@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil de Usuario - Galería Virtual</title>
+  <link rel="stylesheet" href="Estilos/perfil.css">
+</head>
+<body>
+  <nav class="navbar">
+    <h2 class="logo">Galería <span>Virtual</span></h2>
+    <ul>
+      <li><a href="inicio.html">Inicio</a></li>
+      <li><a href="Sobre_nosotros.html">Nosotros</a></li>
+      <li><a href="Contenido.html">Contenido</a></li>
+      <li><a href="publicar.html">Publicar +</a></li>
+      <li><a href="perfil.html" id="btnLogin" class="active">Cuenta</a></li>
+    </ul>
+  </nav>
+
+  <!-- Cabecera del perfil -->
+  <header class="perfil-header">
+    <img id="fotoPequeña" class="perfil-foto-mini" alt="Foto del usuario">
+    <div>
+      <h3 id="nombrePequeño"></h3>
+      <p id="tipoPequeño"></p>
+    </div>
+  </header>
+
+  <main class="perfil-container">
+    <div class="perfil-card">
+      <img id="fotoUsuario" class="perfil-foto" alt="Foto del usuario">
+      <label for="nuevaFoto" class="editar-foto">📷 Cambiar foto</label>
+      <input type="file" id="nuevaFoto" accept="image/*">
+
+      <h2><input type="text" id="nombreUsuario" placeholder="Nombre del usuario"></h2>
+      <p><strong>Correo:</strong> <input type="email" id="correoUsuario"></p>
+      <p><strong>Tipo de cuenta:</strong> <span id="tipoUsuario"></span></p>
+
+      <button id="guardarCambios">💾 Guardar cambios</button>
+      <button id="cerrarSesion" class="cerrar">🔒 Cerrar sesión</button>
+    </div>
+  </main>
+
+  <script src="Scripts/perfil.js"></script>
+</body>
+</html>

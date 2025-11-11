@@ -1,0 +1,180 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #d7f1f8, #c2e0f2);
+  margin: 0;
+  padding-top: 130px;
+}
+
+/* --- Navbar --- */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #1e293b;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 15px 20px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.navbar a {
+  color: #f8fafc;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+.navbar a:hover,
+.navbar .active {
+  background-color: #5E17EB;
+  color: #fff;
+}
+
+/* --- Cabecera del perfil --- */
+.perfil-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  width: fit-content;
+  margin: 0 auto 20px auto;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  animation: fadeIn 0.8s ease-in;
+}
+
+.perfil-foto-mini {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #5E17EB;
+}
+
+.perfil-header h3 {
+  margin: 0;
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.perfil-header p {
+  margin: 0;
+  color: #5E17EB;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+/* --- Contenedor de perfil --- */
+.perfil-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+
+.perfil-card {
+  background: #fff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 380px;
+  animation: fadeIn 1s ease-in;
+}
+
+.perfil-foto {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #5E17EB;
+  margin-bottom: 10px;
+}
+
+.editar-foto {
+  display: inline-block;
+  color: #5E17EB;
+  cursor: pointer;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+#nuevaFoto {
+  display: none;
+}
+
+input[type="text"],
+input[type="email"] {
+  border: none;
+  border-bottom: 2px solid #ccc;
+  text-align: center;
+  font-size: 1rem;
+  outline: none;
+  width: 100%;
+  margin: 8px 0;
+}
+
+input:focus {
+  border-color: #5E17EB;
+}
+
+button {
+  margin-top: 15px;
+  background: #5E17EB;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+  width: 100%;
+}
+
+button:hover {
+  background: #4a0ec7;
+}
+
+button.cerrar {
+  background: #ef4444;
+}
+
+button.cerrar:hover {
+  background: #dc2626;
+}
+
+/* --- Círculo del usuario en navbar --- */
+.usuario-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #334155;
+  padding: 5px 12px;
+  border-radius: 25px;
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+.usuario-foto {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  object-fit: cover;
+}
+
+.usuario-nombre {
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* --- Animaciones --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-15px); }
+  to { opacity: 1; transform: translateY(0); }
+}

@@ -1,0 +1,65 @@
+// === Cargar datos del usuario logeado ===
+let usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
+
+if (!usuario) {
+  alert("Debes iniciar sesión para acceder a tu perfil.");
+  window.location.href = "login.html";
+} else {
+  actualizarDatos();
+}
+
+function actualizarDatos() {
+  document.getElementById("fotoUsuario").src = usuario.foto;
+  document.getElementById("fotoPequeña").src = usuario.foto;
+  document.getElementById("nombreUsuario").value = usuario.nombre;
+  document.getElementById("correoUsuario").value = usuario.email;
+  document.getElementById("tipoUsuario").textContent = usuario.tipo;
+  document.getElementById("nombrePequeño").textContent = usuario.nombre;
+  document.getElementById("tipoPequeño").textContent = usuario.tipo;
+}
+
+// === Cambiar foto de perfil ===
+document.getElementById("nuevaFoto").addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      usuario.foto = ev.target.result;
+      localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
+      actualizarDatos();
+
+      // Notificar a todas las páginas
+      window.dispatchEvent(new StorageEvent("storage", { key: "usuarioActivo" }));
+      window.dispatchEvent(new Event("actualizarUsuarioUI"));
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+// === Guardar cambios ===
+document.getElementById("guardarCambios").addEventListener("click", () => {
+  usuario.nombre = document.getElementById("nombreUsuario").value.trim();
+  usuario.email = document.getElementById("correoUsuario").value.trim();
+
+  localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
+  actualizarDatos();
+
+  // Notificar a todas las páginas
+  window.dispatchEvent(new StorageEvent("storage", { key: "usuarioActivo" }));
+  window.dispatchEvent(new Event("actualizarUsuarioUI"));
+
+  alert("✅ Cambios guardados correctamente");
+});
+
+// === Cerrar sesión ===
+document.getElementById("cerrarSesion").addEventListener("click", () => {
+  if (confirm("¿Deseas cerrar sesión?")) {
+    localStorage.removeItem("usuarioActivo");
+
+    // Notificar a todas las pestañas
+    window.dispatchEvent(new StorageEvent("storage", { key: "usuarioActivo" }));
+
+    alert("Sesión cerrada correctamente 👋");
+    window.location.href = "login.html";
+  }
+});
