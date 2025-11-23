@@ -23,101 +23,73 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at 30% 30%, rgba(120, 70, 160, 0.3), transparent),
-              radial-gradient(circle at 80% 80%, rgba(40, 40, 120, 0.4), transparent);
+  background: radial-gradient(circle at 30% 30%, rgba(120, 70, 160, 0.25), transparent),
+              radial-gradient(circle at 70% 80%, rgba(40, 40, 120, 0.4), transparent);
   z-index: -1;
+  filter: blur(20px);
 }
 
-/* === BARRA DE NAVEGACIÓN === */
+/* === ENCABEZADO / NAVBAR === */
 header {
   position: fixed;
   top: 0;
   width: 100%;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(10px);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 60px;
-  z-index: 1000;
+  background: rgba(15, 10, 35, 0.9);
+  backdrop-filter: blur(8px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 1000;
 }
 
-header h1 {
-  font-size: 1.5rem;
+header .logo h1 {
+  font-size: 1.8rem;
   font-weight: 700;
+  color: #fff;
 }
 
-header h1 span {
+header .logo h1 span {
   display: block;
   font-size: 1rem;
   font-weight: 400;
   color: #c77dff;
+  letter-spacing: 1px;
 }
 
-nav {
+/* Contenedor para centrar todo */
+header {
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 25px;
+  padding: 18px 30px;
 }
 
-nav li {
+header .navbar ul {
+  display: flex;
+  gap: 35px;
   list-style: none;
+  align-items: center;
 }
 
-nav a {
-  color: white;
+header .navbar a {
+  color: #fff;
   text-decoration: none;
   font-weight: 600;
-  transition: 0.3s;
-  padding: 8px 14px;
+  padding: 10px 18px;
   border-radius: 6px;
+  transition: all 0.3s ease;
 }
 
-nav a:hover {
-  color: #fff;
+header .navbar a:hover,
+header .navbar a.active {
   background: #5E17EB;
-  box-shadow: 0 0 10px rgba(94, 23, 235, 0.5);
-  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(94, 23, 235, 0.6);
+  transform: translateY(-2px);
 }
 
-/* === USUARIO BOX === */
-.usuario-box {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-left: 25px;
-  padding: 5px 15px;
-  background-color: #334155;
-  border-radius: 25px;
-}
-
-.usuario-box img {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #fff;
-}
-
-.usuario-box span {
-  color: #fff;
-  font-size: 0.95rem;
-  font-weight: 500;
-}
-
-.usuario-box button {
-  background: #ef4444;
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.85rem;
-}
-
-.usuario-box button:hover {
-  background: #dc2626;
+/* Logo posicionado de manera elegante */
+.logo {
+  position: absolute;
+  left: 60px;
+  top: 20px;
 }
 
 /* === SECCIONES === */
@@ -127,18 +99,38 @@ section {
 }
 
 .inicio-section {
-  padding-top: 180px;
+  height: 100vh;
+  background: linear-gradient(180deg, #0f0a20 0%, #1a0935 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.nosotros-section {
-  background: radial-gradient(circle at top left, #402c46, #000);
-}
-
-.nosotros-section h2,
-.publicar-section h2 {
+.inicio-section h2 {
   font-size: 2.5rem;
   font-weight: 700;
-  margin-bottom: 30px;
+  color: #fff;
+  margin-bottom: 15px;
+  text-shadow: 0 0 10px rgba(199, 125, 255, 0.4);
+}
+
+.inicio-section p {
+  font-size: 1.2rem;
+  color: #d0cde1;
+  max-width: 700px;
+}
+
+/* === NOSOTROS === */
+.nosotros-section {
+  background: radial-gradient(circle at top left, #2e1640, #000);
+  padding: 120px 20px;
+}
+
+.nosotros-section h2 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 25px;
   background: linear-gradient(90deg, #c77dff, #9d4edd);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -147,7 +139,7 @@ section {
 .nosotros-section p {
   font-size: 1.1rem;
   line-height: 1.8;
-  color: #f3f3f3;
+  color: #eaeaea;
   max-width: 800px;
   margin: 10px auto;
 }
@@ -155,11 +147,21 @@ section {
 /* === SECCIÓN PUBLICAR === */
 .publicar-section {
   background: linear-gradient(145deg, #0f0a20, #1a0935);
+  padding: 120px 20px;
+}
+
+.publicar-section h2 {
+  font-size: 2.3rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  background: linear-gradient(90deg, #c77dff, #9d4edd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .publicar-section p {
   font-size: 1.1rem;
-  color: #ddd;
+  color: #ccc;
   margin-bottom: 40px;
 }
 
@@ -171,6 +173,10 @@ section {
   max-width: 500px;
   margin: auto;
   text-align: left;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 0 25px rgba(94, 23, 235, 0.15);
 }
 
 .upload-form label {
@@ -199,6 +205,12 @@ section {
   border-radius: 15px;
   font-weight: 600;
   cursor: pointer;
+  transition: 0.3s;
+}
+
+.upload-form input::file-selector-button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(90deg, #5E17EB, #b517ff);
 }
 
 .upload-form button {
@@ -216,14 +228,14 @@ section {
 
 .upload-form button:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 10px #e100ff;
+  box-shadow: 0 0 15px #e100ff;
 }
 
 /* === FOOTER === */
 footer {
   background: #0a0615;
   text-align: center;
-  padding: 20px 0;
+  padding: 25px 0;
   color: #aaa;
   font-size: 0.9rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -234,13 +246,21 @@ footer {
   header {
     flex-direction: column;
     gap: 15px;
-    padding: 15px 30px;
+    padding: 15px 20px;
   }
 
-  nav {
+  header .logo {
+    position: static;
+  }
+
+  header .navbar ul {
     flex-wrap: wrap;
     justify-content: center;
-    gap: 15px;
+    gap: 20px;
+  }
+
+  .inicio-section h2 {
+    font-size: 2rem;
   }
 
   .nosotros-section h2,

@@ -1,127 +1,111 @@
+/* ==========================================================
+   FUENTE GLOBAL
+========================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
   width: 100%;
-  height: 100vh;
-  background: linear-gradient(135deg, #d7f1f8, #c2e0f2);
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
   font-family: 'Roboto', sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  padding: 0;
+  padding-top: 90px; /* espacio para navbar */
+  overflow-x: hidden;
 }
 
-/* ---------- NAVBAR SUPERIOR ---------- */
-nav {
+/* ==========================================================
+   NAVBAR GLOBAL — LIMPIO Y ÚNICO
+========================================================== */
+.navbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #1e293b;
+  background: rgba(10, 10, 20, 0.8);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 3px 12px rgba(0,0,0,0.4);
   display: flex;
-  justify-content: center;
+  justify-content: space-between;  /* menú izquierda — usuario derecha */
   align-items: center;
-  gap: 25px;
-  padding: 15px 0;
-  list-style: none;
+  padding: 15px 40px;
   z-index: 1000;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 }
 
-nav li {
-  display: inline-block;
+/* UL del menú */
+.navbar ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 22px;
 }
 
-nav a {
+/* Estilo general de los links */
+.navbar a {
   color: #f8fafc;
   text-decoration: none;
   font-weight: 500;
   font-size: 1rem;
-  transition: all 0.3s ease;
-  padding: 8px 12px;
+  padding: 8px 14px;
   border-radius: 6px;
+  transition: 0.3s ease;
 }
 
-nav a:hover {
-  background-color: #5E17EB;
-  color: #fff;
-  box-shadow: 0 0 10px rgba(94, 23, 235, 0.5);
-  transform: scale(1.05);
+.navbar a:hover,
+.navbar a.active {
+  background: rgba(94, 23, 235, 0.9);
+  box-shadow: 0 0 15px rgba(94, 23, 235, 0.5);
 }
 
-/* ---------- USUARIO BOX ---------- */
+/* ==========================================================
+   USUARIO BOX (ÚNICA VERSIÓN)
+========================================================== */
 .usuario-box {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-left: auto;
-  padding: 5px 15px;
-  background-color: #334155;
-  border-radius: 25px;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 6px 16px;
+  border-radius: 50px;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.15);
+  cursor: pointer;
 }
 
 .usuario-box img {
-  width: 35px;
-  height: 35px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #fff;
+  box-shadow: 0 0 8px rgba(0,0,0,0.35);
 }
 
 .usuario-box span {
   color: #fff;
   font-size: 0.95rem;
   font-weight: 500;
+  white-space: nowrap;
 }
 
-.usuario-box button {
-  background: #ef4444;
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.85rem;
-}
-
-.usuario-box button:hover {
-  background: #dc2626;
-}
-
-/* ---------- AJUSTE PARA QUE EL NAV NO CUBRA ---------- */
-body {
-  padding-top: 80px;
-}
-
-/* ---------- TÍTULO ---------- */
-.titulo {
-  font-size: 2.4rem;
-  font-weight: 700;
-  margin-bottom: 25px;
-  color: #1e293b;
-  text-shadow: 0px 0px 3px #a0c4ff;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.titulo span {
-  color: #1e293b;
-}
-
-/* ---------- CARRUSEL ---------- */
+/* ==========================================================
+   CARRUSEL
+========================================================== */
 .carrusel {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 90%;
   max-width: 1200px;
+  margin-top: 20px;
   position: relative;
 }
 
-/* Flechas */
 .atras img,
 .adelante img {
   width: 40px;
@@ -129,117 +113,90 @@ body {
   cursor: pointer;
   border-radius: 50%;
   padding: 8px;
-  background: rgba(255, 255, 255, 0.7);
-  transition: all 0.3s ease;
+  background: rgba(255,255,255,0.7);
+  transition: 0.3s ease;
 }
-
 .atras img:hover,
 .adelante img:hover {
   background: #5E17EB;
   transform: scale(1.15);
-  filter: brightness(1.1);
 }
 
-/* ---------- CONTENEDOR DE IMAGEN ---------- */
 .imagenes {
-  position: relative;
   width: 100%;
   max-width: 1000px;
   height: 520px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
   border-radius: 25px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
-  background: #00000020;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+  position: relative;
+  background: #0002;
 }
 
-/* ---------- TEXTO SOBRE IMAGEN ---------- */
+.imagenes img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Texto del carrusel */
 .texto {
-  width: 90%;
-  max-width: 900px;
   position: absolute;
   bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.65);
+  width: 90%;
+  background: rgba(0,0,0,0.65);
   color: #fff;
-  border-radius: 15px;
   padding: 15px 20px;
+  border-radius: 15px;
   text-align: center;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-.texto h3 {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 6px;
-  text-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
-}
-
-.texto p {
-  font-size: 16px;
-  font-weight: 400;
-  margin: 0;
-  color: #f1f1f1;
-}
-
-/* ---------- PUNTOS ---------- */
+/* Puntos */
 .puntos {
   display: flex;
   justify-content: center;
   margin-top: 15px;
 }
-
 .puntos p {
   font-size: 1.8rem;
   margin: 0 6px;
   color: #aaa;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: 0.3s ease;
 }
-
 .puntos .bold {
   color: #5E17EB;
   transform: scale(1.4);
 }
 
-/* ---------- EFECTO DE TRANSICIÓN ---------- */
-.fade {
-  opacity: 0;
-  transition: opacity 0.6s ease-in-out;
-}
-
-/* ---------- RESPONSIVE ---------- */
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
 @media (max-width: 768px) {
-  nav {
+  .navbar {
     flex-direction: column;
+    justify-content: center;
+    padding: 15px 20px;
     gap: 10px;
-    padding: 10px 0;
+  }
+
+  body {
+    padding-top: 150px;
   }
 
   .imagenes {
-    height: 320px;
+    height: 330px;
   }
 
   .texto {
-    width: 90%;
-    font-size: 14px;
     padding: 10px;
+    font-size: 0.9rem;
   }
 
-  .texto h3 {
-    font-size: 18px;
-  }
-
-  .puntos p {
-    font-size: 1.3rem;
-  }
-
-  .atras img, .adelante img {
-    width: 30px;
-    height: 30px;
+  .usuario-box {
+    margin-left: 0;
   }
 }

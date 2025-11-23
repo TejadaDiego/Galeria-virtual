@@ -14,26 +14,30 @@
 
   <!-- ✅ Encabezado -->
   <header>
-    <div class="logo">
-      <h1>Galería <span>Virtual</span></h1>
-    </div>
+    <div class="container">
+      <div class="logo">
+        <h1>Galería <span>Virtual</span></h1>
+      </div>
 
-    <!-- ✅ Barra de navegación unificada -->
-    <nav class="navbar">
-      <ul>
-        <li><a href="inicio.html">Inicio</a></li>
-        <li><a href="Sobre_nosotros.html">Nosotros</a></li>
-        <li><a href="Contenido.html">Contenido</a></li>
-        <li><a href="publicar.html">Publicar +</a></li>
-        <li><a href="login.html" id="btnLogin">Iniciar sesión</a></li>
-      </ul>
-    </nav>
+      <!-- ✅ Barra de navegación unificada -->
+      <nav class="navbar">
+        <ul>
+          <li><a href="inicio.html">Inicio</a></li>
+          <li><a href="Sobre_nosotros.html" class="active">Nosotros</a></li>
+          <li><a href="Contenido.html">Contenido</a></li>
+          <li><a href="publicar.html">Publicar +</a></li>
+          <li><a href="login.html" id="btnLogin">Iniciar sesión</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
   <!-- SECCIÓN INICIO -->
   <section id="inicio" class="inicio-section">
-    <h2>Bienvenido a la Galería Virtual</h2>
-    <p>Explora el arte digital creado por nuestros estudiantes.</p>
+    <div class="intro-container">
+      <h2>Bienvenido a la Galería Virtual</h2>
+      <p>Explora el arte digital creado por nuestros estudiantes.</p>
+    </div>
   </section>
 
   <!-- SECCIÓN NOSOTROS -->
@@ -84,7 +88,5 @@
     });
   </script>
 
-  <!-- ✅ Script global de sesión -->
-  <script src="Scripts/sesion-global.js"></script>
 </body>
 </html>

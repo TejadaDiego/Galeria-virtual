@@ -1,0 +1,183 @@
+/* ===========================
+   ESTILO GENERAL
+=========================== */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #0d0d15;
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+
+/* ===========================
+   NAVBAR (ya tienes)
+=========================== */
+.navbar {
+    background: #0b0b12;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.navbar-menu {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+}
+
+.navbar-menu a {
+    color: #ccc;
+    text-decoration: none;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.navbar-menu a:hover,
+.navbar-menu .active {
+    color: white;
+    font-weight: bold;
+}
+
+/* carrito */
+.cart-box {
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.05);
+    padding: 8px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.cart-box:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+.cart-count {
+    background: #5E17EB;
+    padding: 3px 8px;
+    border-radius: 20px;
+    margin-right: 8px;
+}
+
+/* usuario */
+.navbar-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.05);
+    padding: 8px 15px;
+    border-radius: 50px;
+}
+
+.navbar-user img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+/* ===========================
+   TÍTULO
+=========================== */
+.titulo {
+    text-align: center;
+    font-size: 28px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: #bca7ff;
+    text-shadow: 0 0 8px rgba(94, 23, 235, 0.6);
+}
+
+/* ===========================
+   GRID DE PRODUCTOS
+=========================== */
+.grid {
+    width: 90%;
+    max-width: 1400px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+}
+
+/* ===========================
+   CARD DE PRODUCTO
+=========================== */
+.card {
+    background: rgba(255,255,255,0.06);
+    padding: 15px;
+    border-radius: 14px;
+    text-align: center;
+    transition: 0.3s;
+    border: 1px solid transparent;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    border-color: #5E17EB;
+    box-shadow: 0 0 18px rgba(94, 23, 235, 0.6);
+}
+
+/* imagen */
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+/* texto */
+.card h3 {
+    font-size: 17px;
+    margin-top: 12px;
+    color: #dcd3ff;
+}
+
+.card p {
+    font-size: 14px;
+    opacity: 0.8;
+    margin-top: 8px;
+    height: 70px;
+}
+
+/* ===========================
+   PRECIO + BOTÓN
+=========================== */
+.precio-carrito {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.precio {
+    font-size: 18px;
+    font-weight: bold;
+    color: #b28aff;
+}
+
+/* botón */
+.precio-carrito button {
+    background: #5E17EB;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.precio-carrito button:hover {
+    background: #7c3aed;
+    transform: scale(1.08);
+}
+.item-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+}

@@ -132,4 +132,12 @@ window.addEventListener("DOMContentLoaded", () => {
       window.location.href = "login.html";
     });
   }
+  // === Alternar visibilidad de contraseña ===
+function togglePassword(idInput, el) {
+  const input = document.getElementById(idInput);
+  const isPassword = input.type === "password";
+  input.type = isPassword ? "text" : "password";
+  el.textContent = isPassword ? "🙈" : "👁️";
+}
+
 });

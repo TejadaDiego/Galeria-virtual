@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inicio - Galería Virtual</title>
-  <link rel="stylesheet" href="Estilos/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Galería Virtual</title>
+  <link rel="stylesheet" href="Estilos/login.css" />
 </head>
-<body class="gradient-bg">
+
+<body>
   <nav class="navbar">
     <h2 class="logo">Galería <span>Virtual</span></h2>
     <ul>
@@ -17,15 +18,13 @@
     </ul>
   </nav>
 
-  <section class="select-user">
-    <div class="card">
-      <h1>Selecciona tu tipo de usuario</h1>
-      <button onclick="redirigir('login-comprador.html')" class="btn comprador">Comprador / Vendedor</button>
-      <button onclick="redirigir('login-estudiante.html')" class="btn estudiante">Estudiante</button>
-      <button onclick="redirigir('login-admin.html')" class="btn admin">Administrador</button>
-    </div>
-  </section>
+  <div class="login-card">
+    <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="User" class="login-logo" />
+    <h2>Selecciona tu tipo de acceso</h2>
 
-  <script src="Scripts/script.js"></script>
+    <button class="btn-submit" onclick="location.href='login-estudiante.html'">🎓 Estudiante</button>
+    <button class="btn-submit" onclick="location.href='login-comprador.html'">🛒 Comprador</button>
+    <button class="btn-submit" onclick="location.href='login-admin.html'">⚙️ Administrador</button>
+  </div>
 </body>
 </html>

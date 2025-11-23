@@ -1,180 +1,271 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+/* === BASE GENERAL === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 body {
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #d7f1f8, #c2e0f2);
-  margin: 0;
-  padding-top: 130px;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  color: #f1f5f9;
+  min-height: 100vh;
 }
 
-/* --- Navbar --- */
+/* === NAVBAR === */
 .navbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background-color: #1e293b;
+  background: rgba(17, 24, 39, 0.85);
+  backdrop-filter: blur(10px);
+  color: #fff;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  padding: 15px 40px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
 }
-
+.logo span {
+  color: #5E17EB;
+}
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
 .navbar a {
-  color: #f8fafc;
+  color: white;
   text-decoration: none;
-  padding: 8px 12px;
+  padding: 8px 14px;
   border-radius: 6px;
   transition: 0.3s;
 }
-
 .navbar a:hover,
 .navbar .active {
-  background-color: #5E17EB;
-  color: #fff;
+  background: #5E17EB;
+  box-shadow: 0 0 10px rgba(94, 23, 235, 0.5);
 }
 
-/* --- Cabecera del perfil --- */
-.perfil-header {
+/* === CONTENEDOR PERFIL === */
+.perfil-container {
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 15px;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 15px;
-  width: fit-content;
-  margin: 0 auto 20px auto;
-  padding: 10px 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  animation: fadeIn 0.8s ease-in;
+  align-items: flex-start;
+  margin-top: 120px;
+  padding: 20px;
 }
 
+/* === TARJETA DE PERFIL === */
+.perfil-card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 40px;
+  width: 380px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  text-align: center;
+  transition: 0.3s;
+}
+.perfil-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 30px rgba(94, 23, 235, 0.4);
+}
+
+/* === FOTO DE PERFIL PRINCIPAL === */
+.perfil-foto {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 10px;
+  box-shadow: 0 0 25px rgba(94, 23, 235, 0.5);
+  animation: fadeIn 0.8s ease;
+}
+
+/* EFECTO DE ARO VIOLETA GIRATORIO */
+.perfil-foto::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #5E17EB, #a855f7, #5E17EB);
+  z-index: -1;
+  animation: girar 3s linear infinite;
+  opacity: 0.8;
+}
+@keyframes girar {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* === FOTO MINI EN HEADER === */
 .perfil-foto-mini {
-  width: 60px;
-  height: 60px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #5E17EB;
+}
+
+/* === FORMULARIO === */
+input, textarea {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(94, 23, 235, 0.4);
+  border-radius: 8px;
+  color: #fff;
+  padding: 8px 10px;
+  width: 100%;
+  margin: 5px 0 10px;
+  outline: none;
+  transition: 0.3s;
+}
+input:focus {
+  border-color: #7c3aed;
+}
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  color: white;
+  background: #5E17EB;
+  transition: 0.3s;
+}
+button:hover {
+  background: #7c3aed;
+  transform: scale(1.03);
+}
+button.cerrar {
+  background: #dc2626;
+}
+button.cerrar:hover {
+  background: #ef4444;
+}
+
+/* === PERFIL FLOTANTE A LA DERECHA === */
+.perfil-flotante {
+  position: fixed;
+  top: 50%;
+  right: 25px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(94,23,235,0.4);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 0 20px rgba(94,23,235,0.3);
+  z-index: 1000;
+  width: 180px;
+  animation: fadeInRight 0.8s ease;
+}
+.perfil-flotante img {
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid #5E17EB;
+  box-shadow: 0 0 20px rgba(94,23,235,0.5);
+}
+.perfil-flotante h4 {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #fff;
+  text-align: center;
+}
+.perfil-flotante p {
+  font-size: 0.8rem;
+  color: #cbd5e1;
+  text-align: center;
+  margin-bottom: 8px;
+}
+.perfil-flotante button {
+  padding: 6px 10px;
+  font-size: 0.8rem;
 }
 
-.perfil-header h3 {
-  margin: 0;
-  color: #1e293b;
-  font-weight: 600;
+/* === ANIMACIONES === */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(50px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
-.perfil-header p {
-  margin: 0;
-  color: #5E17EB;
-  font-weight: 500;
-  font-size: 0.9rem;
+/* === RESPONSIVE === */
+@media (max-width: 900px) {
+  .perfil-flotante { display: none; }
 }
-
-/* --- Contenedor de perfil --- */
+/* === CONTENEDOR PRINCIPAL DEL PERFIL (CENTRADO REAL) === */
 .perfil-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 70vh;
+  margin-top: 140px;
+  padding: 20px;
+  width: 100%;
 }
 
+/* === TARJETA DE PERFIL CENTRADA === */
 .perfil-card {
-  background: #fff;
-  padding: 30px 40px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  text-align: center;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 40px;
   width: 380px;
-  animation: fadeIn 1s ease-in;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+/* === ELIMINAR LA CABECERA IZQUIERDA === */
+.perfil-header {
+  display: none !important;
+}
+
+/* === FOTO PRINCIPAL === */
+.perfil-foto {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 2px;
+  box-shadow: 0 0 25px rgba(94, 23, 235, 0.5);
+}
+
+/* Inputs y botones quedan como antes */
+/* === CONTENEDOR PRINCIPAL DEL PERFIL (SUBIDO MÁS ARRIBA) === */
+.perfil-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 1px;  /* ← AJUSTE IMPORTANTÍSIMO (ANTES 140px) */
+  padding: 20px;
+  width: 100%;
 }
 
 .perfil-foto {
-  width: 130px;
-  height: 130px;
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
   border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #5E17EB;
-  margin-bottom: 10px;
+  background-color: black; /* evita que se vea raro */
 }
 
-.editar-foto {
-  display: inline-block;
-  color: #5E17EB;
-  cursor: pointer;
-  font-weight: 600;
-  margin-bottom: 10px;
-}
-
-#nuevaFoto {
-  display: none;
-}
-
-input[type="text"],
-input[type="email"] {
-  border: none;
-  border-bottom: 2px solid #ccc;
-  text-align: center;
-  font-size: 1rem;
-  outline: none;
-  width: 100%;
-  margin: 8px 0;
-}
-
-input:focus {
-  border-color: #5E17EB;
-}
-
-button {
-  margin-top: 15px;
-  background: #5E17EB;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.3s;
-  width: 100%;
-}
-
-button:hover {
-  background: #4a0ec7;
-}
-
-button.cerrar {
-  background: #ef4444;
-}
-
-button.cerrar:hover {
-  background: #dc2626;
-}
-
-/* --- Círculo del usuario en navbar --- */
-.usuario-box {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: #334155;
-  padding: 5px 12px;
-  border-radius: 25px;
-  margin-left: 15px;
-  cursor: pointer;
-}
-
-.usuario-foto {
-  width: 38px;
-  height: 38px;
+.perfil-foto {
+  width: 160px;
+  height: 160px;
   border-radius: 50%;
-  border: 2px solid #fff;
-  object-fit: cover;
-}
-
-.usuario-nombre {
-  color: #fff;
-  font-size: 0.9rem;
-  font-weight: 600;
-}
-
-/* --- Animaciones --- */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-15px); }
-  to { opacity: 1; transform: translateY(0); }
+  object-fit: contain;        /* ← muestra la imagen completa */
+  object-position: center;    /* ← centrada perfectamente */
+  background-color: #111;     /* ← fondo elegante detrás de la imagen */
+  padding: 6px;               /* ← pequeño margen para que no toque el borde */
+  box-shadow: 0 0 25px rgb(21, 200, 255);
 }
