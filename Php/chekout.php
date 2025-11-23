@@ -1,44 +1,81 @@
 <?php
-// Php/checkout.php
 session_start();
-require_once 'conexion.php';
+require_once __DIR__ . "/conexion.php";  // Ruta absoluta segura
 
-if (!isset($_SESSION['usuarioActivo'])) {
-    header("Location: ../login.html"); exit;
+// Verificar carrito
+if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
+    die("Carrito vacío");
 }
 
-$cart = $_SESSION['cart'] ?? [];
-if (empty($cart)) {
-    echo "No hay productos en el carrito.";
-    exit;
+$cart = $_SESSION['cart'];
+
+// Calcular total
+$total = 0;
+foreach ($cart as $c) {
+    $total += floatval($c["subtotal"]);
 }
 
-$usuario = $_SESSION['usuarioActivo'];
-$direccion = trim($_POST['direccion'] ?? '');
-$total = 0; $cantidad_total = 0;
-foreach ($cart as $c){ $total += $c['subtotal']; $cantidad_total += $c['cantidad']; }
+// Dirección opcional
+$direccion = $_POST['direccion'] ?? null;
 
-// Insertar pedido
-$stmt = $conn->prepare("INSERT INTO pedidos (usuario_id, total, cantidad_total, direccion) VALUES (?, ?, ?, ?)");
-$stmt->bind_param("idiss", $usuario['id'], $total, $cantidad_total, $direccion);
-if (!$stmt->execute()) {
-    http_response_code(500); echo "Error creando pedido."; exit;
+// =====================================
+// 1. Registrar el pedido
+// =====================================
+$sql = "INSERT INTO pedidos (total, direccion) VALUES (?, ?)";
+$stmt = $conn->prepare($sql);
+
+if (!$stmt) {
+    die("Error en prepare(): " . $conn->error);
 }
+
+$stmt->bind_param("ds", $total, $direccion);
+$stmt->execute();
+
 $pedido_id = $stmt->insert_id;
 $stmt->close();
 
-// Insertar items
-$stmt_item = $conn->prepare("INSERT INTO items_pedido (pedido_id, trabajo_id, titulo, precio_unit, cantidad, subtotal) VALUES (?, ?, ?, ?, ?, ?)");
-foreach ($cart as $c) {
-    $stmt_item->bind_param("iisdid", $pedido_id, $c['id'], $c['titulo'], $c['precio'], $c['cantidad'], $c['subtotal']);
-    $stmt_item->execute();
-}
-$stmt_item->close();
+// =====================================
+// 2. Registrar detalle de productos
+// =====================================
+$sql_det = "INSERT INTO pedido_detalle
+(pedido_id, titulo, precio, cantidad, subtotal)
+VALUES (?, ?, ?, ?, ?)";
 
-// Limpiar carrito
+$stmt_det = $conn->prepare($sql_det);
+
+if (!$stmt_det) {
+    die("Error en prepare detalle(): " . $conn->error);
+}
+
+foreach ($cart as $item) {
+
+    $precio = floatval($item['precio']);
+    $cantidad = intval($item['cantidad']);
+    $subtotal = floatval($item['subtotal']);
+    $titulo = $item['titulo'];
+
+    $stmt_det->bind_param(
+        "isdis",
+        $pedido_id,
+        $titulo,
+        $precio,
+        $cantidad,
+        $subtotal
+    );
+
+    $stmt_det->execute();
+}
+
+$stmt_det->close();
+$conn->close();
+
+// =====================================
+// 3. Limpiar carrito
+// =====================================
 unset($_SESSION['cart']);
 
-// Confirmación (puedes redirigir a una página)
-echo "Compra confirmada. Pedido ID: $pedido_id. Cantidad total: $cantidad_total. Total: S/".number_format($total,2);
-$conn->close();
-?>
+// =====================================
+// 4. Redirigir a página de éxito
+// =====================================
+header("Location: ../compra_exitosa.html");
+exit;
