@@ -3,6 +3,7 @@ $host = "localhost";
 $usuario = "root";
 $password = "dieguito.2006";
 $bd = "galeria_virtual"; // Cambia a tu BD real
+$port = 3007;
 
 $conn = new mysqli($host, $usuario, $password, $bd);
 
