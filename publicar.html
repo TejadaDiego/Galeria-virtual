@@ -5,9 +5,10 @@
   <title>Publicar Trabajo - Galería Virtual</title>
   <link rel="stylesheet" href="Estilos/publicar.css">
 </head>
+
 <body>
 
-  <!-- === Menú de navegación === -->
+  <!-- === NAVBAR === -->
   <nav class="navbar">
     <div class="navbar-logo">Galería Virtual</div>
     <div class="navbar-links">
@@ -15,14 +16,17 @@
       <a href="Sobre_nosotros.html">Nosotros</a>
       <a href="Contenido.html">Contenido</a>
       <a href="publicar.html" class="active">Publicar +</a>
-      <a href="login.html"id="btnLogin">Iniciar sesión</a>
+      <a href="login.html" id="btnLogin">Iniciar sesión</a>
     </div>
   </nav>
 
-  <!-- === Formulario para publicar trabajo === -->
+  <!-- === CONTENEDOR DEL FORMULARIO === -->
   <div class="form-container">
     <h2>Publicar nuevo trabajo</h2>
-    <form id="formPublicar">
+
+    <!-- === FORMULARIO CON ACTION PHP + enctype + ID === -->
+    <form id="formPublicar" action="Php/publicar_handler.php" method="post" enctype="multipart/form-data">
+
       <label for="nombre">Nombre del trabajo:</label>
       <input type="text" id="nombre" name="nombre" placeholder="Ej: Ilustración digital de personaje" required>
 
@@ -43,7 +47,44 @@
     </form>
   </div>
 
-  <script src="Scripts/publicar.js"></script>
+  <!-- === JS: Vista previa de imagen === -->
+  <script>
+    document.getElementById("imagen").addEventListener("change", function () {
+      const file = this.files[0];
+      const preview = document.getElementById("previewImg");
+
+      if (file) {
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = "block";
+      }
+    });
+  </script>
+
+  <!-- === JS PARA ENVIAR A PHP POR AJAX === -->
+  <script>
+    document.getElementById('formPublicar').addEventListener('submit', async function(e){
+      e.preventDefault();
+
+      const form = new FormData(this);
+
+      const res = await fetch(this.action, {
+        method: 'POST',
+        body: form
+      });
+
+      const text = await res.text();
+
+      if(res.ok && text.trim() === 'ok'){
+        alert("Trabajo publicado con éxito");
+        window.location.href = "Contenido.html";
+      } 
+      else {
+        alert(text);
+      }
+    });
+  </script>
+
   <script src="Scripts/sesion-global.js"></script>
+
 </body>
 </html>

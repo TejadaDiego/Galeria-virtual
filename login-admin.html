@@ -1,48 +1,46 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login - Administrador</title>
-  <link rel="stylesheet" href="Estilos/login.css" />
+  <meta charset="UTF-8">
+  <title>Login Administrador</title>
+  <link rel="stylesheet" href="Estilos/login.css">
 </head>
 
 <body>
-<nav class="navbar">
-  <div class="navbar-inner">
+
+  <nav class="navbar">
     <h2 class="logo">Galería <span>Virtual</span></h2>
     <ul>
       <li><a href="inicio.html">Inicio</a></li>
       <li><a href="Sobre_nosotros.html">Nosotros</a></li>
       <li><a href="Contenido.html">Contenido</a></li>
       <li><a href="publicar.html">Publicar +</a></li>
-      <li><a href="login.html" id="btnLogin">Iniciar sesión</a></li>
     </ul>
-  </div>
-</nav>
+  </nav>
 
   <div class="login-card">
-    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Admin" class="login-logo" />
+    <img class="login-logo" src="https://cdn-icons-png.flaticon.com/512/847/847969.png">
+
     <h2>Acceso Administrador</h2>
 
-    <form id="formAdmin">
+    <form id="loginForm">
       <div class="input-group">
-        <span>👤</span>
-        <input type="text" id="userAdmin" placeholder="Usuario administrador" autocomplete="off" />
+        <span>📧</span>
+        <input name="email" type="email" required placeholder="Correo registrado">
       </div>
 
       <div class="input-group">
         <span>🔒</span>
-        <input type="password" id="passAdmin" placeholder="Contraseña" />
-        <span class="toggle-pass" onclick="togglePassword('passAdmin', this)">👁️</span>
+        <input name="password" type="password" required placeholder="Contraseña">
       </div>
 
-      <button type="submit" class="btn-submit">Entrar al Panel</button>
+      <button class="btn-submit" type="submit">Entrar</button>
     </form>
 
-    <p id="errorAdmin" class="error">Credenciales incorrectas</p>
+    <a class="crear-cuenta" href="registro.html">¿No tienes cuenta? Crear cuenta</a>
   </div>
 
-  <script src="Scripts/script.js"></script>
+  <script src="Scripts/login-handler.js"></script>
+
 </body>
 </html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro – Galería Virtual</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #7f00ff, #e100ff);
+      min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
+    }
+
+    /* NAV SUPERIOR */
+    nav {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.70);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      position: fixed;
+      top: 0;
+      z-index: 999;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .navbar-logo {
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
+
+    .navbar-logo span {
+      color: #e3b0ff;
+    }
+
+    .navbar-links a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .navbar-links a:hover {
+      color: #ffd6ff;
+    }
+
+    /* CARD */
+    .card {
+      width: 380px;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      text-align: center;
+      margin: 130px auto;
+    }
+
+    .card h2 {
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .card input,
+    .card select {
+      width: 100%;
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .card button {
+      width: 100%;
+      margin-top: 18px;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      background: #4A00E0;
+      border: none;
+      color: #fff;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .card button:hover {
+      background: #6A00FF;
+      transform: scale(1.05);
+    }
+
+    .regresar {
+      display: block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 600;
+    }
+  </style>
+
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="navbar-logo">Galería <span>Virtual</span></div>
+    <div class="navbar-links">
+      <a href="inicio.html">Inicio</a>
+      <a href="Sobre_nosotros.html">Nosotros</a>
+      <a href="Contenido.html">Contenido</a>
+      <a href="publicar.html">Publicar +</a>
+      <a href="login.html">Iniciar sesión</a>
+    </div>
+  </nav>
+
+  <!-- CARD DE REGISTRO -->
+  <div class="card">
+    <h2>Crear cuenta</h2>
+
+    <form action="Php/register.php" method="post" id="formRegistro">
+      <input name="nombre" required placeholder="Nombre completo">
+      <input name="email" type="email" required placeholder="Correo electrónico">
+      <input name="password" type="password" required placeholder="Contraseña">
+
+      <select name="tipo">
+        <option>Comprador/Vendedor</option>
+        <option>Estudiante</option>
+        <option>Administrador</option>
+      </select>
+
+      <button type="submit">Registrarme</button>
+    </form>
+
+    <a class="regresar" href="login.html">¿Ya tienes cuenta? Inicia sesión</a>
+  </div>
+
+  <script>
+    document.getElementById('formRegistro').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const f = new FormData(e.target);
+
+      const res = await fetch('Php/register.php', {
+        method: 'POST',
+        body: f
+      });
+
+      const text = await res.text();
+
+      if (res.ok && text.trim() === "ok") {
+        alert('Registrado con éxito');
+        window.location.href = 'inicio.html';
+      } else {
+        alert(text);
+      }
+    });
+  </script>
+
+</body>
+</html>

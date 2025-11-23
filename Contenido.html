@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Catálogo - Galería Virtual</title>
 
-  <!-- CSS PRINCIPAL -->
-   
+  <!-- CSS Principal -->
   <link rel="stylesheet" href="Estilos/catalogo.css" />
 
   <!-- Sesión Global -->
@@ -15,17 +14,17 @@
 
 <body>
 
-<!-- ==== NAVBAR ESTILO PREMIUM ==== -->
+<!-- ==== NAVBAR ==== -->
 <nav class="navbar">
   <ul class="navbar-menu">
-      <li><a href="inicio.html" class="active">Inicio</a></li>
+      <li><a href="inicio.html">Inicio</a></li>
       <li><a href="Sobre_nosotros.html">Nosotros</a></li>
-      <li><a href="Contenido.html">Contenido</a></li>
+      <li><a href="Contenido.html" class="active">Contenido</a></li>
       <li><a href="publicar.html">Publicar +</a></li>
       <li><a href="login.html" id="btnLogin">Cuenta</a></li>
   </ul>
 
-  <!-- CARRITO -->
+  <!-- Carrito -->
   <div class="cart-box" onclick="window.location.href='carrito.html'">
       <span class="cart-count" id="cartCount">0</span>
       <span class="cart-icon">🛒</span>
@@ -40,16 +39,14 @@
 <!-- ==== TÍTULO ==== -->
 <h1 class="titulo">Catálogo de Productos</h1>
 
-<!-- ==== CATÁLOGO ==== -->
+<!-- ==== CATÁLOGO ORIGINAL (NO SE MODIFICA) ==== -->
 <div id="catalogo" class="grid">
-
- <div id="catalogo" class="grid">
 
   <!-- 1 Programación -->
   <div class="card">
       <img src="img/11.jpg" alt="">
       <h3>Creando el Futuro Digital: El Arte de la Programación</h3>
-      <p>Representa el proceso de codificación y desarrollo de software, crucial en el mundo actual. Ideal para proyectos de informática, desarrollo web (HTML, CSS), algorítmica y programación.</p>
+      <p>Representa el proceso de codificación y desarrollo de software...</p>
 
       <div class="precio-carrito">
         <span class="precio">S/ 25.00</span>
@@ -57,11 +54,11 @@
       </div>
   </div>
 
-  <!-- 2 Arte – Proceso creativo -->
+  <!-- 2 Proceso creativo -->
   <div class="card">
       <img src="img/12.jpg" alt="">
       <h3>Manos a la Obra: El Proceso Creativo</h3>
-      <p>Simboliza la creación artística en su fase activa. Perfecta para proyectos de pintura, dibujo, escultura o diseño gráfico.</p>
+      <p>Simboliza la creación artística en su fase activa...</p>
 
       <div class="precio-carrito">
         <span class="precio">S/ 30.00</span>
@@ -69,11 +66,11 @@
       </div>
   </div>
 
-  <!-- 3 Ecosistema Web -->
+  <!-- 3 Ecosistema web -->
   <div class="card">
       <img src="img/13.jpg" alt="">
-      <h3>El Ecosistema Web: Conoce los Lenguajes de Programación</h3>
-      <p>Visualiza los principales lenguajes utilizados para construir el internet (HTML, CSS, JavaScript, Python, PHP, Ruby, Java). Excelente para proyectos de desarrollo front-end y back-end.</p>
+      <h3>El Ecosistema Web</h3>
+      <p>Visualiza los principales lenguajes utilizados...</p>
 
       <div class="precio-carrito">
         <span class="precio">S/ 28.00</span>
@@ -81,11 +78,11 @@
       </div>
   </div>
 
-  <!-- 4 Inspiración en Color -->
+  <!-- 4 Inspiración -->
   <div class="card">
       <img src="img/14.jpg" alt="">
-      <h3>Inspiración en Color: La Materia Prima de la Obra</h3>
-      <p>Muestra la esencia del arte: paleta de colores, pinceles y técnica. Ideal para proyectos de arte en proceso o finalizados.</p>
+      <h3>Inspiración en Color</h3>
+      <p>Muestra la esencia del arte: paleta de colores...</p>
 
       <div class="precio-carrito">
         <span class="precio">S/ 22.00</span>
@@ -93,11 +90,11 @@
       </div>
   </div>
 
-  <!-- 5 Educación Física y Deporte -->
+  <!-- 5 Educación física -->
   <div class="card">
       <img src="img/15.jpg" alt="">
-      <h3>Mente y Cuerpo en Armonía: Proyectos de Educación Física</h3>
-      <p>Compendio de disciplinas deportivas. Ideal para trabajos de deporte, salud, nutrición y rendimiento atlético.</p>
+      <h3>Mente y Cuerpo</h3>
+      <p>Compendio de disciplinas deportivas...</p>
 
       <div class="precio-carrito">
         <span class="precio">S/ 18.00</span>
@@ -108,8 +105,8 @@
   <!-- 6 Física -->
   <div class="card">
       <img src="img/16.jpg" alt="">
-      <h3>Descubriendo el Universo: Explorando las Leyes de la Física</h3>
-      <p>Ilustra conceptos como energía, luz y E=mc². Perfecta para física, astronomía, química y ciencias exactas.</p>
+      <h3>Explorando la Física</h3>
+      <p>Ilustra conceptos como energía, luz y E=mc²...</p>
 
       <div class="precio-carrito">
         <span class="precio">S/ 20.00</span>
@@ -120,8 +117,8 @@
   <!-- 7 Matemáticas -->
   <div class="card">
       <img src="img/17.jpg" alt="">
-      <h3>El Lenguaje Universal: Matemáticas y Soluciones</h3>
-      <p>Un tablero lleno de ecuaciones matemáticas. Ideal para proyectos de cálculo, álgebra, geometría y estadística.</p>
+      <h3>Matemáticas y Soluciones</h3>
+      <p>Ecuaciones matemáticas ideales para proyectos académicos...</p>
 
       <div class="precio-carrito">
         <span class="precio">S/ 23.00</span>
@@ -129,11 +126,11 @@
       </div>
   </div>
 
-  <!-- 8 Historia y Sociedad -->
+  <!-- 8 Historia -->
   <div class="card">
       <img src="img/18.jpg" alt="">
-      <h3>El Viaje del Conocimiento: Historia y Sociedad</h3>
-      <p>Elementos de evolución, justicia, geografía y sociedad. Ideal para historia, derecho, filosofía y ciencias sociales.</p>
+      <h3>Historia y Sociedad</h3>
+      <p>Elementos de evolución, justicia, geografía y sociedad...</p>
 
       <div class="precio-carrito">
         <span class="precio">S/ 21.00</span>
@@ -144,8 +141,8 @@
   <!-- 9 Inglés -->
   <div class="card">
       <img src="img/19.jpg" alt="">
-      <h3>Conectando Culturas: Desarrollo de Habilidades en Inglés</h3>
-      <p>Centrada en Reading, Writing, Listening y Speaking. Perfecta para proyectos de idiomas.</p>
+      <h3>Habilidades en Inglés</h3>
+      <p>Centrada en Reading, Writing, Listening y Speaking...</p>
 
       <div class="precio-carrito">
         <span class="precio">S/ 24.00</span>
@@ -153,11 +150,11 @@
       </div>
   </div>
 
-  <!-- 10 Base de Datos -->
+  <!-- 10 Base de datos -->
   <div class="card">
       <img src="img/20.jpg" alt="">
-      <h3>La Arquitectura Interna: Sistemas y Bases de Datos</h3>
-      <p>Muestra diagramas y relaciones de sistemas. Ideal para SQL, ingeniería de software y UML.</p>
+      <h3>Sistemas y Bases de Datos</h3>
+      <p>Diagramas y relaciones SQL y UML...</p>
 
       <div class="precio-carrito">
         <span class="precio">S/ 26.00</span>
@@ -167,7 +164,42 @@
 
 </div>
 
-<!-- ==== SCRIPTS ==== -->
+<!-- ========================================================= -->
+<!-- ==== NUEVA SECCIÓN: TRABAJOS PUBLICADOS POR USUARIOS ==== -->
+<!-- ========================================================= -->
+
+<h2 class="titulo" style="margin-top:60px">Trabajos Subidos por la Comunidad</h2>
+
+<div id="galeria" class="grid"></div>
+
+<script>
+async function cargarTrabajos(){
+  const res = await fetch('Php/get_trabajos.php');
+  const trabajos = await res.json();
+  const cont = document.getElementById('galeria');
+
+  cont.innerHTML = '';
+
+  trabajos.forEach(t=>{
+    const div = document.createElement('div');
+    div.className = 'card';
+
+    div.innerHTML = `
+      <img src="${t.imagen}" alt="${t.titulo}">
+      <h3>${t.titulo}</h3>
+      <p>${t.descripcion}</p>
+
+      <div class="precio-carrito">
+        <span class="precio">S/ ${parseFloat(t.precio).toFixed(2)}</span>
+        <button onclick="agregarAlCarrito(${t.id}, '${t.titulo}', ${t.precio}, '${t.imagen}')">🛒 Añadir</button>
+      </div>
+    `;
+    cont.appendChild(div);
+  });
+}
+cargarTrabajos();
+</script>
+
 <script src="Scripts/carrito.js"></script>
 
 </body>
