@@ -1,15 +1,14 @@
 <?php
 $host = "localhost";
-$usuario = "root";
-$password = "dieguito.2006";
-$bd = "galeria_virtual"; // Cambia a tu BD real
-$port = 3007;
+$user = "root";
+$pass = "dieguito.2006";
+$db = "catalogo_virtual";
 
-$conn = new mysqli($host, $usuario, $password, $bd);
+$conn = new mysqli($host, $user, $pass, $db);
 
 if ($conn->connect_error) {
-    die("Error de conexión: " . $conn->connect_error);
+    die("Error: " . $conn->connect_error);
 }
 
-$conn->set_charset("utf8");
+$conn->set_charset("utf8mb4");
 ?>
