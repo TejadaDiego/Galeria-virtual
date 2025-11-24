@@ -1,14 +1,14 @@
 <?php
-$host = "localhost";
+$host = "127.0.0.1";
 $user = "root";
 $pass = "dieguito.2006";
-$db = "catalogo_virtual";
+$db   = "galeria_virtual"; // o la BD que estés usando
+$port = 3307;
 
-$conn = new mysqli($host, $user, $pass, $db);
+$conexion = new mysqli("localhost", "root", "dieguito.2006", "galeria_virtual", 3307);
 
-if ($conn->connect_error) {
-    die("Error: " . $conn->connect_error);
+
+if($conn->connect_error){
+    die("Error de conexión: " . $conn->connect_error);
 }
-
-$conn->set_charset("utf8mb4");
 ?>
