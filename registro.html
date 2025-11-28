@@ -17,7 +17,6 @@
       color: #fff;
     }
 
-    /* NAV SUPERIOR */
     nav {
       width: 100%;
       background: rgba(0, 0, 0, 0.70);
@@ -53,7 +52,6 @@
       color: #ffd6ff;
     }
 
-    /* CARD */
     .card {
       width: 380px;
       background: rgba(255, 255, 255, 0.12);
@@ -63,11 +61,6 @@
       box-shadow: 0 0 15px rgba(0,0,0,0.3);
       text-align: center;
       margin: 130px auto;
-    }
-
-    .card h2 {
-      margin-bottom: 20px;
-      font-weight: 600;
     }
 
     .card input,
@@ -112,7 +105,6 @@
 </head>
 <body>
 
-  <!-- NAV -->
   <nav>
     <div class="navbar-logo">Galería <span>Virtual</span></div>
     <div class="navbar-links">
@@ -124,19 +116,18 @@
     </div>
   </nav>
 
-  <!-- CARD DE REGISTRO -->
   <div class="card">
     <h2>Crear cuenta</h2>
 
-    <form action="register.php" method="post" id="formRegistro">
+    <form id="formRegistro">
       <input name="nombre" required placeholder="Nombre completo">
       <input name="email" type="email" required placeholder="Correo electrónico">
       <input name="password" type="password" required placeholder="Contraseña">
 
       <select name="tipo">
-        <option>Comprador/Vendedor</option>
-        <option>Estudiante</option>
-        <option>Administrador</option>
+        <option value="comprador">Comprador/Vendedor</option>
+        <option value="estudiante">Estudiante</option>
+        <option value="admin">Administrador</option>
       </select>
 
       <button type="submit">Registrarme</button>
@@ -155,13 +146,13 @@
         body: f
       });
 
-      const text = await res.text();
+      const r = await res.text();
 
-      if (res.ok && text.trim() === "ok") {
-        alert('Registrado con éxito');
-        window.location.href = 'inicio.html';
+      if (r.trim() === "ok") {
+        alert("Registro exitoso");
+        window.location.href = "login.html";
       } else {
-        alert(text);
+        alert(r);
       }
     });
   </script>

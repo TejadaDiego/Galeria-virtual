@@ -1,32 +1,75 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login - Galería Virtual</title>
-  <link rel="stylesheet" href="Estilos/login.css" />
+<meta charset="UTF-8">
+<title>Iniciar sesión</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  background: linear-gradient(135deg, #7f00ff, #e100ff);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: 'Poppins';
+}
+
+.card {
+  background: rgba(255,255,255,0.12);
+  padding: 30px;
+  width: 350px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background: #4A00E0;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+}
+</style>
+
 </head>
-
 <body>
-  <nav class="navbar">
-    <h2 class="logo">Galería <span>Virtual</span></h2>
-    <ul>
-      <li><a href="inicio.html">Inicio</a></li>
-      <li><a href="Sobre_nosotros.html">Nosotros</a></li>
-      <li><a href="Contenido.html">Contenido</a></li>
-      <li><a href="publicar.html">Publicar +</a></li>
-    </ul>
-  </nav>
 
-  <div class="login-card">
-    <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="User" class="login-logo" />
-    <h2>Selecciona tu tipo de acceso</h2>
+<div class="card">
+  <h2>Iniciar sesión</h2>
 
-    <button class="btn-submit" onclick="location.href='login-estudiante.html'">🎓 Estudiante</button>
-    <button class="btn-submit" onclick="location.href='login-comprador.html'">🛒 Comprador</button>
-    <button class="btn-submit" onclick="location.href='login-admin.html'">⚙️ Administrador</button>
+  <form id="formLogin">
+    <input type="email" name="email" required placeholder="Correo" style="width:100%; padding:12px; border-radius:10px; margin-top:10px;">
+    <input type="password" name="password" required placeholder="Contraseña" style="width:100%; padding:12px; border-radius:10px; margin-top:10px;">
+    <button>Entrar</button>
+  </form>
 
-    <a href="registro.html" class="crear-cuenta">¿No tienes una cuenta? Crear cuenta</a>
-  </div>
+  <a href="registro.html" style="color:white;">Crear cuenta</a>
+</div>
+
+<script>
+document.getElementById("formLogin").addEventListener("submit", async(e)=>{
+  e.preventDefault();
+  
+  const f = new FormData(e.target);
+
+  const res = await fetch("Php/login.php", {
+    method:"POST",
+    body:f
+  });
+
+  const t = await res.text();
+
+  if(t.trim() === "ok"){
+    window.location.href = "inicio.html";
+  } else {
+    alert(t);
+  }
+});
+</script>
+
 </body>
 </html>

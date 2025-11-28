@@ -1,15 +1,15 @@
 <?php
-$servername = "127.0.0.1";  // SIEMPRE usa 127.0.0.1 cuando trabajes con puertos personalizados
-$dbusername = "root";
-$dbpassword = "";  // SIN contraseña
-$dbname = "galeria_virtual";
-$dbport = 3307; // <-- IMPORTANTE
+$host = "127.0.0.1";
+$user = "root";
+$pass = "dieguito.2006";
+$db = "galeria_virtual";
+$port = 3307;
 
-$conn = new mysqli($servername, $dbusername, $dbpassword, $dbname, $dbport);
+$conn = new mysqli($host, $user, $pass, $db, $port);
 
 if ($conn->connect_error) {
     die("Error de conexión: " . $conn->connect_error);
 }
 
-$conn->set_charset("utf8mb4");
+$conn->set_charset("utf8");
 ?>
