@@ -28,7 +28,7 @@ document.getElementById('formPublicar').addEventListener('submit', async functio
   }
 
   try {
-    const res = await fetch("Php/publicar_handler.php", {
+    const res = await fetch("publicar_handler.php", {
       method: "POST",
       body: formData
     });

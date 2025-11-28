@@ -2,7 +2,7 @@ document.getElementById('loginForm')?.addEventListener('submit', async function 
   e.preventDefault();
 
   const f = new FormData(this);
-  const res = await fetch("Php/login.php", { method: "POST", body: f });
+  const res = await fetch("login.php", { method: "POST", body: f });
   const text = await res.text();
 
   if (res.ok) {

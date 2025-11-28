@@ -174,7 +174,7 @@
 
 <script>
 async function cargarTrabajos(){
-  const res = await fetch('Php/get_trabajos.php');
+  const res = await fetch('get_trabajos.php');
   const trabajos = await res.json();
   const cont = document.getElementById('galeria');
 
