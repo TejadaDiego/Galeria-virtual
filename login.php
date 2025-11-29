@@ -7,14 +7,7 @@ header("Content-Type: application/json");
 $email = $_POST['email'] ?? "";
 $password = $_POST['password'] ?? "";
 
-// Validaciones básicas
-if ($email === "" || $password === "") {
-    echo json_encode(["error" => "Completa todos los campos"]);
-    exit;
-}
-
-// Buscar usuario
-$sql = $conn->prepare("SELECT id, password_hash, nombre, email, tipo, foto FROM usuarios WHERE email=?");
+$sql = $conn->prepare("SELECT id, password_hash, nombre, foto, tipo FROM usuarios WHERE email=?");
 $sql->bind_param("s", $email);
 $sql->execute();
 $sql->store_result();
@@ -24,26 +17,26 @@ if ($sql->num_rows === 0) {
     exit;
 }
 
-$sql->bind_result($id, $hash, $nombre, $correoBD, $tipo, $foto);
+$sql->bind_result($id, $hash, $nombre, $foto, $tipo);
 $sql->fetch();
 
-// Verificar contraseña
 if (!password_verify($password, $hash)) {
     echo json_encode(["error" => "Contraseña incorrecta"]);
     exit;
 }
 
-// Guardar en sesión
+// Guardar sesión PHP
 $_SESSION['user_id'] = $id;
-$_SESSION['nombre']  = $nombre;
+$_SESSION['nombre'] = $nombre;
 
-// Respuesta JSON CORRECTA
+// Enviar usuario a JavaScript
 echo json_encode([
     "success" => true,
-    "id"      => $id,
-    "nombre"  => $nombre,
-    "email"   => $correoBD,
-    "tipo"    => $tipo,
-    "foto"    => $foto
+    "usuario" => [
+        "id" => $id,
+        "nombre" => $nombre,
+        "foto" => $foto,
+        "tipo" => $tipo
+    ]
 ]);
 ?>
