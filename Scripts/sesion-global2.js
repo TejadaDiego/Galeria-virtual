@@ -3,36 +3,44 @@ window.addEventListener("DOMContentLoaded", () => {
   const userBox = document.getElementById("navbarUserBox");
   const btnLogin = document.getElementById("btnLogin");
 
-  if (!userBox) return;
-
   function actualizarNavbar(usuario) {
+
     // Usuario NO logueado
     if (!usuario) {
-      btnLogin.textContent = "Iniciar sesión";
-      btnLogin.href = "login.html";
-      userBox.innerHTML = ""; // limpia cápsula
+      if (btnLogin) {
+        btnLogin.textContent = "Iniciar sesión";
+        btnLogin.href = "login.html";
+      }
+
+      if (userBox) userBox.innerHTML = "";
       return;
     }
 
     // Usuario logueado
-    btnLogin.textContent = "Cuenta";
-    btnLogin.href = "perfil.html";
+    if (btnLogin) {
+      btnLogin.textContent = "Cuenta";
+      btnLogin.href = "perfil.html";
+    }
 
-    userBox.innerHTML = `
-      <img src="${usuario.foto}" alt="Foto" />
-      <span>${usuario.nombre}</span>
-    `;
+    if (userBox) {
+      const foto = usuario.foto && usuario.foto.trim() !== ""
+        ? usuario.foto
+        : "img/default.png";
 
-    userBox.onclick = () => {
-      window.location.href = "perfil.html";
-    };
+      userBox.innerHTML = `
+        <img src="${foto}" alt="Foto" />
+        <span>${usuario.nombre}</span>
+      `;
+
+      userBox.onclick = () => window.location.href = "perfil.html";
+    }
   }
 
   // Inicializar
   let usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
   actualizarNavbar(usuario);
 
-  // Actualización por cambios globales
+  // Actualización desde otras pestañas
   window.addEventListener("storage", (event) => {
     if (event.key === "usuarioActivo") {
       usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
@@ -40,7 +48,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Eventos locales (como editar perfil)
+  // Actualización manual
   window.addEventListener("actualizarUsuarioUI", () => {
     usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
     actualizarNavbar(usuario);

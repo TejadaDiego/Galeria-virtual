@@ -3,17 +3,15 @@ document.getElementById('loginForm')?.addEventListener('submit', async function 
 
   const f = new FormData(this);
   const res = await fetch("login.php", { method: "POST", body: f });
-  const text = await res.text();
+  const data = await res.json();
 
-  if (res.ok) {
-    try {
-      const usuario = JSON.parse(text);
-      localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
-      window.location.href = "inicio.html";
-    } catch {
-      alert("Respuesta inesperada del servidor.");
-    }
+  if (data.success) {
+    // Guardar usuario en localStorage
+    localStorage.setItem("usuarioActivo", JSON.stringify(data));
+
+    // Redirigir
+    window.location.href = "inicio.html";
   } else {
-    alert(text);
+    alert(data.error);
   }
 });

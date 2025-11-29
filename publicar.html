@@ -27,14 +27,14 @@
     <!-- === FORMULARIO CON ACTION PHP + enctype + ID === -->
     <form id="formPublicar" action="publicar_handler.php" method="post" enctype="multipart/form-data">
 
-      <label for="nombre">Nombre del trabajo:</label>
-      <input type="text" id="nombre" name="nombre" placeholder="Ej: Ilustración digital de personaje" required>
+      <label for="titulo">Nombre del trabajo:</label>
+      <input type="text" id="titulo" name="titulo" required>
 
       <label for="descripcion">Descripción:</label>
-      <textarea id="descripcion" name="descripcion" rows="4" placeholder="Describe brevemente tu trabajo..." required></textarea>
+      <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
 
       <label for="precio">Precio (S/):</label>
-      <input type="number" id="precio" name="precio" placeholder="Ej: 50.00" required>
+      <input type="number" id="precio" name="precio" required>
 
       <label for="imagen">Imagen del trabajo:</label>
       <input type="file" id="imagen" name="imagen" accept="image/*" required>
@@ -62,26 +62,22 @@
 
   <!-- === JS PARA ENVIAR A PHP POR AJAX === -->
   <script>
-    document.getElementById('formPublicar').addEventListener('submit', async function(e){
-      e.preventDefault();
+  document.getElementById('formPublicar').addEventListener('submit', async function(e){
+  e.preventDefault();
 
-      const form = new FormData(this);
+  const form = new FormData(this);
 
-      const res = await fetch(this.action, {
-        method: 'POST',
-        body: form
-      });
+  const res = await fetch(this.action, { method: "POST", body: form });
+  const data = await res.json();
 
-      const text = await res.text();
+  if (data.success) {
+      alert("Trabajo publicado con éxito");
+      window.location.href = "Contenido.html";
+  } else {
+      alert("Error: " + data.error);
+  }
+});
 
-      if(res.ok && text.trim() === 'ok'){
-        alert("Trabajo publicado con éxito");
-        window.location.href = "Contenido.html";
-      } 
-      else {
-        alert(text);
-      }
-    });
   </script>
 
   <script src="Scripts/sesion-global.js"></script>

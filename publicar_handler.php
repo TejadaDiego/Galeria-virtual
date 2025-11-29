@@ -1,49 +1,51 @@
 <?php
-require_once "conexion.php";
+session_start();
+require_once __DIR__ . "/conexion.php";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// Evitar errores si no llega algo
+$email = trim($_POST['email'] ?? "");
+$password = trim($_POST['password'] ?? "");
 
-    // 1. Validar campos
-    if (!isset($_POST['nombre'], $_POST['descripcion'], $_POST['precio'], $_FILES['imagen'])) {
-        echo "Faltan campos obligatorios";
-        exit;
-    }
-
-    $nombre = $_POST['nombre'];
-    $descripcion = $_POST['descripcion'];
-    $precio = $_POST['precio'];
-
-    // 2. Procesar imagen
-    $folder = "../Uploads/";
-    if (!file_exists($folder)) {
-        mkdir($folder, 0777, true);
-    }
-
-    $nombreImagen = time() . "_" . basename($_FILES["imagen"]["name"]);
-    $rutaImagen = $folder . $nombreImagen;
-
-    if (!move_uploaded_file($_FILES["imagen"]["tmp_name"], $rutaImagen)) {
-        echo "Error al subir la imagen";
-        exit;
-    }
-
-    // 3. Guardar registro en la BD
-    $sql = "INSERT INTO trabajos (nombre, descripcion, precio, imagen) 
-            VALUES (?, ?, ?, ?)";
-
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssis", $nombre, $descripcion, $precio, $nombreImagen);
-
-    if ($stmt->execute()) {
-        echo "ok";
-    } else {
-        echo "Error al guardar en BD: " . $conn->error;
-    }
-
-    $stmt->close();
-    $conn->close();
-
-} else {
-    echo "Método no permitido";
+// Validación rápida
+if ($email === "" || $password === "") {
+    echo "Completa todos los campos";
+    exit;
 }
+
+// 1. Buscar usuario por email (USANDO password_hash CORRECTO)
+$sql = $conn->prepare("SELECT id, password_hash, nombre, tipo, foto FROM usuarios WHERE email=?");
+$sql->bind_param("s", $email);
+$sql->execute();
+$sql->store_result();
+
+if ($sql->num_rows === 0) {
+    echo "Correo no registrado";
+    exit;
+}
+
+$sql->bind_result($id, $hash, $nombre, $tipo, $foto);
+$sql->fetch();
+
+// 2. Verificar contraseña (USANDO password_hash)
+if (!password_verify($password, $hash)) {
+    echo "Contraseña incorrecta";
+    exit;
+}
+
+// 3. Guardar sesión correctamente
+$_SESSION['user_id'] = $id;
+$_SESSION['nombre'] = $nombre;
+$_SESSION['tipo'] = $tipo;
+$_SESSION['foto'] = $foto;
+
+// También enviar al frontend el usuario completo si lo necesitas
+echo json_encode([
+    "success" => true,
+    "usuario" => [
+        "id" => $id,
+        "nombre" => $nombre,
+        "tipo" => $tipo,
+        "foto" => $foto
+    ]
+]);
 ?>
