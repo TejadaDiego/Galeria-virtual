@@ -9,9 +9,10 @@
 <body>
 
     <div class="perfil-container">
-        <img id="fotoPerfil" class="perfil-foto" src="Img/default.png">
 
-        <h1 id="nombrePerfil" class="perfil-nombre">Usuario</h1>
+        <img id="fotoPerfil" class="perfil-foto">
+
+        <h1 id="nombrePerfil" class="perfil-nombre"></h1>
 
         <div class="perfil-info">
             <p><span>Correo:</span> <span id="correoPerfil"></span></p>
@@ -19,23 +20,28 @@
 
         <div class="perfil-botones">
             <a href="editar-perfil.html" class="btn-perfil">Editar Perfil</a>
-            <a href="login.html" class="btn-perfil" onclick="cerrarSesion()">Cerrar Sesión</a>
+            <button class="btn-perfil" onclick="cerrarSesion()">Cerrar Sesión</button>
         </div>
+
     </div>
 
     <script>
         const user = JSON.parse(localStorage.getItem("usuario"));
 
+        // Si no está logueado → al login
         if (!user) {
             location.href = "login.html";
         }
 
+        // Mostrar datos
         document.getElementById("fotoPerfil").src = user.foto || "Img/default.png";
         document.getElementById("nombrePerfil").textContent = user.nombre;
         document.getElementById("correoPerfil").textContent = user.correo;
 
+        // ====== Cerrar sesión (igual que tu global) ======
         function cerrarSesion() {
-          localStorage.removeItem("usuario");
+            localStorage.removeItem("usuario");
+            window.location.href = "login.html";
         }
     </script>
 
