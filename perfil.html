@@ -1,52 +1,39 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perfil de Usuario - Galería Virtual</title>
-  <link rel="stylesheet" href="Estilos/perfil.css">
+    <meta charset="UTF-8">
+    <title>Perfil de Usuario</title>
+    <link rel="stylesheet" href="Estilos/perfil.css">
+    <script src="Scripts/sesion-global.js" defer></script>
 </head>
+
 <body>
 
-  <!-- NAVBAR GLOBAL -->
-  <nav class="navbar">
-    <ul class="nav-left">
-      <li><a href="inicio.html">Inicio</a></li>
-      <li><a href="Sobre_nosotros.html">Nosotros</a></li>
-      <li><a href="Contenido.html">Contenido</a></li>
-      <li><a href="publicar.html">Publicar +</a></li>
-    </ul>
+    <div class="perfil-container">
 
-    <a href="login.html" id="btnLogin" class="login-btn">Iniciar sesión</a>
+        <img id="fotoPerfil" class="perfil-foto" src="Img/default.png" alt="Foto del usuario">
 
-    <div id="usuarioNav" class="usuario-nav" style="display:none;">
-      <img id="fotoUsuarioNav" class="foto-nav">
-      <span id="nombreUsuarioNav"></span>
-    </div>
-  </nav>
+        <h1 id="nombrePerfil" class="perfil-nombre">Usuario</h1>
 
-  <main class="perfil-container">
-    <div class="perfil-card">
+        <div class="perfil-info">
+            <p><span>Correo:</span> <span id="correoPerfil">correo@example.com</span></p>
+            <p><span>Usuario desde:</span> <span id="fechaPerfil">2025</span></p>
+        </div>
 
-      <img id="fotoUsuario" class="perfil-foto" alt="foto">
+        <div class="perfil-botones">
+            <a href="editar-perfil.html" class="btn-perfil">Editar Perfil</a>
+            <a href="Scripts/cerrar-sesion.php" class="btn-perfil">Cerrar Sesión</a>
+        </div>
 
-      <label for="nuevaFoto" class="editar-foto">📷 Cambiar foto</label>
-      <input type="file" id="nuevaFoto" accept="image/*">
+        <div class="perfil-publicaciones">
+            <h2>Mis publicaciones</h2>
 
-      <h2><input type="text" id="nombreUsuario"></h2>
-
-      <p><strong>Correo:</strong>
-      <input type="email" id="correoUsuario"></p>
-
-      <p><strong>Tipo de cuenta:</strong> <span id="tipoUsuario"></span></p>
-
-      <button id="guardarCambios">💾 Guardar cambios</button>
-      <button id="cerrarSesion" class="cerrar">🔒 Cerrar sesión</button>
+            <div class="grid-publicaciones" id="pubsUsuario">
+                <!-- Se llenará con JS -->
+            </div>
+        </div>
 
     </div>
-  </main>
 
-  <script src="Scripts/sesion-global.js"></script>
-  <script src="Scripts/perfil.js"></script>
 </body>
 </html>
