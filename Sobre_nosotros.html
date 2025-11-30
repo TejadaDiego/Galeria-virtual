@@ -9,35 +9,30 @@
 </head>
 <body>
 
-  <!-- ✅ Fondo decorativo -->
+  <!-- Fondo decorativo -->
   <div class="fondo"></div>
 
-  <!-- ✅ Encabezado -->
+  <!-- Encabezado -->
   <header>
-    <div class="container">
-      <div class="logo">
-        <h1>Galería <span>Virtual</span></h1>
-      </div>
-
-      <!-- ✅ Barra de navegación unificada -->
-      <!-- NAVBAR -->
-<nav class="navbar">
-  <ul>
-    <li><a href="inicio.html">Inicio</a></li>
-    <li><a href="Sobre_nosotros.html">Nosotros</a></li>
-    <li><a href="Contenido.html">Contenido</a></li>
-    <li><a href="publicar.html">Publicar +</a></li>
-
-    <!-- Aquí se mostrará el usuario logueado -->
-    <li id="usuarioNav"></li>
-
-    <!-- Botón login -->
-    <li><a id="btnLogin" href="login.html">Iniciar sesión</a></li>
-  </ul>
-</nav>
-
-
+    <div class="logo">
+      <h1>Galería <span>Virtual</span></h1>
     </div>
+
+    <!-- Barra de navegación -->
+    <nav class="navbar">
+      <ul>
+        <li><a href="inicio.html">Inicio</a></li>
+        <li><a href="Sobre_nosotros.html" class="active">Nosotros</a></li>
+        <li><a href="Contenido.html">Contenido</a></li>
+        <li><a href="publicar.html">Publicar +</a></li>
+
+        <!-- Estilo de usuario generado dinámicamente -->
+        <li id="usuarioNav"></li>
+
+        <!-- Botón Login -->
+        <li><a id="btnLogin" href="login.html">Iniciar sesión</a></li>
+      </ul>
+    </nav>
   </header>
 
   <!-- SECCIÓN INICIO -->
@@ -81,57 +76,14 @@
     </form>
   </section>
 
+  <!-- FOOTER -->
   <footer>
     <p>© 2025 Galería Virtual | Proyecto Académico</p>
   </footer>
 
-  <!-- Scroll suave -->
-  <script>
-    document.querySelectorAll('a[href^="#"]').forEach(enlace => {
-      enlace.addEventListener('click', function (e) {
-        e.preventDefault();
-        const destino = document.querySelector(this.getAttribute('href'));
-        destino.scrollIntoView({ behavior: 'smooth' });
-      });
-    });
-  </script>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-
-      const user = JSON.parse(localStorage.getItem("usuarioActivo"));
-      const contenedor = document.getElementById("usuarioNav");
-      const btnLogin = document.getElementById("btnLogin");
-
-      // Si no hay usuario → se muestra "Iniciar sesión"
-      if (!user) {
-        btnLogin.style.display = "inline-block";
-        contenedor.innerHTML = "";
-        return;
-      }
-
-      // Si hay usuario → escondemos botón de login
-      btnLogin.style.display = "none";
-      contenedor.innerHTML = "";
-
-      const fotoFinal =
-        user.foto && user.foto.startsWith("data:image")
-          ? user.foto
-          : user.foto && user.foto !== ""
-            ? user.foto
-            : "Img/default.png";
-
-      contenedor.innerHTML = `
-        <div class="usuario-box" onclick="location.href='cuenta.html'">
-          <img src="${fotoFinal}" alt="Foto del usuario">
-          <span>${user.nombre}</span>
-        </div>
-      `;
-    });
-  </script>
-
-<script src="Scripts/sesion-global.js"></script>
-<script src="Scripts/sesion-global2.js"></script>
+  <!-- Scripts de sesión -->
+  <script src="Scripts/sesion-global.js"></script>
+  <script src="Scripts/sesion-global2.js"></script>
 
 </body>
 </html>
