@@ -194,40 +194,6 @@ section {
   font-size: 1rem;
 }
 
-.upload-form input::file-selector-button {
-  background: linear-gradient(90deg, #7f00ff, #e100ff);
-  border: none;
-  color: white;
-  padding: 8px 15px;
-  border-radius: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.upload-form input::file-selector-button:hover {
-  transform: scale(1.05);
-  background: linear-gradient(90deg, #5E17EB, #b517ff);
-}
-
-.upload-form button {
-  background: linear-gradient(90deg, #7f00ff, #e100ff);
-  color: white;
-  border: none;
-  padding: 12px 40px;
-  border-radius: 25px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 20px;
-  transition: 0.3s;
-}
-
-.upload-form button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px #e100ff;
-}
-
 /* === FOOTER === */
 footer {
   background: #0a0615;
@@ -270,71 +236,9 @@ footer {
   }
 }
 
-/* === USER NAVBAR UI === */
-#usuarioNav {
-  margin-left: auto;
-}
-
-/* Caja del usuario */
-.usuario-box {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255,255,255,0.1);
-  padding: 6px 14px;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.usuario-box img {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-}
-
-.usuario-box span {
-  color: #fff;
-  font-weight: 600;
-}
-
-/* Menú desplegable */
-.usuario-menu {
-  position: absolute;
-  right: 0;
-  top: 50px;
-  background: #111;
-  padding: 15px;
-  width: 200px;
-  border-radius: 10px;
-  display: none;
-  flex-direction: column;
-  gap: 10px;
-  box-shadow: 0 0 12px #0007;
-}
-
-.usuario-menu.activo {
-  display: flex;
-}
-
-.usuario-menu p {
-  margin: 0;
-  color: #ddd;
-}
-
-.usuario-menu button {
-  background: #333;
-  border: none;
-  padding: 8px;
-  border-radius: 5px;
-  color: white;
-}
-
-.usuario-menu button.logout {
-  background: #d00000;
-}
-
-/* === ESTILO DEL USUARIO EN NAVBAR === */
+/* ========================================================= */
+/* === USER NAVBAR STYLES — UNIFICADOS Y OPTIMIZADOS === */
+/* ========================================================= */
 
 .user-item {
   position: relative;
