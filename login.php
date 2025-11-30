@@ -45,8 +45,8 @@ if (!password_verify($password, $hash)) {
 // Guardar sesión PHP
 $_SESSION['user_id'] = $id;
 $_SESSION['nombre'] = $nombre;
-$_SESSION['tipo']   = $tipo;
 $_SESSION['email']  = $emailBD;
+$_SESSION['tipo']   = $tipo;
 
 // RESPUESTA EXITOSA
 echo json_encode([

@@ -17,46 +17,91 @@ document.addEventListener("DOMContentLoaded", () => {
             const data = await res.json();
             console.log("Respuesta del servidor:", data);
 
-            if (!data.success) {
-                alert(data.error || "Error en inicio de sesión");
+            // ==============================================
+            // VALIDACIONES DE RESPUESTA
+            // ==============================================
+            if (!data || typeof data !== "object") {
+                mostrarError("Respuesta inválida del servidor.");
                 return;
             }
 
-            // Datos del usuario
-            const u = data.usuario;
-
-            // Normalizar foto
-            const foto =
-                u.foto && u.foto.length > 10
-                    ? u.foto
-                    : "Img/default.png";
-
-            // Crear usuario local
-            const usuario = {
-                id: u.id,
-                nombre: u.nombre,
-                email: u.email,
-                tipo: u.tipo,
-                foto: foto
-            };
-
-            // Guardar sesión en localStorage
-            localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
-
-            alert("Inicio de sesión exitoso");
-
-            // Redirección por rol
-            if (usuario.tipo === "admin") {
-                location.href = "panel_admin.html";
-            } else if (usuario.tipo === "estudiante") {
-                location.href = "panel_estudiante.html";
-            } else {
-                location.href = "panel_comprador.html";
+            if (!data.success) {
+                mostrarError(data.error || "Credenciales incorrectas.");
+                return;
             }
 
+            if (!data.usuario) {
+                mostrarError("No se recibió información del usuario.");
+                return;
+            }
+
+            const u = data.usuario;
+
+            // ==============================================
+            // PROCESAR FOTO
+            // ==============================================
+            const fotoFinal =
+                u.foto && u.foto.startsWith("data:image")
+                    ? u.foto
+                    : u.foto && u.foto.trim() !== ""
+                        ? u.foto
+                        : "Img/default.png";
+
+            // ==============================================
+            // NORMALIZAR USUARIO
+            // ==============================================
+            const usuario = {
+                id: u.id ?? null,
+                nombre: (u.nombre || "Usuario").trim(),
+                correo: u.email || "sin-correo", // CORREGIDO: email viene desde PHP como emailBD
+                tipo: u.tipo || "comprador",
+                foto: fotoFinal
+            };
+
+            // ==============================================
+            // GUARDAR EN LOCALSTORAGE
+            // ==============================================
+            localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
+
+            mostrarExito("Inicio de sesión exitoso");
+
+            // ==============================================
+            // REDIRECCIÓN (FUNCIONA)
+            // ==============================================
+            setTimeout(() => {
+                window.location.href = "inicio.html";
+            }, 1000);
+
         } catch (err) {
-            console.error(err);
-            alert("Error en la conexión con el servidor");
+            console.error("Error de conexión:", err);
+            mostrarError("No se pudo conectar con el servidor.");
         }
     });
 });
+
+
+// ========================================================
+//                   SISTEMA DE TOASTS
+// ========================================================
+
+function mostrarError(msg) {
+    mostrarToast(msg, "error");
+}
+
+function mostrarExito(msg) {
+    mostrarToast(msg, "exito");
+}
+
+function mostrarToast(mensaje, tipo) {
+    let toast = document.createElement("div");
+    toast.className = `toast ${tipo}`;
+    toast.innerText = mensaje;
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => toast.classList.add("show"), 50);
+    setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => toast.remove(), 300);
+    }, 2500);
+}

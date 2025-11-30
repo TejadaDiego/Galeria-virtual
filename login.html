@@ -4,36 +4,107 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
-    <link rel="stylesheet" href="CSS/login.css">
+
+    <!-- SOLO UN CSS -->
+    <link rel="stylesheet" href="Estilos/login.css">
 </head>
+
 <body>
 
+    <!-- NAVBAR -->
     <nav class="navbar">
+        <h2 class="logo">Galería <span>Virtual</span></h2>
         <ul>
             <li><a href="inicio.html">Inicio</a></li>
             <li><a href="Sobre_nosotros.html">Nosotros</a></li>
             <li><a href="Contenido.html">Contenido</a></li>
             <li><a href="publicar.html">Publicar +</a></li>
+            <li><a id="btnLoginNav" href="login.html">Iniciar sesión</a></li>
         </ul>
     </nav>
 
-    <div class="container">
-        <form id="loginForm">
-            <h2>Iniciar sesión</h2>
+    <!-- ======================================================== -->
+    <!--            PANTALLA 1 → SELECCIÓN DE ROL                -->
+    <!-- ======================================================== -->
 
-            <label>Email</label>
-            <input type="email" name="email" required>
+    <div class="login-card" id="selector-roles">
+        <img class="login-logo" src="https://cdn-icons-png.flaticon.com/512/847/847969.png">
 
-            <label>Contraseña</label>
-            <input type="password" name="password" required>
+        <h2>¿Cómo deseas ingresar?</h2>
 
-            <button type="submit">Ingresar</button>
+        <button class="btn-rol btn-comprador" onclick="seleccionarRol('comprador')">
+            🛒 Entrar como Comprador
+        </button>
 
-            <p id="mensaje" class="mensaje"></p>
-        </form>
+        <button class="btn-rol btn-estudiante" onclick="seleccionarRol('estudiante')">
+            📚 Entrar como Estudiante
+        </button>
+
+        <button class="btn-rol btn-admin" onclick="seleccionarRol('admin')">
+            🛡️ Entrar como Administrador
+        </button>
     </div>
 
-    <script src="JS/loginhandler.js"></script>
+    <!-- ======================================================== -->
+    <!--            PANTALLA 2 → FORMULARIO LOGIN                -->
+    <!-- ======================================================== -->
+
+    <div class="login-card" id="formulario-login" style="display: none;">
+        <img class="login-logo" src="https://cdn-icons-png.flaticon.com/512/847/847969.png">
+
+        <h2 id="titulo-login">Acceso al Sistema</h2>
+
+        <form id="loginForm">
+
+            <!-- Guardamos el tipo de usuario -->
+            <input type="hidden" id="tipoSeleccionado" name="tipo" value="">
+
+            <div class="input-group">
+                <span>📧</span>
+                <input type="email" name="email" required placeholder="Correo registrado">
+            </div>
+
+            <div class="input-group">
+                <span>🔒</span>
+                <input type="password" name="password" required placeholder="Contraseña">
+            </div>
+
+            <button class="btn-submit" type="submit">Entrar</button>
+        </form>
+
+        <a class="crear-cuenta" href="registro.html">¿No tienes cuenta? Crear cuenta</a>
+
+        <p class="volver" onclick="volverRoles()">⬅ Volver</p>
+
+        <p class="error" id="mensajeError">Credenciales incorrectas</p>
+    </div>
+
+    <!-- ======================================================== -->
+    <!--                      SCRIPTS                             -->
+    <!-- ======================================================== -->
+
+    <script>
+        function seleccionarRol(rol) {
+            document.getElementById("selector-roles").style.display = "none";
+            document.getElementById("formulario-login").style.display = "block";
+
+            document.getElementById("tipoSeleccionado").value = rol;
+
+            const titulo = document.getElementById("titulo-login");
+
+            if (rol === "comprador") titulo.textContent = "Acceso de Comprador 🛒";
+            if (rol === "estudiante") titulo.textContent = "Acceso de Estudiante 📚";
+            if (rol === "admin") titulo.textContent = "Acceso de Administrador 🛡️";
+        }
+
+        function volverRoles() {
+            document.getElementById("formulario-login").style.display = "none";
+            document.getElementById("selector-roles").style.display = "block";
+        }
+    </script>
+
+    <!-- HANDLER -->
+    <script src="Scripts/login-handler.js"></script>
 
 </body>
 </html>
