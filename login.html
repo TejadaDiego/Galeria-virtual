@@ -80,8 +80,10 @@ document.getElementById("formLogin").addEventListener("submit", async(e)=>{
   localStorage.setItem("usuario", JSON.stringify(data.usuario));
 
   // 🔥 Guardamos campos individuales para acceso rápido
-  localStorage.setItem("nombreUsuario", data.usuario.nombre);
-  localStorage.setItem("correoUsuario", f.get("email"));
+  localStorage.setItem("usuario", JSON.stringify(data.usuario));
+  localStorage.setItem("correoUsuario", data.usuario.email);
+
+
 
   // Redirigir
   window.location.href = "inicio.html";

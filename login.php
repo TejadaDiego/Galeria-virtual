@@ -12,7 +12,7 @@ if ($email === '' || $password === '') {
     exit;
 }
 
-$stmt = $conn->prepare("SELECT id, password_hash, nombre, foto, tipo FROM usuarios WHERE email=?");
+$stmt = $conn->prepare("SELECT id, password_hash, nombre, email, foto, tipo FROM usuarios WHERE email=?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
 $stmt->store_result();
@@ -22,7 +22,7 @@ if ($stmt->num_rows === 0) {
     exit;
 }
 
-$stmt->bind_result($id, $hash, $nombre, $foto, $tipo);
+$stmt->bind_result($id, $hash, $nombre, $emailBD, $foto, $tipo);
 $stmt->fetch();
 
 if (!password_verify($password, $hash)) {
@@ -40,8 +40,10 @@ echo json_encode([
     "usuario" => [
         "id" => $id,
         "nombre" => $nombre,
+        "email" => $emailBD,  // 🔥 CORREGIDO
         "foto" => $foto,
         "tipo" => $tipo
     ]
 ]);
+
 ?>

@@ -54,17 +54,15 @@
   <script>
     const user = JSON.parse(localStorage.getItem("usuario"));
 
-    if (user) {
-        // Mostrar contenedor
-        document.getElementById("infoUsuario").style.display = "block";
+if (user) {
+    document.getElementById("infoUsuario").style.display = "block";
 
-        // Rellenar datos
-        document.getElementById("nombreUsuario").textContent = user.nombre;
-        document.getElementById("correoUsuario").textContent = localStorage.getItem("correoUsuario");
+    document.getElementById("nombreUsuario").textContent = user.nombre;
+    document.getElementById("correoUsuario").textContent = localStorage.getItem("correoUsuario");
 
-        // Ocultar botón de iniciar sesión
-        document.getElementById("btnLogin").style.display = "none";
-    }
+    document.getElementById("btnLogin").style.display = "none";
+}
+
   </script>
 
   <!-- Scripts originales -->

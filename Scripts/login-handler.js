@@ -1,21 +1,37 @@
-document.getElementById('loginForm')?.addEventListener('submit', async function (e) {
-  e.preventDefault();
-  const f = new FormData(this);
-  const res = await fetch('login.php', { method: 'POST', body: f });
-  const text = await res.text();
+document.getElementById("formLogin").addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  if (!res.ok) {
-    alert(text);
-    return;
-  }
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
 
-  try {
-    const usuario = JSON.parse(text);
-    localStorage.setItem('usuarioActivo', JSON.stringify(usuario));
-    // puedes disparar evento para actualizar navbar en otras pestañas
-    window.dispatchEvent(new Event('actualizarUsuarioUI'));
-    window.location.href = 'inicio.html';
-  } catch (err) {
-    alert('Respuesta inesperada del servidor: ' + text);
-  }
+    const datos = new FormData();
+    datos.append("email", email);
+    datos.append("password", password);
+
+    try {
+        const response = await fetch("PHP/login.php", {
+            method: "POST",
+            body: datos
+        });
+
+        const text = await response.text();
+        console.log("Respuesta cruda:", text);
+
+        const data = JSON.parse(text);
+
+        if (data.success) {
+            // 🔥 GUARDAR TODO CORRECTO EN LOCALSTORAGE
+            localStorage.setItem("usuario", JSON.stringify(data.usuario));
+            localStorage.setItem("correoUsuario", data.usuario.email);
+
+            alert("Inicio de sesión exitoso");
+            window.location.href = "inicio.html"; 
+        } else {
+            alert(data.error || "Error desconocido");
+        }
+
+    } catch (error) {
+        console.error("Error JS:", error);
+        alert("Error en el sistema.");
+    }
 });
