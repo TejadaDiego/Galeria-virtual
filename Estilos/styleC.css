@@ -204,3 +204,66 @@ body {
 #usuarioNav {
   margin-left: auto;
 }
+/* Caja del usuario en navbar */
+.usuario-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #222;
+    padding: 5px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.usuario-box img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.usuario-box span {
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Menú desplegable */
+.usuario-menu {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: #111;
+    padding: 15px;
+    width: 200px;
+    border-radius: 10px;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 0 10px #0005;
+}
+
+.usuario-menu.activo {
+    display: flex;
+}
+
+.usuario-menu p {
+    margin: 0;
+    color: #ddd;
+}
+
+.usuario-menu button {
+    background: #333;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.usuario-menu button.logout {
+    background: #b30000;
+}
+
+.usuario-menu button:hover {
+    opacity: 0.8;
+}

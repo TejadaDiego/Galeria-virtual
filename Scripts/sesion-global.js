@@ -1,36 +1,73 @@
-// === Sesión global: Mostrar usuario en navbar ===
+// ==========================
+//  CARGAR DATOS DEL USUARIO
+// ==========================
+document.addEventListener("DOMContentLoaded", () => {
+    const nav = document.querySelector(".navbar ul");
+    const user = JSON.parse(localStorage.getItem("usuario"));
 
-window.addEventListener("DOMContentLoaded", () => {
+    if (!nav) return; // Si la navbar no existe, no hacer nada
 
-  const btnLogin = document.getElementById("btnLogin");
-  const usuarioNav = document.getElementById("usuarioNav");
-  const fotoNav = document.getElementById("fotoUsuarioNav");
-  const nombreNav = document.getElementById("nombreUsuarioNav");
+    if (user) {
+        // Ocultar "Iniciar sesión" si existe
+        const loginBtn = document.getElementById("btnLogin");
+        if (loginBtn) loginBtn.style.display = "none";
 
-  function actualizarNavbar(usuario) {
-    if (!usuario) {
-      btnLogin.style.display = "block";
-      usuarioNav.style.display = "none";
-      return;
+        // Crear botón del usuario
+        const li = document.createElement("li");
+        li.innerHTML = `
+            <div class="usuario-box" id="menuUsuario">
+                <img src="${user.foto || 'Img/default.png'}">
+                <span>${user.nombre}</span>
+            </div>
+
+            <div class="usuario-menu" id="usuarioMenu">
+                <p><b>${user.nombre}</b></p>
+                <p>${user.correo}</p>
+                <hr>
+                <button onclick="editarNombre()">Cambiar nombre</button>
+                <button onclick="cambiarFoto()">Cambiar foto</button>
+                <button onclick="cerrarSesion()" class="logout">Cerrar sesión</button>
+            </div>
+        `;
+        nav.appendChild(li);
+
+        // Evento para abrir/cerrar menú
+        document.getElementById("menuUsuario").onclick = () => {
+            document.getElementById("usuarioMenu").classList.toggle("activo");
+        };
     }
-
-    btnLogin.style.display = "none";
-    usuarioNav.style.display = "flex";
-
-    fotoNav.src = usuario.foto || "img/default.png";
-    nombreNav.textContent = usuario.nombre;
-
-    usuarioNav.onclick = () => {
-      window.location.href = "perfil.html";
-    };
-  }
-
-  let usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
-  actualizarNavbar(usuario);
-
-  // Escucha cambios desde perfil
-  window.addEventListener("storage", () => {
-    usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
-    actualizarNavbar(usuario);
-  });
 });
+
+
+// ==========================
+//  FUNCIONES DEL MENÚ
+// ==========================
+
+function editarNombre() {
+    let nuevo = prompt("Ingresa tu nuevo nombre:");
+
+    if (!nuevo) return;
+
+    let user = JSON.parse(localStorage.getItem("usuario"));
+    user.nombre = nuevo;
+
+    localStorage.setItem("usuario", JSON.stringify(user));
+    location.reload();
+}
+
+function cambiarFoto() {
+    let nueva = prompt("Pega la URL de tu nueva foto:");
+
+    if (!nueva) return;
+
+    let user = JSON.parse(localStorage.getItem("usuario"));
+    user.foto = nueva;
+
+    localStorage.setItem("usuario", JSON.stringify(user));
+    location.reload();
+}
+
+function cerrarSesion() {
+    localStorage.removeItem("usuario");
+    location.href = "login.html";
+}
