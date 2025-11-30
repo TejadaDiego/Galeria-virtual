@@ -56,26 +56,37 @@ document.getElementById("formLogin").addEventListener("submit", async(e)=>{
   
   const f = new FormData(e.target);
 
-  const res = await fetch("login.php", {
+  const res = await fetch("Php/login.php", {
     method:"POST",
     body:f
   });
 
-  const data = await res.json();
+  let data = null;
 
+  try {
+    data = await res.json();
+  } catch (err) {
+    alert("Error al procesar la respuesta del servidor");
+    return;
+  }
+
+  // Errores desde PHP
   if (!data.success) {
     alert(data.error);
     return;
   }
 
-  // Guardar en localStorage
-  localStorage.setItem("usuarioActivo", JSON.stringify(data.usuario));
+  // 🔥 Guardamos TODO el usuario
+  localStorage.setItem("usuario", JSON.stringify(data.usuario));
+
+  // 🔥 Guardamos campos individuales para acceso rápido
+  localStorage.setItem("nombreUsuario", data.usuario.nombre);
+  localStorage.setItem("correoUsuario", f.get("email"));
 
   // Redirigir
   window.location.href = "inicio.html";
 });
 </script>
-
 
 </body>
 </html>
