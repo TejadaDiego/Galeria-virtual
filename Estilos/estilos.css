@@ -333,3 +333,89 @@ footer {
 .usuario-menu button.logout {
   background: #d00000;
 }
+
+/* === ESTILO DEL USUARIO EN NAVBAR === */
+
+.user-item {
+  position: relative;
+}
+
+/* Caja del usuario */
+.usuario-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.1);
+  padding: 6px 12px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.usuario-box:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.usuario-box img,
+.user-photo {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.usuario-box span {
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* === MENÚ DESPLEGABLE === */
+.usuario-menu {
+  position: absolute;
+  right: 0;
+  top: 55px;
+  background: #0D0A1A;
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 15px;
+  width: 220px;
+  border-radius: 12px;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+  z-index: 9999;
+}
+
+.usuario-menu.activo {
+  display: flex;
+}
+
+.usuario-menu p {
+  margin: 0;
+  color: #ddd;
+  font-size: 0.9rem;
+}
+
+.usuario-menu button {
+  background: #1c1c2b;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  color: white;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.usuario-menu button:hover {
+  background: #2a2a3a;
+}
+
+.usuario-menu .logout {
+  background: #b30000;
+}
+
+.usuario-menu .logout:hover {
+  background: #ff0000;
+}
