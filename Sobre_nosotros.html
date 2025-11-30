@@ -1,69 +1,75 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sobre Nosotros - Galería Virtual</title>
+
+  <!-- Fuente -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Estilos generales -->
   <link rel="stylesheet" href="Estilos/estilos.css">
 </head>
+
 <body>
 
-  <!-- ✅ Fondo decorativo -->
+  <!-- Fondo decorativo -->
   <div class="fondo"></div>
 
-  <!-- ✅ Encabezado -->
+  <!-- ENCABEZADO -->
   <header>
     <div class="container">
       <div class="logo">
         <h1>Galería <span>Virtual</span></h1>
       </div>
 
-      <!-- ✅ Barra de navegación unificada -->
       <!-- NAVBAR -->
-<nav class="navbar">
-  <ul>
-    <li><a href="inicio.html">Inicio</a></li>
-    <li><a href="Sobre_nosotros.html">Nosotros</a></li>
-    <li><a href="Contenido.html">Contenido</a></li>
-    <li><a href="publicar.html">Publicar +</a></li>
+      <nav class="navbar">
+        <ul>
+          <li><a href="inicio.html">Inicio</a></li>
+          <li><a href="Sobre_nosotros.html">Nosotros</a></li>
+          <li><a href="Contenido.html">Contenido</a></li>
+          <li><a href="publicar.html">Publicar +</a></li>
 
-    <!-- Aquí se mostrará el usuario logueado -->
-    <li id="usuarioNav"></li>
+          <!-- Usuario cargado aquí -->
+          <li id="usuarioNav"></li>
 
-    <!-- Botón login -->
-    <li><a id="btnLogin" href="login.html">Iniciar sesión</a></li>
-  </ul>
-</nav>
-
-
+          <!-- Botón login -->
+          <li><a id="btnLogin" href="login.html">Iniciar sesión</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
 
-  <!-- SECCIÓN INICIO -->
-  <section id="inicio" class="inicio-section">
+
+  <!-- SECCIÓN BIENVENIDA -->
+  <section id="sobre-inicio" class="inicio-section">
     <div class="intro-container">
       <h2>Bienvenido a la Galería Virtual</h2>
       <p>Explora el arte digital creado por nuestros estudiantes.</p>
     </div>
   </section>
 
+
   <!-- SECCIÓN NOSOTROS -->
-  <section id="nosotros" class="nosotros-section">
+  <section id="sobre-info" class="nosotros-section">
     <h2>¿Qué somos?</h2>
     <p>
-      Somos una galería virtual dedicada a exhibir y promover el arte digital. 
-      Nuestro espacio ofrece una plataforma accesible donde los estudiantes pueden mostrar sus obras 
+      Somos una galería virtual dedicada a exhibir y promover el arte digital.
+      Nuestro espacio ofrece una plataforma accesible donde los estudiantes pueden mostrar sus obras
       y el público puede disfrutar del arte desde cualquier lugar del mundo.
     </p>
     <p>
-      Fomentamos la creatividad, la innovación y la conexión entre el arte y la tecnología, 
+      Fomentamos la creatividad, la innovación y la conexión entre el arte y la tecnología,
       brindando una experiencia visual moderna e interactiva.
     </p>
   </section>
 
+
   <!-- SECCIÓN PUBLICAR -->
-  <section id="publicar" class="publicar-section">
+  <section id="sobre-publicar" class="publicar-section">
     <h2>Publica tu obra</h2>
     <p>Comparte tus creaciones con el mundo 🌎. Sube tus imágenes o videos artísticos aquí.</p>
 
@@ -81,9 +87,19 @@
     </form>
   </section>
 
+
+  <!-- MENÚ DEL USUARIO (DESPLEGABLE) -->
+  <div class="usuario-menu" id="menuUsuario">
+    <p>Mi cuenta</p>
+    <button onclick="location.href='cuenta.html'">Ver perfil</button>
+    <button class="logout" onclick="cerrarSesion()">Cerrar sesión</button>
+  </div>
+
+
   <footer>
     <p>© 2025 Galería Virtual | Proyecto Académico</p>
   </footer>
+
 
   <!-- Scroll suave -->
   <script>
@@ -91,62 +107,13 @@
       enlace.addEventListener('click', function (e) {
         e.preventDefault();
         const destino = document.querySelector(this.getAttribute('href'));
-        destino.scrollIntoView({ behavior: 'smooth' });
+        if (destino) destino.scrollIntoView({ behavior: 'smooth' });
       });
     });
   </script>
 
- <script>
-document.addEventListener("DOMContentLoaded", () => {
-
-  const user = JSON.parse(localStorage.getItem("usuarioActivo"));
-  const contenedor = document.getElementById("usuarioNav");
-  const btnLogin = document.getElementById("btnLogin");
-
-  // No hay usuario → mostrar botón login
-  if (!user) {
-    btnLogin.style.display = "inline-block";
-    contenedor.innerHTML = "";
-    return;
-  }
-
-  // Hay usuario → ocultar login
-  btnLogin.style.display = "none";
-
-  const foto = user.foto && user.foto.trim() !== "" ? user.foto : "Img/default.png";
-
-  contenedor.innerHTML = `
-    <div class="usuario-box" id="btnUsuarioNav">
-      <img src="${foto}" alt="Foto del usuario">
-      <span>${user.nombre}</span>
-    </div>
-
-    <div class="usuario-menu" id="menuFlotanteNav">
-      <p><b>${user.nombre}</b></p>
-      <p>${user.correo}</p>
-      <hr>
-      <button onclick="location.href='cuenta.html'">Mi cuenta</button>
-      <button class="logout" onclick="cerrarSesion()">Cerrar sesión</button>
-    </div>
-  `;
-
-  const btnUser = document.getElementById("btnUsuarioNav");
-  const menu = document.getElementById("menuFlotanteNav");
-
-  btnUser.addEventListener("click", () => {
-    menu.classList.toggle("activo");
-  });
-
-});
-
-function cerrarSesion() {
-  localStorage.removeItem("usuarioActivo");
-  location.href = "login.html";
-}
-</script>
-
-
-<script src="Scripts/sesion-global.js"></script>
+  <!-- Script de sesión global (ÚNICO Y CORRECTO) -->
+  <script src="Scripts/sesion-global.js"></script>
 
 </body>
 </html>
