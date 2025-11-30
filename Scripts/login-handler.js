@@ -1,122 +1,98 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const form = document.getElementById("loginForm");
-    if (!form) return;
+    const user = JSON.parse(localStorage.getItem("usuarioActivo"));
 
-    form.addEventListener("submit", async (e) => {
-        e.preventDefault();
+    // OBTENER NAVBAR
+    const nav = document.querySelector(".navbar ul");
+    if (!nav) {
+        console.warn("⚠ No se encontró .navbar ul");
+        return;
+    }
 
-        const formData = new FormData(form);
+    // DIFERENTES PÁGINAS PUEDEN USAR DIFERENTES IDS
+    const loginBtn = document.getElementById("btnLogin") 
+                  || document.getElementById("btnLoginNav");
 
-        try {
-            const res = await fetch("login.php", {
-                method: "POST",
-                body: formData
-            });
+    // ============================================================
+    // 1. NO HAY SESIÓN → Mostrar botón Login y limpiar ítems previos
+    // ============================================================
+    if (!user) {
 
-            const data = await res.json();
-            console.log("Respuesta del servidor:", data);
+        if (loginBtn) loginBtn.style.display = "inline-block";
 
-            // ==============================================
-            // VALIDACIONES DE RESPUESTA
-            // ==============================================
-            if (!data || typeof data !== "object") {
-                mostrarError("Respuesta inválida del servidor.");
-                return;
+        // eliminar ítems previos
+        document.querySelectorAll(".user-item").forEach(el => el.remove());
+
+        return;
+    }
+
+    // ============================================================
+    // 2. HAY SESIÓN → Mostrar perfil y ocultar botón Login
+    // ============================================================
+    if (loginBtn) loginBtn.style.display = "none";
+
+    // evitar duplicados
+    document.querySelectorAll(".user-item").forEach(el => el.remove());
+
+    const li = document.createElement("li");
+    li.classList.add("user-item");
+    li.style.position = "relative";
+
+    const foto = user.foto && user.foto.length > 10
+        ? user.foto
+        : "Img/default.png";
+
+    li.innerHTML = `
+        <div class="usuario-box" id="menuUsuario">
+            <img src="${foto}" class="user-photo" alt="Foto">
+            <span>${user.nombre || "Usuario"}</span>
+        </div>
+
+        <div class="usuario-menu" id="usuarioMenu">
+            <p><b>${user.nombre || "Sin nombre"}</b></p>
+            <p>${user.correo || "correo-desconocido"}</p>
+            <hr>
+            <button onclick="location.href='cuenta.html'">Mi cuenta</button>
+            <button class="logout" onclick="cerrarSesion()">Cerrar sesión</button>
+        </div>
+    `;
+
+    nav.appendChild(li);
+
+    // ============================================================
+    // 3. ABRIR / CERRAR MENÚ
+    // ============================================================
+    const menuUsuario = li.querySelector("#menuUsuario");
+    const usuarioMenu = li.querySelector("#usuarioMenu");
+
+    if (menuUsuario && usuarioMenu) {
+
+        menuUsuario.onclick = (e) => {
+            e.stopPropagation();
+            usuarioMenu.classList.toggle("activo");
+        };
+
+        document.addEventListener("click", (e) => {
+            if (!usuarioMenu.contains(e.target) && !menuUsuario.contains(e.target)) {
+                usuarioMenu.classList.remove("activo");
             }
+        });
+    }
 
-            if (!data.success) {
-                mostrarError(data.error || "Credenciales incorrectas.");
-                return;
-            }
-
-            if (!data.usuario) {
-                mostrarError("El servidor no envió datos del usuario.");
-                return;
-            }
-
-            const u = data.usuario;
-
-            // ==============================================
-            // PROCESAR FOTO O ASIGNAR UNA POR DEFECTO
-            // ==============================================
-            const fotoFinal =
-                u.foto && u.foto.startsWith("data:image")
-                    ? u.foto
-                    : u.foto && u.foto.trim() !== ""
-                        ? u.foto
-                        : "Img/default.png";
-
-            // ==============================================
-            // NORMALIZAR USUARIO
-            // ==============================================
-            const usuario = {
-                id: u.id ?? null,
-                nombre: (u.nombre || "Usuario").trim(),
-                correo: u.correo || "sin-correo",
-                tipo: u.tipo || "comprador",
-                foto: fotoFinal
-            };
-
-            // ==============================================
-            // GUARDAR EN LOCALSTORAGE (SESIÓN GLOBAL)
-            // ==============================================
-            localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
-
-            mostrarExito("Inicio de sesión exitoso.");
-
-            // ==============================================
-            // REDIRECCIÓN POR TIPO DE USUARIO
-            // ==============================================
-            setTimeout(() => {
-                switch (usuario.tipo) {
-                    case "admin":
-                        window.location.href = "login-admin.html";
-                        break;
-                    case "comprador":
-                        window.location.href = "login-comprador.html";
-                        break;
-                    case "estudiante":
-                        window.location.href = "login-estudiante.html";
-                        break;
-                    default:
-                        window.location.href = "inicio.html";
-                }
-            }, 1200);
-
-        } catch (err) {
-            console.error("Error de conexión:", err);
-            mostrarError("No se pudo conectar con el servidor.");
-        }
-    });
 });
 
 
-// ========================================================
-//                   SISTEMA DE TOASTS
-// ========================================================
+// ============================================================
+// 4. CERRAR SESIÓN GLOBAL
+// ============================================================
+function cerrarSesion() {
+    localStorage.removeItem("usuarioActivo");
 
-function mostrarError(msg) {
-    mostrarToast(msg, "error");
-}
+    // Detecta qué login debe abrir
+    const tipo = JSON.parse(localStorage.getItem("usuarioActivo"))?.tipo;
 
-function mostrarExito(msg) {
-    mostrarToast(msg, "exito");
-}
-
-function mostrarToast(mensaje, tipo) {
-    let toast = document.createElement("div");
-    toast.className = `toast ${tipo}`;
-    toast.innerText = mensaje;
-
-    document.body.appendChild(toast);
-
-    setTimeout(() => {
-        toast.classList.add("show");
-    }, 50);
-
-    setTimeout(() => {
-        toast.classList.remove("show");
-        setTimeout(() => toast.remove(), 300);
-    }, 2500);
+    if (tipo === "admin") location.href = "login-administrador.html";
+    else if (tipo === "estudiante") location.href = "login-estudiante.html";
+    else if (tipo === "comprador") location.href = "login-comprador.html";
+    else location.href = "login.html";
 }
