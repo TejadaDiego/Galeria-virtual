@@ -18,7 +18,11 @@
       <li><a href="Contenido.html">Contenido</a></li>
       <li><a href="publicar.html">Publicar +</a></li>
 
-      <!-- Aquí se inserta dinámicamente el usuario -->
+      <li id="usuarioNav"></li>
+      <li><a id="btnLogin" href="login.html">Iniciar sesión</a></li>
+
+
+      <!-- Aquí se insertará dinámicamente el usuario -->
       <li id="usuarioNav"></li>
 
       <li><a id="btnLogin" href="login.html">Iniciar sesión</a></li>
@@ -44,25 +48,38 @@
   <div class="puntos" id="puntos"></div>
 
 
-  <!-- SESIÓN: FOTO + NOMBRE EN NAVBAR -->
+  <!-- SESIÓN GLOBAL: FOTO + NOMBRE EN NAVBAR -->
   <script>
-    const user = JSON.parse(localStorage.getItem("usuario"));
+    document.addEventListener("DOMContentLoaded", () => {
 
-    if (user) {
-      document.getElementById("btnLogin").style.display = "none";
+      const user = JSON.parse(localStorage.getItem("usuarioActivo"));
+      const contenedor = document.getElementById("usuarioNav");
+      const btnLogin = document.getElementById("btnLogin");
 
-      const usuarioHTML = `
+      // Si no hay usuario → mostrar botón login
+      if (!user) {
+        btnLogin.style.display = "inline-block";
+        contenedor.innerHTML = "";
+        return;
+      }
+
+      // SI HAY USUARIO → ocultar botón login
+      btnLogin.style.display = "none";
+
+      // Evitar duplicados
+      contenedor.innerHTML = "";
+
+      // Insertar usuario
+      contenedor.innerHTML = `
         <div class="usuario-box" onclick="location.href='cuenta.html'">
           <img src="${user.foto || 'Img/default.png'}" alt="Foto">
           <span>${user.nombre}</span>
         </div>
       `;
-
-      document.getElementById("usuarioNav").innerHTML = usuarioHTML;
-    }
+    });
   </script>
 
-  <script src="Scripts/sesion-global.js"></script>
+  <!-- Scripts -->
   <script src="Scripts/app.js"></script>
 
 </body>

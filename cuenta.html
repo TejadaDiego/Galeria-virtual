@@ -24,7 +24,8 @@
             <input type="text" id="nuevoNombre">
         </div>
 
-        <!-- CORREO (solo lectura) -->
+        <!-- CORREO →
+             (solo lectura, nunca debe cambiarse aquí) -->
         <div class="input-group">
             <label>Correo:</label>
             <input type="text" id="correoUsuario" readonly>
@@ -37,60 +38,100 @@
     </div>
 
 
-    <script>
-        // Cargar datos del usuario
-        const user = JSON.parse(localStorage.getItem("usuarioActivo"));
+<script>
+// ───────────────────────────────────────────────
+//  CARGAR DATOS AL ENTRAR
+// ───────────────────────────────────────────────
 
-        if (!user) location.href = "login.html";
+document.addEventListener("DOMContentLoaded", () => {
+    const user = JSON.parse(localStorage.getItem("usuarioActivo"));
 
-        // Mostrar datos actuales
-        document.getElementById("fotoPerfil").src = user.foto || "Img/default.png";
-        document.getElementById("nuevoNombre").value = user.nombre;
-        document.getElementById("correoUsuario").value = user.correo;
+    if (!user) {
+        location.href = "login.html";
+        return;
+    }
 
-        // Cambiar foto
-        document.getElementById("btnCambiarFoto").addEventListener("click", () => {
-            document.getElementById("nuevaFoto").click();
-        });
+    // Cargar datos actuales
+    document.getElementById("fotoPerfil").src = user.foto || "Img/default.png";
+    document.getElementById("nuevoNombre").value = user.nombre;
+    document.getElementById("correoUsuario").value = user.correo;
+});
 
-        document.getElementById("nuevaFoto").addEventListener("change", function () {
-            const file = this.files[0];
-            if (!file) return;
 
-            const reader = new FileReader();
+// ───────────────────────────────────────────────
+//  CAMBIAR FOTO
+// ───────────────────────────────────────────────
 
-            reader.onload = function (e) {
-                document.getElementById("fotoPerfil").src = e.target.result;
-                user.foto = e.target.result;
+document.getElementById("btnCambiarFoto").addEventListener("click", () => {
+    document.getElementById("nuevaFoto").click();
+});
 
-                localStorage.setItem("usuarioActivo", JSON.stringify(user));
-            };
+document.getElementById("nuevaFoto").addEventListener("change", function () {
+    const archivo = this.files[0];
+    if (!archivo) return;
 
-            reader.readAsDataURL(file);
-        });
+    // Limitar tamaño a 2MB por seguridad
+    if (archivo.size > 2 * 1024 * 1024) {
+        alert("La imagen es demasiado grande. Máximo 2MB.");
+        return;
+    }
 
-        // Guardar nuevo nombre
-        document.getElementById("guardarCambios").addEventListener("click", () => {
-            const nuevoNombre = document.getElementById("nuevoNombre").value.trim();
+    const lector = new FileReader();
+    lector.onload = () => {
+        let user = JSON.parse(localStorage.getItem("usuarioActivo"));
+        user.foto = lector.result; // Guardar Base64
 
-            if (nuevoNombre.length < 3) {
-                alert("El nombre debe tener al menos 3 caracteres.");
-                return;
-            }
+        // Guardar
+        localStorage.setItem("usuarioActivo", JSON.stringify(user));
 
-            user.nombre = nuevoNombre;
+        // Mostrar nueva foto
+        document.getElementById("fotoPerfil").src = lector.result;
 
-            localStorage.setItem("usuarioActivo", JSON.stringify(user));
+        // Actualizar también navbar instantáneamente
+        const navbarFoto = document.querySelector(".user-photo");
+        if (navbarFoto) navbarFoto.src = lector.result;
+    };
 
-            alert("Cambios guardados correctamente");
-        });
+    lector.readAsDataURL(archivo);
+});
 
-        // Cerrar sesión
-        function cerrarSesion() {
-            localStorage.removeItem("usuarioActivo");
-            location.href = "login.html";
-        }
-    </script>
+
+// ───────────────────────────────────────────────
+//  GUARDAR CAMBIOS
+// ───────────────────────────────────────────────
+
+document.getElementById("guardarCambios").addEventListener("click", () => {
+    let user = JSON.parse(localStorage.getItem("usuarioActivo"));
+
+    const nuevoNombre = document.getElementById("nuevoNombre").value.trim();
+
+    if (nuevoNombre.length < 2) {
+        alert("El nombre es demasiado corto.");
+        return;
+    }
+
+    user.nombre = nuevoNombre;
+
+    localStorage.setItem("usuarioActivo", JSON.stringify(user));
+
+    // También actualizar nombre en navbar si está visible
+    const navbarNombre = document.querySelector(".usuario-box span");
+    if (navbarNombre) navbarNombre.textContent = nuevoNombre;
+
+    alert("Cambios guardados correctamente");
+});
+
+
+// ───────────────────────────────────────────────
+//  CERRAR SESIÓN
+// ───────────────────────────────────────────────
+
+function cerrarSesion() {
+    localStorage.removeItem("usuarioActivo");
+    location.href = "login.html";
+}
+
+</script>
 
 </body>
 </html>

@@ -22,13 +22,35 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // Guardar usuario
-            localStorage.setItem("usuarioActivo", JSON.stringify(data.usuario));
+            // =====================================================
+            //  NORMALIZACIÓN COMPLETA DE DATOS DEL USUARIO
+            // =====================================================
+            const fotoFinal =
+                data.usuario.foto && data.usuario.foto.startsWith("data:image")
+                    ? data.usuario.foto             // Foto ya en Base64 desde el servidor
+                    : data.usuario.foto && data.usuario.foto !== ""
+                        ? data.usuario.foto         // Ruta almacenada
+                        : "Img/default.png";        // Foto por defecto
+
+            const usuario = {
+                id: data.usuario.id ?? null,
+                nombre: (data.usuario.nombre || "Usuario").trim(),
+                correo: data.usuario.correo || "sin-correo",
+                tipo: data.usuario.tipo || "comprador",
+                foto: fotoFinal
+            };
+
+            // =====================================================
+            //  GUARDAR USUARIO ACTIVO ÚNICO
+            // =====================================================
+            localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
 
             alert("Inicio de sesión exitoso");
 
-            // Redirigir según tipo
-            switch (data.usuario.tipo) {
+            // =====================================================
+            //  REDIRECCIÓN SEGÚN TIPO DE USUARIO
+            // =====================================================
+            switch (usuario.tipo) {
                 case "admin":
                     window.location.href = "panel_admin.html";
                     break;
@@ -43,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
         } catch (err) {
-            console.error(err);
+            console.error("Error de conexión:", err);
             alert("Error de conexión con el servidor");
         }
     });
