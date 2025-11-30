@@ -21,23 +21,26 @@
   <div class="login-card">
     <img class="login-logo" src="https://cdn-icons-png.flaticon.com/512/847/847969.png">
 
-    <h2>Acceso Administrador</h2>
+    <h2>Acceso Administrador 🛡️</h2>
 
     <form id="loginForm">
-    <div class="input-group">
+      <input type="hidden" name="tipo" value="admin">
+
+      <div class="input-group">
         <span>📧</span>
         <input id="email" name="email" type="email" required placeholder="Correo registrado">
-    </div>
+      </div>
 
-    <div class="input-group">
+      <div class="input-group">
         <span>🔒</span>
         <input id="password" name="password" type="password" required placeholder="Contraseña">
-    </div>
+      </div>
 
-    <button class="btn-submit" type="submit">Entrar</button>
-</form>
+      <button class="btn-submit" type="submit">Entrar</button>
+    </form>
 
     <a class="crear-cuenta" href="registro.html">¿No tienes cuenta? Crear cuenta</a>
+    <a class="volver" href="login.html">⬅ Volver</a>
   </div>
 
   <script src="Scripts/login-handler.js"></script>

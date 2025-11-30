@@ -330,3 +330,53 @@ body {
     margin: 5px 0;
   }
 }
+/* ========================================================= */
+/* ========================= VOLVER ========================= */
+/* ========================================================= */
+
+.volver {
+  margin-top: 18px;
+  cursor: pointer;
+  color: #cbd5e1;
+  font-weight: 600;
+  transition: 0.3s ease;
+  user-select: none;
+}
+
+.volver:hover {
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.55);
+  transform: translateX(-4px);
+}
+
+/* ================================================= */
+/*               TOAST DE NOTIFICACIONES            */
+/* ================================================= */
+.toast {
+  position: fixed;
+  top: 25px;
+  right: -300px;
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-weight: bold;
+  color: white;
+  opacity: 0;
+  z-index: 9999;
+  transition: all 0.4s ease;
+  font-family: Arial, sans-serif;
+}
+
+.toast.show {
+  right: 25px;
+  opacity: 1;
+}
+
+.toast.error {
+  background: #e63946;
+  box-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
+}
+
+.toast.exito {
+  background: #2a9d8f;
+  box-shadow: 0 0 10px rgba(42, 157, 143, 0.5);
+}

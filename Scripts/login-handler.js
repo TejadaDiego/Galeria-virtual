@@ -18,35 +18,38 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("Respuesta del servidor:", data);
 
             // ==============================================
-            // VALIDACIONES BÁSICAS
+            // VALIDACIONES DE RESPUESTA
             // ==============================================
             if (!data || typeof data !== "object") {
-                alert("Respuesta inválida del servidor");
+                mostrarError("Respuesta inválida del servidor.");
                 return;
             }
 
             if (!data.success) {
-                alert(data.error || "Credenciales incorrectas");
+                mostrarError(data.error || "Credenciales incorrectas.");
                 return;
             }
 
             if (!data.usuario) {
-                alert("No se recibió información del usuario");
+                mostrarError("El servidor no envió datos del usuario.");
                 return;
             }
 
             const u = data.usuario;
 
             // ==============================================
-            // NORMALIZACIÓN COMPLETA DE DATOS
+            // PROCESAR FOTO O ASIGNAR UNA POR DEFECTO
             // ==============================================
             const fotoFinal =
                 u.foto && u.foto.startsWith("data:image")
-                    ? u.foto                               // Base64 válida
+                    ? u.foto
                     : u.foto && u.foto.trim() !== ""
-                        ? u.foto                           // URL guardada en BD
-                        : "Img/default.png";               // Foto por defecto
+                        ? u.foto
+                        : "Img/default.png";
 
+            // ==============================================
+            // NORMALIZAR USUARIO
+            // ==============================================
             const usuario = {
                 id: u.id ?? null,
                 nombre: (u.nombre || "Usuario").trim(),
@@ -56,35 +59,64 @@ document.addEventListener("DOMContentLoaded", () => {
             };
 
             // ==============================================
-            // GUARDAR UN SOLO USUARIO ACTIVO
+            // GUARDAR EN LOCALSTORAGE (SESIÓN GLOBAL)
             // ==============================================
             localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
 
-            alert("Inicio de sesión exitoso");
+            mostrarExito("Inicio de sesión exitoso.");
 
             // ==============================================
-            // REDIRECCIONAR SEGÚN ROL
+            // REDIRECCIÓN POR TIPO DE USUARIO
             // ==============================================
-            switch (usuario.tipo) {
-                case "admin":
-                    window.location.href = "panel_admin.html";
-                    break;
-
-                case "comprador":
-                    window.location.href = "panel_comprador.html";
-                    break;
-
-                case "estudiante":
-                    window.location.href = "panel_estudiante.html";
-                    break;
-
-                default:
-                    window.location.href = "inicio.html";
-            }
+            setTimeout(() => {
+                switch (usuario.tipo) {
+                    case "admin":
+                        window.location.href = "panel_admin.html";
+                        break;
+                    case "comprador":
+                        window.location.href = "panel_comprador.html";
+                        break;
+                    case "estudiante":
+                        window.location.href = "panel_estudiante.html";
+                        break;
+                    default:
+                        window.location.href = "inicio.html";
+                }
+            }, 1200);
 
         } catch (err) {
             console.error("Error de conexión:", err);
-            alert("Error al conectar con el servidor");
+            mostrarError("No se pudo conectar con el servidor.");
         }
     });
 });
+
+
+// ========================================================
+//                   SISTEMA DE TOASTS
+// ========================================================
+
+function mostrarError(msg) {
+    mostrarToast(msg, "error");
+}
+
+function mostrarExito(msg) {
+    mostrarToast(msg, "exito");
+}
+
+function mostrarToast(mensaje, tipo) {
+    let toast = document.createElement("div");
+    toast.className = `toast ${tipo}`;
+    toast.innerText = mensaje;
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+        toast.classList.add("show");
+    }, 50);
+
+    setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => toast.remove(), 300);
+    }, 2500);
+}

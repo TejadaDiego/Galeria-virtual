@@ -59,7 +59,7 @@
 
     <form id="loginForm">
 
-      <!-- Aquí se guarda el tipo de usuario -->
+      <!-- donde guardamos el tipo seleccionado -->
       <input type="hidden" id="tipoSeleccionado" name="tipo" value="">
 
       <div class="input-group">
@@ -88,7 +88,6 @@
   <!-- ======================================================== -->
 
   <script>
-    // Muestra el formulario y guarda el rol
     function seleccionarRol(rol) {
       document.getElementById("selector-roles").style.display = "none";
       document.getElementById("formulario-login").style.display = "block";
