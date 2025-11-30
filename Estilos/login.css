@@ -1,7 +1,10 @@
 /* === LOGIN UNIFICADO - Galería Virtual === */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-/* === ESTRUCTURA BASE === */
+/* ========================================================= */
+/* ================ ESTILOS BASE Y FONDO ==================== */
+/* ========================================================= */
+
 body {
   font-family: 'Poppins', sans-serif;
   background: radial-gradient(circle at 20% 20%, #1e1b4b, #0f172a);
@@ -11,16 +14,18 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  animation: fondoMove 10s ease-in-out infinite alternate;
-  padding-top: 80px; 
+  animation: fondoMove 12s ease-in-out infinite alternate;
+  padding-top: 85px;
+  overflow-x: hidden;
 }
+
 @keyframes fondoMove {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 100% 50%; }
+  0% { background-position: 0% 30%; }
+  100% { background-position: 100% 70%; }
 }
 
 /* ========================================================= */
-/* ==================== NAVBAR CORREGIDO ==================== */
+/* ========================= NAVBAR ========================= */
 /* ========================================================= */
 
 .navbar {
@@ -31,21 +36,24 @@ body {
   height: 70px;
   background: rgba(17, 24, 39, 0.88);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 40px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.55);
   z-index: 1000;
 }
 
 .logo {
   font-weight: 700;
-  font-size: 1.5rem;
-  color: white;
+  font-size: 1.55rem;
+  color: #fff;
+  letter-spacing: 1px;
 }
 .logo span {
   color: #5E17EB;
+  text-shadow: 0 0 8px rgba(94, 23, 235, 0.7);
 }
 
 .navbar ul {
@@ -64,112 +72,138 @@ body {
 }
 .navbar a:hover {
   background: #5E17EB;
-  box-shadow: 0 0 12px rgba(94, 23, 235, 0.5);
+  box-shadow: 0 0 12px rgba(94, 23, 235, 0.55);
+  transform: translateY(-2px);
 }
 
 /* ========================================================= */
-/* ==================== TARJETA LOGIN ======================= */
+/* ======================== LOGIN CARD ====================== */
 /* ========================================================= */
 
 .login-card {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(15px);
+  background: rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   padding: 40px;
-  border-radius: 20px;
-  width: 350px;
+  border-radius: 22px;
+  width: 360px;
   text-align: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  animation: fadeIn 0.8s ease;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.55);
+  animation: fadeIn 0.9s ease;
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .login-logo {
-  width: 80px;
+  width: 85px;
   border-radius: 50%;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   border: 3px solid #5E17EB;
-  box-shadow: 0 0 15px rgba(94, 23, 235, 0.6);
+  box-shadow: 0 0 20px rgba(94, 23, 235, 0.6);
 }
 
-/* === TÍTULO === */
+/* === Título === */
 .login-card h2 {
   color: white;
   margin-bottom: 25px;
   font-weight: 600;
+  font-size: 1.45rem;
 }
 
 /* ========================================================= */
-/* ==================== INPUTS Y BOTONES ==================== */
+/* ======================= INPUTS =========================== */
 /* ========================================================= */
 
 .input-group {
   display: flex;
   align-items: center;
   background: rgba(255, 255, 255, 0.12);
-  padding: 10px 15px;
+  padding: 12px 15px;
   border-radius: 12px;
-  margin-bottom: 15px;
+  margin-bottom: 18px;
   transition: 0.3s;
+  border: 1px solid transparent;
 }
-.input-group:hover {
-  box-shadow: 0 0 10px rgba(94, 23, 235, 0.3);
+.input-group:hover,
+.input-group:focus-within {
+  box-shadow: 0 0 14px rgba(94, 23, 235, 0.35);
+  border-color: #5E17EB;
 }
+
 .input-group span {
-  margin-right: 8px;
+  margin-right: 10px;
   font-size: 1.1rem;
+  color: #ddd;
 }
+
 .input-group input {
   flex: 1;
   border: none;
   background: transparent;
   color: #fff;
   outline: none;
-  font-size: 0.95rem;
+  font-size: 0.98rem;
 }
 .input-group input::placeholder {
   color: #cbd5e1;
 }
 
-/* === BOTÓN === */
+/* ========================================================= */
+/* ======================= BOTÓN LOGIN ====================== */
+/* ========================================================= */
+
 .btn-submit {
   width: 100%;
-  padding: 12px;
+  padding: 13px;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   background: linear-gradient(90deg, #5E17EB, #7c3aed);
   color: white;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.3s ease;
+  letter-spacing: 0.4px;
 }
 .btn-submit:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(94, 23, 235, 0.7);
+  transform: scale(1.06);
+  box-shadow: 0 0 22px rgba(94, 23, 235, 0.75);
 }
 
-/* === ENLACE CREAR CUENTA === */
+/* ========================================================= */
+/* ==================== LINK CREAR CUENTA =================== */
+/* ========================================================= */
+
 .crear-cuenta {
   display: block;
   margin-top: 15px;
   color: #fff;
   text-decoration: none;
   font-weight: 600;
+  transition: 0.3s;
 }
 .crear-cuenta:hover {
-  color: #ffd6ff;
+  color: #d7caff;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
 }
 
-/* === ERRORES === */
+/* ========================================================= */
+/* ======================== ERRORES ========================= */
+/* ========================================================= */
+
 .error {
   color: #f87171;
   font-weight: 500;
   margin-top: 10px;
   display: none;
+  font-size: 0.9rem;
 }
 
-/* === ANIMACIONES === */
+/* ========================================================= */
+/* ======================= ANIMACIONES ====================== */
+/* ========================================================= */
+
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
+  from { opacity: 0; transform: translateY(-15px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -181,17 +215,22 @@ body {
   .navbar {
     flex-direction: column;
     height: auto;
-    padding: 10px 0;
+    padding: 12px 0;
   }
+
   .navbar ul {
-    margin-top: 8px;
+    margin-top: 10px;
     gap: 18px;
   }
 }
 
 @media (max-width: 480px) {
   .login-card {
-    width: 90%;
-    padding: 30px;
+    width: 92%;
+    padding: 32px;
+  }
+
+  .navbar {
+    padding: 10px 20px;
   }
 }
