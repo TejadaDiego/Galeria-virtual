@@ -21,24 +21,36 @@
   </nav>
 
 
-  <!-- TARJETA DE LOGIN -->
-  <div class="login-card">
+
+  <!-- ======================================================== -->
+  <!--            PANTALLA 1 → SELECCIÓN DE ROL                -->
+  <!-- ======================================================== -->
+
+  <div class="login-card" id="selector-roles">
     <img class="login-logo" src="https://cdn-icons-png.flaticon.com/512/847/847969.png">
 
-    <h2>Acceso al Sistema</h2>
+    <h2>¿Cómo deseas ingresar?</h2>
 
-    <!-- SELECCIÓN DE ROL -->
-    <div class="selector-tipo">
-      <button class="tipo-btn activo" data-tipo="comprador">🛒 Comprador</button>
-      <button class="tipo-btn" data-tipo="estudiante">📚 Estudiante</button>
-      <button class="tipo-btn" data-tipo="admin">🛡️ Administrador</button>
-    </div>
+    <button class="btn-role" onclick="seleccionarRol('comprador')">🛒 Entrar como Comprador</button>
+    <button class="btn-role" onclick="seleccionarRol('estudiante')">📚 Entrar como Estudiante</button>
+    <button class="btn-role" onclick="seleccionarRol('admin')">🛡️ Entrar como Administrador</button>
+  </div>
 
-    <!-- FORM LOGIN -->
+
+
+  <!-- ======================================================== -->
+  <!--            PANTALLA 2 → FORMULARIO LOGIN                -->
+  <!-- ======================================================== -->
+
+  <div class="login-card" id="formulario-login" style="display: none;">
+    <img class="login-logo" src="https://cdn-icons-png.flaticon.com/512/847/847969.png">
+
+    <h2 id="titulo-login">Acceso al Sistema</h2>
+
     <form id="loginForm">
 
-      <!-- Guarda el rol seleccionado -->
-      <input type="hidden" id="tipoSeleccionado" name="tipo" value="comprador">
+      <!-- Aquí se guarda el tipo de usuario -->
+      <input type="hidden" id="tipoSeleccionado" name="tipo" value="">
 
       <div class="input-group">
         <span>📧</span>
@@ -54,31 +66,42 @@
     </form>
 
     <a class="crear-cuenta" href="registro.html">¿No tienes cuenta? Crear cuenta</a>
+
+    <p class="volver" onclick="volverRoles()">⬅ Volver</p>
+
+    <p class="error" id="mensajeError">Credenciales incorrectas</p>
   </div>
 
 
 
-  <!-- SCRIPT PARA CAMBIAR EL TIPO -->
+  <!-- ======================================================== -->
+  <!--                      SCRIPT                              -->
+  <!-- ======================================================== -->
+
   <script>
-    const tipoBtns = document.querySelectorAll(".tipo-btn");
-    const inputTipo = document.getElementById("tipoSeleccionado");
+    // Muestra el formulario y guarda el rol
+    function seleccionarRol(rol) {
+      document.getElementById("selector-roles").style.display = "none";
+      document.getElementById("formulario-login").style.display = "block";
 
-    tipoBtns.forEach(btn => {
-      btn.addEventListener("click", () => {
+      // Guardar el tipo elegido
+      document.getElementById("tipoSeleccionado").value = rol;
 
-        // Quitar estado activo
-        tipoBtns.forEach(b => b.classList.remove("activo"));
+      // Cambiar título del formulario
+      const titulo = document.getElementById("titulo-login");
 
-        // Activar el botón seleccionado
-        btn.classList.add("activo");
+      if (rol === "comprador") titulo.textContent = "Acceso de Comprador 🛒";
+      if (rol === "estudiante") titulo.textContent = "Acceso de Estudiante 📚";
+      if (rol === "admin") titulo.textContent = "Acceso de Administrador 🛡️";
+    }
 
-        // Actualizar el tipo para el login-handler
-        inputTipo.value = btn.dataset.tipo;
-      });
-    });
+    // Volver a seleccionar rol
+    function volverRoles() {
+      document.getElementById("formulario-login").style.display = "none";
+      document.getElementById("selector-roles").style.display = "block";
+    }
   </script>
 
-  <!-- HANDLER DE LOGIN -->
   <script src="Scripts/login-handler.js"></script>
 
 </body>

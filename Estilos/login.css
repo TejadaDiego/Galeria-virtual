@@ -110,7 +110,46 @@ body {
 }
 
 /* ========================================================= */
-/* ======================= INPUTS =========================== */
+/* ======= 🔥 NUEVO → ESTILOS DEL SELECTOR DE TIPO ========= */
+/* ========================================================= */
+
+.selector-tipo {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 22px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.tipo-btn {
+  flex: 1;
+  margin: 0 5px;
+  padding: 8px 0;
+  background: rgba(255, 255, 255, 0.10);
+  color: #fff;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.tipo-btn:hover {
+  background: rgba(94, 23, 235, 0.3);
+  border-color: #5E17EB;
+  box-shadow: 0 0 10px rgba(94, 23, 235, 0.4);
+}
+
+.tipo-btn.activo {
+  background: linear-gradient(90deg, #5E17EB, #7c3aed);
+  box-shadow: 0 0 15px rgba(94, 23, 235, 0.6);
+  border-color: #7c3aed;
+}
+
+/* ========================================================= */
+/* ========================= INPUTS ========================= */
 /* ========================================================= */
 
 .input-group {
@@ -187,7 +226,7 @@ body {
 }
 
 /* ========================================================= */
-/* ======================== ERRORES ========================= */
+/* ========================= ERRORES ======================== */
 /* ========================================================= */
 
 .error {
@@ -199,7 +238,7 @@ body {
 }
 
 /* ========================================================= */
-/* ======================= ANIMACIONES ====================== */
+/* ======================== ANIMACIONES ===================== */
 /* ========================================================= */
 
 @keyframes fadeIn {
@@ -232,5 +271,14 @@ body {
 
   .navbar {
     padding: 10px 20px;
+  }
+
+  /* Botones de tipo ocupan dos filas si no caben */
+  .selector-tipo {
+    flex-direction: column;
+  }
+
+  .tipo-btn {
+    margin: 5px 0;
   }
 }
