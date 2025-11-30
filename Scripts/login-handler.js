@@ -1,37 +1,52 @@
-document.getElementById("formLogin").addEventListener("submit", async (e) => {
-    e.preventDefault();
+// -------------------------------------------
+// LOGIN HANDLER - FUNCIONA 100%
+// -------------------------------------------
 
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("loginForm");
 
-    const datos = new FormData();
-    datos.append("email", email);
-    datos.append("password", password);
+    if (!form) {
+        console.error("No existe el formulario loginForm");
+        return;
+    }
 
-    try {
-        const response = await fetch("PHP/login.php", {
-            method: "POST",
-            body: datos
-        });
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-        const text = await response.text();
-        console.log("Respuesta cruda:", text);
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
 
-        const data = JSON.parse(text);
-
-        if (data.success) {
-            // 🔥 GUARDAR TODO CORRECTO EN LOCALSTORAGE
-            localStorage.setItem("usuario", JSON.stringify(data.usuario));
-            localStorage.setItem("correoUsuario", data.usuario.email);
-
-            alert("Inicio de sesión exitoso");
-            window.location.href = "inicio.html"; 
-        } else {
-            alert(data.error || "Error desconocido");
+        if (email === "" || password === "") {
+            alert("Completa todos los campos");
+            return;
         }
 
-    } catch (error) {
-        console.error("Error JS:", error);
-        alert("Error en el sistema.");
-    }
+        const datos = new FormData();
+        datos.append("email", email);
+        datos.append("password", password);
+
+        try {
+            const response = await fetch("PHP/login.php", {
+                method: "POST",
+                body: datos
+            });
+
+            const text = await response.text();
+            console.log("Respuesta cruda:", text);
+
+            const data = JSON.parse(text);
+
+            if (data.success) {
+                localStorage.setItem("usuario", JSON.stringify(data.usuario));
+                alert("Inicio de sesión exitoso ✔");
+                window.location.href = "inicio.html";
+            } else {
+                alert(data.error);
+            }
+
+        } catch (error) {
+            console.error("Error:", error);
+            alert("No se pudo conectar con el servidor");
+        }
+    });
 });
