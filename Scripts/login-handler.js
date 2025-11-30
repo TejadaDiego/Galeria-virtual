@@ -17,56 +17,74 @@ document.addEventListener("DOMContentLoaded", () => {
             const data = await res.json();
             console.log("Respuesta del servidor:", data);
 
-            if (!data.success) {
-                alert(data.error || "Error al iniciar sesión");
+            // ==============================================
+            // VALIDACIONES BÁSICAS
+            // ==============================================
+            if (!data || typeof data !== "object") {
+                alert("Respuesta inválida del servidor");
                 return;
             }
 
-            // =====================================================
-            //  NORMALIZACIÓN COMPLETA DE DATOS DEL USUARIO
-            // =====================================================
+            if (!data.success) {
+                alert(data.error || "Credenciales incorrectas");
+                return;
+            }
+
+            if (!data.usuario) {
+                alert("No se recibió información del usuario");
+                return;
+            }
+
+            const u = data.usuario;
+
+            // ==============================================
+            // NORMALIZACIÓN COMPLETA DE DATOS
+            // ==============================================
             const fotoFinal =
-                data.usuario.foto && data.usuario.foto.startsWith("data:image")
-                    ? data.usuario.foto             // Foto ya en Base64 desde el servidor
-                    : data.usuario.foto && data.usuario.foto !== ""
-                        ? data.usuario.foto         // Ruta almacenada
-                        : "Img/default.png";        // Foto por defecto
+                u.foto && u.foto.startsWith("data:image")
+                    ? u.foto                               // Base64 válida
+                    : u.foto && u.foto.trim() !== ""
+                        ? u.foto                           // URL guardada en BD
+                        : "Img/default.png";               // Foto por defecto
 
             const usuario = {
-                id: data.usuario.id ?? null,
-                nombre: (data.usuario.nombre || "Usuario").trim(),
-                correo: data.usuario.correo || "sin-correo",
-                tipo: data.usuario.tipo || "comprador",
+                id: u.id ?? null,
+                nombre: (u.nombre || "Usuario").trim(),
+                correo: u.correo || "sin-correo",
+                tipo: u.tipo || "comprador",
                 foto: fotoFinal
             };
 
-            // =====================================================
-            //  GUARDAR USUARIO ACTIVO ÚNICO
-            // =====================================================
+            // ==============================================
+            // GUARDAR UN SOLO USUARIO ACTIVO
+            // ==============================================
             localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
 
             alert("Inicio de sesión exitoso");
 
-            // =====================================================
-            //  REDIRECCIÓN SEGÚN TIPO DE USUARIO
-            // =====================================================
+            // ==============================================
+            // REDIRECCIONAR SEGÚN ROL
+            // ==============================================
             switch (usuario.tipo) {
                 case "admin":
                     window.location.href = "panel_admin.html";
                     break;
+
                 case "comprador":
                     window.location.href = "panel_comprador.html";
                     break;
+
                 case "estudiante":
                     window.location.href = "panel_estudiante.html";
                     break;
+
                 default:
                     window.location.href = "inicio.html";
             }
 
         } catch (err) {
             console.error("Error de conexión:", err);
-            alert("Error de conexión con el servidor");
+            alert("Error al conectar con el servidor");
         }
     });
 });

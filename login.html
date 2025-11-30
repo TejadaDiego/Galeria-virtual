@@ -16,8 +16,6 @@
       <li><a href="Sobre_nosotros.html">Nosotros</a></li>
       <li><a href="Contenido.html">Contenido</a></li>
       <li><a href="publicar.html">Publicar +</a></li>
-
-      <!-- Botón login solo si NO está logueado -->
       <li><a id="btnLoginNav" href="login.html">Iniciar sesión</a></li>
     </ul>
   </nav>
@@ -29,26 +27,27 @@
 
     <h2>Acceso al Sistema</h2>
 
-    <!-- NUEVO → Selección de tipo de usuario -->
+    <!-- SELECCIÓN DE ROL -->
     <div class="selector-tipo">
-      <button class="tipo-btn" data-tipo="comprador">🛒 Comprador</button>
+      <button class="tipo-btn activo" data-tipo="comprador">🛒 Comprador</button>
       <button class="tipo-btn" data-tipo="estudiante">📚 Estudiante</button>
       <button class="tipo-btn" data-tipo="admin">🛡️ Administrador</button>
     </div>
 
+    <!-- FORM LOGIN -->
     <form id="loginForm">
 
-      <!-- Guardará el tipo seleccionado -->
-      <input type="hidden" name="tipo" id="tipoSeleccionado" value="comprador">
+      <!-- Guarda el rol seleccionado -->
+      <input type="hidden" id="tipoSeleccionado" name="tipo" value="comprador">
 
       <div class="input-group">
         <span>📧</span>
-        <input name="email" type="email" required placeholder="Correo registrado">
+        <input type="email" name="email" required placeholder="Correo registrado">
       </div>
 
       <div class="input-group">
         <span>🔒</span>
-        <input name="password" type="password" required placeholder="Contraseña">
+        <input type="password" name="password" required placeholder="Contraseña">
       </div>
 
       <button class="btn-submit" type="submit">Entrar</button>
@@ -58,16 +57,23 @@
   </div>
 
 
-  <!-- SCRIPT PARA MANEJAR TIPO SELECCIONADO -->
+
+  <!-- SCRIPT PARA CAMBIAR EL TIPO -->
   <script>
-    document.querySelectorAll(".tipo-btn").forEach(btn => {
+    const tipoBtns = document.querySelectorAll(".tipo-btn");
+    const inputTipo = document.getElementById("tipoSeleccionado");
+
+    tipoBtns.forEach(btn => {
       btn.addEventListener("click", () => {
-        // Activar estilo
-        document.querySelectorAll(".tipo-btn").forEach(b => b.classList.remove("activo"));
+
+        // Quitar estado activo
+        tipoBtns.forEach(b => b.classList.remove("activo"));
+
+        // Activar el botón seleccionado
         btn.classList.add("activo");
 
-        // Guardar el tipo
-        document.getElementById("tipoSeleccionado").value = btn.dataset.tipo;
+        // Actualizar el tipo para el login-handler
+        inputTipo.value = btn.dataset.tipo;
       });
     });
   </script>
