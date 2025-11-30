@@ -1,68 +1,70 @@
 body {
-  margin: 0;
-  padding: 0;
-  background: #0f172a;
-  font-family: Arial, Helvetica, sans-serif;
-  color: #fff;
+    background: #0b1220;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    padding-top: 40px;
 }
 
 .cuenta-container {
-  width: 90%;
-  max-width: 600px;
-  margin: 40px auto;
-  background: rgba(255,255,255,0.05);
-  padding: 25px;
-  border-radius: 20px;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 0 20px rgba(0,0,0,0.4);
-  text-align: center;
+    background: #111a2b;
+    padding: 30px;
+    width: 420px;
+    border-radius: 20px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    text-align: center;
 }
 
-.cuenta-foto {
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #5E17EB;
+.foto-perfil {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #6a5acd;
+    margin-bottom: 10px;
 }
 
-.cuenta-nombre {
-  margin-top: 15px;
-  font-size: 28px;
-  font-weight: bold;
+button {
+    background: #6a5acd;
+    border: none;
+    padding: 10px 15px;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 10px;
 }
 
-.cuenta-correo {
-  margin-top: 5px;
-  font-size: 18px;
-  opacity: 0.8;
+button:hover {
+    background: #7f6bf3;
 }
 
-.cuenta-opciones {
-  margin-top: 25px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+.input-group {
+    text-align: left;
+    margin: 15px 0;
 }
 
-.cuenta-btn {
-  padding: 12px 18px;
-  background: #5E17EB;
-  border-radius: 10px;
-  color: white;
-  text-decoration: none;
-  font-size: 17px;
-  transition: .3s;
+.input-group label {
+    font-size: 14px;
 }
 
-.cuenta-btn:hover {
-  background: #7c3aed;
+.input-group input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
 }
 
-.logout {
-  background: #e11d48;
+.btn-guardar {
+    width: 100%;
+    background: #28a745;
+    margin-top: 20px;
 }
 
-.logout:hover {
-  background: #fb7185;
+.btn-salir {
+    width: 100%;
+    background: #dc3545;
+    margin-top: 20px;
 }

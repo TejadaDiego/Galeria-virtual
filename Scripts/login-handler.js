@@ -22,8 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // 🔥 GUARDAR CORRECTAMENTE LA SESIÓN
-            localStorage.setItem("usuario", JSON.stringify(data.usuario));
+            // Guardar usuario
+            localStorage.setItem("usuarioActivo", JSON.stringify(data.usuario));
 
             alert("Inicio de sesión exitoso");
 

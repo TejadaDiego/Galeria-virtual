@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Cuenta</title>
+    <title>Mi Cuenta</title>
     <link rel="stylesheet" href="Estilos/cuenta.css">
 </head>
 
@@ -10,44 +10,87 @@
 
     <div class="cuenta-container">
 
-        <h1>Cuenta de Usuario</h1>
+        <h1>Mi Cuenta</h1>
 
-        <!-- FOTO DEL USUARIO -->
-        <img id="fotoCuenta" class="cuenta-foto">
+        <!-- FOTO -->
+        <img id="fotoPerfil" class="foto-perfil" src="Img/default.png">
 
-        <!-- NOMBRE Y CORREO -->
-        <p class="cuenta-nombre" id="nombreCuenta"></p>
-        <p class="cuenta-correo" id="correoCuenta"></p>
+        <button id="btnCambiarFoto">Cambiar foto</button>
+        <input type="file" id="nuevaFoto" accept="image/*" style="display:none">
 
-        <!-- BOTONES -->
-        <div class="cuenta-opciones">
-            <button onclick="cambiarFoto()" class="cuenta-btn">Cambiar foto</button>
-            <button onclick="editarNombre()" class="cuenta-btn">Cambiar nombre</button>
-            <button onclick="cerrarSesion()" class="cuenta-btn logout">Cerrar sesión</button>
+        <!-- NOMBRE -->
+        <div class="input-group">
+            <label>Nombre:</label>
+            <input type="text" id="nuevoNombre">
         </div>
+
+        <!-- CORREO (solo lectura) -->
+        <div class="input-group">
+            <label>Correo:</label>
+            <input type="text" id="correoUsuario" readonly>
+        </div>
+
+        <button id="guardarCambios" class="btn-guardar">Guardar cambios</button>
+
+        <button class="btn-salir" onclick="cerrarSesion()">Cerrar sesión</button>
 
     </div>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
 
-    const user = JSON.parse(localStorage.getItem("usuario"));
+    <script>
+        // Cargar datos del usuario
+        const user = JSON.parse(localStorage.getItem("usuarioActivo"));
 
-    // Si no está logueado → enviar a login
-    if (!user) {
-        location.href = "login.html";
-        return;
-    }
+        if (!user) location.href = "login.html";
 
-    // Mostrar datos
-    document.getElementById("fotoCuenta").src = user.foto || "Img/default.png";
-    document.getElementById("nombreCuenta").textContent = user.nombre;
-    document.getElementById("correoCuenta").textContent = user.correo;
-});
-</script>
+        // Mostrar datos actuales
+        document.getElementById("fotoPerfil").src = user.foto || "Img/default.png";
+        document.getElementById("nuevoNombre").value = user.nombre;
+        document.getElementById("correoUsuario").value = user.correo;
 
-<!-- Funciones globales -->
-<script src="Scripts/sesion-global.js"></script>
+        // Cambiar foto
+        document.getElementById("btnCambiarFoto").addEventListener("click", () => {
+            document.getElementById("nuevaFoto").click();
+        });
+
+        document.getElementById("nuevaFoto").addEventListener("change", function () {
+            const file = this.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                document.getElementById("fotoPerfil").src = e.target.result;
+                user.foto = e.target.result;
+
+                localStorage.setItem("usuarioActivo", JSON.stringify(user));
+            };
+
+            reader.readAsDataURL(file);
+        });
+
+        // Guardar nuevo nombre
+        document.getElementById("guardarCambios").addEventListener("click", () => {
+            const nuevoNombre = document.getElementById("nuevoNombre").value.trim();
+
+            if (nuevoNombre.length < 3) {
+                alert("El nombre debe tener al menos 3 caracteres.");
+                return;
+            }
+
+            user.nombre = nuevoNombre;
+
+            localStorage.setItem("usuarioActivo", JSON.stringify(user));
+
+            alert("Cambios guardados correctamente");
+        });
+
+        // Cerrar sesión
+        function cerrarSesion() {
+            localStorage.removeItem("usuarioActivo");
+            location.href = "login.html";
+        }
+    </script>
 
 </body>
 </html>
