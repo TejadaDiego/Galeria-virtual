@@ -21,7 +21,6 @@
   </nav>
 
 
-
   <!-- ======================================================== -->
   <!--            PANTALLA 1 → SELECCIÓN DE ROL                -->
   <!-- ======================================================== -->
@@ -31,11 +30,22 @@
 
     <h2>¿Cómo deseas ingresar?</h2>
 
-    <button class="btn-role" onclick="seleccionarRol('comprador')">🛒 Entrar como Comprador</button>
-    <button class="btn-role" onclick="seleccionarRol('estudiante')">📚 Entrar como Estudiante</button>
-    <button class="btn-role" onclick="seleccionarRol('admin')">🛡️ Entrar como Administrador</button>
-  </div>
+    <button class="btn-rol btn-comprador"
+            onclick="seleccionarRol('comprador')">
+      🛒 Entrar como Comprador
+    </button>
 
+    <button class="btn-rol btn-estudiante"
+            onclick="seleccionarRol('estudiante')">
+      📚 Entrar como Estudiante
+    </button>
+
+    <button class="btn-rol btn-admin"
+            onclick="seleccionarRol('admin')">
+      🛡️ Entrar como Administrador
+    </button>
+
+  </div>
 
 
   <!-- ======================================================== -->
@@ -73,7 +83,6 @@
   </div>
 
 
-
   <!-- ======================================================== -->
   <!--                      SCRIPT                              -->
   <!-- ======================================================== -->
@@ -84,10 +93,8 @@
       document.getElementById("selector-roles").style.display = "none";
       document.getElementById("formulario-login").style.display = "block";
 
-      // Guardar el tipo elegido
       document.getElementById("tipoSeleccionado").value = rol;
 
-      // Cambiar título del formulario
       const titulo = document.getElementById("titulo-login");
 
       if (rol === "comprador") titulo.textContent = "Acceso de Comprador 🛒";
@@ -95,7 +102,6 @@
       if (rol === "admin") titulo.textContent = "Acceso de Administrador 🛡️";
     }
 
-    // Volver a seleccionar rol
     function volverRoles() {
       document.getElementById("formulario-login").style.display = "none";
       document.getElementById("selector-roles").style.display = "block";
