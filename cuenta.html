@@ -12,34 +12,77 @@
 
         <h1>Cuenta de Usuario</h1>
 
+        <!-- FOTO DEL USUARIO -->
         <img id="fotoCuenta" class="cuenta-foto" src="Img/default.png">
 
-        <p class="cuenta-nombre" id="nombreCuenta"></p>
-        <p class="cuenta-correo" id="correoCuenta"></p>
+        <!-- NOMBRE Y CORREO -->
+        <p class="cuenta-nombre" id="nombreCuenta">Cargando...</p>
+        <p class="cuenta-correo" id="correoCuenta">Cargando...</p>
 
+        <!-- BOTONES -->
         <div class="cuenta-opciones">
-            <a href="cambiar-foto.html" class="cuenta-btn">Cambiar foto</a>
-            <a href="editar-perfil.html" class="cuenta-btn">Editar información</a>
-            <a href="login.html" class="cuenta-btn logout" onclick="cerrarSesion()">Cerrar sesión</a>
+            <button onclick="cambiarFoto()" class="cuenta-btn">Cambiar foto</button>
+            <button onclick="editarNombre()" class="cuenta-btn">Cambiar nombre</button>
+            <button onclick="cerrarSesion()" class="cuenta-btn logout">Cerrar sesión</button>
         </div>
 
     </div>
 
-    <script>
-        const user = JSON.parse(localStorage.getItem("usuario"));
+<script>
+document.addEventListener("DOMContentLoaded", () => {
 
-        if (!user) {
-            location.href = "login.html";
-        }
+    const user = JSON.parse(localStorage.getItem("usuario"));
 
-        document.getElementById("fotoCuenta").src = user.foto || "Img/default.png";
-        document.getElementById("nombreCuenta").textContent = user.nombre;
-        document.getElementById("correoCuenta").textContent = user.correo;
+    if (!user) {
+        // Si no hay sesión → enviar al login
+        location.href = "login.html";
+        return;
+    }
 
-        function cerrarSesion() {
-            localStorage.removeItem("usuario");
-        }
-    </script>
+    // MOSTRAR DATOS
+    document.getElementById("fotoCuenta").src = user.foto || "Img/default.png";
+    document.getElementById("nombreCuenta").textContent = user.nombre;
+    document.getElementById("correoCuenta").textContent = user.correo;
+});
+
+
+/* -------- CAMBIAR FOTO -------- */
+function cambiarFoto() {
+    let nuevaFoto = prompt("Pega la URL de tu nueva foto:");
+
+    if (!nuevaFoto) return;
+
+    let user = JSON.parse(localStorage.getItem("usuario"));
+    user.foto = nuevaFoto;
+
+    localStorage.setItem("usuario", JSON.stringify(user));
+
+    document.getElementById("fotoCuenta").src = nuevaFoto;
+}
+
+
+/* -------- CAMBIAR NOMBRE -------- */
+function editarNombre() {
+    let nuevoNombre = prompt("Nuevo nombre de usuario:");
+
+    if (!nuevoNombre) return;
+
+    let user = JSON.parse(localStorage.getItem("usuario"));
+    user.nombre = nuevoNombre;
+
+    localStorage.setItem("usuario", JSON.stringify(user));
+
+    document.getElementById("nombreCuenta").textContent = nuevoNombre;
+}
+
+
+/* -------- CERRAR SESIÓN -------- */
+function cerrarSesion() {
+    localStorage.removeItem("usuario");
+    location.href = "login.html";
+}
+
+</script>
 
 </body>
 </html>
