@@ -1,72 +1,51 @@
-// === Cargar datos del usuario logueado ===
-let usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
+// === PERFIL DEL USUARIO ===
 
-if (!usuario) {
-  alert("Debes iniciar sesión para acceder a tu perfil.");
-  window.location.href = "login.html";
-} else {
-  actualizarDatos();
-}
+document.addEventListener("DOMContentLoaded", () => {
 
-function actualizarDatos() {
+  let usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
 
-  const foto = usuario.foto && usuario.foto.trim() !== "" 
-               ? usuario.foto 
-               : "img/default.png";
+  if (!usuario) {
+    window.location.href = "login.html";
+    return;
+  }
 
-  // Fotos
-  document.getElementById("fotoUsuario").src = foto;
-  document.getElementById("fotoPequeña").src = foto;
-
-  // Datos
+  // --- Cargar datos ---
+  document.getElementById("fotoUsuario").src = usuario.foto || "img/default.png";
   document.getElementById("nombreUsuario").value = usuario.nombre;
   document.getElementById("correoUsuario").value = usuario.correo;
-  document.getElementById("tipoUsuario").textContent = usuario.tipo;
+  document.getElementById("tipoUsuario").textContent = usuario.tipo || "Estudiante";
 
-  // Cabecera
-  document.getElementById("nombrePequeño").textContent = usuario.nombre;
-  document.getElementById("tipoPequeño").textContent = usuario.tipo;
-}
+  // --- Cambiar foto ---
+  document.getElementById("nuevaFoto").addEventListener("change", function () {
+    let file = this.files[0];
+    if (!file) return;
 
-// === Cambiar foto de perfil ===
-document.getElementById("nuevaFoto").addEventListener("change", (e) => {
-  const file = e.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      usuario.foto = ev.target.result;
-      localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
-      actualizarDatos();
-
-      window.dispatchEvent(new StorageEvent("storage", { key: "usuarioActivo" }));
-      window.dispatchEvent(new Event("actualizarUsuarioUI"));
+    let reader = new FileReader();
+    reader.onload = function (e) {
+      document.getElementById("fotoUsuario").src = e.target.result;
+      usuario.foto = e.target.result;
     };
     reader.readAsDataURL(file);
-  }
-});
+  });
 
-// === Guardar cambios ===
-document.getElementById("guardarCambios").addEventListener("click", () => {
+  // --- Guardar cambios ---
+  document.getElementById("guardarCambios").onclick = () => {
 
-  usuario.nombre = document.getElementById("nombreUsuario").value.trim();
-  usuario.correo = document.getElementById("correoUsuario").value.trim();
+    usuario.nombre = document.getElementById("nombreUsuario").value;
+    usuario.correo = document.getElementById("correoUsuario").value;
 
-  localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
-  actualizarDatos();
+    localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
 
-  window.dispatchEvent(new StorageEvent("storage", { key: "usuarioActivo" }));
-  window.dispatchEvent(new Event("actualizarUsuarioUI"));
+    // Actualiza navbar
+    window.dispatchEvent(new Event("storage"));
 
-  alert("✅ Cambios guardados correctamente");
-});
+    alert("Cambios guardados correctamente ✔");
+  };
 
-// === Cerrar sesión ===
-document.getElementById("cerrarSesion").addEventListener("click", () => {
-  if (confirm("¿Deseas cerrar sesión?")) {
+  // --- Cerrar sesión ---
+  document.getElementById("cerrarSesion").onclick = () => {
     localStorage.removeItem("usuarioActivo");
-    window.dispatchEvent(new StorageEvent("storage", { key: "usuarioActivo" }));
-
-    alert("Sesión cerrada correctamente 👋");
     window.location.href = "login.html";
-  }
+  };
+
 });

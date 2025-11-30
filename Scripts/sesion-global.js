@@ -1,53 +1,35 @@
-// === Sesión global: Mostrar usuario en el navbar ===
+// === Sesión global: Mostrar usuario en navbar ===
+
 window.addEventListener("DOMContentLoaded", () => {
-  const userBox = document.getElementById("navbarUserBox");
+
   const btnLogin = document.getElementById("btnLogin");
+  const usuarioNav = document.getElementById("usuarioNav");
+  const fotoNav = document.getElementById("fotoUsuarioNav");
+  const nombreNav = document.getElementById("nombreUsuarioNav");
 
   function actualizarNavbar(usuario) {
-
-    if (!btnLogin) return;
-
-    // Usuario NO logueado
     if (!usuario) {
-      btnLogin.textContent = "Iniciar sesión";
-      btnLogin.href = "login.html";
-
-      if (userBox) userBox.innerHTML = "";
+      btnLogin.style.display = "block";
+      usuarioNav.style.display = "none";
       return;
     }
 
-    // Usuario logueado
-    btnLogin.textContent = "Cuenta";
-    btnLogin.href = "perfil.html";
+    btnLogin.style.display = "none";
+    usuarioNav.style.display = "flex";
 
-    if (userBox) {
-      const foto = usuario.foto && usuario.foto.trim() !== "" 
-        ? usuario.foto 
-        : "img/default.png";
+    fotoNav.src = usuario.foto || "img/default.png";
+    nombreNav.textContent = usuario.nombre;
 
-      userBox.innerHTML = `
-        <img src="${foto}" alt="Foto" />
-        <span>${usuario.nombre}</span>
-      `;
-
-      userBox.onclick = () => window.location.href = "perfil.html";
-    }
+    usuarioNav.onclick = () => {
+      window.location.href = "perfil.html";
+    };
   }
 
-  // Inicializar
   let usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
   actualizarNavbar(usuario);
 
-  // Se activa cuando en cualquier pestaña se edite el perfil
-  window.addEventListener("storage", (event) => {
-    if (event.key === "usuarioActivo") {
-      usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
-      actualizarNavbar(usuario);
-    }
-  });
-
-  // Evento manual
-  window.addEventListener("actualizarUsuarioUI", () => {
+  // Escucha cambios desde perfil
+  window.addEventListener("storage", () => {
     usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
     actualizarNavbar(usuario);
   });

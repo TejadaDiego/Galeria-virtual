@@ -5,43 +5,30 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="Estilos/styleC.css" />
-  <title>Carrusel de Proyectos</title>
+  <title>Galería Virtual - Inicio</title>
 </head>
 <body>
 
-  <!-- ⭐ NAVBAR ⭐ -->
+  <!-- ⭐⭐⭐ NAVBAR MODERNO CON FOTO Y NOMBRE ⭐⭐⭐ -->
   <nav class="navbar">
-    <ul>
+    <ul class="nav-left">
       <li><a href="inicio.html" class="active">Inicio</a></li>
       <li><a href="Sobre_nosotros.html">Nosotros</a></li>
       <li><a href="Contenido.html">Contenido</a></li>
       <li><a href="publicar.html">Publicar +</a></li>
-      <li><a href="login.html" id="btnLogin">Iniciar sesión</a></li>
     </ul>
+
+    <!-- Si NO hay usuario -->
+    <a href="login.html" id="btnLogin" class="login-btn">Iniciar sesión</a>
+
+    <!-- Si HAY usuario -->
+    <div id="usuarioNav" class="usuario-nav" style="display:none;">
+      <img id="fotoUsuarioNav" class="foto-nav" src="" alt="Foto">
+      <span id="nombreUsuarioNav"></span>
+    </div>
   </nav>
 
-  <!-- ⭐ PANEL SUPERIOR INFORMACIÓN DE USUARIO -->
-  <div id="infoUsuario" style="
-      color:white;
-      text-align:center;
-      margin-top:15px;
-      font-size:18px;
-      display:none;
-  ">
-    Bienvenido: <span id="nombreUsuario"></span><br>
-  </div>
-
-  <!-- ⭐ PANEL FLOTANTE (A LA DERECHA) -->
-  <div id="perfilFlotante" class="perfil-flotante" style="display:none;">
-    <img id="fotoUsuarioMini" src="img/default.jpg" alt="Foto Usuario">
-
-    <h4 id="nombreMini"></h4>
-    <p id="correoMini"></p>
-
-    <button id="btnCerrarSesion" class="cerrar">Cerrar Sesión</button>
-  </div>
-
-  <!-- ⭐ CARRUSEL DE PROYECTOS (Tu código original) -->
+  <!-- Carrusel -->
   <div class="carrusel">
     <div class="atras">
       <img id="atras" src="img/atras.svg" alt="Atrás" loading="lazy" />
@@ -59,33 +46,7 @@
 
   <div class="puntos" id="puntos"></div>
 
-  <!-- ⭐ CARGAR DATOS DE USUARIO ⭐ -->
-  <script>
-    const user = JSON.parse(localStorage.getItem("usuario"));
-
-    if (user) {
-        // Mostrar secciones
-        document.getElementById("infoUsuario").style.display = "block";
-        document.getElementById("perfilFlotante").style.display = "flex";
-        document.getElementById("btnLogin").style.display = "none";
-
-        // Nombre arriba
-        document.getElementById("nombreUsuario").textContent = user.nombre;
-
-        // Panel flotante
-        document.getElementById("nombreMini").textContent = user.nombre;
-        document.getElementById("correoMini").textContent = user.correo;
-        document.getElementById("fotoUsuarioMini").src = user.foto || "img/default.jpg";
-    }
-
-    // Cerrar sesión
-    document.getElementById("btnCerrarSesion").addEventListener("click", () => {
-        localStorage.removeItem("usuario");
-        window.location.reload();
-    });
-  </script>
-
-  <!-- JS originales -->
+  <!-- Scripts -->
   <script src="Scripts/sesion-global.js"></script>
   <script src="Scripts/app.js"></script>
 </body>

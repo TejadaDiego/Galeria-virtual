@@ -8,50 +8,41 @@
 </head>
 <body>
 
-  <!-- ⭐⭐⭐ NAVBAR UNIVERSAL (compatible con sesion-global.js) ⭐⭐⭐ -->
+  <!-- NAVBAR GLOBAL -->
   <nav class="navbar">
-    <h2 class="logo">Galería <span>Virtual</span></h2>
-    <ul>
+    <ul class="nav-left">
       <li><a href="inicio.html">Inicio</a></li>
       <li><a href="Sobre_nosotros.html">Nosotros</a></li>
       <li><a href="Contenido.html">Contenido</a></li>
       <li><a href="publicar.html">Publicar +</a></li>
-
-      <!-- Botón por defecto si NO hay sesión -->
-      <li><a id="btnLogin" href="login.html">Iniciar sesión</a></li>
-
-      <!-- Aquí sesion-global.js pondrá foto + nombre -->
-      <li id="navbarUserBox" style="margin-left:15px;"></li>
     </ul>
-  </nav>
 
-  <!-- Cabecera del perfil -->
-  <header class="perfil-header">
-    <img id="fotoPequeña" class="perfil-foto-mini" alt="Foto del usuario">
-    <div>
-      <h3 id="nombrePequeño"></h3>
-      <p id="tipoPequeño"></p>
+    <a href="login.html" id="btnLogin" class="login-btn">Iniciar sesión</a>
+
+    <div id="usuarioNav" class="usuario-nav" style="display:none;">
+      <img id="fotoUsuarioNav" class="foto-nav">
+      <span id="nombreUsuarioNav"></span>
     </div>
-  </header>
+  </nav>
 
   <main class="perfil-container">
     <div class="perfil-card">
 
-      <img id="fotoUsuario" class="perfil-foto" alt="Foto del usuario">
+      <img id="fotoUsuario" class="perfil-foto" alt="foto">
 
       <label for="nuevaFoto" class="editar-foto">📷 Cambiar foto</label>
       <input type="file" id="nuevaFoto" accept="image/*">
 
-      <h2><input type="text" id="nombreUsuario" placeholder="Nombre del usuario"></h2>
+      <h2><input type="text" id="nombreUsuario"></h2>
 
       <p><strong>Correo:</strong>
-        <input type="email" id="correoUsuario">
-      </p>
+      <input type="email" id="correoUsuario"></p>
 
       <p><strong>Tipo de cuenta:</strong> <span id="tipoUsuario"></span></p>
 
       <button id="guardarCambios">💾 Guardar cambios</button>
       <button id="cerrarSesion" class="cerrar">🔒 Cerrar sesión</button>
+
     </div>
   </main>
 
