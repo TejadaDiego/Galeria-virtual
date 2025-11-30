@@ -22,29 +22,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // === GUARDAR SESIÓN CORRECTAMENTE ===
+            // GUARDAR DATOS CORRECTAMENTE
             localStorage.setItem("usuarioActivo", JSON.stringify(data.usuario));
-
-            // Notificar a todas las páginas
-            window.dispatchEvent(new StorageEvent("storage", { key: "usuarioActivo" }));
-            window.dispatchEvent(new Event("actualizarUsuarioUI"));
 
             alert("Inicio de sesión exitoso");
 
-            // === Redirección según tipo ===
+            // Redirigir según tipo
             switch (data.usuario.tipo) {
                 case "admin":
                     window.location.href = "panel_admin.html";
                     break;
-
                 case "comprador":
                     window.location.href = "panel_comprador.html";
                     break;
-
                 case "estudiante":
                     window.location.href = "panel_estudiante.html";
                     break;
-
                 default:
                     window.location.href = "inicio.html";
             }
