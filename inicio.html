@@ -5,11 +5,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="Estilos/styleC.css" />
-  <title>Galería Virtual - Inicio</title>
+  <title>Inicio - Galería Virtual</title>
 </head>
 <body>
 
-  <!-- ⭐⭐⭐ NAVBAR MODERNO CON FOTO Y NOMBRE ⭐⭐⭐ -->
+  <!-- ⭐⭐⭐ NAVBAR UNIVERSAL ⭐⭐⭐ -->
   <nav class="navbar">
     <ul class="nav-left">
       <li><a href="inicio.html" class="active">Inicio</a></li>
@@ -18,12 +18,12 @@
       <li><a href="publicar.html">Publicar +</a></li>
     </ul>
 
-    <!-- Si NO hay usuario -->
+    <!-- Botón login si NO hay usuario -->
     <a href="login.html" id="btnLogin" class="login-btn">Iniciar sesión</a>
 
-    <!-- Si HAY usuario -->
+    <!-- Foto + nombre si está logueado -->
     <div id="usuarioNav" class="usuario-nav" style="display:none;">
-      <img id="fotoUsuarioNav" class="foto-nav" src="" alt="Foto">
+      <img id="fotoUsuarioNav" class="foto-nav" alt="Foto usuario">
       <span id="nombreUsuarioNav"></span>
     </div>
   </nav>
@@ -49,5 +49,6 @@
   <!-- Scripts -->
   <script src="Scripts/sesion-global.js"></script>
   <script src="Scripts/app.js"></script>
+
 </body>
 </html>
