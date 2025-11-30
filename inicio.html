@@ -6,32 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="Estilos/styleC.css" />
   <title>Carrusel de Proyectos</title>
-
-  <style>
-    /* --- FOTO + NOMBRE EN NAVBAR --- */
-    .usuario-navbar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-left: auto;
-      cursor: pointer;
-    }
-
-    .usuario-navbar img {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid white;
-    }
-
-    .usuario-navbar span {
-      color: white;
-      font-weight: bold;
-      font-size: 15px;
-    }
-  </style>
-
 </head>
 
 <body>
@@ -78,8 +52,8 @@
       document.getElementById("btnLogin").style.display = "none";
 
       const usuarioHTML = `
-        <div class="usuario-navbar" onclick="location.href='perfil.html'">
-          <img src="${user.foto || 'Img/default.png'}" alt="Foto" />
+        <div class="usuario-box" onclick="location.href='cuenta.html'">
+          <img src="${user.foto || 'Img/default.png'}" alt="Foto">
           <span>${user.nombre}</span>
         </div>
       `;
@@ -88,7 +62,6 @@
     }
   </script>
 
-  <!-- Scripts originales -->
   <script src="Scripts/sesion-global.js"></script>
   <script src="Scripts/app.js"></script>
 

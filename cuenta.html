@@ -34,12 +34,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const user = JSON.parse(localStorage.getItem("usuario"));
 
     if (!user) {
-        // Si no hay sesión → enviar al login
         location.href = "login.html";
         return;
     }
 
-    // MOSTRAR DATOS
     document.getElementById("fotoCuenta").src = user.foto || "Img/default.png";
     document.getElementById("nombreCuenta").textContent = user.nombre;
     document.getElementById("correoCuenta").textContent = user.correo;
@@ -81,7 +79,6 @@ function cerrarSesion() {
     localStorage.removeItem("usuario");
     location.href = "login.html";
 }
-
 </script>
 
 </body>

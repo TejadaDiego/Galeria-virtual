@@ -200,3 +200,7 @@ body {
     margin-left: 0;
   }
 }
+/* Ajuste para alinear la caja de usuario a la derecha dentro del navbar */
+#usuarioNav {
+  margin-left: auto;
+}
