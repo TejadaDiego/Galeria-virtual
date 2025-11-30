@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="Estilos/perfil.css">
 </head>
 <body>
+
+  <!-- ⭐⭐⭐ NAVBAR UNIVERSAL (compatible con sesion-global.js) ⭐⭐⭐ -->
   <nav class="navbar">
     <h2 class="logo">Galería <span>Virtual</span></h2>
     <ul>
@@ -14,7 +16,12 @@
       <li><a href="Sobre_nosotros.html">Nosotros</a></li>
       <li><a href="Contenido.html">Contenido</a></li>
       <li><a href="publicar.html">Publicar +</a></li>
-      <li><a href="perfil.html" id="btnLogin" class="active">Cuenta</a></li>
+
+      <!-- Botón por defecto si NO hay sesión -->
+      <li><a id="btnLogin" href="login.html">Iniciar sesión</a></li>
+
+      <!-- Aquí sesion-global.js pondrá foto + nombre -->
+      <li id="navbarUserBox" style="margin-left:15px;"></li>
     </ul>
   </nav>
 
@@ -29,12 +36,18 @@
 
   <main class="perfil-container">
     <div class="perfil-card">
+
       <img id="fotoUsuario" class="perfil-foto" alt="Foto del usuario">
+
       <label for="nuevaFoto" class="editar-foto">📷 Cambiar foto</label>
       <input type="file" id="nuevaFoto" accept="image/*">
 
       <h2><input type="text" id="nombreUsuario" placeholder="Nombre del usuario"></h2>
-      <p><strong>Correo:</strong> <input type="email" id="correoUsuario"></p>
+
+      <p><strong>Correo:</strong>
+        <input type="email" id="correoUsuario">
+      </p>
+
       <p><strong>Tipo de cuenta:</strong> <span id="tipoUsuario"></span></p>
 
       <button id="guardarCambios">💾 Guardar cambios</button>
@@ -42,6 +55,7 @@
     </div>
   </main>
 
+  <script src="Scripts/sesion-global.js"></script>
   <script src="Scripts/perfil.js"></script>
 </body>
 </html>

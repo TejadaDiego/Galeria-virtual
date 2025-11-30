@@ -22,13 +22,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // Guardamos datos del usuario
-            localStorage.setItem("usuario", JSON.stringify(data.usuario));
-            localStorage.setItem("correoUsuario", data.usuario.email);
+            // === GUARDAR SESIÓN CORRECTAMENTE ===
+            localStorage.setItem("usuarioActivo", JSON.stringify(data.usuario));
+
+            // Notificar a todas las páginas
+            window.dispatchEvent(new StorageEvent("storage", { key: "usuarioActivo" }));
+            window.dispatchEvent(new Event("actualizarUsuarioUI"));
 
             alert("Inicio de sesión exitoso");
 
-            // Redirige según tipo
+            // === Redirección según tipo ===
             switch (data.usuario.tipo) {
                 case "admin":
                     window.location.href = "panel_admin.html";

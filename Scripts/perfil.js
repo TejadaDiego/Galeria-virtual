@@ -1,4 +1,4 @@
-// === Cargar datos del usuario logeado ===
+// === Cargar datos del usuario logueado ===
 let usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
 
 if (!usuario) {
@@ -9,11 +9,21 @@ if (!usuario) {
 }
 
 function actualizarDatos() {
-  document.getElementById("fotoUsuario").src = usuario.foto;
-  document.getElementById("fotoPequeña").src = usuario.foto;
+
+  const foto = usuario.foto && usuario.foto.trim() !== "" 
+               ? usuario.foto 
+               : "img/default.png";
+
+  // Fotos
+  document.getElementById("fotoUsuario").src = foto;
+  document.getElementById("fotoPequeña").src = foto;
+
+  // Datos
   document.getElementById("nombreUsuario").value = usuario.nombre;
-  document.getElementById("correoUsuario").value = usuario.email;
+  document.getElementById("correoUsuario").value = usuario.correo;
   document.getElementById("tipoUsuario").textContent = usuario.tipo;
+
+  // Cabecera
   document.getElementById("nombrePequeño").textContent = usuario.nombre;
   document.getElementById("tipoPequeño").textContent = usuario.tipo;
 }
@@ -28,7 +38,6 @@ document.getElementById("nuevaFoto").addEventListener("change", (e) => {
       localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
       actualizarDatos();
 
-      // Notificar a todas las páginas
       window.dispatchEvent(new StorageEvent("storage", { key: "usuarioActivo" }));
       window.dispatchEvent(new Event("actualizarUsuarioUI"));
     };
@@ -38,13 +47,13 @@ document.getElementById("nuevaFoto").addEventListener("change", (e) => {
 
 // === Guardar cambios ===
 document.getElementById("guardarCambios").addEventListener("click", () => {
+
   usuario.nombre = document.getElementById("nombreUsuario").value.trim();
-  usuario.email = document.getElementById("correoUsuario").value.trim();
+  usuario.correo = document.getElementById("correoUsuario").value.trim();
 
   localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
   actualizarDatos();
 
-  // Notificar a todas las páginas
   window.dispatchEvent(new StorageEvent("storage", { key: "usuarioActivo" }));
   window.dispatchEvent(new Event("actualizarUsuarioUI"));
 
@@ -55,8 +64,6 @@ document.getElementById("guardarCambios").addEventListener("click", () => {
 document.getElementById("cerrarSesion").addEventListener("click", () => {
   if (confirm("¿Deseas cerrar sesión?")) {
     localStorage.removeItem("usuarioActivo");
-
-    // Notificar a todas las pestañas
     window.dispatchEvent(new StorageEvent("storage", { key: "usuarioActivo" }));
 
     alert("Sesión cerrada correctamente 👋");
