@@ -17,6 +17,9 @@
       <a href="Contenido.html">Contenido</a>
       <a href="publicar.html" class="active">Publicar +</a>
       <a href="login.html" id="btnLogin">Iniciar sesión</a>
+
+      <!-- NECESARIO PARA MOSTRAR LA FOTO Y NOMBRE -->
+      <div id="navbarUserBox"></div>
     </div>
   </nav>
 
@@ -24,7 +27,7 @@
   <div class="form-container">
     <h2>Publicar nuevo trabajo</h2>
 
-    <!-- === FORMULARIO CON ACTION PHP + enctype + ID === -->
+    <!-- === FORMULARIO CORREGIDO === -->
     <form id="formPublicar" action="Php/publicar_handler.php" method="post" enctype="multipart/form-data">
 
       <label for="titulo">Nombre del trabajo:</label>
@@ -38,6 +41,9 @@
 
       <label for="imagen">Imagen del trabajo:</label>
       <input type="file" id="imagen" name="imagen" accept="image/*" required>
+
+      <!-- Campo oculto que envía el ID del usuario -->
+      <input type="hidden" name="usuario_id" id="usuario_id">
 
       <div class="preview">
         <img id="previewImg" alt="Vista previa del trabajo">
@@ -60,21 +66,37 @@
     });
   </script>
 
+  <!-- === Cargar ID del usuario desde localStorage === -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
+      if (usuario) {
+        document.getElementById("usuario_id").value = usuario.id;
+      }
+    });
+  </script>
+
   <!-- === JS PARA ENVIAR A PHP POR AJAX === -->
   <script>
-document.getElementById('formPublicar').addEventListener('submit', async function(e){
-  e.preventDefault();
-  const form = new FormData(this);
-  const res = await fetch(this.action, { method: 'POST', body: form });
-  const data = await res.json();
-  if (res.ok && data.success) {
-    alert('Trabajo publicado con éxito');
-    window.location.href = 'Contenido.html';
-  } else {
-    alert('Error: ' + (data.error || JSON.stringify(data)));
-  }
-});
-</script>
+    document.getElementById('formPublicar').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const form = new FormData(this);
+      const res = await fetch(this.action, {
+        method: 'POST',
+        body: form
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        alert('Trabajo publicado con éxito');
+        window.location.href = 'Contenido.html';
+      } else {
+        alert('Error: ' + (data.error || JSON.stringify(data)));
+      }
+    });
+  </script>
 
   <script src="Scripts/sesion-global.js"></script>
 
