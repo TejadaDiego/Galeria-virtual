@@ -38,6 +38,11 @@ header {
   backdrop-filter: blur(8px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   z-index: 1000;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 18px 30px;
 }
 
 header .logo h1 {
@@ -54,12 +59,11 @@ header .logo h1 span {
   letter-spacing: 1px;
 }
 
-/* Contenedor para centrar todo */
-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 18px 30px;
+/* Logo posicionado */
+.logo {
+  position: absolute;
+  left: 60px;
+  top: 20px;
 }
 
 header .navbar ul {
@@ -83,13 +87,6 @@ header .navbar a.active {
   background: #5E17EB;
   box-shadow: 0 0 12px rgba(94, 23, 235, 0.6);
   transform: translateY(-2px);
-}
-
-/* Logo posicionado de manera elegante */
-.logo {
-  position: absolute;
-  left: 60px;
-  top: 20px;
 }
 
 /* === SECCIONES === */
@@ -273,116 +270,66 @@ footer {
   }
 }
 
-/* Ajuste para alinear la caja de usuario a la derecha dentro del navbar */
+/* === USER NAVBAR UI === */
 #usuarioNav {
   margin-left: auto;
 }
-/* Caja del usuario en navbar */
+
+/* Caja del usuario */
 .usuario-box {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: #222;
-    padding: 5px 12px;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.1);
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 .usuario-box img {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
 }
 
 .usuario-box span {
-    color: #fff;
-    font-weight: 600;
+  color: #fff;
+  font-weight: 600;
 }
 
 /* Menú desplegable */
 .usuario-menu {
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    background: #111;
-    padding: 15px;
-    width: 200px;
-    border-radius: 10px;
-    display: none;
-    flex-direction: column;
-    gap: 10px;
-    box-shadow: 0 0 10px #0005;
+  position: absolute;
+  right: 0;
+  top: 50px;
+  background: #111;
+  padding: 15px;
+  width: 200px;
+  border-radius: 10px;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 0 12px #0007;
 }
 
 .usuario-menu.activo {
-    display: flex;
+  display: flex;
 }
 
 .usuario-menu p {
-    margin: 0;
-    color: #ddd;
+  margin: 0;
+  color: #ddd;
 }
 
 .usuario-menu button {
-    background: #333;
-    color: white;
-    border: none;
-    padding: 8px;
-    border-radius: 5px;
-    cursor: pointer;
+  background: #333;
+  border: none;
+  padding: 8px;
+  border-radius: 5px;
+  color: white;
 }
 
 .usuario-menu button.logout {
-    background: #b30000;
+  background: #d00000;
 }
-
-.usuario-menu button:hover {
-    opacity: 0.8;
-}
-.usuario-box {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(255,255,255,0.1);
-    padding: 6px 14px;
-    border-radius: 20px;
-    cursor: pointer;
-}
-
-.usuario-box img {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-}
-
-.usuario-menu {
-    position: absolute;
-    right: 0;
-    top: 50px;
-    background: #111;
-    padding: 15px;
-    width: 200px;
-    border-radius: 10px;
-    display: none;
-    flex-direction: column;
-    gap: 10px;
-    box-shadow: 0 0 12px #0007;
-}
-
-.usuario-menu.activo {
-    display: flex;
-}
-
-.usuario-menu button {
-    background: #333;
-    border: none;
-    padding: 8px;
-    border-radius: 5px;
-    color: white;
-}
-
-.usuario-menu button.logout {
-    background: #d00000;
-}
-
