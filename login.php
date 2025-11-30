@@ -40,10 +40,9 @@ echo json_encode([
     "usuario" => [
         "id" => $id,
         "nombre" => $nombre,
-        "email" => $emailBD,  // 🔥 CORREGIDO
+        "correo" => $emailBD,  // ✔ Debe llamarse "correo"
         "foto" => $foto,
         "tipo" => $tipo
     ]
 ]);
-
 ?>
