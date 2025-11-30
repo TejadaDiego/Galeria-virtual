@@ -13,11 +13,11 @@
         <h1>Cuenta de Usuario</h1>
 
         <!-- FOTO DEL USUARIO -->
-        <img id="fotoCuenta" class="cuenta-foto" src="Img/default.png">
+        <img id="fotoCuenta" class="cuenta-foto">
 
         <!-- NOMBRE Y CORREO -->
-        <p class="cuenta-nombre" id="nombreCuenta">Cargando...</p>
-        <p class="cuenta-correo" id="correoCuenta">Cargando...</p>
+        <p class="cuenta-nombre" id="nombreCuenta"></p>
+        <p class="cuenta-correo" id="correoCuenta"></p>
 
         <!-- BOTONES -->
         <div class="cuenta-opciones">
@@ -33,53 +33,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const user = JSON.parse(localStorage.getItem("usuario"));
 
+    // Si no está logueado → enviar a login
     if (!user) {
         location.href = "login.html";
         return;
     }
 
+    // Mostrar datos
     document.getElementById("fotoCuenta").src = user.foto || "Img/default.png";
     document.getElementById("nombreCuenta").textContent = user.nombre;
     document.getElementById("correoCuenta").textContent = user.correo;
 });
-
-
-/* -------- CAMBIAR FOTO -------- */
-function cambiarFoto() {
-    let nuevaFoto = prompt("Pega la URL de tu nueva foto:");
-
-    if (!nuevaFoto) return;
-
-    let user = JSON.parse(localStorage.getItem("usuario"));
-    user.foto = nuevaFoto;
-
-    localStorage.setItem("usuario", JSON.stringify(user));
-
-    document.getElementById("fotoCuenta").src = nuevaFoto;
-}
-
-
-/* -------- CAMBIAR NOMBRE -------- */
-function editarNombre() {
-    let nuevoNombre = prompt("Nuevo nombre de usuario:");
-
-    if (!nuevoNombre) return;
-
-    let user = JSON.parse(localStorage.getItem("usuario"));
-    user.nombre = nuevoNombre;
-
-    localStorage.setItem("usuario", JSON.stringify(user));
-
-    document.getElementById("nombreCuenta").textContent = nuevoNombre;
-}
-
-
-/* -------- CERRAR SESIÓN -------- */
-function cerrarSesion() {
-    localStorage.removeItem("usuario");
-    location.href = "login.html";
-}
 </script>
+
+<!-- Funciones globales -->
+<script src="Scripts/sesion-global.js"></script>
 
 </body>
 </html>
