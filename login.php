@@ -2,11 +2,13 @@
 session_start();
 require_once __DIR__ . "/conexion.php";
 
+header("Content-Type: application/json; charset=utf-8");
+
 $email = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
 
 if ($email === '' || $password === '') {
-    echo "Completa todos los campos";
+    echo json_encode(["success" => false, "error" => "Completa todos los campos"]);
     exit;
 }
 
@@ -16,7 +18,7 @@ $stmt->execute();
 $stmt->store_result();
 
 if ($stmt->num_rows === 0) {
-    echo "Correo no registrado";
+    echo json_encode(["success" => false, "error" => "Correo no registrado"]);
     exit;
 }
 
@@ -24,18 +26,22 @@ $stmt->bind_result($id, $hash, $nombre, $foto, $tipo);
 $stmt->fetch();
 
 if (!password_verify($password, $hash)) {
-    echo "Contraseña incorrecta";
+    echo json_encode(["success" => false, "error" => "Contraseña incorrecta"]);
     exit;
 }
 
-// Guardar sesión
+// Guardar sesión PHP
 $_SESSION['user_id'] = $id;
 $_SESSION['nombre'] = $nombre;
 
+// Devolver datos al frontend
 echo json_encode([
-    "id" => $id,
-    "nombre" => $nombre,
-    "foto" => $foto,
-    "tipo" => $tipo
+    "success" => true,
+    "usuario" => [
+        "id" => $id,
+        "nombre" => $nombre,
+        "foto" => $foto,
+        "tipo" => $tipo
+    ]
 ]);
 ?>

@@ -61,15 +61,21 @@ document.getElementById("formLogin").addEventListener("submit", async(e)=>{
     body:f
   });
 
-  const t = await res.text();
+  const data = await res.json();
 
-  if(t.trim() === "ok"){
-    window.location.href = "inicio.html";
-  } else {
-    alert(t);
+  if (!data.success) {
+    alert(data.error);
+    return;
   }
+
+  // Guardar en localStorage
+  localStorage.setItem("usuarioActivo", JSON.stringify(data.usuario));
+
+  // Redirigir
+  window.location.href = "inicio.html";
 });
 </script>
+
 
 </body>
 </html>
