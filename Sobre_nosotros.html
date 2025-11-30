@@ -103,19 +103,38 @@
   </script>
 
   <script>
- document.addEventListener("DOMContentLoaded", () => {
-  try {
-    const userData = JSON.parse(localStorage.getItem("userData"));
-    if (userData) {
-      document.getElementById("userNameHeader").textContent = userData.nombre;
-      document.getElementById("userEmailHeader").textContent = userData.correo;
-    }
-  } catch (err) {
-    console.error("Error leyendo userData:", err);
-  }
-});
+    document.addEventListener("DOMContentLoaded", () => {
 
-</script>
+      const user = JSON.parse(localStorage.getItem("usuarioActivo"));
+      const contenedor = document.getElementById("usuarioNav");
+      const btnLogin = document.getElementById("btnLogin");
+
+      // Si no hay usuario → se muestra "Iniciar sesión"
+      if (!user) {
+        btnLogin.style.display = "inline-block";
+        contenedor.innerHTML = "";
+        return;
+      }
+
+      // Si hay usuario → escondemos botón de login
+      btnLogin.style.display = "none";
+      contenedor.innerHTML = "";
+
+      const fotoFinal =
+        user.foto && user.foto.startsWith("data:image")
+          ? user.foto
+          : user.foto && user.foto !== ""
+            ? user.foto
+            : "Img/default.png";
+
+      contenedor.innerHTML = `
+        <div class="usuario-box" onclick="location.href='cuenta.html'">
+          <img src="${fotoFinal}" alt="Foto del usuario">
+          <span>${user.nombre}</span>
+        </div>
+      `;
+    });
+  </script>
 
 <script src="Scripts/sesion-global.js"></script>
 <script src="Scripts/sesion-global2.js"></script>
