@@ -1,52 +1,54 @@
-// -------------------------------------------
-// LOGIN HANDLER - FUNCIONA 100%
-// -------------------------------------------
-
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("loginForm");
 
-    if (!form) {
-        console.error("No existe el formulario loginForm");
-        return;
-    }
+    const form = document.getElementById("loginForm");
+    if (!form) return;
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value.trim();
-
-        if (email === "" || password === "") {
-            alert("Completa todos los campos");
-            return;
-        }
-
-        const datos = new FormData();
-        datos.append("email", email);
-        datos.append("password", password);
+        const formData = new FormData(form);
 
         try {
-            const response = await fetch("PHP/login.php", {
+            const res = await fetch("login.php", {
                 method: "POST",
-                body: datos
+                body: formData
             });
 
-            const text = await response.text();
-            console.log("Respuesta cruda:", text);
+            const data = await res.json();
+            console.log("Respuesta del servidor:", data);
 
-            const data = JSON.parse(text);
-
-            if (data.success) {
-                localStorage.setItem("usuario", JSON.stringify(data.usuario));
-                alert("Inicio de sesión exitoso ✔");
-                window.location.href = "inicio.html";
-            } else {
-                alert(data.error);
+            if (!data.success) {
+                alert(data.error || "Error al iniciar sesión");
+                return;
             }
 
-        } catch (error) {
-            console.error("Error:", error);
-            alert("No se pudo conectar con el servidor");
+            // Guardamos datos del usuario
+            localStorage.setItem("usuario", JSON.stringify(data.usuario));
+            localStorage.setItem("correoUsuario", data.usuario.email);
+
+            alert("Inicio de sesión exitoso");
+
+            // Redirige según tipo
+            switch (data.usuario.tipo) {
+                case "admin":
+                    window.location.href = "panel_admin.html";
+                    break;
+
+                case "comprador":
+                    window.location.href = "panel_comprador.html";
+                    break;
+
+                case "estudiante":
+                    window.location.href = "panel_estudiante.html";
+                    break;
+
+                default:
+                    window.location.href = "inicio.html";
+            }
+
+        } catch (err) {
+            console.error(err);
+            alert("Error de conexión con el servidor");
         }
     });
 });

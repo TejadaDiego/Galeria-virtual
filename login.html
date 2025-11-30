@@ -1,94 +1,46 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Iniciar sesión</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
-<style>
-body {
-  background: linear-gradient(135deg, #7f00ff, #e100ff);
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-family: 'Poppins';
-}
-
-.card {
-  background: rgba(255,255,255,0.12);
-  padding: 30px;
-  width: 350px;
-  border-radius: 20px;
-  backdrop-filter: blur(10px);
-}
-
-button {
-  width: 100%;
-  padding: 12px;
-  background: #4A00E0;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-weight: bold;
-}
-</style>
-
+  <meta charset="UTF-8">
+  <title>Iniciar Sesión</title>
+  <link rel="stylesheet" href="Estilos/login.css">
 </head>
+
 <body>
 
-<div class="card">
-  <h2>Iniciar sesión</h2>
+  <nav class="navbar">
+    <h2 class="logo">Galería <span>Virtual</span></h2>
+    <ul>
+      <li><a href="inicio.html">Inicio</a></li>
+      <li><a href="Sobre_nosotros.html">Nosotros</a></li>
+      <li><a href="Contenido.html">Contenido</a></li>
+      <li><a href="publicar.html">Publicar +</a></li>
+    </ul>
+  </nav>
 
-  <form id="formLogin">
-    <input type="email" name="email" required placeholder="Correo" style="width:100%; padding:12px; border-radius:10px; margin-top:10px;">
-    <input type="password" name="password" required placeholder="Contraseña" style="width:100%; padding:12px; border-radius:10px; margin-top:10px;">
-    <button>Entrar</button>
-  </form>
+  <div class="login-card">
+    <img class="login-logo" src="https://cdn-icons-png.flaticon.com/512/847/847969.png">
 
-  <a href="registro.html" style="color:white;">Crear cuenta</a>
-</div>
+    <h2>Acceso al Sistema</h2>
 
-<script>
-document.getElementById("formLogin").addEventListener("submit", async(e)=>{
-  e.preventDefault();
-  
-  const f = new FormData(e.target);
+    <form id="loginForm">
+      <div class="input-group">
+        <span>📧</span>
+        <input name="email" type="email" required placeholder="Correo registrado">
+      </div>
 
-  const res = await fetch("Php/login.php", {
-    method:"POST",
-    body:f
-  });
+      <div class="input-group">
+        <span>🔒</span>
+        <input name="password" type="password" required placeholder="Contraseña">
+      </div>
 
-  let data = null;
+      <button class="btn-submit" type="submit">Entrar</button>
+    </form>
 
-  try {
-    data = await res.json();
-  } catch (err) {
-    alert("Error al procesar la respuesta del servidor");
-    return;
-  }
+    <a class="crear-cuenta" href="registro.html">¿No tienes cuenta? Crear cuenta</a>
+  </div>
 
-  // Errores desde PHP
-  if (!data.success) {
-    alert(data.error);
-    return;
-  }
-
-  // 🔥 Guardamos TODO el usuario
-  localStorage.setItem("usuario", JSON.stringify(data.usuario));
-
-  // 🔥 Guardamos campos individuales para acceso rápido
-  localStorage.setItem("usuario", JSON.stringify(data.usuario));
-  localStorage.setItem("correoUsuario", data.usuario.email);
-
-
-
-  // Redirigir
-  window.location.href = "inicio.html";
-});
-</script>
+  <script src="Scripts/login-handler.js"></script>
 
 </body>
 </html>
