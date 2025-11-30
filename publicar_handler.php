@@ -1,51 +1,59 @@
 <?php
+// Php/publicar_handler.php
 session_start();
 require_once __DIR__ . "/conexion.php";
 
-// Evitar errores si no llega algo
-$email = trim($_POST['email'] ?? "");
-$password = trim($_POST['password'] ?? "");
+header("Content-Type: application/json; charset=utf-8");
 
-// Validación rápida
-if ($email === "" || $password === "") {
-    echo "Completa todos los campos";
+if (!isset($_SESSION['user_id'])) {
+    http_response_code(401);
+    echo json_encode(["error" => "Debes iniciar sesión para publicar."]);
+    exit;
+}
+$usuario_id = intval($_SESSION['user_id']);
+
+$titulo = trim($_POST['titulo'] ?? '');
+$descripcion = trim($_POST['descripcion'] ?? '');
+$precio = floatval($_POST['precio'] ?? 0);
+
+if ($titulo === '' || $precio <= 0) {
+    http_response_code(400);
+    echo json_encode(["error" => "Campos incompletos o precio inválido"]);
     exit;
 }
 
-// 1. Buscar usuario por email (USANDO password_hash CORRECTO)
-$sql = $conn->prepare("SELECT id, password_hash, nombre, tipo, foto FROM usuarios WHERE email=?");
-$sql->bind_param("s", $email);
-$sql->execute();
-$sql->store_result();
+$nombreArchivo = null;
+if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === 0) {
+    $carpeta = __DIR__ . "/../uploads/"; // guarda fuera de Php si prefieres
+    if (!is_dir($carpeta)) mkdir($carpeta, 0777, true);
+    $nombreArchivo = time() . "_" . basename($_FILES['imagen']['name']);
+    $rutaDestino = $carpeta . $nombreArchivo;
+    if (!move_uploaded_file($_FILES['imagen']['tmp_name'], $rutaDestino)) {
+        http_response_code(500);
+        echo json_encode(["error" => "Error al mover la imagen"]);
+        exit;
+    }
+    // guardamos ruta relativa para el front
+    $nombreArchivo = "uploads/" . $nombreArchivo;
+}
 
-if ($sql->num_rows === 0) {
-    echo "Correo no registrado";
+$sql = "INSERT INTO trabajos (titulo, descripcion, precio, imagen, publicado_por) VALUES (?, ?, ?, ?, ?)";
+$stmt = $conn->prepare($sql);
+if (!$stmt) {
+    http_response_code(500);
+    echo json_encode(["error" => "prepare() falló", "detalle" => $conn->error]);
     exit;
 }
 
-$sql->bind_result($id, $hash, $nombre, $tipo, $foto);
-$sql->fetch();
+$stmt->bind_param("ssdsi", $titulo, $descripcion, $precio, $nombreArchivo, $usuario_id);
 
-// 2. Verificar contraseña (USANDO password_hash)
-if (!password_verify($password, $hash)) {
-    echo "Contraseña incorrecta";
-    exit;
+if ($stmt->execute()) {
+    echo json_encode(["success" => true]);
+} else {
+    http_response_code(500);
+    echo json_encode(["error" => "Error al insertar", "detalle" => $stmt->error]);
 }
 
-// 3. Guardar sesión correctamente
-$_SESSION['user_id'] = $id;
-$_SESSION['nombre'] = $nombre;
-$_SESSION['tipo'] = $tipo;
-$_SESSION['foto'] = $foto;
-
-// También enviar al frontend el usuario completo si lo necesitas
-echo json_encode([
-    "success" => true,
-    "usuario" => [
-        "id" => $id,
-        "nombre" => $nombre,
-        "tipo" => $tipo,
-        "foto" => $foto
-    ]
-]);
+$stmt->close();
+$conn->close();
 ?>

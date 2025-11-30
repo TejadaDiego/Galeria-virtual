@@ -1,42 +1,59 @@
 <?php
+// Php/login.php
 session_start();
 require_once __DIR__ . "/conexion.php";
 
-header("Content-Type: application/json");
+$email = trim($_POST['email'] ?? '');
+$pass  = $_POST['password'] ?? '';
 
-$email = $_POST['email'] ?? "";
-$password = $_POST['password'] ?? "";
-
-$sql = $conn->prepare("SELECT id, password_hash, nombre, foto, tipo FROM usuarios WHERE email=?");
-$sql->bind_param("s", $email);
-$sql->execute();
-$sql->store_result();
-
-if ($sql->num_rows === 0) {
-    echo json_encode(["error" => "Correo no registrado"]);
+if ($email === '' || $pass === '') {
+    http_response_code(400);
+    echo "Completa todos los campos";
     exit;
 }
 
-$sql->bind_result($id, $hash, $nombre, $foto, $tipo);
-$sql->fetch();
+$stmt = $conn->prepare("SELECT id, password_hash, nombre, email, tipo, foto FROM usuarios WHERE email = ?");
+if (!$stmt) {
+    http_response_code(500);
+    echo "Error en prepare: " . $conn->error;
+    exit;
+}
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$stmt->store_result();
 
-if (!password_verify($password, $hash)) {
-    echo json_encode(["error" => "Contraseña incorrecta"]);
+if ($stmt->num_rows === 0) {
+    http_response_code(401);
+    echo "Correo no registrado";
     exit;
 }
 
-// Guardar sesión PHP
+$stmt->bind_result($id, $password_hash, $nombre, $email_db, $tipo, $foto);
+$stmt->fetch();
+
+// adapta si tu campo contraseña se llama 'password' o 'password_hash' en la tabla
+if (!password_verify($pass, $password_hash)) {
+    http_response_code(401);
+    echo "Contraseña incorrecta";
+    exit;
+}
+
+// login OK -> guardar sesión
 $_SESSION['user_id'] = $id;
-$_SESSION['nombre'] = $nombre;
+$_SESSION['user_nombre'] = $nombre;
 
-// Enviar usuario a JavaScript
-echo json_encode([
-    "success" => true,
-    "usuario" => [
-        "id" => $id,
-        "nombre" => $nombre,
-        "foto" => $foto,
-        "tipo" => $tipo
-    ]
-]);
+// devolver JSON con datos mínimos para la UI
+$user = [
+    "id" => $id,
+    "nombre" => $nombre,
+    "email" => $email_db,
+    "tipo" => $tipo,
+    "foto" => $foto ?? ""
+];
+
+header('Content-Type: application/json; charset=utf-8');
+echo json_encode($user);
+
+$stmt->close();
+$conn->close();
 ?>
