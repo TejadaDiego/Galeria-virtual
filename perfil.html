@@ -2,38 +2,42 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Perfil de Usuario</title>
+    <title>Perfil</title>
     <link rel="stylesheet" href="Estilos/perfil.css">
-    <script src="Scripts/sesion-global.js" defer></script>
 </head>
 
 <body>
 
     <div class="perfil-container">
-
-        <img id="fotoPerfil" class="perfil-foto" src="Img/default.png" alt="Foto del usuario">
+        <img id="fotoPerfil" class="perfil-foto" src="Img/default.png">
 
         <h1 id="nombrePerfil" class="perfil-nombre">Usuario</h1>
 
         <div class="perfil-info">
-            <p><span>Correo:</span> <span id="correoPerfil">correo@example.com</span></p>
-            <p><span>Usuario desde:</span> <span id="fechaPerfil">2025</span></p>
+            <p><span>Correo:</span> <span id="correoPerfil"></span></p>
         </div>
 
         <div class="perfil-botones">
             <a href="editar-perfil.html" class="btn-perfil">Editar Perfil</a>
-            <a href="Scripts/cerrar-sesion.php" class="btn-perfil">Cerrar Sesión</a>
+            <a href="login.html" class="btn-perfil" onclick="cerrarSesion()">Cerrar Sesión</a>
         </div>
-
-        <div class="perfil-publicaciones">
-            <h2>Mis publicaciones</h2>
-
-            <div class="grid-publicaciones" id="pubsUsuario">
-                <!-- Se llenará con JS -->
-            </div>
-        </div>
-
     </div>
+
+    <script>
+        const user = JSON.parse(localStorage.getItem("usuario"));
+
+        if (!user) {
+            location.href = "login.html";
+        }
+
+        document.getElementById("fotoPerfil").src = user.foto || "Img/default.png";
+        document.getElementById("nombrePerfil").textContent = user.nombre;
+        document.getElementById("correoPerfil").textContent = user.correo;
+
+        function cerrarSesion() {
+          localStorage.removeItem("usuario");
+        }
+    </script>
 
 </body>
 </html>

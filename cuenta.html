@@ -2,33 +2,44 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Gestión de Cuenta</title>
+    <title>Cuenta</title>
     <link rel="stylesheet" href="Estilos/cuenta.css">
-    <script src="Scripts/sesion-global.js" defer></script>
 </head>
 
 <body>
 
     <div class="cuenta-container">
 
-        <h1>Configuración de Cuenta</h1>
+        <h1>Cuenta de Usuario</h1>
 
         <img id="fotoCuenta" class="cuenta-foto" src="Img/default.png">
 
-        <p class="cuenta-nombre" id="nombreCuenta">Usuario</p>
-        <p class="cuenta-correo" id="correoCuenta">correo@example.com</p>
+        <p class="cuenta-nombre" id="nombreCuenta"></p>
+        <p class="cuenta-correo" id="correoCuenta"></p>
 
         <div class="cuenta-opciones">
-
             <a href="cambiar-foto.html" class="cuenta-btn">Cambiar foto</a>
-
             <a href="editar-perfil.html" class="cuenta-btn">Editar información</a>
-
-            <a href="Scripts/cerrar-sesion.php" class="cuenta-btn logout">Cerrar sesión</a>
-
+            <a href="login.html" class="cuenta-btn logout" onclick="cerrarSesion()">Cerrar sesión</a>
         </div>
 
     </div>
+
+    <script>
+        const user = JSON.parse(localStorage.getItem("usuario"));
+
+        if (!user) {
+            location.href = "login.html";
+        }
+
+        document.getElementById("fotoCuenta").src = user.foto || "Img/default.png";
+        document.getElementById("nombreCuenta").textContent = user.nombre;
+        document.getElementById("correoCuenta").textContent = user.correo;
+
+        function cerrarSesion() {
+            localStorage.removeItem("usuario");
+        }
+    </script>
 
 </body>
 </html>
