@@ -1,38 +1,26 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="Estilos/styleC.css" />
   <title>Carrusel de Proyectos</title>
 </head>
-
 <body>
 
-  <!-- ⭐ NAVBAR CON SESIÓN DINÁMICA ⭐ -->
+  <!-- ⭐ NAVBAR ⭐ -->
   <nav class="navbar">
     <ul>
-      <li><a href="inicio.html">Inicio</a></li>
+      <li><a href="inicio.html" class="active">Inicio</a></li>
       <li><a href="Sobre_nosotros.html">Nosotros</a></li>
       <li><a href="Contenido.html">Contenido</a></li>
       <li><a href="publicar.html">Publicar +</a></li>
-
-      <!-- Botón dinámico -->
-      <li><a id="btnLogin" href="login.html">Iniciar sesión</a></li>
-
-      <!-- Mini perfil -->
-      <li id="miniPerfil" style="display:none;">
-        <a href="perfil.html">
-          <img id="miniFoto" style="width:32px; height:32px; border-radius:50%; vertical-align:middle;">
-          <span id="miniNombre" style="margin-left:6px;"></span>
-        </a>
-      </li>
+      <li><a href="login.html" id="btnLogin">Iniciar sesión</a></li>
     </ul>
   </nav>
 
-  <!-- Información del usuario -->
+  <!-- ⭐ PANEL SUPERIOR INFORMACIÓN DE USUARIO -->
   <div id="infoUsuario" style="
       color:white;
       text-align:center;
@@ -40,11 +28,20 @@
       font-size:18px;
       display:none;
   ">
-    Bienvenido: <span id="nombreUsuario"></span>
+    Bienvenido: <span id="nombreUsuario"></span><br>
   </div>
 
+  <!-- ⭐ PANEL FLOTANTE (A LA DERECHA) -->
+  <div id="perfilFlotante" class="perfil-flotante" style="display:none;">
+    <img id="fotoUsuarioMini" src="img/default.jpg" alt="Foto Usuario">
 
-  <!-- CARRUSEL ORIGINAL -->
+    <h4 id="nombreMini"></h4>
+    <p id="correoMini"></p>
+
+    <button id="btnCerrarSesion" class="cerrar">Cerrar Sesión</button>
+  </div>
+
+  <!-- ⭐ CARRUSEL DE PROYECTOS (Tu código original) -->
   <div class="carrusel">
     <div class="atras">
       <img id="atras" src="img/atras.svg" alt="Atrás" loading="lazy" />
@@ -62,54 +59,34 @@
 
   <div class="puntos" id="puntos"></div>
 
-  <!-- ⭐ SCRIPT DE SESIÓN GLOBAL ⭐ -->
+  <!-- ⭐ CARGAR DATOS DE USUARIO ⭐ -->
   <script>
-    function cargarUsuarioEnUI() {
-      const user = JSON.parse(localStorage.getItem("usuarioActivo"));
+    const user = JSON.parse(localStorage.getItem("usuario"));
 
-      const btnLogin = document.getElementById("btnLogin");
-      const info = document.getElementById("infoUsuario");
-      const miniPerfil = document.getElementById("miniPerfil");
-      const miniFoto = document.getElementById("miniFoto");
-      const miniNombre = document.getElementById("miniNombre");
-      const nombreUsuario = document.getElementById("nombreUsuario");
+    if (user) {
+        // Mostrar secciones
+        document.getElementById("infoUsuario").style.display = "block";
+        document.getElementById("perfilFlotante").style.display = "flex";
+        document.getElementById("btnLogin").style.display = "none";
 
-      if (user) {
-        // Ocultar botón login
-        btnLogin.style.display = "none";
+        // Nombre arriba
+        document.getElementById("nombreUsuario").textContent = user.nombre;
 
-        // Mostrar info en el centro
-        info.style.display = "block";
-        nombreUsuario.textContent = user.nombre;
-
-        // Mini perfil visible
-        miniPerfil.style.display = "inline-block";
-        miniFoto.src = user.foto;
-        miniNombre.textContent = user.nombre;
-      } else {
-        // No hay sesión
-        btnLogin.style.display = "inline";
-        info.style.display = "none";
-        miniPerfil.style.display = "none";
-      }
+        // Panel flotante
+        document.getElementById("nombreMini").textContent = user.nombre;
+        document.getElementById("correoMini").textContent = user.correo;
+        document.getElementById("fotoUsuarioMini").src = user.foto || "img/default.jpg";
     }
 
-    // Cargar al entrar
-    cargarUsuarioEnUI();
-
-    // Escuchar cambios desde otras páginas (perfil.js)
-    window.addEventListener("storage", (e) => {
-      if (e.key === "usuarioActivo") {
-        cargarUsuarioEnUI();
-      }
+    // Cerrar sesión
+    document.getElementById("btnCerrarSesion").addEventListener("click", () => {
+        localStorage.removeItem("usuario");
+        window.location.reload();
     });
-
-    window.addEventListener("actualizarUsuarioUI", cargarUsuarioEnUI);
   </script>
 
-  <!-- Scripts del carrusel -->
+  <!-- JS originales -->
   <script src="Scripts/sesion-global.js"></script>
   <script src="Scripts/app.js"></script>
-
 </body>
 </html>
