@@ -96,8 +96,57 @@
     });
   </script>
 
+ <script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const user = JSON.parse(localStorage.getItem("usuarioActivo"));
+  const contenedor = document.getElementById("usuarioNav");
+  const btnLogin = document.getElementById("btnLogin");
+
+  // No hay usuario → mostrar botón login
+  if (!user) {
+    btnLogin.style.display = "inline-block";
+    contenedor.innerHTML = "";
+    return;
+  }
+
+  // Hay usuario → ocultar login
+  btnLogin.style.display = "none";
+
+  const foto = user.foto && user.foto.trim() !== "" ? user.foto : "Img/default.png";
+
+  contenedor.innerHTML = `
+    <div class="usuario-box" id="btnUsuarioNav">
+      <img src="${foto}" alt="Foto del usuario">
+      <span>${user.nombre}</span>
+    </div>
+
+    <div class="usuario-menu" id="menuFlotanteNav">
+      <p><b>${user.nombre}</b></p>
+      <p>${user.correo}</p>
+      <hr>
+      <button onclick="location.href='cuenta.html'">Mi cuenta</button>
+      <button class="logout" onclick="cerrarSesion()">Cerrar sesión</button>
+    </div>
+  `;
+
+  const btnUser = document.getElementById("btnUsuarioNav");
+  const menu = document.getElementById("menuFlotanteNav");
+
+  btnUser.addEventListener("click", () => {
+    menu.classList.toggle("activo");
+  });
+
+});
+
+function cerrarSesion() {
+  localStorage.removeItem("usuarioActivo");
+  location.href = "login.html";
+}
+</script>
+
+
 <script src="Scripts/sesion-global.js"></script>
-<script src="Scripts/sesion-global2.js"></script>
 
 </body>
 </html>
