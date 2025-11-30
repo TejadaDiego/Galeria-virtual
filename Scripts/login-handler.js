@@ -71,13 +71,13 @@ document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => {
                 switch (usuario.tipo) {
                     case "admin":
-                        window.location.href = "panel_admin.html";
+                        window.location.href = "login-admin.html";
                         break;
                     case "comprador":
-                        window.location.href = "panel_comprador.html";
+                        window.location.href = "login-comprador.html";
                         break;
                     case "estudiante":
-                        window.location.href = "panel_estudiante.html";
+                        window.location.href = "login-estudiante.html";
                         break;
                     default:
                         window.location.href = "inicio.html";
