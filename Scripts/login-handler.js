@@ -1,31 +1,50 @@
-document.getElementById("loginForm").addEventListener("submit", function (e) {
-    e.preventDefault();
+document.addEventListener("DOMContentLoaded", () => {
 
-    const email = e.target.email.value.trim();
-    const password = e.target.password.value.trim();
+    const form = document.getElementById("loginForm");
+    if (!form) return;
 
-    // OBTENER LISTA DE USUARIOS REGISTRADOS
-    const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-    // BUSCAR USUARIO
-    const usuarioEncontrado = usuarios.find(
-        (u) => u.email === email && u.password === password
-    );
+        const formData = new FormData(form);
 
-    if (!usuarioEncontrado) {
-        alert("❌ Correo o contraseña incorrectos.");
-        return;
-    }
+        try {
+            const res = await fetch("login.php", {
+                method: "POST",
+                body: formData
+            });
 
-    // GUARDAR USUARIO ACTIVO
-    const usuarioActivo = {
-        nombre: usuarioEncontrado.nombre,
-        correo: usuarioEncontrado.email,
-        foto: usuarioEncontrado.foto || "Img/default.png"
-    };
+            const data = await res.json();
+            console.log("Respuesta del servidor:", data);
 
-    localStorage.setItem("usuario", JSON.stringify(usuarioActivo));
+            if (!data.success) {
+                alert(data.error || "Error al iniciar sesión");
+                return;
+            }
 
-    alert("✅ Inicio de sesión exitoso");
-    window.location.href = "inicio.html";
+            // GUARDAR DATOS CORRECTAMENTE
+            localStorage.setItem("usuarioActivo", JSON.stringify(data.usuario));
+
+            alert("Inicio de sesión exitoso");
+
+            // Redirigir según tipo
+            switch (data.usuario.tipo) {
+                case "admin":
+                    window.location.href = "panel_admin.html";
+                    break;
+                case "comprador":
+                    window.location.href = "panel_comprador.html";
+                    break;
+                case "estudiante":
+                    window.location.href = "panel_estudiante.html";
+                    break;
+                default:
+                    window.location.href = "inicio.html";
+            }
+
+        } catch (err) {
+            console.error(err);
+            alert("Error de conexión con el servidor");
+        }
+    });
 });
