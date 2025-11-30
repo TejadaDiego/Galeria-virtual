@@ -54,3 +54,8 @@ window.addEventListener("DOMContentLoaded", () => {
     actualizarNavbar(usuario);
   });
 });
+
+// --- LIMPIAR BLOQUES ANTIGUOS QUE SE MUESTRAN EN EL CENTRO ---
+document.querySelectorAll(".perfil-info, .perfil-detalle, #bloqueUsuario, .user-panel")
+  .forEach(el => el.remove());
+

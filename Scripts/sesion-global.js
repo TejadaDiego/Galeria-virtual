@@ -52,3 +52,7 @@ function cerrarSesion() {
     localStorage.removeItem("usuarioActivo");
     location.href = "login.html";
 }
+
+// --- ELIMINAR BLOQUES INSERTADOS EN EL CENTRO ---
+document.querySelectorAll(".perfil-info, .perfil-detalle, #bloqueUsuario, .user-panel")
+  .forEach(el => el.remove());
