@@ -10,15 +10,15 @@ body {
 }
 
 /* ===========================
-   NAVBAR (ya tienes)
+   NAVBAR (centrada)
 =========================== */
 .navbar {
     background: #0b0b12;
     padding: 10px 40px;
     display: flex;
-    justify-content: center;
+    justify-content: center;   /* ← CENTRA TODO EL CONTENIDO */
     align-items: center;
-    gap: 60px;
+    gap: 60px;                 /* ← SEPARACIÓN EQUILIBRADA */
     border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
@@ -26,7 +26,7 @@ body {
     display: flex;
     list-style: none;
     gap: 25px;
-    justify-content: center;
+    justify-content: center;   /* ← CENTRA EL MENÚ */
 }
 
 .navbar-menu a {
@@ -51,6 +51,7 @@ body {
     border-radius: 10px;
     cursor: pointer;
     transition: 0.3s;
+    margin-right: 25px;        /* ← MANTENIDO COMO LO TENÍAS */
 }
 
 .cart-box:hover {
@@ -177,14 +178,10 @@ body {
     background: #7c3aed;
     transform: scale(1.08);
 }
+
 .item-img {
     width: 60px;
     height: 60px;
     border-radius: 8px;
     object-fit: cover;
-}
-
-/* mover carrito un poco hacia la izquierda */
-.cart-box {
-    margin-right: 25px;
 }
