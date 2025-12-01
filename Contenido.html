@@ -14,27 +14,77 @@
 <!-- ==== NAVBAR ==== -->
 <!-- ==== NAVBAR ==== -->
 <!-- === NAVBAR GLOBAL === -->
+<!-- === NAVBAR UNIVERSAL === -->
 <nav class="navbar">
-  <ul class="navbar-menu">
-      <li><a href="inicio.html">Inicio</a></li>
-      <li><a href="Sobre_nosotros.html">Nosotros</a></li>
-      <li><a href="Contenido.html">Contenido</a></li>
-      <li><a href="publicar.html">Publicar +</a></li>
+  <div class="navbar-logo">Galería Virtual</div>
 
-      <!-- Botón login (SE OCULTA AUTOMÁTICAMENTE SI HAY USUARIO) -->
-      <li><a id="btnLogin" href="login.html">Iniciar sesión</a></li>
+  <div class="navbar-links">
+    <a href="inicio.html">Inicio</a>
+    <a href="Sobre_nosotros.html">Nosotros</a>
+    <a href="Contenido.html">Contenido</a>
+    <a href="publicar.html">Publicar +</a>
 
-      <!-- Aquí se pone foto + nombre del usuario -->
-      <li id="navbarUserBox" class="usuario-box"></li>
-  </ul>
+    <!-- Botón login -->
+    <a id="btnLogin" href="login.html">Iniciar sesión</a>
 
-  <!-- (Opcional) Carrito si lo necesitas -->
-  <div class="cart-box" onclick="location.href='carrito.html'">
-    <span id="cartCount">0</span> 🛒
+    <!-- Contenedor donde irá foto + nombre -->
+    <div id="navbarUserBox" class="navbar-user-box"></div>
+
+    <!-- (Opcional) Carrito si lo necesitas --> 
+    <div class="cart-box" onclick="location.href='carrito.html'"> 
+      <span id="cartCount">0</span> 🛒 </div>
   </div>
 </nav>
 
-</nav>
+<style>
+/* Ajustes del navbar para que funcione igual en todas las páginas */
+.navbar {
+  width: 100%;
+  padding: 20px;
+  background: #0d0b1f;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-logo {
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+}
+
+.navbar-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.navbar-links a.active {
+  color: #b34cff;
+}
+
+.navbar-user-box {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.navbar-user-box img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #a569ff;
+}
+</style>
+
 
 <!-- ==== TÍTULO ==== -->
 <h1 class="titulo">Catálogo de Productos</h1>
