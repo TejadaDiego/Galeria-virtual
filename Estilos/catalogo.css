@@ -182,3 +182,7 @@ body {
     object-fit: cover;
 }
 
+/* mover carrito un poco hacia la izquierda */
+.cart-box {
+    margin-right: 25px;
+}
