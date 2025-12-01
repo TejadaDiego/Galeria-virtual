@@ -16,8 +16,9 @@ body {
     background: #0b0b12;
     padding: 10px 40px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    gap: 60px;
     border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
@@ -25,6 +26,7 @@ body {
     display: flex;
     list-style: none;
     gap: 25px;
+    justify-content: center;
 }
 
 .navbar-menu a {
