@@ -14,7 +14,7 @@ body {
 =========================== */
 .navbar {
     background: #0b0b12;
-    padding: 15px 40px;
+    padding: 20px 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
