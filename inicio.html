@@ -5,89 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio</title>
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #111;
-            color: white;
-        }
-
-        /* NAV SIMPLE */
-        header {
-            padding: 15px;
-            background: rgba(0,0,0,0.6);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        a {
-            color: white;
-            text-decoration: none;
-            margin-left: 20px;
-        }
-
-        /* CARRUSEL */
-        .carousel-container {
-            width: 100%;
-            max-width: 1000px;
-            margin: 40px auto;
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-        }
-
-        .carousel-slide {
-            display: none;
-            width: 100%;
-        }
-
-        .carousel-slide img {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-        }
-
-        .active {
-            display: block;
-        }
-
-        /* Botones */
-        .prev, .next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0,0,0,0.5);
-            color: white;
-            font-size: 30px;
-            padding: 5px 12px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .prev { left: 10px; }
-        .next { right: 10px; }
-
-        /* Puntos */
-        .dots {
-            text-align: center;
-            margin-top: 15px;
-        }
-        .dot {
-            height: 12px;
-            width: 12px;
-            margin: 0 5px;
-            background: #bbb;
-            border-radius: 50%;
-            display: inline-block;
-            cursor: pointer;
-        }
-        .dot.active-dot {
-            background: #6c42ff;
-        }
-
-    </style>
+    <LInk href="Estilos/styleC.css"></LInk>
 </head>
 <body>
 
@@ -127,39 +45,8 @@
         <span class="dot"></span>
         <span class="dot"></span>
     </div>
-
-    <script>
-        let index = 0;
-        const slides = document.querySelectorAll(".carousel-slide");
-        const dots = document.querySelectorAll(".dot");
-
-        function showSlide(i) {
-            slides.forEach(s => s.classList.remove("active"));
-            dots.forEach(d => d.classList.remove("active-dot"));
-
-            slides[i].classList.add("active");
-            dots[i].classList.add("active-dot");
-        }
-
-        function nextSlide() {
-            index = (index + 1) % slides.length;
-            showSlide(index);
-        }
-
-        function prevSlide() {
-            index = (index - 1 + slides.length) % slides.length;
-            showSlide(index);
-        }
-
-        document.querySelector(".next").onclick = nextSlide;
-        document.querySelector(".prev").onclick = prevSlide;
-
-        dots.forEach((dot, i) => {
-            dot.onclick = () => { index = i; showSlide(index); };
-        });
-
-        setInterval(nextSlide, 4000); // autoplay
-    </script>
+<Script src="Scripts/app.js"></Script>
+<script src="Scripts/sesion-global.js"></script>
 
 </body>
 </html>
