@@ -5,26 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
 
-    <!-- SOLO UN CSS -->
+    <!-- CSS principal -->
     <link rel="stylesheet" href="Estilos/login.css">
 </head>
 
 <body>
 
-    <!-- NAVBAR -->
+    <!-- ======================================================== -->
+    <!--                     NAVBAR GLOBAL                        -->
+    <!-- ======================================================== -->
     <nav class="navbar">
         <h2 class="logo">Galería <span>Virtual</span></h2>
-        <ul>
+
+        <ul class="navbar-links">
             <li><a href="inicio.html">Inicio</a></li>
             <li><a href="Sobre_nosotros.html">Nosotros</a></li>
             <li><a href="Contenido.html">Contenido</a></li>
             <li><a href="publicar.html">Publicar +</a></li>
+
+            <!-- Botón login (oculto si hay usuario en localStorage) -->
             <li><a id="btnLoginNav" href="login.html">Iniciar sesión</a></li>
+
+            <!-- Aquí se carga foto + nombre -->
+            <li id="navbarUserBox" class="usuario-box"></li>
         </ul>
     </nav>
 
+
+
     <!-- ======================================================== -->
-    <!--            PANTALLA 1 → SELECCIÓN DE ROL                -->
+    <!--          PANTALLA 1 → SELECCIÓN DE TIPO DE LOGIN         -->
     <!-- ======================================================== -->
 
     <div class="login-card" id="selector-roles">
@@ -45,18 +55,19 @@
         </button>
     </div>
 
+
     <!-- ======================================================== -->
-    <!--            PANTALLA 2 → FORMULARIO LOGIN                -->
+    <!--                    PANTALLA LOGIN FORM                   -->
     <!-- ======================================================== -->
 
-    <div class="login-card" id="formulario-login" style="display: none;">
+    <div class="login-card" id="formulario-login" style="display:none;">
         <img class="login-logo" src="https://cdn-icons-png.flaticon.com/512/847/847969.png">
 
         <h2 id="titulo-login">Acceso al Sistema</h2>
 
         <form id="loginForm">
 
-            <!-- Guardamos el tipo de usuario -->
+            <!-- Campo oculto con el tipo seleccionado -->
             <input type="hidden" id="tipoSeleccionado" name="tipo" value="">
 
             <div class="input-group">
@@ -76,14 +87,19 @@
 
         <p class="volver" onclick="volverRoles()">⬅ Volver</p>
 
-        <p class="error" id="mensajeError">Credenciales incorrectas</p>
+        <p class="error" id="mensajeError" style="display:none;">Credenciales incorrectas</p>
     </div>
 
+
+
     <!-- ======================================================== -->
-    <!--                      SCRIPTS                             -->
+    <!--                       SCRIPTS                            -->
     <!-- ======================================================== -->
 
     <script>
+        /* ==========================
+           Cambio de Pantallas
+        ========================== */
         function seleccionarRol(rol) {
             document.getElementById("selector-roles").style.display = "none";
             document.getElementById("formulario-login").style.display = "block";
@@ -103,8 +119,12 @@
         }
     </script>
 
-    <!-- HANDLER -->
+
+    <!-- Script que maneja el LOGIN (fetch → login.php) -->
     <script src="Scripts/login-handler.js"></script>
+
+    <!-- Navbar global: muestra usuario logueado -->
+    <script src="Scripts/sesion-global.js"></script>
 
 </body>
 </html>

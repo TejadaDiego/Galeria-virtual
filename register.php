@@ -1,18 +1,27 @@
 <?php
 require_once __DIR__ . "/conexion.php";
 
-$nombre = trim($_POST['nombre'] ?? '');
-$email = trim($_POST['email'] ?? '');
+// Leer datos enviados
+$nombre   = trim($_POST['nombre'] ?? '');
+$email    = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
-$tipo = $_POST['tipo'] ?? 'Comprador/Vendedor';
+$tipo     = $_POST['tipo'] ?? 'Comprador/Vendedor';
 
+// Validación de campos vacíos
 if ($nombre === '' || $email === '' || $password === '') {
     http_response_code(400);
     echo "Rellena todos los campos";
     exit;
 }
 
-// Verificar email único
+// Validar email correcto
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    http_response_code(400);
+    echo "Correo inválido";
+    exit;
+}
+
+// Verificar si el email ya existe
 $stmt = $conn->prepare("SELECT id FROM usuarios WHERE email = ?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
@@ -25,11 +34,18 @@ if ($stmt->num_rows > 0) {
 }
 $stmt->close();
 
-// HASH CORRECTO → password_hash se guarda en password_hash
+// Encriptar contraseña correctamente
 $hash = password_hash($password, PASSWORD_DEFAULT);
 
-// ESTA ES LA CONSULTA CORRECTA:
-$sql = "INSERT INTO usuarios (nombre, email, password_hash, tipo) VALUES (?, ?, ?, ?)";  
+// ============================
+// Registrar usuario
+// ============================
+$sql = "INSERT INTO usuarios (nombre, email, password, tipo, foto) 
+        VALUES (?, ?, ?, ?, ?)";
+
+// Foto por defecto
+$fotoDefault = "img/default.png";
+
 $stmt = $conn->prepare($sql);
 
 if (!$stmt) {
@@ -38,8 +54,15 @@ if (!$stmt) {
     exit;
 }
 
-$stmt->bind_param("ssss", $nombre, $email, $hash, $tipo);
+$stmt->bind_param("sssss", 
+    $nombre, 
+    $email, 
+    $hash, 
+    $tipo, 
+    $fotoDefault
+);
 
+// Intentar registrar
 if ($stmt->execute()) {
     echo "ok";
 } else {

@@ -2,42 +2,105 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Perfil</title>
+    <title>Mi Perfil</title>
     <link rel="stylesheet" href="Estilos/perfil.css">
+
+    <!-- NAVBAR universal -->
+    <style>
+        .navbar {
+            width: 100%;
+            padding: 20px;
+            background: #0d0b1f;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar-logo {
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .navbar-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+        .navbar-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 17px;
+        }
+        .navbar-user-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        .navbar-user-box img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #a569ff;
+        }
+    </style>
 </head>
 
 <body>
 
-    <div class="perfil-container">
-        <img id="fotoPerfil" class="perfil-foto" src="Img/default.png">
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="navbar-logo">Galería Virtual</div>
 
-        <h1 id="nombrePerfil" class="perfil-nombre">Usuario</h1>
+    <div class="navbar-links">
+        <a href="inicio.html">Inicio</a>
+        <a href="Sobre_nosotros.html">Nosotros</a>
+        <a href="Contenido.html">Contenido</a>
+        <a href="publicar.html">Publicar +</a>
 
-        <div class="perfil-info">
-            <p><span>Correo:</span> <span id="correoPerfil"></span></p>
-        </div>
+        <a id="btnLogin" href="login.html">Iniciar sesión</a>
 
-        <div class="perfil-botones">
-            <a href="editar-perfil.html" class="btn-perfil">Editar Perfil</a>
-            <a href="login.html" class="btn-perfil" onclick="cerrarSesion()">Cerrar Sesión</a>
-        </div>
+        <!-- Aquí sale foto + nombre -->
+        <div id="navbarUserBox" class="navbar-user-box"></div>
+    </div>
+</nav>
+
+<!-- PERFIL -->
+<div class="perfil-container">
+
+    <img id="fotoPerfil" class="perfil-foto" src="img/default.png">
+
+    <h1 id="nombrePerfil" class="perfil-nombre">Usuario</h1>
+
+    <div class="perfil-info">
+        <p><span>Correo:</span> <span id="correoPerfil"></span></p>
     </div>
 
-    <script>
-        const user = JSON.parse(localStorage.getItem("usuarioActivo"));
+    <div class="perfil-botones">
+        <a href="editar-perfil.html" class="btn-perfil">Editar Perfil</a>
+        <button class="btn-perfil" onclick="cerrarSesion()">Cerrar Sesión</button>
+    </div>
+</div>
 
-        if (!user) {
-            location.href = "login.html";
-        }
+<!-- SCRIPT PERFIL -->
+<script>
+    const user = JSON.parse(localStorage.getItem("usuarioActivo"));
 
-        document.getElementById("fotoPerfil").src = user.foto || "Img/default.png";
-        document.getElementById("nombrePerfil").textContent = user.nombre;
-        document.getElementById("correoPerfil").textContent = user.correo;
+    if (!user) {
+        location.href = "login.html";
+    }
 
-        function cerrarSesion() {
-          localStorage.removeItem("usuarioActivo");
-        }
-    </script>
+    document.getElementById("fotoPerfil").src = user.foto || "img/default.png";
+    document.getElementById("nombrePerfil").textContent = user.nombre;
+    document.getElementById("correoPerfil").textContent = user.correo || user.email;
+
+    function cerrarSesion() {
+        localStorage.removeItem("usuarioActivo");
+        window.location.href = "login.html";
+    }
+</script>
+
+<script src="Scripts/sesion-global.js"></script>
 
 </body>
 </html>

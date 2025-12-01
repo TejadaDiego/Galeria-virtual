@@ -4,10 +4,22 @@ require_once __DIR__ . "/conexion.php";
 
 header("Content-Type: application/json");
 
-$email = $_POST['email'] ?? "";
+// 1. Recibir datos
+$email = trim($_POST['email'] ?? "");
 $password = $_POST['password'] ?? "";
 
-$sql = $conn->prepare("SELECT id, password_hash, nombre, foto, tipo FROM usuarios WHERE email=?");
+// Validación inicial
+if ($email === "" || $password === "") {
+    echo json_encode(["error" => "Completa todos los campos."]);
+    exit;
+}
+
+// 2. Buscar usuario en BD
+$sql = $conn->prepare("
+    SELECT id, nombre, email, password_hash, foto, tipo 
+    FROM usuarios 
+    WHERE email = ?
+");
 $sql->bind_param("s", $email);
 $sql->execute();
 $sql->store_result();
@@ -17,30 +29,32 @@ if ($sql->num_rows === 0) {
     exit;
 }
 
-$sql->bind_result($id, $hash, $nombre, $foto, $tipo);
+// 3. Obtener datos
+$sql->bind_result($id, $nombre, $correoDB, $hash, $foto, $tipo);
 $sql->fetch();
 
-// Verificar contraseña
+// 4. Verificar contraseña
 if (!password_verify($password, $hash)) {
     echo json_encode(["error" => "Contraseña incorrecta"]);
     exit;
 }
 
-// Guardar sesión PHP
+// 5. Guardar datos en sesión PHP
 $_SESSION['user_id'] = $id;
 $_SESSION['nombre'] = $nombre;
-$_SESSION['foto'] = $foto;
-$_SESSION['tipo'] = $tipo;
+$_SESSION['foto']   = $foto;
+$_SESSION['email']  = $correoDB;
+$_SESSION['tipo']   = $tipo;
 
-// Respuesta para JavaScript
+// 6. Enviar respuesta JSON para localStorage
 echo json_encode([
     "success" => true,
     "usuario" => [
-        "id" => $id,
+        "id"     => $id,
         "nombre" => $nombre,
-        "email" => $email,
-        "foto" => $foto,
-        "tipo" => $tipo
+        "email"  => $correoDB,
+        "foto"   => $foto ?: "img/default.png",
+        "tipo"   => $tipo
     ]
 ]);
 ?>

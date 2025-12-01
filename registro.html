@@ -1,161 +1,94 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Registro – Galería Virtual</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrarse - Galería Virtual</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(135deg, #7f00ff, #e100ff);
-      min-height: 100vh;
-      font-family: 'Poppins', sans-serif;
-      color: #fff;
-    }
-
-    nav {
-      width: 100%;
-      background: rgba(0, 0, 0, 0.70);
-      backdrop-filter: blur(10px);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 40px;
-      position: fixed;
-      top: 0;
-      z-index: 999;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .navbar-logo {
-      font-size: 1.4rem;
-      font-weight: bold;
-    }
-
-    .navbar-logo span {
-      color: #e3b0ff;
-    }
-
-    .navbar-links a {
-      color: white;
-      text-decoration: none;
-      margin-left: 20px;
-      font-weight: 500;
-      transition: 0.3s;
-    }
-
-    .navbar-links a:hover {
-      color: #ffd6ff;
-    }
-
-    .card {
-      width: 380px;
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(10px);
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
-      text-align: center;
-      margin: 130px auto;
-    }
-
-    .card input,
-    .card select {
-      width: 100%;
-      margin-top: 12px;
-      padding: 12px;
-      border-radius: 10px;
-      border: none;
-      font-size: 15px;
-      outline: none;
-    }
-
-    .card button {
-      width: 100%;
-      margin-top: 18px;
-      padding: 12px;
-      font-size: 16px;
-      font-weight: bold;
-      background: #4A00E0;
-      border: none;
-      color: #fff;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .card button:hover {
-      background: #6A00FF;
-      transform: scale(1.05);
-    }
-
-    .regresar {
-      display: block;
-      margin-top: 20px;
-      text-decoration: none;
-      color: #fff;
-      font-weight: 600;
-    }
-  </style>
+    <link rel="stylesheet" href="Estilos/login.css">
+    <link rel="stylesheet" href="Estilos/estilos.css">
 
 </head>
 <body>
 
-  <nav>
-    <div class="navbar-logo">Galería <span>Virtual</span></div>
-    <div class="navbar-links">
-      <a href="inicio.html">Inicio</a>
-      <a href="Sobre_nosotros.html">Nosotros</a>
-      <a href="Contenido.html">Contenido</a>
-      <a href="publicar.html">Publicar +</a>
-      <a href="login.html">Iniciar sesión</a>
+    <!-- ================= NAVBAR GLOBAL ================= -->
+    <nav class="navbar">
+        <div class="navbar-logo">Galería <span style="color:#b34cff">Virtual</span></div>
+
+        <div class="navbar-links">
+            <a href="inicio.html">Inicio</a>
+            <a href="Sobre_nosotros.html">Nosotros</a>
+            <a href="Contenido.html">Contenido</a>
+            <a href="publicar.html">Publicar +</a>
+
+            <!-- Login (se oculta si hay usuario) -->
+            <a id="btnLogin" href="login.html">Iniciar sesión</a>
+
+            <!-- Aquí aparecerá foto + nombre -->
+            <div id="navbarUserBox" class="navbar-user-box"></div>
+        </div>
+    </nav>
+
+    <!-- =============== FORMULARIO DE REGISTRO ================== -->
+    <div class="login-container">
+        <h2>Crear una cuenta</h2>
+
+        <form id="registerForm" enctype="multipart/form-data">
+            <label>Nombre completo</label>
+            <input type="text" name="nombre" required>
+
+            <label>Correo electrónico</label>
+            <input type="email" name="email" required>
+
+            <label>Contraseña</label>
+            <input type="password" name="password" required>
+
+            <label>Foto de perfil (opcional)</label>
+            <input type="file" name="foto" accept="image/*">
+
+            <button type="submit">Registrarme</button>
+
+            <p class="login-link">
+                ¿Ya tienes una cuenta? <a href="login.html">Inicia sesión</a>
+            </p>
+        </form>
     </div>
-  </nav>
 
-  <div class="card">
-    <h2>Crear cuenta</h2>
+    <!-- =============== SCRIPT DE REGISTRO ================= -->
+    <script>
+        document.getElementById("registerForm").addEventListener("submit", async function (e) {
+            e.preventDefault();
 
-    <form id="formRegistro">
-      <input name="nombre" required placeholder="Nombre completo">
-      <input name="email" type="email" required placeholder="Correo electrónico">
-      <input name="password" type="password" required placeholder="Contraseña">
+            const formData = new FormData(this);
 
-      <select name="tipo">
-        <option value="comprador">Comprador/Vendedor</option>
-        <option value="estudiante">Estudiante</option>
-        <option value="admin">Administrador</option>
-      </select>
+            const res = await fetch("Php/register.php", {
+                method: "POST",
+                body: formData
+            });
 
-      <button type="submit">Registrarme</button>
-    </form>
+            const text = await res.text();
+            console.log("Respuesta del servidor:", text);
 
-    <a class="regresar" href="login.html">¿Ya tienes cuenta? Inicia sesión</a>
-  </div>
+            try {
+                const data = JSON.parse(text);
 
-  <script>
-    document.getElementById('formRegistro').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const f = new FormData(e.target);
+                if (data.success) {
+                    alert("Registro exitoso. Bienvenido " + data.usuario.nombre);
 
-      const res = await fetch('register.php', {
-        method: 'POST',
-        body: f
-      });
+                    // Guardar usuario en localStorage
+                    localStorage.setItem("usuarioActivo", JSON.stringify(data.usuario));
 
-      const r = await res.text();
+                    window.location.href = "inicio.html";
+                } else {
+                    alert("Error: " + data.error);
+                }
+            } catch {
+                alert("Error inesperado del servidor.");
+            }
+        });
+    </script>
 
-      if (r.trim() === "ok") {
-        alert("Registro exitoso");
-        window.location.href = "login.html";
-      } else {
-        alert(r);
-      }
-    });
-  </script>
+    <script src="Scripts/sesion-global.js"></script>
 
 </body>
 </html>

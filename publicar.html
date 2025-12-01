@@ -3,86 +3,85 @@
 <head>
   <meta charset="UTF-8">
   <title>Publicar Trabajo - Galería Virtual</title>
+
+  <!-- ESTILOS GENERALES -->
   <link rel="stylesheet" href="Estilos/publicar.css">
+
+  <!-- NAVBAR GLOBAL -->
+  <style>
+    .navbar {
+      width: 100%;
+      padding: 20px;
+      background: #0d0b1f;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-logo {
+      color: white;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .navbar-links {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+    }
+
+    .navbar-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 17px;
+    }
+
+    .navbar-links a.active {
+      color: #b34cff;
+    }
+
+    .navbar-user-box {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .navbar-user-box img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #a569ff;
+    }
+  </style>
 </head>
 
 <body>
 
-   <!-- === NAVBAR UNIVERSAL === -->
-<nav class="navbar">
-  <div class="navbar-logo">Galería Virtual</div>
+  <!-- === NAVBAR UNIVERSAL === -->
+  <nav class="navbar">
+    <div class="navbar-logo">Galería Virtual</div>
 
-  <div class="navbar-links">
-    <a href="inicio.html">Inicio</a>
-    <a href="Sobre_nosotros.html">Nosotros</a>
-    <a href="Contenido.html">Contenido</a>
-    <a href="publicar.html">Publicar +</a>
+    <div class="navbar-links">
+      <a href="inicio.html">Inicio</a>
+      <a href="Sobre_nosotros.html">Nosotros</a>
+      <a href="Contenido.html">Contenido</a>
+      <a href="publicar.html" class="active">Publicar +</a>
 
-    <!-- Botón login -->
-    <a id="btnLogin" href="login.html">Iniciar sesión</a>
+      <!-- BOTÓN LOGIN -->
+      <a id="btnLogin" href="login.html">Iniciar sesión</a>
 
-    <!-- Contenedor donde irá foto + nombre -->
-    <div id="navbarUserBox" class="navbar-user-box"></div>
-  </div>
-</nav>
-
-<style>
-/* Ajustes del navbar para que funcione igual en todas las páginas */
-.navbar {
-  width: 100%;
-  padding: 20px;
-  background: #0d0b1f;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.navbar-logo {
-  color: white;
-  font-size: 22px;
-  font-weight: bold;
-}
-
-.navbar-links {
-  display: flex;
-  gap: 25px;
-  align-items: center;
-}
-
-.navbar-links a {
-  color: white;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-.navbar-links a.active {
-  color: #b34cff;
-}
-
-.navbar-user-box {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  cursor: pointer;
-}
-
-.navbar-user-box img {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #a569ff;
-}
-</style>
-
-
-
+      <!-- FOTO + NOMBRE DEL USUARIO -->
+      <div id="navbarUserBox" class="navbar-user-box"></div>
+    </div>
+  </nav>
 
   <!-- === CONTENEDOR DEL FORMULARIO === -->
   <div class="form-container">
     <h2>Publicar nuevo trabajo</h2>
 
-    <form id="formPublicar" action="Php/publicar_handler.php" method="post" enctype="multipart/form-data">
+    <form id="formPublicar" action="publicar_handler.php" method="post" enctype="multipart/form-data">
 
       <label for="titulo">Nombre del trabajo:</label>
       <input type="text" id="titulo" name="titulo" required>
@@ -96,18 +95,18 @@
       <label for="imagen">Imagen del trabajo:</label>
       <input type="file" id="imagen" name="imagen" accept="image/*" required>
 
-      <!-- ID del usuario -->
+      <!-- ID DEL USUARIO -->
       <input type="hidden" name="usuario_id" id="usuario_id">
 
       <div class="preview">
-        <img id="previewImg" alt="Vista previa del trabajo" style="display:none;">
+        <img id="previewImg" style="display:none;" alt="Vista previa">
       </div>
 
       <button type="submit">Subir trabajo</button>
     </form>
   </div>
 
-  <!-- === Vista previa de imagen === -->
+  <!-- === Vista previa de la imagen === -->
   <script>
     document.getElementById("imagen").addEventListener("change", function () {
       const file = this.files[0];
@@ -120,7 +119,7 @@
     });
   </script>
 
-  <!-- === Carga del ID del usuario === -->
+  <!-- === Cargar ID DEL USUARIO DESDE localStorage === -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
@@ -130,7 +129,7 @@
     });
   </script>
 
-  <!-- === Enviar formulario por AJAX === -->
+  <!-- === Enviar formulario AJAX === -->
   <script>
     document.getElementById('formPublicar').addEventListener('submit', async function (e) {
       e.preventDefault();
@@ -139,16 +138,16 @@
       const res = await fetch(this.action, { method: 'POST', body: form });
       const data = await res.json();
 
-      if (res.ok && data.success) {
+      if (data.success) {
         alert("Trabajo publicado con éxito");
         window.location.href = "Contenido.html";
       } else {
-        alert("Error: " + (data.error || 'Desconocido'));
+        alert("Error: " + data.error);
       }
     });
   </script>
 
-  <!-- === Mostrar usuario en navbar === -->
+  <!-- === Mostrar usuario en NAVBAR === -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
 
@@ -162,7 +161,6 @@
         return;
       }
 
-      // ocultar boton login
       btnLogin.style.display = "none";
 
       const foto = usuario.foto && usuario.foto.trim() !== ""
@@ -171,7 +169,7 @@
 
       box.innerHTML = `
         <div class="usuario-box" onclick="location.href='cuenta.html'">
-          <img src="${foto}" alt="Usuario">
+          <img src="${foto}">
           <span>${usuario.nombre}</span>
         </div>`;
     });
