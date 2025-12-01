@@ -8,11 +8,12 @@
 
   <!-- Estilos generales -->
   <link rel="stylesheet" href="Estilos/styleC.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-  <!-- ================= NAVBAR UNIVERSAL ================= -->
+  <!-- ================= NAVBAR ================= -->
   <nav class="navbar">
     <div class="navbar-logo">Galería <span style="color:#b34cff">Virtual</span></div>
 
@@ -22,7 +23,7 @@
       <a href="Contenido.html">Contenido</a>
       <a href="publicar.html">Publicar +</a>
 
-      <!-- BOTÓN LOGIN (SE OCULTA SI HAY USUARIO) -->
+      <!-- BOTÓN LOGIN SI NO HAY USUARIO -->
       <a id="btnLogin" class="btn-login" href="login.html">Iniciar sesión</a>
 
       <!-- FOTO + NOMBRE DEL USUARIO -->
@@ -48,26 +49,36 @@
 
   <div class="puntos" id="puntos"></div>
 
-  <!-- ================= SCRIPT NAVBAR GLOBAL ================= -->
+  <!-- ================= SCRIPT NAVBAR ================= -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
+      // Aceptar tanto usuarioActivo como usuario
+      let usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
+
+      if (!usuario) {
+        usuario = JSON.parse(localStorage.getItem("usuario"));
+      }
+
       const userBox = document.getElementById("navbarUserBox");
       const btnLogin = document.getElementById("btnLogin");
 
+      // Si no hay usuario → mostrar botón login
       if (!usuario) {
         userBox.innerHTML = "";
         btnLogin.style.display = "inline-block";
         return;
       }
 
+      // Ocultar botón Login
       btnLogin.style.display = "none";
 
+      // Foto final
       const fotoFinal =
         usuario.foto && usuario.foto.trim() !== ""
           ? usuario.foto
           : "img/default.png";
 
+      // Visual usuario en navbar
       userBox.innerHTML = `
         <div class="usuario-mini" onclick="location.href='cuenta.html'">
           <img src="${fotoFinal}" alt="Foto del usuario">

@@ -11,6 +11,7 @@
 
   <!-- Estilos generales -->
   <link rel="stylesheet" href="Estilos/estilos.css">
+  <link rel="stylesheet" href="Estilos/styleC.css"> <!-- Para usuario y navbar -->
 </head>
 
 <body>
@@ -29,62 +30,12 @@
       <a href="publicar.html">Publicar +</a>
 
       <!-- Botón login -->
-      <a id="btnLogin" href="login.html">Iniciar sesión</a>
+      <a id="btnLogin" class="btn-login" href="login.html">Iniciar sesión</a>
 
-      <!-- Contenedor donde irá foto + nombre -->
-      <div id="navbarUserBox" class="navbar-user-box"></div>
+      <!-- User box dinámico -->
+      <div id="navbarUserBox" class="usuario-box"></div>
     </div>
   </nav>
-
-  <style>
-    /* NAVBAR UNIVERSAL */
-    .navbar {
-      width: 100%;
-      padding: 20px 40px;
-      background: #0d0b1f;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .navbar-logo {
-      color: white;
-      font-size: 25px;
-      font-weight: bold;
-    }
-
-    .navbar-links {
-      display: flex;
-      gap: 30px;
-      align-items: center;
-    }
-
-    .navbar-links a {
-      color: white;
-      text-decoration: none;
-      font-size: 18px;
-    }
-
-    .navbar-links a.active {
-      color: #b34cff;
-      font-weight: bold;
-    }
-
-    .navbar-user-box {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      cursor: pointer;
-    }
-
-    .navbar-user-box img {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #a569ff;
-    }
-  </style>
 
   <!-- SECCIÓN BIENVENIDA -->
   <section id="sobre-inicio" class="inicio-section">
@@ -138,8 +89,42 @@
   <footer>
     <p>© 2025 Galería Virtual | Proyecto Académico</p>
   </footer>
+
+  <!-- Scripts -->
   <script src="Scripts/sesion-global.js"></script>
-    </section>
+
+  <!-- Script para mostrar usuario en navbar -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Buscar usuario guardado
+      let usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
+      if (!usuario) usuario = JSON.parse(localStorage.getItem("usuario"));
+
+      const userBox = document.getElementById("navbarUserBox");
+      const btnLogin = document.getElementById("btnLogin");
+
+      if (!usuario) {
+        btnLogin.style.display = "inline-block";
+        userBox.innerHTML = "";
+        return;
+      }
+
+      btnLogin.style.display = "none";
+
+      const foto = usuario.foto && usuario.foto.trim() !== ""
+        ? usuario.foto
+        : "img/default.png";
+
+      userBox.innerHTML = `
+        <img src="${foto}" alt="Usuario">
+        <span>${usuario.nombre}</span>
+      `;
+
+      userBox.addEventListener("click", () => {
+        document.getElementById("menuUsuario").classList.toggle("activo");
+      });
+    });
+  </script>
 
 </body>
 </html>
