@@ -1,53 +1,43 @@
-function cerrarSesion() {
-    localStorage.removeItem("usuarioActivo");
-    location.href = "login.html";
-}
+// === Sesión global: Mostrar usuario en el navbar ===
+window.addEventListener("DOMContentLoaded", () => {
+  const userBox = document.getElementById("navbarUserBox");
 
-/* =============================================
-   CONTROL ÚNICO DEL NAVBAR (Versión global)
-============================================= */
+  function actualizarNavbar(usuario) {
+    if (!userBox) return;
 
-document.addEventListener("DOMContentLoaded", () => {
-    const usuarioNav = document.getElementById("usuarioNav");
-    const btnLogin = document.getElementById("btnLogin");
-    const user = JSON.parse(localStorage.getItem("usuarioActivo"));
-
-    // No hay usuario
-    if (!user) {
-        if (btnLogin) btnLogin.style.display = "inline-block";
-        if (usuarioNav) usuarioNav.innerHTML = "";
-        return;
+    // Si NO está logueado
+    if (!usuario) {
+      userBox.innerHTML = `
+        <a href="login.html" class="btn-login">Iniciar sesión</a>
+      `;
+      return;
     }
 
-    if (btnLogin) btnLogin.style.display = "none";
+    // Si está logueado
+    const foto = usuario.foto && usuario.foto.trim() !== ""
+      ? usuario.foto
+      : "img/default.png";
 
-    const foto = user.foto && user.foto.trim() !== "" ? user.foto : "Img/default.png";
-
-    usuarioNav.innerHTML = `
-        <div class="usuario-box" id="btnUsuarioNav">
-            <img src="${foto}">
-            <span>${user.nombre}</span>
-        </div>
-        <div class="usuario-menu" id="menuFlotanteNav">
-            <p><b>${user.nombre}</b></p>
-            <p>${user.correo}</p>
-            <hr>
-            <button onclick="location.href='cuenta.html'">Mi cuenta</button>
-            <button class="logout" onclick="cerrarSesion()">Cerrar sesión</button>
-        </div>
+    userBox.innerHTML = `
+      <div class="usuario-mini" id="miniPerfilBtn">
+        <img src="${foto}" alt="User"/>
+        <span>${usuario.nombre}</span>
+      </div>
     `;
 
-    const btnUser = document.getElementById("btnUsuarioNav");
-    const menu = document.getElementById("menuFlotanteNav");
+    // Enviar a cuenta
+    document.getElementById("miniPerfilBtn").onclick = () => {
+      window.location.href = "cuenta.html";
+    };
+  }
 
-    btnUser.addEventListener("click", () => {
-        menu.classList.toggle("activo");
-    });
+  // Inicializar
+  const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
+  actualizarNavbar(usuario);
 
-    // Cerrar menú si clic fuera
-    document.addEventListener("click", (e) => {
-        if (!btnUser.contains(e.target) && !menu.contains(e.target)) {
-            menu.classList.remove("activo");
-        }
-    });
+  // Si se actualiza desde otra pestaña
+  window.addEventListener("storage", () => {
+    const nuevo = JSON.parse(localStorage.getItem("usuarioActivo"));
+    actualizarNavbar(nuevo);
+  });
 });
