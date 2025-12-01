@@ -127,3 +127,26 @@ body {
 .bold {
   color: #5E17EB;
 }
+
+/* Sección nosotros */
+.nosotros-section {
+    padding: 80px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.nosotros-container {
+    max-width: 900px;
+    text-align: center;
+}
+
+.nosotros-container h1 {
+    font-size: 2.4rem;
+    margin-bottom: 20px;
+}
+
+.nosotros-container p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 16px;
+}

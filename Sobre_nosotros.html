@@ -3,44 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sobre Nosotros</title>
+    <title>Nosotros</title>
     <link rel="stylesheet" href="Estilos/style.css">
 </head>
 <body>
 
-    <!-- NAVBAR -->
-    <header>
-        <nav class="navbar">
+    <!-- NAV SUPERIOR -->
+    <header class="header">
+        <nav id="nav-container">
             <div class="logo">
                 <a href="index.html">Galería Virtual</a>
             </div>
 
             <ul class="nav-links">
                 <li><a href="index.html">Inicio</a></li>
-                <li><a href="nosotros.html" class="active">Nosotros</a></li>
+                <li><a class="active" href="nosotros.html">Nosotros</a></li>
                 <li><a href="contacto.html">Contacto</a></li>
             </ul>
+
+            <!-- SECCIÓN USUARIO (usa las clases que me enviaste) -->
+            <div class="usuario-box">
+                <div class="usuario-mini">
+                    <img src="img/user.jpg" alt="Usuario">
+                    <span>Invitado</span>
+                </div>
+                <a href="login.html" class="btn-login">Iniciar Sesión</a>
+            </div>
+
         </nav>
     </header>
 
-    <!-- SECCIÓN NOSOTROS -->
+    <!-- CONTENIDO NOSOTROS -->
     <section class="nosotros-section">
         <div class="nosotros-container">
             <h1>Sobre Nosotros</h1>
             <p>
-                Bienvenido a nuestra galería virtual, un espacio creado para resaltar el arte digital 
-                de una manera moderna, dinámica y accesible. Nuestro objetivo es ofrecer una experiencia 
-                visual atractiva y organizada, donde los usuarios puedan explorar diferentes obras 
-                dentro de un entorno agradable y limpio.
+                Bienvenido a nuestra galería virtual, un proyecto creado para ofrecer una
+                experiencia visual moderna, elegante y accesible. Buscamos mostrar arte digital
+                dentro de un entorno limpio, dinámico y fácil de explorar.
             </p>
-
             <p>
-                Este proyecto ha sido desarrollado con dedicación, siguiendo principios de 
-                diseño web moderno y manteniendo siempre una interfaz intuitiva y agradable.
+                Nuestro propósito es brindar un espacio ordenado, atractivo y diseñado con
+                cuidado para que cada visitante disfrute su recorrido.
             </p>
-
             <p>
-                Gracias por visitar nuestra plataforma. ¡Esperamos que disfrutes tu recorrido!
+                ¡Gracias por visitarnos!
             </p>
         </div>
     </section>
