@@ -18,85 +18,73 @@
   <!-- Fondo decorativo -->
   <div class="fondo"></div>
 
-  <!-- ENCABEZADO -->
-  <header>
-    <div class="container">
-      <div class="logo">
-        <h1>Galería <span>Virtual</span></h1>
-      </div>
+  <!-- === NAVBAR UNIVERSAL === -->
+  <nav class="navbar">
+    <div class="navbar-logo">Galería <span style="color:#b34cff">Virtual</span></div>
 
-      <!-- NAVBAR -->
-      <!-- === NAVBAR GLOBAL === -->
-     <!-- === NAVBAR UNIVERSAL === -->
-<nav class="navbar">
-  <div class="navbar-logo">Galería Virtual</div>
+    <div class="navbar-links">
+      <a href="inicio.html">Inicio</a>
+      <a href="Sobre_nosotros.html" class="active">Nosotros</a>
+      <a href="Contenido.html">Contenido</a>
+      <a href="publicar.html">Publicar +</a>
 
-  <div class="navbar-links">
-    <a href="inicio.html">Inicio</a>
-    <a href="Sobre_nosotros.html">Nosotros</a>
-    <a href="Contenido.html">Contenido</a>
-    <a href="publicar.html">Publicar +</a>
+      <!-- Botón login -->
+      <a id="btnLogin" href="login.html">Iniciar sesión</a>
 
-    <!-- Botón login -->
-    <a id="btnLogin" href="login.html">Iniciar sesión</a>
-
-    <!-- Contenedor donde irá foto + nombre -->
-    <div id="navbarUserBox" class="navbar-user-box"></div>
-  </div>
-</nav>
-
-<style>
-/* Ajustes del navbar para que funcione igual en todas las páginas */
-.navbar {
-  width: 100%;
-  padding: 20px;
-  background: #0d0b1f;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.navbar-logo {
-  color: white;
-  font-size: 22px;
-  font-weight: bold;
-}
-
-.navbar-links {
-  display: flex;
-  gap: 25px;
-  align-items: center;
-}
-
-.navbar-links a {
-  color: white;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-.navbar-links a.active {
-  color: #b34cff;
-}
-
-.navbar-user-box {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  cursor: pointer;
-}
-
-.navbar-user-box img {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #a569ff;
-}
-</style>
-
+      <!-- Contenedor donde irá foto + nombre -->
+      <div id="navbarUserBox" class="navbar-user-box"></div>
     </div>
-  </header>
+  </nav>
 
+  <style>
+    /* NAVBAR UNIVERSAL */
+    .navbar {
+      width: 100%;
+      padding: 20px 40px;
+      background: #0d0b1f;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-logo {
+      color: white;
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .navbar-links {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .navbar-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .navbar-links a.active {
+      color: #b34cff;
+      font-weight: bold;
+    }
+
+    .navbar-user-box {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .navbar-user-box img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #a569ff;
+    }
+  </style>
 
   <!-- SECCIÓN BIENVENIDA -->
   <section id="sobre-inicio" class="inicio-section">
@@ -105,7 +93,6 @@
       <p>Explora el arte digital creado por nuestros estudiantes.</p>
     </div>
   </section>
-
 
   <!-- SECCIÓN NOSOTROS -->
   <section id="sobre-info" class="nosotros-section">
@@ -121,7 +108,6 @@
     </p>
   </section>
 
-
   <!-- SECCIÓN PUBLICAR -->
   <section id="sobre-publicar" class="publicar-section">
     <h2>Publica tu obra</h2>
@@ -132,7 +118,8 @@
       <input type="text" id="titulo" name="titulo" placeholder="Ej. Atardecer digital" required>
 
       <label for="descripcion">Descripción:</label>
-      <textarea id="descripcion" name="descripcion" rows="4" placeholder="Describe brevemente tu obra..." required></textarea>
+      <textarea id="descripcion" name="descripcion" rows="4"
+        placeholder="Describe brevemente tu obra..." required></textarea>
 
       <label for="archivo">Sube tu archivo (imagen o video):</label>
       <input type="file" id="archivo" name="archivo" accept="image/*,video/*" required>
@@ -141,67 +128,43 @@
     </form>
   </section>
 
-
-  <!-- MENÚ DEL USUARIO (DESPLEGABLE) -->
+  <!-- MENÚ DESPLEGABLE -->
   <div class="usuario-menu" id="menuUsuario">
     <p>Mi cuenta</p>
     <button onclick="location.href='cuenta.html'">Ver perfil</button>
     <button class="logout" onclick="cerrarSesion()">Cerrar sesión</button>
   </div>
 
-
   <footer>
     <p>© 2025 Galería Virtual | Proyecto Académico</p>
   </footer>
 
-
-  <!-- Scroll suave -->
+  <!-- Script usuario -->
   <script>
-    document.querySelectorAll('a[href^="#"]').forEach(enlace => {
-      enlace.addEventListener('click', function (e) {
-        e.preventDefault();
-        const destino = document.querySelector(this.getAttribute('href'));
-        if (destino) destino.scrollIntoView({ behavior: 'smooth' });
-      });
+    document.addEventListener("DOMContentLoaded", () => {
+      const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
+      const userBox = document.getElementById("navbarUserBox");
+      const btnLogin = document.getElementById("btnLogin");
+
+      if (!usuario) {
+        if (userBox) userBox.innerHTML = "";
+        if (btnLogin) btnLogin.style.display = "inline-block";
+        return;
+      }
+
+      btnLogin.style.display = "none";
+
+      const foto = usuario.foto && usuario.foto.trim() !== "" ? usuario.foto : "img/default.png";
+
+      userBox.innerHTML = `
+        <div class="usuario-box" onclick="location.href='cuenta.html'">
+          <img src="${foto}" alt="Usuario">
+          <span>${usuario.nombre}</span>
+        </div>
+      `;
     });
   </script>
 
-  <script>
-  document.addEventListener("DOMContentLoaded", () => {
-
-    const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
-    const userBox = document.getElementById("navbarUserBox");
-    const btnLogin = document.getElementById("btnLogin");
-
-    // Si NO hay usuario logueado → mostrar LOGIN
-    if (!usuario) {
-      if (userBox) userBox.innerHTML = "";
-      if (btnLogin) btnLogin.style.display = "inline-block";
-      return;
-    }
-
-    // Si SÍ hay usuario → ocultar login
-    if (btnLogin) btnLogin.style.display = "none";
-
-    // Foto del usuario
-    const foto =
-      usuario.foto && usuario.foto.trim() !== ""
-        ? usuario.foto
-        : "img/default.png";
-
-    // Poner imagen + nombre
-    userBox.innerHTML = `
-      <div class="usuario-box" onclick="location.href='cuenta.html'">
-        <img src="${foto}" alt="Usuario">
-        <span>${usuario.nombre}</span>
-      </div>
-    `;
-  });
-  </script>
-
-<script src="Scripts/sesion-global.js"></script>
-
-  <!-- Script de sesión global (ÚNICO Y CORRECTO) -->
   <script src="Scripts/sesion-global.js"></script>
 
 </body>
