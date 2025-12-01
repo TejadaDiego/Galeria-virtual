@@ -8,31 +8,29 @@
 
 <body>
 
-  <!-- === NAVBAR === -->
-  <nav class="navbar">
-    <div class="navbar-logo">Galería Virtual</div>
-    <div class="navbar-links">
-      <a href="inicio.html">Inicio</a>
-      <a href="Sobre_nosotros.html">Nosotros</a>
-      <a href="Contenido.html">Contenido</a>
-      <a href="publicar.html" class="active">Publicar +</a>
-      <a href="login.html" id="btnLogin">Iniciar sesión</a>
+      <!-- === NAVBAR GLOBAL === -->
+    <nav class="navbar">
+      <div class="navbar-logo">Galería Virtual</div>
 
-        <!-- FOTO + NOMBRE DEL USUARIO -->
-      <li id="navbarUserBox" class="usuario-box"></li>
-      <li><a id="btnLogin" href="login.html">Iniciar sesión</a></li>
+      <ul class="navbar-links">
+          <li><a href="inicio.html">Inicio</a></li>
+          <li><a href="Sobre_nosotros.html">Nosotros</a></li>
+          <li><a href="Contenido.html">Contenido</a></li>
+          <li><a href="publicar.html">Publicar +</a></li>
 
+          <!-- Aquí se insertará dinámicamente el usuario -->
+          <li id="navbarUserBox" class="usuario-box"></li>
 
-      <!-- NECESARIO PARA MOSTRAR LA FOTO Y NOMBRE -->
-      <div id="navbarUserBox"></div>
-    </div>
-  </nav>
+          <!-- Botón login si NO hay usuario -->
+          <li><a id="btnLogin" href="login.html">Iniciar sesión</a></li>
+      </ul>
+    </nav>
+
 
   <!-- === CONTENEDOR DEL FORMULARIO === -->
   <div class="form-container">
     <h2>Publicar nuevo trabajo</h2>
 
-    <!-- === FORMULARIO CORREGIDO === -->
     <form id="formPublicar" action="Php/publicar_handler.php" method="post" enctype="multipart/form-data">
 
       <label for="titulo">Nombre del trabajo:</label>
@@ -47,18 +45,18 @@
       <label for="imagen">Imagen del trabajo:</label>
       <input type="file" id="imagen" name="imagen" accept="image/*" required>
 
-      <!-- Campo oculto que envía el ID del usuario -->
+      <!-- ID del usuario -->
       <input type="hidden" name="usuario_id" id="usuario_id">
 
       <div class="preview">
-        <img id="previewImg" alt="Vista previa del trabajo">
+        <img id="previewImg" alt="Vista previa del trabajo" style="display:none;">
       </div>
 
       <button type="submit">Subir trabajo</button>
     </form>
   </div>
 
-  <!-- === JS: Vista previa de imagen === -->
+  <!-- === Vista previa de imagen === -->
   <script>
     document.getElementById("imagen").addEventListener("change", function () {
       const file = this.files[0];
@@ -71,7 +69,7 @@
     });
   </script>
 
-  <!-- === Cargar ID del usuario desde localStorage === -->
+  <!-- === Carga del ID del usuario === -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
@@ -81,62 +79,51 @@
     });
   </script>
 
-  <!-- === JS PARA ENVIAR A PHP POR AJAX === -->
+  <!-- === Enviar formulario por AJAX === -->
   <script>
-    document.getElementById('formPublicar').addEventListener('submit', async function(e) {
+    document.getElementById('formPublicar').addEventListener('submit', async function (e) {
       e.preventDefault();
 
       const form = new FormData(this);
-      const res = await fetch(this.action, {
-        method: 'POST',
-        body: form
-      });
-
+      const res = await fetch(this.action, { method: 'POST', body: form });
       const data = await res.json();
 
       if (res.ok && data.success) {
-        alert('Trabajo publicado con éxito');
-        window.location.href = 'Contenido.html';
+        alert("Trabajo publicado con éxito");
+        window.location.href = "Contenido.html";
       } else {
-        alert('Error: ' + (data.error || JSON.stringify(data)));
+        alert("Error: " + (data.error || 'Desconocido'));
       }
     });
   </script>
 
+  <!-- === Mostrar usuario en navbar === -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
 
-      const user = JSON.parse(localStorage.getItem("usuarioActivo"));
-      const contenedor = document.getElementById("usuarioNav");
+      const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
+      const box = document.getElementById("navbarUserBox");
       const btnLogin = document.getElementById("btnLogin");
 
-      // Si no hay usuario → se muestra "Iniciar sesión"
-      if (!user) {
+      if (!usuario) {
+        box.innerHTML = "";
         btnLogin.style.display = "inline-block";
-        contenedor.innerHTML = "";
         return;
       }
 
-      // Si hay usuario → escondemos botón de login
+      // ocultar boton login
       btnLogin.style.display = "none";
-      contenedor.innerHTML = "";
 
-      const fotoFinal =
-        user.foto && user.foto.startsWith("data:image")
-          ? user.foto
-          : user.foto && user.foto !== ""
-            ? user.foto
-            : "Img/default.png";
+      const foto = usuario.foto && usuario.foto.trim() !== ""
+        ? usuario.foto
+        : "img/default.png";
 
-      contenedor.innerHTML = `
+      box.innerHTML = `
         <div class="usuario-box" onclick="location.href='cuenta.html'">
-          <img src="${fotoFinal}" alt="Foto del usuario">
-          <span>${user.nombre}</span>
-        </div>
-      `;
+          <img src="${foto}" alt="Usuario">
+          <span>${usuario.nombre}</span>
+        </div>`;
     });
-  </script>
-
   </script>
 
   <script src="Scripts/sesion-global.js"></script>

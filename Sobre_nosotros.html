@@ -26,21 +26,24 @@
       </div>
 
       <!-- NAVBAR -->
+      <!-- === NAVBAR GLOBAL === -->
       <nav class="navbar">
-        <ul>
-          <li><a href="inicio.html">Inicio</a></li>
-          <li><a href="Sobre_nosotros.html">Nosotros</a></li>
-          <li><a href="Contenido.html">Contenido</a></li>
-          <li><a href="publicar.html">Publicar +</a></li>
+        <div class="navbar-logo">Galería Virtual</div>
 
-          <!-- FOTO + NOMBRE DEL USUARIO -->
-          <li id="navbarUserBox" class="usuario-box"></li>
-          
+        <ul class="navbar-links">
+            <li><a href="inicio.html">Inicio</a></li>
+            <li><a href="Sobre_nosotros.html">Nosotros</a></li>
+            <li><a href="Contenido.html">Contenido</a></li>
+            <li><a href="publicar.html">Publicar +</a></li>
 
-          <!-- Botón login -->
-          <li><a id="btnLogin" href="login.html">Iniciar sesión</a></li>
+            <!-- Aquí se insertará dinámicamente el usuario -->
+            <li id="navbarUserBox" class="usuario-box"></li>
+
+            <!-- Botón login si NO hay usuario -->
+            <li><a id="btnLogin" href="login.html">Iniciar sesión</a></li>
         </ul>
       </nav>
+
     </div>
   </header>
 
