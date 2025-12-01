@@ -4,42 +4,43 @@ require_once __DIR__ . "/conexion.php";
 
 header("Content-Type: application/json");
 
-// Recibir datos
 $email = $_POST['email'] ?? "";
 $password = $_POST['password'] ?? "";
 
-// Consulta CORRECTA (usa password_hash, no "password")
-$sql = $conn->prepare("SELECT id, nombre, email, password_hash, foto FROM usuarios WHERE email=?");
+$sql = $conn->prepare("SELECT id, password_hash, nombre, foto, tipo FROM usuarios WHERE email=?");
 $sql->bind_param("s", $email);
 $sql->execute();
-$result = $sql->get_result();
+$sql->store_result();
 
-// Si no existe el correo
-if ($result->num_rows === 0) {
+if ($sql->num_rows === 0) {
     echo json_encode(["error" => "Correo no registrado"]);
     exit;
 }
 
-$user = $result->fetch_assoc();
+$sql->bind_result($id, $hash, $nombre, $foto, $tipo);
+$sql->fetch();
 
-// Validación de contraseña
-if (!password_verify($password, $user["password_hash"])) {
+// Verificar contraseña
+if (!password_verify($password, $hash)) {
     echo json_encode(["error" => "Contraseña incorrecta"]);
     exit;
 }
 
-// Guardar sesión
-$_SESSION['user_id'] = $user["id"];
-$_SESSION['nombre'] = $user["nombre"];
+// Guardar sesión PHP
+$_SESSION['user_id'] = $id;
+$_SESSION['nombre'] = $nombre;
+$_SESSION['foto'] = $foto;
+$_SESSION['tipo'] = $tipo;
 
-// Respuesta JSON para el login-handler
+// Respuesta para JavaScript
 echo json_encode([
     "success" => true,
-    "id" => $user["id"],
-    "nombre" => $user["nombre"],
-    "email" => $user["email"],
-    "foto" => $user["foto"]
+    "usuario" => [
+        "id" => $id,
+        "nombre" => $nombre,
+        "email" => $email,
+        "foto" => $foto,
+        "tipo" => $tipo
+    ]
 ]);
-
-$conn->close();
 ?>
