@@ -138,67 +138,6 @@
   <footer>
     <p>© 2025 Galería Virtual | Proyecto Académico</p>
   </footer>
-
-  <!-- Script usuario -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
-      const userBox = document.getElementById("navbarUserBox");
-      const btnLogin = document.getElementById("btnLogin");
-
-      if (!usuario) {
-        if (userBox) userBox.innerHTML = "";
-        if (btnLogin) btnLogin.style.display = "inline-block";
-        return;
-      }
-
-      btnLogin.style.display = "none";
-
-      const foto = usuario.foto && usuario.foto.trim() !== "" ? usuario.foto : "img/default.png";
-
-      userBox.innerHTML = `
-        <div class="usuario-box" onclick="location.href='cuenta.html'">
-          <img src="${foto}" alt="Usuario">
-          <span>${usuario.nombre}</span>
-    <!-- NAVBAR -->
-    <header>
-        <nav class="navbar">
-            <div class="logo">
-                <a href="index.html">Galería Virtual</a>
-            </div>
-
-            <ul class="nav-links">
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="nosotros.html" class="active">Nosotros</a></li>
-                <li><a href="contacto.html">Contacto</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <!-- SECCIÓN NOSOTROS -->
-    <section class="nosotros-section">
-        <div class="nosotros-container">
-            <h1>Sobre Nosotros</h1>
-            <p>
-                Bienvenido a nuestra galería virtual, un espacio creado para resaltar el arte digital 
-                de una manera moderna, dinámica y accesible. Nuestro objetivo es ofrecer una experiencia 
-                visual atractiva y organizada, donde los usuarios puedan explorar diferentes obras 
-                dentro de un entorno agradable y limpio.
-            </p>
-
-            <p>
-                Este proyecto ha sido desarrollado con dedicación, siguiendo principios de 
-                diseño web moderno y manteniendo siempre una interfaz intuitiva y agradable.
-            </p>
-
-            <p>
-                Gracias por visitar nuestra plataforma. ¡Esperamos que disfrutes tu recorrido!
-            </p>
-        </div>
-      `;
-    });
-  </script>
-
   <script src="Scripts/sesion-global.js"></script>
     </section>
 
