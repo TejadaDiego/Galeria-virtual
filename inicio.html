@@ -1,35 +1,37 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="Estilos/styleC.css" />
-  <title>Carrusel de Proyectos</title>
+  <title>Inicio - Galería Virtual</title>
+
+  <!-- Estilos generales -->
+  <link rel="stylesheet" href="Estilos/estilos.css"> 
+  <link rel="stylesheet" href="Estilos/styleC.css">
 </head>
 
 <body>
 
-  <!-- NAVBAR -->
-  <!-- === NAVBAR GLOBAL === -->
-<nav class="navbar">
-  <ul class="navbar-menu">
-      <li><a href="inicio.html">Inicio</a></li>
-      <li><a href="Sobre_nosotros.html">Nosotros</a></li>
-      <li><a href="Contenido.html">Contenido</a></li>
-      <li><a href="publicar.html">Publicar +</a></li>
+  <!-- ================= NAVBAR UNIVERSAL ================= -->
+  <nav class="navbar">
+    <div class="navbar-logo">Galería <span style="color:#b34cff">Virtual</span></div>
 
-      <!-- Botón login (SE OCULTA AUTOMÁTICAMENTE SI HAY USUARIO) -->
-      <li><a id="btnLogin" href="login.html">Iniciar sesión</a></li>
+    <div class="navbar-links">
+      <a href="inicio.html" class="active">Inicio</a>
+      <a href="Sobre_nosotros.html">Nosotros</a>
+      <a href="Contenido.html">Contenido</a>
+      <a href="publicar.html">Publicar +</a>
 
-      <!-- Aquí se pone foto + nombre del usuario -->
-      <li id="navbarUserBox" class="usuario-box"></li>
-  </ul>
-</nav>
+      <!-- BOTÓN LOGIN (SE OCULTA SI HAY USUARIO) -->
+      <a id="btnLogin" class="btn-login" href="login.html">Iniciar sesión</a>
 
+      <!-- FOTO + NOMBRE DEL USUARIO -->
+      <div id="navbarUserBox" class="usuario-box"></div>
+    </div>
+  </nav>
 
-
-  <!-- CARRUSEL -->
+  <!-- ================= CARRUSEL ================= -->
   <div class="carrusel">
     <div class="atras">
       <img id="atras" src="img/atras.svg" alt="Atrás" loading="lazy" />
@@ -47,45 +49,38 @@
 
   <div class="puntos" id="puntos"></div>
 
-
+  <!-- ================= SCRIPT NAVBAR GLOBAL ================= -->
   <script>
-document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", () => {
+      const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
+      const userBox = document.getElementById("navbarUserBox");
+      const btnLogin = document.getElementById("btnLogin");
 
-  const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
-  const userBox = document.getElementById("navbarUserBox");
-  const btnLogin = document.getElementById("btnLogin");
+      if (!usuario) {
+        userBox.innerHTML = "";
+        btnLogin.style.display = "inline-block";
+        return;
+      }
 
-  // Si NO hay usuario logueado → mostrar LOGIN
-  if (!usuario) {
-    if (userBox) userBox.innerHTML = "";
-    if (btnLogin) btnLogin.style.display = "inline-block";
-    return;
-  }
+      btnLogin.style.display = "none";
 
-  // Si SÍ hay usuario → ocultar login
-  if (btnLogin) btnLogin.style.display = "none";
+      const fotoFinal =
+        usuario.foto && usuario.foto.trim() !== ""
+          ? usuario.foto
+          : "img/default.png";
 
-  // Foto del usuario
-  const foto =
-    usuario.foto && usuario.foto.trim() !== ""
-      ? usuario.foto
-      : "img/default.png";
+      userBox.innerHTML = `
+        <div class="usuario-mini" onclick="location.href='cuenta.html'">
+          <img src="${fotoFinal}" alt="Foto del usuario">
+          <span>${usuario.nombre}</span>
+        </div>
+      `;
+    });
+  </script>
 
-  // Poner imagen + nombre
-  userBox.innerHTML = `
-    <div class="usuario-box" onclick="location.href='cuenta.html'">
-      <img src="${foto}" alt="Usuario">
-      <span>${usuario.nombre}</span>
-    </div>
-  `;
-});
-</script>
-
-<script src="Scripts/sesion-global.js"></script>
-
-
-  <!-- Scripts -->
+  <!-- Scripts del carrusel -->
   <script src="Scripts/app.js"></script>
+  <script src="Scripts/sesion-global.js"></script>
 
 </body>
 </html>

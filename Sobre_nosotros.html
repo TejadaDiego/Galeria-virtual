@@ -11,56 +11,6 @@
 
   <!-- Estilos generales -->
   <link rel="stylesheet" href="Estilos/estilos.css">
-
-  <style>
-    /* NAVBAR UNIVERSAL */
-    .navbar {
-      width: 100%;
-      padding: 20px 40px;
-      background: #0d0b1f;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .navbar-logo {
-      color: white;
-      font-size: 25px;
-      font-weight: bold;
-    }
-
-    .navbar-links {
-      display: flex;
-      gap: 30px;
-      align-items: center;
-    }
-
-    .navbar-links a {
-      color: white;
-      text-decoration: none;
-      font-size: 18px;
-    }
-
-    .navbar-links a.active {
-      color: #b34cff;
-      font-weight: bold;
-    }
-
-    .navbar-user-box {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      cursor: pointer;
-    }
-
-    .navbar-user-box img {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #a569ff;
-    }
-  </style>
 </head>
 
 <body>
@@ -78,16 +28,16 @@
       <a href="Contenido.html">Contenido</a>
       <a href="publicar.html">Publicar +</a>
 
-      <!-- Botón login -->
-      <a id="btnLogin" href="login.html">Iniciar sesión</a>
+      <!-- BOTÓN LOGIN (se oculta si hay usuario) -->
+      <a id="btnLogin" href="login.html" class="btn-login">Iniciar sesión</a>
 
-      <!-- Contenedor donde irá foto + nombre -->
-      <div id="navbarUserBox" class="navbar-user-box"></div>
+      <!-- Aquí aparecerá FOTO + NOMBRE DEL USUARIO -->
+      <div id="navbarUserBox" class="usuario-box"></div>
     </div>
   </nav>
 
   <!-- SECCIÓN BIENVENIDA -->
-  <section class="inicio-section">
+  <section id="sobre-inicio" class="inicio-section">
     <div class="intro-container">
       <h2>Bienvenido a la Galería Virtual</h2>
       <p>Explora el arte digital creado por nuestros estudiantes.</p>
@@ -95,7 +45,7 @@
   </section>
 
   <!-- SECCIÓN NOSOTROS -->
-  <section class="nosotros-section">
+  <section id="sobre-info" class="nosotros-section">
     <h2>¿Qué somos?</h2>
     <p>
       Somos una galería virtual dedicada a exhibir y promover el arte digital.
@@ -109,7 +59,7 @@
   </section>
 
   <!-- SECCIÓN PUBLICAR -->
-  <section class="publicar-section">
+  <section id="sobre-publicar" class="publicar-section">
     <h2>Publica tu obra</h2>
     <p>Comparte tus creaciones con el mundo 🌎. Sube tus imágenes o videos artísticos aquí.</p>
 
@@ -132,7 +82,7 @@
     <p>© 2025 Galería Virtual | Proyecto Académico</p>
   </footer>
 
-  <!-- Script global de sesión -->
+  <!-- Este script colocará foto + nombre en la esquina superior -->
   <script src="Scripts/sesion-global.js"></script>
 
 </body>
