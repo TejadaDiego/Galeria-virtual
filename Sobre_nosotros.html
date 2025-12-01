@@ -1,55 +1,209 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sobre Nosotros - Galería Virtual</title>
+
+  <!-- Fuente -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Estilos generales -->
+  <link rel="stylesheet" href="Estilos/estilos.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nosotros</title>
+    <title>Sobre Nosotros</title>
     <link rel="stylesheet" href="Estilos/style.css">
 </head>
+
 <body>
 
-    <!-- NAV SUPERIOR -->
-    <header class="header">
-        <nav id="nav-container">
+  <!-- Fondo decorativo -->
+  <div class="fondo"></div>
+
+  <!-- === NAVBAR UNIVERSAL === -->
+  <nav class="navbar">
+    <div class="navbar-logo">Galería <span style="color:#b34cff">Virtual</span></div>
+
+    <div class="navbar-links">
+      <a href="inicio.html">Inicio</a>
+      <a href="Sobre_nosotros.html" class="active">Nosotros</a>
+      <a href="Contenido.html">Contenido</a>
+      <a href="publicar.html">Publicar +</a>
+
+      <!-- Botón login -->
+      <a id="btnLogin" href="login.html">Iniciar sesión</a>
+
+      <!-- Contenedor donde irá foto + nombre -->
+      <div id="navbarUserBox" class="navbar-user-box"></div>
+    </div>
+  </nav>
+
+  <style>
+    /* NAVBAR UNIVERSAL */
+    .navbar {
+      width: 100%;
+      padding: 20px 40px;
+      background: #0d0b1f;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-logo {
+      color: white;
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .navbar-links {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .navbar-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .navbar-links a.active {
+      color: #b34cff;
+      font-weight: bold;
+    }
+
+    .navbar-user-box {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .navbar-user-box img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #a569ff;
+    }
+  </style>
+
+  <!-- SECCIÓN BIENVENIDA -->
+  <section id="sobre-inicio" class="inicio-section">
+    <div class="intro-container">
+      <h2>Bienvenido a la Galería Virtual</h2>
+      <p>Explora el arte digital creado por nuestros estudiantes.</p>
+    </div>
+  </section>
+
+  <!-- SECCIÓN NOSOTROS -->
+  <section id="sobre-info" class="nosotros-section">
+    <h2>¿Qué somos?</h2>
+    <p>
+      Somos una galería virtual dedicada a exhibir y promover el arte digital.
+      Nuestro espacio ofrece una plataforma accesible donde los estudiantes pueden mostrar sus obras
+      y el público puede disfrutar del arte desde cualquier lugar del mundo.
+    </p>
+    <p>
+      Fomentamos la creatividad, la innovación y la conexión entre el arte y la tecnología,
+      brindando una experiencia visual moderna e interactiva.
+    </p>
+  </section>
+
+  <!-- SECCIÓN PUBLICAR -->
+  <section id="sobre-publicar" class="publicar-section">
+    <h2>Publica tu obra</h2>
+    <p>Comparte tus creaciones con el mundo 🌎. Sube tus imágenes o videos artísticos aquí.</p>
+
+    <form class="upload-form" enctype="multipart/form-data">
+      <label for="titulo">Título de la obra:</label>
+      <input type="text" id="titulo" name="titulo" placeholder="Ej. Atardecer digital" required>
+
+      <label for="descripcion">Descripción:</label>
+      <textarea id="descripcion" name="descripcion" rows="4"
+        placeholder="Describe brevemente tu obra..." required></textarea>
+
+      <label for="archivo">Sube tu archivo (imagen o video):</label>
+      <input type="file" id="archivo" name="archivo" accept="image/*,video/*" required>
+
+      <button type="submit" class="boton">Publicar</button>
+    </form>
+  </section>
+
+  <!-- MENÚ DESPLEGABLE -->
+  <div class="usuario-menu" id="menuUsuario">
+    <p>Mi cuenta</p>
+    <button onclick="location.href='cuenta.html'">Ver perfil</button>
+    <button class="logout" onclick="cerrarSesion()">Cerrar sesión</button>
+  </div>
+
+  <footer>
+    <p>© 2025 Galería Virtual | Proyecto Académico</p>
+  </footer>
+
+  <!-- Script usuario -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
+      const userBox = document.getElementById("navbarUserBox");
+      const btnLogin = document.getElementById("btnLogin");
+
+      if (!usuario) {
+        if (userBox) userBox.innerHTML = "";
+        if (btnLogin) btnLogin.style.display = "inline-block";
+        return;
+      }
+
+      btnLogin.style.display = "none";
+
+      const foto = usuario.foto && usuario.foto.trim() !== "" ? usuario.foto : "img/default.png";
+
+      userBox.innerHTML = `
+        <div class="usuario-box" onclick="location.href='cuenta.html'">
+          <img src="${foto}" alt="Usuario">
+          <span>${usuario.nombre}</span>
+    <!-- NAVBAR -->
+    <header>
+        <nav class="navbar">
             <div class="logo">
                 <a href="index.html">Galería Virtual</a>
             </div>
 
             <ul class="nav-links">
                 <li><a href="index.html">Inicio</a></li>
-                <li><a class="active" href="nosotros.html">Nosotros</a></li>
+                <li><a href="nosotros.html" class="active">Nosotros</a></li>
                 <li><a href="contacto.html">Contacto</a></li>
             </ul>
-
-            <!-- SECCIÓN USUARIO (usa las clases que me enviaste) -->
-            <div class="usuario-box">
-                <div class="usuario-mini">
-                    <img src="img/user.jpg" alt="Usuario">
-                    <span>Invitado</span>
-                </div>
-                <a href="login.html" class="btn-login">Iniciar Sesión</a>
-            </div>
-
         </nav>
     </header>
 
-    <!-- CONTENIDO NOSOTROS -->
+    <!-- SECCIÓN NOSOTROS -->
     <section class="nosotros-section">
         <div class="nosotros-container">
             <h1>Sobre Nosotros</h1>
             <p>
-                Bienvenido a nuestra galería virtual, un proyecto creado para ofrecer una
-                experiencia visual moderna, elegante y accesible. Buscamos mostrar arte digital
-                dentro de un entorno limpio, dinámico y fácil de explorar.
+                Bienvenido a nuestra galería virtual, un espacio creado para resaltar el arte digital 
+                de una manera moderna, dinámica y accesible. Nuestro objetivo es ofrecer una experiencia 
+                visual atractiva y organizada, donde los usuarios puedan explorar diferentes obras 
+                dentro de un entorno agradable y limpio.
             </p>
+
             <p>
-                Nuestro propósito es brindar un espacio ordenado, atractivo y diseñado con
-                cuidado para que cada visitante disfrute su recorrido.
+                Este proyecto ha sido desarrollado con dedicación, siguiendo principios de 
+                diseño web moderno y manteniendo siempre una interfaz intuitiva y agradable.
             </p>
+
             <p>
-                ¡Gracias por visitarnos!
+                Gracias por visitar nuestra plataforma. ¡Esperamos que disfrutes tu recorrido!
             </p>
         </div>
+      `;
+    });
+  </script>
+
+  <script src="Scripts/sesion-global.js"></script>
     </section>
 
 </body>
