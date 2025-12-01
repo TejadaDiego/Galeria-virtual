@@ -1,5 +1,5 @@
 /* ==========================================================
-   USUARIO — VERSIÓN FINAL SIN DUPLICADOS NI ERRORES
+   NAVBAR + USUARIO — VERSIÓN UNIFICADA
 ========================================================== */
 
 /* Caja del usuario */
@@ -7,11 +7,15 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    background: rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.15);
     padding: 6px 14px;
     border-radius: 20px;
     cursor: pointer;
     transition: 0.3s;
+}
+
+.usuario-box:hover {
+    background: rgba(255,255,255,0.25);
 }
 
 .usuario-box img {
@@ -21,19 +25,27 @@
     object-fit: cover;
 }
 
-/* Texto del nombre */
 .usuario-box span {
-    color: #fff;
+    color: white;
     font-weight: 600;
     font-size: 0.95rem;
     white-space: nowrap;
 }
 
+/* Botón login */
+.btn-login {
+    background: #5b3fff;
+    padding: 6px 15px;
+    border-radius: 20px;
+    color: white;
+    text-decoration: none;
+}
+
 /* Menú desplegable */
 .usuario-menu {
     position: absolute;
-    right: 0;
-    top: 50px;
+    right: 20px;
+    top: 70px;
     background: #111;
     padding: 15px;
     width: 200px;
@@ -55,7 +67,7 @@
     font-size: 0.9rem;
 }
 
-/* Botones del menú */
+/* Botones */
 .usuario-menu button {
     background: #333;
     border: none;
@@ -70,7 +82,6 @@
     opacity: 0.8;
 }
 
-/* Botón Logout */
-.usuario-menu button.logout {
+.usuario-menu .logout {
     background: #d00000;
 }

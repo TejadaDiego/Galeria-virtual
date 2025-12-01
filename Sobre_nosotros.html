@@ -1,130 +1,169 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sobre Nosotros - Galería Virtual</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nosotros - Galería Virtual</title>
 
-  <!-- Fuente -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- CSS PRINCIPAL -->
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/styleC.css">
 
-  <!-- Estilos generales -->
-  <link rel="stylesheet" href="Estilos/estilos.css">
-  <link rel="stylesheet" href="Estilos/styleC.css"> <!-- Para usuario y navbar -->
+    <!-- Fuente -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, #0d0d0d, #1a1a1a, #000);
+            color: white;
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(5px);
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        nav a {
+            margin: 0 12px;
+            text-decoration: none;
+            color: #ddd;
+            transition: 0.2s;
+        }
+
+        nav a:hover {
+            color: #8257ff;
+        }
+
+        #navbarUserBox {
+            display: flex;
+            align-items: center;
+        }
+
+        .contenedor {
+            max-width: 900px;
+            margin: 80px auto;
+            padding: 20px;
+            animation: fadeIn .6s ease-in-out;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            line-height: 1.6;
+            font-size: 18px;
+            text-align: justify;
+            opacity: .9;
+        }
+
+        .nosotros-img {
+            width: 100%;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 0 20px #0008;
+        }
+
+        .mision-vision {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: #111;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px #0007;
+            transition: .2s;
+        }
+
+        .card:hover {
+            transform: scale(1.03);
+        }
+
+        .card h3 {
+            color: #b085ff;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 
 <body>
 
-  <!-- Fondo decorativo -->
-  <div class="fondo"></div>
+    <!-- NAVBAR -->
+    <header>
+        <div class="logo">GALERÍA VIRTUAL</div>
 
-  <!-- === NAVBAR UNIVERSAL === -->
-  <nav class="navbar">
-    <div class="navbar-logo">Galería <span style="color:#b34cff">Virtual</span></div>
+        <nav>
+            <a href="inicio.html">Inicio</a>
+            <a href="nosotros.html">Nosotros</a>
+            <a href="galeria.html">Galería</a>
+            <a href="contacto.html">Contacto</a>
+        </nav>
 
-    <div class="navbar-links">
-      <a href="inicio.html">Inicio</a>
-      <a href="Sobre_nosotros.html" class="active">Nosotros</a>
-      <a href="Contenido.html">Contenido</a>
-      <a href="publicar.html">Publicar +</a>
+        <!-- Caja del usuario -->
+        <div id="navbarUserBox"></div>
 
-      <!-- Botón login -->
-      <a id="btnLogin" class="btn-login" href="login.html">Iniciar sesión</a>
+        <!-- Botón Login si NO hay usuario -->
+        <a id="btnLogin" class="btn-login" href="login.html">Iniciar Sesión</a>
+    </header>
 
-      <!-- User box dinámico -->
-      <div id="navbarUserBox" class="usuario-box"></div>
+    <!-- CONTENIDO -->
+    <div class="contenedor">
+        <h1>Sobre Nosotros</h1>
+
+        <p>
+            Somos un equipo apasionado por el arte digital y la tecnología.  
+            Esta Galería Virtual nació con el propósito de ofrecer un espacio moderno,
+            accesible y visualmente atractivo donde artistas, estudiantes, creadores y
+            amantes del arte puedan publicar, compartir y descubrir obras digitales.
+        </p>
+
+        <img src="img/nosotros.jpg" alt="Sobre nosotros" class="nosotros-img">
+
+        <div class="mision-vision">
+            <div class="card">
+                <h3>Misión</h3>
+                <p>
+                    Facilitar un espacio virtual dinámico donde cualquier persona pueda
+                    expresarse artísticamente, promoviendo el acceso al arte y la creatividad.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Visión</h3>
+                <p>
+                    Convertirnos en la plataforma digital de arte más importante a nivel
+                    educativo y creativo, impulsando nuevos talentos y fomentando una 
+                    comunidad global de artistas.
+                </p>
+            </div>
+        </div>
     </div>
-  </nav>
 
-  <!-- SECCIÓN BIENVENIDA -->
-  <section id="sobre-inicio" class="inicio-section">
-    <div class="intro-container">
-      <h2>Bienvenido a la Galería Virtual</h2>
-      <p>Explora el arte digital creado por nuestros estudiantes.</p>
-    </div>
-  </section>
-
-  <!-- SECCIÓN NOSOTROS -->
-  <section id="sobre-info" class="nosotros-section">
-    <h2>¿Qué somos?</h2>
-    <p>
-      Somos una galería virtual dedicada a exhibir y promover el arte digital.
-      Nuestro espacio ofrece una plataforma accesible donde los estudiantes pueden mostrar sus obras
-      y el público puede disfrutar del arte desde cualquier lugar del mundo.
-    </p>
-    <p>
-      Fomentamos la creatividad, la innovación y la conexión entre el arte y la tecnología,
-      brindando una experiencia visual moderna e interactiva.
-    </p>
-  </section>
-
-  <!-- SECCIÓN PUBLICAR -->
-  <section id="sobre-publicar" class="publicar-section">
-    <h2>Publica tu obra</h2>
-    <p>Comparte tus creaciones con el mundo 🌎. Sube tus imágenes o videos artísticos aquí.</p>
-
-    <form class="upload-form" enctype="multipart/form-data">
-      <label for="titulo">Título de la obra:</label>
-      <input type="text" id="titulo" name="titulo" placeholder="Ej. Atardecer digital" required>
-
-      <label for="descripcion">Descripción:</label>
-      <textarea id="descripcion" name="descripcion" rows="4"
-        placeholder="Describe brevemente tu obra..." required></textarea>
-
-      <label for="archivo">Sube tu archivo (imagen o video):</label>
-      <input type="file" id="archivo" name="archivo" accept="image/*,video/*" required>
-
-      <button type="submit" class="boton">Publicar</button>
-    </form>
-  </section>
-
-  <!-- MENÚ DESPLEGABLE -->
-  <div class="usuario-menu" id="menuUsuario">
-    <p>Mi cuenta</p>
-    <button onclick="location.href='cuenta.html'">Ver perfil</button>
-    <button class="logout" onclick="cerrarSesion()">Cerrar sesión</button>
-  </div>
-
-  <footer>
-    <p>© 2025 Galería Virtual | Proyecto Académico</p>
-  </footer>
-
-  <!-- Scripts -->
-  <script src="Scripts/sesion-global.js"></script>
-
-  <!-- Script para mostrar usuario en navbar -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      // Buscar usuario guardado
-      let usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
-      if (!usuario) usuario = JSON.parse(localStorage.getItem("usuario"));
-
-      const userBox = document.getElementById("navbarUserBox");
-      const btnLogin = document.getElementById("btnLogin");
-
-      if (!usuario) {
-        btnLogin.style.display = "inline-block";
-        userBox.innerHTML = "";
-        return;
-      }
-
-      btnLogin.style.display = "none";
-
-      const foto = usuario.foto && usuario.foto.trim() !== ""
-        ? usuario.foto
-        : "img/default.png";
-
-      userBox.innerHTML = `
-        <img src="${foto}" alt="Usuario">
-        <span>${usuario.nombre}</span>
-      `;
-
-      userBox.addEventListener("click", () => {
-        document.getElementById("menuUsuario").classList.toggle("activo");
-      });
-    });
-  </script>
+    <script src="js/sesionglobal.js"></script>
 
 </body>
 </html>

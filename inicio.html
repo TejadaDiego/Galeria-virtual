@@ -1,96 +1,121 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inicio - Galería Virtual</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería Virtual - Inicio</title>
 
-  <!-- Estilos generales -->
-  <link rel="stylesheet" href="Estilos/styleC.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- CSS PRINCIPAL -->
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/styleC.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(120deg, #0d0d0d, #1a1a1a, #000);
+            color: white;
+        }
+
+        header {
+            background: rgba(0,0,0,0.5);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(5px);
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        nav a {
+            margin: 0 12px;
+            text-decoration: none;
+            color: #ddd;
+            transition: .2s;
+        }
+
+        nav a:hover {
+            color: #8257ff;
+        }
+
+        /* Contenedor del usuario */
+        #navbarUserBox {
+            display: flex;
+            align-items: center;
+        }
+
+        .hero {
+            padding: 120px 30px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            opacity: .8;
+        }
+
+        .btn-principal {
+            margin-top: 25px;
+            background: #6c42ff;
+            padding: 12px 20px;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            display: inline-block;
+            transition: .2s;
+        }
+
+        .btn-principal:hover {
+            background: #4a2fe0;
+        }
+    </style>
 </head>
 
 <body>
 
-  <!-- ================= NAVBAR ================= -->
-  <nav class="navbar">
-    <div class="navbar-logo">Galería <span style="color:#b34cff">Virtual</span></div>
+    <!-- NAVBAR -->
+    <header>
+        <div class="logo">GALERÍA VIRTUAL</div>
 
-    <div class="navbar-links">
-      <a href="inicio.html" class="active">Inicio</a>
-      <a href="Sobre_nosotros.html">Nosotros</a>
-      <a href="Contenido.html">Contenido</a>
-      <a href="publicar.html">Publicar +</a>
+        <nav>
+            <a href="inicio.html">Inicio</a>
+            <a href="nosotros.html">Nosotros</a>
+            <a href="galeria.html">Galería</a>
+            <a href="contacto.html">Contacto</a>
+        </nav>
 
-      <!-- BOTÓN LOGIN SI NO HAY USUARIO -->
-      <a id="btnLogin" class="btn-login" href="login.html">Iniciar sesión</a>
+        <!-- CONTENEDOR DONDE APARECE EL USUARIO -->
+        <div id="navbarUserBox"></div>
 
-      <!-- FOTO + NOMBRE DEL USUARIO -->
-      <div id="navbarUserBox" class="usuario-box"></div>
-    </div>
-  </nav>
+        <!-- Botón Login si NO hay usuario -->
+        <a id="btnLogin" class="btn-login" href="login.html">Iniciar Sesión</a>
+    </header>
 
-  <!-- ================= CARRUSEL ================= -->
-  <div class="carrusel">
-    <div class="atras">
-      <img id="atras" src="img/atras.svg" alt="Atrás" loading="lazy" />
-    </div>
+    <!-- HERO -->
+    <section class="hero">
+        <h1>Bienvenido a la Galería Virtual</h1>
+        <p>Explora arte digital, cultura y creatividad desde cualquier lugar del mundo.</p>
+        <a href="galeria.html" class="btn-principal">Ver Galería</a>
+    </section>
 
-    <div class="imagenes">
-      <div id="img"></div>
-      <div id="texto" class="texto"></div>
-    </div>
-
-    <div class="adelante" id="adelante">
-      <img src="img/adelante.svg" alt="Adelante" loading="lazy" />
-    </div>
-  </div>
-
-  <div class="puntos" id="puntos"></div>
-
-  <!-- ================= SCRIPT NAVBAR ================= -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      // Aceptar tanto usuarioActivo como usuario
-      let usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
-
-      if (!usuario) {
-        usuario = JSON.parse(localStorage.getItem("usuario"));
-      }
-
-      const userBox = document.getElementById("navbarUserBox");
-      const btnLogin = document.getElementById("btnLogin");
-
-      // Si no hay usuario → mostrar botón login
-      if (!usuario) {
-        userBox.innerHTML = "";
-        btnLogin.style.display = "inline-block";
-        return;
-      }
-
-      // Ocultar botón Login
-      btnLogin.style.display = "none";
-
-      // Foto final
-      const fotoFinal =
-        usuario.foto && usuario.foto.trim() !== ""
-          ? usuario.foto
-          : "img/default.png";
-
-      // Visual usuario en navbar
-      userBox.innerHTML = `
-        <div class="usuario-mini" onclick="location.href='cuenta.html'">
-          <img src="${fotoFinal}" alt="Foto del usuario">
-          <span>${usuario.nombre}</span>
-        </div>
-      `;
-    });
-  </script>
-
-  <!-- Scripts del carrusel -->
-  <script src="Scripts/app.js"></script>
-  <script src="Scripts/sesion-global.js"></script>
+    <script src="js/sesionglobal.js"></script>
 
 </body>
 </html>
