@@ -1,347 +1,165 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Galería Virtual - Inicio</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
 
-  <!-- Tus hojas de estilo (rutas corregidas a Estilos/) -->
-  <link rel="stylesheet" href="Estilos/estilos.css">
-  <link rel="stylesheet" href="Estilos/styleC.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #111;
+            color: white;
+        }
 
-  <!-- Fuente -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+        /* NAV SIMPLE */
+        header {
+            padding: 15px;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-  <!-- Estilos mínimos/añadidos para el carrusel (no sobrescriben tus archivos, solo aseguran apariencia) -->
-  <style>
-    :root{
-      --accent:#6c42ff;
-      --bg:#0e0e14;
-      --card:#0f0f16;
-      --muted:#bdbdbd;
-    }
+        a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
 
-    body{
-      margin:0;
-      font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: linear-gradient(120deg,#0d0d0d,#111);
-      color:#fff;
-    }
+        /* CARRUSEL */
+        .carousel-container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 40px auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+        }
 
-    /* Header / navbar (keeps lightweight in case estilos.css missing) */
-    header.navbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:14px 20px;
-      background: rgba(0,0,0,0.45);
-      position:sticky;
-      top:0;
-      z-index:40;
-      backdrop-filter: blur(6px);
-    }
-    .navbar-logo{ font-weight:700; font-size:18px; color:#fff; letter-spacing:1px; }
-    .navbar-links{ display:flex; align-items:center; gap:18px; }
-    .navbar-links a{ color:#ddd; text-decoration:none; font-weight:500; }
-    .navbar-links a.active{ color:var(--accent); font-weight:700; }
+        .carousel-slide {
+            display: none;
+            width: 100%;
+        }
 
-    /* User box fallback */
-    .usuario-box, .usuario-mini, .usuario-navbar { display:flex; align-items:center; gap:8px; }
-    .usuario-box img{ width:36px; height:36px; border-radius:50%; object-fit:cover; border:2px solid rgba(143,120,255,0.25); }
+        .carousel-slide img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
 
-    /* Carrusel container */
-    .contenedor-carousel{
-      max-width:1200px;
-      margin: 30px auto;
-      position:relative;
-      padding: 0 18px;
-      box-sizing:border-box;
-    }
+        .active {
+            display: block;
+        }
 
-    .carousel{
-      position:relative;
-      overflow:hidden;
-      border-radius:12px;
-      background:linear-gradient(180deg, rgba(10,10,10,0.6), rgba(0,0,0,0.6));
-      min-height: 320px;
-      display:flex;
-    }
+        /* Botones */
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            font-size: 30px;
+            padding: 5px 12px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .prev { left: 10px; }
+        .next { right: 10px; }
 
-    .slide{
-      min-width:100%;
-      transition: transform .6s ease, opacity .6s ease;
-      position:absolute;
-      top:0; left:0;
-      opacity:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:40px;
-      box-sizing:border-box;
-    }
+        /* Puntos */
+        .dots {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .dot {
+            height: 12px;
+            width: 12px;
+            margin: 0 5px;
+            background: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .dot.active-dot {
+            background: #6c42ff;
+        }
 
-    .slide.activo{
-      position:relative;
-      opacity:1;
-    }
-
-    .slide img{
-      width:100%;
-      height:320px;
-      object-fit:cover;
-      border-radius:12px;
-      box-shadow:0 10px 30px rgba(0,0,0,.6);
-    }
-
-    .texto-slide{
-      position:absolute;
-      left:30px;
-      bottom:30px;
-      background: rgba(0,0,0,0.45);
-      padding:12px 16px;
-      border-radius:8px;
-      font-weight:600;
-      color:#fff;
-      box-shadow:0 6px 18px rgba(0,0,0,.5);
-    }
-
-    /* botones */
-    .btn-carrusel{
-      position:absolute;
-      top:50%;
-      transform:translateY(-50%);
-      background: rgba(0,0,0,0.45);
-      border:none;
-      color:#fff;
-      font-size:26px;
-      padding:8px 12px;
-      cursor:pointer;
-      border-radius:8px;
-      transition: .15s;
-      z-index:30;
-    }
-    .btn-carrusel:hover{ transform:translateY(-50%) scale(1.03); background: rgba(0,0,0,0.6); }
-    .btn-carrusel.atras{ left:12px; }
-    .btn-carrusel.adelante{ right:12px; }
-
-    /* puntos */
-    .puntos{
-      display:flex;
-      gap:8px;
-      justify-content:center;
-      margin-top:14px;
-      align-items:center;
-    }
-    .punto{
-      width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,0.25); cursor:pointer;
-    }
-    .punto.activo{ background:var(--accent); transform:scale(1.15); }
-
-    /* hero text after carousel */
-    .hero-text{
-      text-align:center;
-      margin:26px auto 80px auto;
-      max-width:900px;
-      padding:0 18px;
-    }
-    .hero-text h1{ font-size:36px; margin-bottom:8px; }
-    .hero-text p{ color:var(--muted); margin-bottom:18px; }
-
-    @media (max-width:720px){
-      .slide img{ height:220px; }
-      .texto-slide{ left:16px; bottom:18px; font-size:14px; }
-      .hero-text h1{ font-size:28px; }
-    }
-  </style>
+    </style>
 </head>
 <body>
 
-  <!-- NAVBAR -->
-  <header class="navbar">
-    <div class="navbar-logo">Galería <span style="color:#b34cff">Virtual</span></div>
+    <header>
+        <h2>Galería Virtual</h2>
+        <nav>
+            <a href="inicio.html" style="color:#6c42ff;">Inicio</a>
+            <a href="Sobre_nosotros.html">Nosotros</a>
+            <a href="Contenido.html">Contenido</a>
+            <a href="publicar.html">Publicar</a>
+        </nav>
+    </header>
 
-    <div class="navbar-links">
-      <a href="inicio.html" class="active">Inicio</a>
-      <a href="Sobre_nosotros.html">Nosotros</a>
-      <a href="Contenido.html">Contenido</a>
-      <a href="publicar.html">Publicar +</a>
-      <a id="btnLogin" class="btn-login" href="login.html">Iniciar sesión</a>
+    <!-- CARRUSEL -->
+    <div class="carousel-container">
 
-      <!-- contenedor usuario -->
-      <div id="navbarUserBox" class="usuario-box"></div>
-    </div>
-  </header>
+        <div class="carousel-slide active">
+            <img src="img/banner1.jpg" alt="Imagen 1">
+        </div>
 
-  <!-- CARRUSEL -->
-  <div class="contenedor-carousel">
-    <div class="carousel" id="carousel">
+        <div class="carousel-slide">
+            <img src="img/banner2.jpg" alt="Imagen 2">
+        </div>
 
-      <div class="slide activo" data-index="0">
-        <img src="img/banner1.jpg" alt="Banner 1">
-        <div class="texto-slide">Bienvenido a la Galería Virtual</div>
-      </div>
+        <div class="carousel-slide">
+            <img src="img/banner3.jpg" alt="Imagen 3">
+        </div>
 
-      <div class="slide" data-index="1">
-        <img src="img/banner2.jpg" alt="Banner 2">
-        <div class="texto-slide">Arte digital & creatividad</div>
-      </div>
-
-      <div class="slide" data-index="2">
-        <img src="img/banner3.jpg" alt="Banner 3">
-        <div class="texto-slide">Explora proyectos estudiantiles</div>
-      </div>
-
-      <!-- botones -->
-      <button class="btn-carrusel atras" id="btnAtras" aria-label="Atrás">&#10094;</button>
-      <button class="btn-carrusel adelante" id="btnAdelante" aria-label="Adelante">&#10095;</button>
+        <!-- Botones -->
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
     </div>
 
-    <!-- puntos -->
-    <div class="puntos" id="puntos"></div>
-  </div>
+    <!-- Puntos -->
+    <div class="dots">
+        <span class="dot active-dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+    </div>
 
-  <!-- texto principal -->
-  <div class="hero-text">
-    <h1>Bienvenido a la Galería Virtual</h1>
-    <p>Explora arte digital, cultura y creatividad desde cualquier lugar del mundo. Navega la galería, publica tus trabajos y conecta con la comunidad.</p>
-    <a href="Contenido.html" class="btn-principal" style="background:var(--accent); color:#fff; padding:10px 16px; border-radius:8px; text-decoration:none; font-weight:600;">Ver Contenido</a>
-  </div>
+    <script>
+        let index = 0;
+        const slides = document.querySelectorAll(".carousel-slide");
+        const dots = document.querySelectorAll(".dot");
 
-  <!-- Si tu proyecto ya tiene Scripts/app.js lo incluimos — pero también incluimos aquí un script propio que garantiza que el carrusel funcione si app.js está ausente o fallando.
-       Es seguro incluir ambos: nuestro script solo actúa si no hay lógica previa que ya haya inicializado el mismo carousel id. -->
-  <script src="Scripts/app.js"></script>
-  <script src="Scripts/sesion-global.js"></script>
+        function showSlide(i) {
+            slides.forEach(s => s.classList.remove("active"));
+            dots.forEach(d => d.classList.remove("active-dot"));
 
-  <!-- Script autónomo del carrusel (funcional aunque app.js falle) -->
-  <script>
-    (function(){
-      // si app.js ya inicializó, evitamos duplicar
-      if (window.__carouselInitialized) return;
-      window.__carouselInitialized = true;
-
-      const carousel = document.getElementById('carousel');
-      const slides = Array.from(carousel.querySelectorAll('.slide'));
-      const btnAtras = document.getElementById('btnAtras');
-      const btnAdelante = document.getElementById('btnAdelante');
-      const puntosContainer = document.getElementById('puntos');
-
-      let index = slides.findIndex(s => s.classList.contains('activo'));
-      if (index < 0) index = 0;
-      let autoplay = true;
-      let autoplayInterval = 4500;
-      let timer = null;
-      let touchStartX = 0;
-      let touchEndX = 0;
-
-      // crear puntos
-      slides.forEach((s, i) => {
-        const dot = document.createElement('div');
-        dot.className = 'punto' + (i === index ? ' activo' : '');
-        dot.dataset.index = i;
-        dot.addEventListener('click', () => goTo(i));
-        puntosContainer.appendChild(dot);
-      });
-
-      function update() {
-        slides.forEach((s, i) => {
-          s.classList.toggle('activo', i === index);
-        });
-        Array.from(puntosContainer.children).forEach((d,i) => {
-          d.classList.toggle('activo', i === index);
-        });
-      }
-
-      function next() { index = (index + 1) % slides.length; update(); }
-      function prev() { index = (index - 1 + slides.length) % slides.length; update(); }
-      function goTo(i){ index = (i + slides.length) % slides.length; update(); }
-
-      btnAdelante.addEventListener('click', () => { next(); resetTimer(); });
-      btnAtras.addEventListener('click', () => { prev(); resetTimer(); });
-
-      // teclado (flechas)
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight') { next(); resetTimer(); }
-        if (e.key === 'ArrowLeft') { prev(); resetTimer(); }
-      });
-
-      // touch support
-      carousel.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-      }, {passive:true});
-      carousel.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        if (touchEndX + 40 < touchStartX) { next(); resetTimer(); }
-        else if (touchEndX - 40 > touchStartX) { prev(); resetTimer(); }
-      }, {passive:true});
-
-      function startTimer(){
-        if (!autoplay) return;
-        timer = setInterval(next, autoplayInterval);
-      }
-      function resetTimer(){
-        if (timer) clearInterval(timer);
-        startTimer();
-      }
-
-      // iniciar
-      update();
-      startTimer();
-
-      // Exponer control si es necesario
-      window.myCarousel = { next, prev, goTo, startTimer, resetTimer };
-
-      // Accessibility: hide buttons on small screens or if not desired (optional)
-    })();
-  </script>
-
-  <!-- Script para cargar usuario y ocultar login (usa tu sesion-global.js también) -->
-  <script>
-    (function(){
-      // espera a que sesion-global.js cargue y/o también funcionalidad propia
-      function applyUser() {
-        let usuario = JSON.parse(localStorage.getItem('usuarioActivo')) || JSON.parse(localStorage.getItem('usuario'));
-        const userBox = document.getElementById('navbarUserBox');
-        const btnLogin = document.getElementById('btnLogin');
-
-        if (!userBox || !btnLogin) return;
-
-        if (!usuario) {
-          userBox.innerHTML = '';
-          btnLogin.style.display = 'inline-block';
-          return;
+            slides[i].classList.add("active");
+            dots[i].classList.add("active-dot");
         }
 
-        btnLogin.style.display = 'none';
-        const foto = usuario.foto && usuario.foto.trim() !== '' ? usuario.foto : 'img/default.png';
-
-        userBox.innerHTML = `<div class="usuario-box" id="btnUsuario"><img src="${foto}" alt="Foto"><span>${usuario.nombre}</span></div>`;
-
-        const btnUsuario = document.getElementById('btnUsuario');
-        // crear menú desplegable si no existe
-        if (!document.getElementById('menuUsuario')) {
-          const menu = document.createElement('div');
-          menu.id = 'menuUsuario';
-          menu.className = 'usuario-menu';
-          menu.innerHTML = `<p>${usuario.email || ''}</p>
-                            <button onclick="location.href='cuenta.html'">Mi perfil</button>
-                            <button class="logout" id="logoutBtn">Cerrar sesión</button>`;
-          document.body.appendChild(menu);
+        function nextSlide() {
+            index = (index + 1) % slides.length;
+            showSlide(index);
         }
 
-        btnUsuario.addEventListener('click', () => {
-          document.getElementById('menuUsuario').classList.toggle('activo');
-        });
-        document.getElementById('logoutBtn').addEventListener('click', () => {
-          localStorage.removeItem('usuario');
-          localStorage.removeItem('usuarioActivo');
-          location.href = 'login.html';
-        });
-      }
+        function prevSlide() {
+            index = (index - 1 + slides.length) % slides.length;
+            showSlide(index);
+        }
 
-      // run after a short delay to allow sesion-global to run if present
-      window.addEventListener('DOMContentLoaded', () => { setTimeout(applyUser, 40); });
-    })();
-  </script>
+        document.querySelector(".next").onclick = nextSlide;
+        document.querySelector(".prev").onclick = prevSlide;
+
+        dots.forEach((dot, i) => {
+            dot.onclick = () => { index = i; showSlide(index); };
+        });
+
+        setInterval(nextSlide, 4000); // autoplay
+    </script>
 
 </body>
 </html>
