@@ -3,7 +3,7 @@
 // Ajusta según tu XAMPP (host, user, pass, db, port)
 $host = "127.0.0.1";
 $user = "root";
-$pass = "";               // si tu root no tiene contraseña deja vacío, si tiene ponla
+$pass = "dieguito.2006";               // si tu root no tiene contraseña deja vacío, si tiene ponla
 $db   = "galeria_virtual";
 $port = 3307;             // TU PUERTO MYSQL (por lo que comentaste usas 3307)
 
