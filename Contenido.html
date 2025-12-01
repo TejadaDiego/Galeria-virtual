@@ -15,29 +15,25 @@
 <!-- ==== NAVBAR ==== -->
 <!-- === NAVBAR GLOBAL === -->
 <nav class="navbar">
-  <div class="navbar-logo">Galería Virtual</div>
-
-  <ul class="navbar-links">
+  <ul class="navbar-menu">
       <li><a href="inicio.html">Inicio</a></li>
       <li><a href="Sobre_nosotros.html">Nosotros</a></li>
       <li><a href="Contenido.html">Contenido</a></li>
       <li><a href="publicar.html">Publicar +</a></li>
 
-      <!-- Aquí se insertará dinámicamente el usuario -->
-      <li id="navbarUserBox" class="usuario-box"></li>
-
-      <!-- Botón login si NO hay usuario -->
+      <!-- Botón login (SE OCULTA AUTOMÁTICAMENTE SI HAY USUARIO) -->
       <li><a id="btnLogin" href="login.html">Iniciar sesión</a></li>
-  </ul>
-  <div class="cart-box" onclick="window.location.href='carrito.html'">
-      <span class="cart-count" id="cartCount">0</span>
-      <span class="cart-icon">🛒</span>
-  </div>
 
-  <div class="navbar-user" id="navbarUserBox">
-      <img src="img/default.png" alt="Usuario">
-      <span>Usuario</span>
+      <!-- Aquí se pone foto + nombre del usuario -->
+      <li id="navbarUserBox" class="usuario-box"></li>
+  </ul>
+
+  <!-- (Opcional) Carrito si lo necesitas -->
+  <div class="cart-box" onclick="location.href='carrito.html'">
+    <span id="cartCount">0</span> 🛒
   </div>
+</nav>
+
 </nav>
 
 <!-- ==== TÍTULO ==== -->
@@ -205,38 +201,37 @@ cargarTrabajos();
 </script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
 
-      const user = JSON.parse(localStorage.getItem("usuarioActivo"));
-      const contenedor = document.getElementById("usuarioNav");
-      const btnLogin = document.getElementById("btnLogin");
+  const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
+  const userBox = document.getElementById("navbarUserBox");
+  const btnLogin = document.getElementById("btnLogin");
 
-      // Si no hay usuario → se muestra "Iniciar sesión"
-      if (!user) {
-        btnLogin.style.display = "inline-block";
-        contenedor.innerHTML = "";
-        return;
-      }
+  // Si NO hay usuario logueado → mostrar LOGIN
+  if (!usuario) {
+    if (userBox) userBox.innerHTML = "";
+    if (btnLogin) btnLogin.style.display = "inline-block";
+    return;
+  }
 
-      // Si hay usuario → escondemos botón de login
-      btnLogin.style.display = "none";
-      contenedor.innerHTML = "";
+  // Si SÍ hay usuario → ocultar login
+  if (btnLogin) btnLogin.style.display = "none";
 
-      const fotoFinal =
-        user.foto && user.foto.startsWith("data:image")
-          ? user.foto
-          : user.foto && user.foto !== ""
-            ? user.foto
-            : "Img/default.png";
+  // Foto del usuario
+  const foto =
+    usuario.foto && usuario.foto.trim() !== ""
+      ? usuario.foto
+      : "img/default.png";
 
-      contenedor.innerHTML = `
-        <div class="usuario-box" onclick="location.href='cuenta.html'">
-          <img src="${fotoFinal}" alt="Foto del usuario">
-          <span>${user.nombre}</span>
-        </div>
-      `;
-    });
-  </script>
+  // Poner imagen + nombre
+  userBox.innerHTML = `
+    <div class="usuario-box" onclick="location.href='cuenta.html'">
+      <img src="${foto}" alt="Usuario">
+      <span>${usuario.nombre}</span>
+    </div>
+  `;
+});
+</script>
 
 
 <script src="Scripts/carrito.js"></script>

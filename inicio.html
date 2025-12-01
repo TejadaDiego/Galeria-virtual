@@ -13,21 +13,20 @@
   <!-- NAVBAR -->
   <!-- === NAVBAR GLOBAL === -->
 <nav class="navbar">
-  <div class="navbar-logo">Galería Virtual</div>
-
-  <ul class="navbar-links">
+  <ul class="navbar-menu">
       <li><a href="inicio.html">Inicio</a></li>
       <li><a href="Sobre_nosotros.html">Nosotros</a></li>
       <li><a href="Contenido.html">Contenido</a></li>
       <li><a href="publicar.html">Publicar +</a></li>
 
-      <!-- Aquí se insertará dinámicamente el usuario -->
-      <li id="navbarUserBox" class="usuario-box"></li>
-
-      <!-- Botón login si NO hay usuario -->
+      <!-- Botón login (SE OCULTA AUTOMÁTICAMENTE SI HAY USUARIO) -->
       <li><a id="btnLogin" href="login.html">Iniciar sesión</a></li>
+
+      <!-- Aquí se pone foto + nombre del usuario -->
+      <li id="navbarUserBox" class="usuario-box"></li>
   </ul>
 </nav>
+
 
 
   <!-- CARRUSEL -->
@@ -49,7 +48,41 @@
   <div class="puntos" id="puntos"></div>
 
 
-  
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
+  const userBox = document.getElementById("navbarUserBox");
+  const btnLogin = document.getElementById("btnLogin");
+
+  // Si NO hay usuario logueado → mostrar LOGIN
+  if (!usuario) {
+    if (userBox) userBox.innerHTML = "";
+    if (btnLogin) btnLogin.style.display = "inline-block";
+    return;
+  }
+
+  // Si SÍ hay usuario → ocultar login
+  if (btnLogin) btnLogin.style.display = "none";
+
+  // Foto del usuario
+  const foto =
+    usuario.foto && usuario.foto.trim() !== ""
+      ? usuario.foto
+      : "img/default.png";
+
+  // Poner imagen + nombre
+  userBox.innerHTML = `
+    <div class="usuario-box" onclick="location.href='cuenta.html'">
+      <img src="${foto}" alt="Usuario">
+      <span>${usuario.nombre}</span>
+    </div>
+  `;
+});
+</script>
+
+<script src="Scripts/sesion-global.js"></script>
+
 
   <!-- Scripts -->
   <script src="Scripts/app.js"></script>

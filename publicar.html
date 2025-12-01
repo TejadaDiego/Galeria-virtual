@@ -8,23 +8,21 @@
 
 <body>
 
-      <!-- === NAVBAR GLOBAL === -->
     <nav class="navbar">
-      <div class="navbar-logo">Galería Virtual</div>
+  <ul class="navbar-menu">
+      <li><a href="inicio.html">Inicio</a></li>
+      <li><a href="Sobre_nosotros.html">Nosotros</a></li>
+      <li><a href="Contenido.html">Contenido</a></li>
+      <li><a href="publicar.html">Publicar +</a></li>
 
-      <ul class="navbar-links">
-          <li><a href="inicio.html">Inicio</a></li>
-          <li><a href="Sobre_nosotros.html">Nosotros</a></li>
-          <li><a href="Contenido.html">Contenido</a></li>
-          <li><a href="publicar.html">Publicar +</a></li>
+      <!-- Botón login (SE OCULTA AUTOMÁTICAMENTE SI HAY USUARIO) -->
+      <li><a id="btnLogin" href="login.html">Iniciar sesión</a></li>
 
-          <!-- Aquí se insertará dinámicamente el usuario -->
-          <li id="navbarUserBox" class="usuario-box"></li>
+      <!-- Aquí se pone foto + nombre del usuario -->
+      <li id="navbarUserBox" class="usuario-box"></li>
+  </ul>
+</nav>
 
-          <!-- Botón login si NO hay usuario -->
-          <li><a id="btnLogin" href="login.html">Iniciar sesión</a></li>
-      </ul>
-    </nav>
 
 
   <!-- === CONTENEDOR DEL FORMULARIO === -->
