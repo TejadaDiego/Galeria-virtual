@@ -45,40 +45,7 @@
   <div class="puntos" id="puntos"></div>
 
 
-  <!-- SESIÓN GLOBAL: MOSTRAR USUARIO EN NAVBAR -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-
-      const user = JSON.parse(localStorage.getItem("usuarioActivo"));
-      const contenedor = document.getElementById("usuarioNav");
-      const btnLogin = document.getElementById("btnLogin");
-
-      // Si no hay usuario → se muestra "Iniciar sesión"
-      if (!user) {
-        btnLogin.style.display = "inline-block";
-        contenedor.innerHTML = "";
-        return;
-      }
-
-      // Si hay usuario → escondemos botón de login
-      btnLogin.style.display = "none";
-      contenedor.innerHTML = "";
-
-      const fotoFinal =
-        user.foto && user.foto.startsWith("data:image")
-          ? user.foto
-          : user.foto && user.foto !== ""
-            ? user.foto
-            : "Img/default.png";
-
-      contenedor.innerHTML = `
-        <div class="usuario-box" onclick="location.href='cuenta.html'">
-          <img src="${fotoFinal}" alt="Foto del usuario">
-          <span>${user.nombre}</span>
-        </div>
-      `;
-    });
-  </script>
+  
 
   <!-- Scripts -->
   <script src="Scripts/app.js"></script>

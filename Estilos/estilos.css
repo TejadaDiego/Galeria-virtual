@@ -1,4 +1,4 @@
-/* === USER NAV — ESTILO DE INICIO (Versión Correcta) === */
+/* === NAV — USER BOX === */
 
 #usuarioNav {
     margin-left: auto;
@@ -62,7 +62,6 @@
     font-size: 0.95rem;
 }
 
-/* Botones internos */
 .usuario-menu button {
     background: rgba(255,255,255,0.1);
     border: none;
@@ -78,7 +77,6 @@
     background: rgba(255,255,255,0.2);
 }
 
-/* Botón rojo */
 .usuario-menu .logout {
     background: rgba(255, 0, 0, 0.6);
 }
@@ -87,6 +85,7 @@
     background: rgba(255, 0, 0, 0.8);
 }
 
+/* === NAV — BASE === */
 .navbar ul {
     display: flex;
     align-items: center;
@@ -107,4 +106,3 @@
 .navbar ul li a:hover {
     color: #c8bffd;
 }
-

@@ -4,8 +4,7 @@ function cerrarSesion() {
 }
 
 /* =============================================
-   ❗ CONTROL ÚNICO DEL NAVBAR (Versión final)
-   — Funciona igual que en inicio.html en TODAS
+   CONTROL ÚNICO DEL NAVBAR (Versión global)
 ============================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -20,7 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    // Hay usuario → ocultar botón login
     if (btnLogin) btnLogin.style.display = "none";
 
     const foto = user.foto && user.foto.trim() !== "" ? user.foto : "Img/default.png";
@@ -30,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
             <img src="${foto}">
             <span>${user.nombre}</span>
         </div>
-
         <div class="usuario-menu" id="menuFlotanteNav">
             <p><b>${user.nombre}</b></p>
             <p>${user.correo}</p>
@@ -45,5 +42,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btnUser.addEventListener("click", () => {
         menu.classList.toggle("activo");
+    });
+
+    // Cerrar menú si clic fuera
+    document.addEventListener("click", (e) => {
+        if (!btnUser.contains(e.target) && !menu.contains(e.target)) {
+            menu.classList.remove("activo");
+        }
     });
 });
