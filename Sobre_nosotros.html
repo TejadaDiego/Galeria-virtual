@@ -28,13 +28,63 @@
       <a href="Contenido.html">Contenido</a>
       <a href="publicar.html">Publicar +</a>
 
-      <!-- BOTÓN LOGIN (se oculta si hay usuario) -->
-      <a id="btnLogin" href="login.html" class="btn-login">Iniciar sesión</a>
+      <!-- Botón login -->
+      <a id="btnLogin" href="login.html">Iniciar sesión</a>
 
-      <!-- Aquí aparecerá FOTO + NOMBRE DEL USUARIO -->
-      <div id="navbarUserBox" class="usuario-box"></div>
+      <!-- Contenedor donde irá foto + nombre -->
+      <div id="navbarUserBox" class="navbar-user-box"></div>
     </div>
   </nav>
+
+  <style>
+    /* NAVBAR UNIVERSAL */
+    .navbar {
+      width: 100%;
+      padding: 20px 40px;
+      background: #0d0b1f;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-logo {
+      color: white;
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .navbar-links {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .navbar-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .navbar-links a.active {
+      color: #b34cff;
+      font-weight: bold;
+    }
+
+    .navbar-user-box {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .navbar-user-box img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #a569ff;
+    }
+  </style>
 
   <!-- SECCIÓN BIENVENIDA -->
   <section id="sobre-inicio" class="inicio-section">
@@ -78,12 +128,18 @@
     </form>
   </section>
 
+  <!-- MENÚ DESPLEGABLE -->
+  <div class="usuario-menu" id="menuUsuario">
+    <p>Mi cuenta</p>
+    <button onclick="location.href='cuenta.html'">Ver perfil</button>
+    <button class="logout" onclick="cerrarSesion()">Cerrar sesión</button>
+  </div>
+
   <footer>
     <p>© 2025 Galería Virtual | Proyecto Académico</p>
   </footer>
-
-  <!-- Este script colocará foto + nombre en la esquina superior -->
   <script src="Scripts/sesion-global.js"></script>
+    </section>
 
 </body>
 </html>
