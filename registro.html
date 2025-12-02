@@ -7,8 +7,8 @@
 
     <link rel="stylesheet" href="Estilos/login.css">
     <link rel="stylesheet" href="Estilos/estilos.css">
-
 </head>
+
 <body>
 
     <!-- ================= NAVBAR GLOBAL ================= -->
@@ -21,10 +21,10 @@
             <a href="Contenido.html">Contenido</a>
             <a href="publicar.html">Publicar +</a>
 
-            <!-- Login (se oculta si hay usuario) -->
+            <!-- Login -->
             <a id="btnLogin" href="login.html">Iniciar sesión</a>
 
-            <!-- Aquí aparecerá foto + nombre -->
+            <!-- Foto + nombre -->
             <div id="navbarUserBox" class="navbar-user-box"></div>
         </div>
     </nav>
@@ -34,6 +34,7 @@
         <h2>Crear una cuenta</h2>
 
         <form id="registerForm" enctype="multipart/form-data">
+            
             <label>Nombre completo</label>
             <input type="text" name="nombre" required>
 
@@ -42,6 +43,9 @@
 
             <label>Contraseña</label>
             <input type="password" name="password" required>
+
+            <!-- Rol fijo -->
+            <input type="hidden" name="tipo" value="Comprador/Vendedor">
 
             <label>Foto de perfil (opcional)</label>
             <input type="file" name="foto" accept="image/*">
@@ -66,24 +70,27 @@
                 body: formData
             });
 
-            const text = await res.text();
-            console.log("Respuesta del servidor:", text);
+            const respuesta = await res.text();
+            console.log("Respuesta del servidor:", respuesta);
 
-            try {
-                const data = JSON.parse(text);
+            // Backend devuelve EXACTAMENTE "ok"
+            if (respuesta.trim() === "ok") {
+                alert("Registro exitoso 🎉");
 
-                if (data.success) {
-                    alert("Registro exitoso. Bienvenido " + data.usuario.nombre);
+                // Guardar usuario temporalmente hasta que inicie sesión
+                const nuevoUsuario = {
+                    nombre: formData.get("nombre"),
+                    email: formData.get("email"),
+                    foto: "img/default.png",
+                    tipo: "Comprador/Vendedor"
+                };
 
-                    // Guardar usuario en localStorage
-                    localStorage.setItem("usuarioActivo", JSON.stringify(data.usuario));
+                localStorage.setItem("usuarioActivo", JSON.stringify(nuevoUsuario));
 
-                    window.location.href = "inicio.html";
-                } else {
-                    alert("Error: " + data.error);
-                }
-            } catch {
-                alert("Error inesperado del servidor.");
+                window.location.href = "inicio.html";
+            } 
+            else {
+                alert("❌ Error: " + respuesta);
             }
         });
     </script>

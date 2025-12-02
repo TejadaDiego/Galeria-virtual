@@ -4,26 +4,54 @@
   <meta charset="UTF-8">
   <title>Login Administrador</title>
   <link rel="stylesheet" href="Estilos/login.css">
+
+  <style>
+    /* Ajuste para que la foto del usuario en navbar no rompa el diseño */
+    .usuario-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .usuario-box img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #a47bff;
+    }
+  </style>
 </head>
 
 <body>
 
+  <!-- === NAVBAR UNIVERSAL === -->
   <nav class="navbar">
     <h2 class="logo">Galería <span>Virtual</span></h2>
+
     <ul>
       <li><a href="inicio.html">Inicio</a></li>
       <li><a href="Sobre_nosotros.html">Nosotros</a></li>
       <li><a href="Contenido.html">Contenido</a></li>
       <li><a href="publicar.html">Publicar +</a></li>
+
+      <!-- Botón login -->
+      <li><a id="btnLogin" href="login.html">Iniciar sesión</a></li>
+
+      <!-- Aquí se mostrará foto + nombre -->
+      <li id="navbarUserBox"></li>
     </ul>
   </nav>
 
+  <!-- === TARJETA DE LOGIN ADMIN === -->
   <div class="login-card">
     <img class="login-logo" src="https://cdn-icons-png.flaticon.com/512/847/847969.png">
 
     <h2>Acceso Administrador 🛡️</h2>
 
     <form id="loginForm">
+
+      <!-- Se fuerza a tipo "admin" -->
       <input type="hidden" name="tipo" value="admin">
 
       <div class="input-group">
@@ -43,6 +71,11 @@
     <a class="volver" href="login.html">⬅ Volver</a>
   </div>
 
+  <!-- === SCRIPTS === -->
+  <!-- Manejo del usuario en navbar y control de sesión -->
+  <script src="Scripts/sesion-global.js"></script>
+
+  <!-- Lógica del login (validación, envío AJAX, almacenamiento localStorage, etc.) -->
   <script src="Scripts/login-handler.js"></script>
 
 </body>

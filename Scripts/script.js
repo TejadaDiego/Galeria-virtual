@@ -5,14 +5,11 @@ function redirigir(pagina) {
 
 function togglePassword(id, el) {
   const input = document.getElementById(id);
-  if (input.type === "password") {
-    input.type = "text";
-    el.textContent = "🙈";
-  } else {
-    input.type = "password";
-    el.textContent = "👁️";
-  }
+  const isPassword = input.type === "password";
+  input.type = isPassword ? "text" : "password";
+  el.textContent = isPassword ? "🙈" : "👁️";
 }
+
 
 // ========= GUARDAR SESIÓN ========= //
 function guardarSesion(tipo, email) {
@@ -38,11 +35,14 @@ function guardarSesion(tipo, email) {
   window.location.href = "inicio.html";
 }
 
+
 // ========= LOGIN COMPRADOR ========= //
 const formComprador = document.getElementById("formComprador");
+
 if (formComprador) {
   formComprador.addEventListener("submit", (e) => {
     e.preventDefault();
+
     const email = document.getElementById("emailComprador").value.trim();
     const pass = document.getElementById("passComprador").value.trim();
     const error = document.getElementById("errorComprador");
@@ -57,11 +57,15 @@ if (formComprador) {
   });
 }
 
+
+
 // ========= LOGIN ESTUDIANTE ========= //
 const formEstudiante = document.getElementById("formEstudiante");
+
 if (formEstudiante) {
   formEstudiante.addEventListener("submit", (e) => {
     e.preventDefault();
+
     const email = document.getElementById("emailEstudiante").value.trim();
     const pass = document.getElementById("passEstudiante").value.trim();
     const error = document.getElementById("errorEstudiante");
@@ -76,11 +80,15 @@ if (formEstudiante) {
   });
 }
 
+
+
 // ========= LOGIN ADMIN ========= //
 const formAdmin = document.getElementById("formAdmin");
+
 if (formAdmin) {
   formAdmin.addEventListener("submit", (e) => {
     e.preventDefault();
+
     const user = document.getElementById("userAdmin").value.trim();
     const pass = document.getElementById("passAdmin").value.trim();
     const error = document.getElementById("errorAdmin");
@@ -101,43 +109,37 @@ if (formAdmin) {
   });
 }
 
+
+
 // ========= MOSTRAR USUARIO LOGEADO EN NAVBAR ========= //
 window.addEventListener("DOMContentLoaded", () => {
   const nav = document.querySelector(".navbar");
   if (!nav) return;
 
   const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
-  if (usuario) {
-    // eliminar botón "Iniciar sesión" si existe
-    const ul = nav.querySelector("ul");
-    if (ul) {
-      const loginBtn = ul.querySelector('a[href="login.html"]');
-      if (loginBtn) loginBtn.style.display = "none";
-    }
+  if (!usuario) return;
 
-    // crear caja de usuario
-    const userBox = document.createElement("div");
-    userBox.classList.add("usuario-box");
-    userBox.innerHTML = `
-      <img src="${usuario.foto}" alt="Usuario" class="usuario-foto">
-      <span class="usuario-nombre">${usuario.nombre}</span>
-      <button id="logoutBtn" class="logout-btn">Cerrar sesión</button>
-    `;
-    nav.appendChild(userBox);
-
-    // cerrar sesión
-    document.getElementById("logoutBtn").addEventListener("click", () => {
-      localStorage.removeItem("usuarioActivo");
-      alert("Sesión cerrada correctamente.");
-      window.location.href = "login.html";
-    });
+  // Ocultar botón "Iniciar sesión" si existe
+  const ul = nav.querySelector("ul");
+  if (ul) {
+    const loginBtn = ul.querySelector('a[href="login.html"]');
+    if (loginBtn) loginBtn.style.display = "none";
   }
-  // === Alternar visibilidad de contraseña ===
-function togglePassword(idInput, el) {
-  const input = document.getElementById(idInput);
-  const isPassword = input.type === "password";
-  input.type = isPassword ? "text" : "password";
-  el.textContent = isPassword ? "🙈" : "👁️";
-}
 
+  // Mostrar caja usuario
+  const userBox = document.createElement("div");
+  userBox.classList.add("usuario-box");
+  userBox.innerHTML = `
+    <img src="${usuario.foto}" alt="Usuario" class="usuario-foto">
+    <span class="usuario-nombre">${usuario.nombre}</span>
+    <button id="logoutBtn" class="logout-btn">Cerrar sesión</button>
+  `;
+  nav.appendChild(userBox);
+
+  // Cerrar sesión
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    localStorage.removeItem("usuarioActivo");
+    alert("Sesión cerrada correctamente.");
+    window.location.href = "login.html";
+  });
 });

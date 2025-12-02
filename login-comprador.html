@@ -3,11 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <title>Login Comprador</title>
+
+  <!-- CSS -->
   <link rel="stylesheet" href="Estilos/login.css">
+
+  <style>
+    /* Ajustes para foto usuario en navbar */
+    .usuario-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .usuario-box img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #a47bff;
+    }
+  </style>
 </head>
 
 <body>
 
+  <!-- NAVBAR GLOBAL -->
   <nav class="navbar">
     <h2 class="logo">Galería <span>Virtual</span></h2>
     <ul>
@@ -15,15 +35,25 @@
       <li><a href="Sobre_nosotros.html">Nosotros</a></li>
       <li><a href="Contenido.html">Contenido</a></li>
       <li><a href="publicar.html">Publicar +</a></li>
+
+      <!-- Botón login (se oculta si hay usuario) -->
+      <li><a id="btnLoginNav" href="login.html">Iniciar sesión</a></li>
+
+      <!-- Aquí aparecerán la foto y el nombre si hay usuario activo -->
+      <li id="navbarUserBox"></li>
     </ul>
   </nav>
 
+
+  <!-- TARJETA DE LOGIN -->
   <div class="login-card">
     <img class="login-logo" src="https://cdn-icons-png.flaticon.com/512/847/847969.png">
 
     <h2>Acceso Comprador 🛒</h2>
 
     <form id="loginForm">
+        
+      <!-- Tipo de usuario: comprador -->
       <input type="hidden" name="tipo" value="comprador">
 
       <div class="input-group">
@@ -43,7 +73,10 @@
     <a class="volver" href="login.html">⬅ Volver</a>
   </div>
 
+
+  <!-- Scripts -->
   <script src="Scripts/login-handler.js"></script>
+  <script src="Scripts/sesion-global.js"></script>
 
 </body>
 </html>

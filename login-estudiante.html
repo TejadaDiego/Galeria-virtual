@@ -6,6 +6,23 @@
 
   <!-- CSS unificado -->
   <link rel="stylesheet" href="Estilos/login.css">
+
+  <style>
+    /* Ajustes del avatar del usuario en navbar */
+    .usuario-box {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .usuario-box img {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #a47bff;
+    }
+  </style>
 </head>
 
 <body>
@@ -19,7 +36,7 @@
           <li><a href="Contenido.html">Contenido</a></li>
           <li><a href="publicar.html">Publicar +</a></li>
 
-          <!-- Botón login (se oculta si hay usuario) -->
+          <!-- Botón login (oculto si hay usuario) -->
           <li><a id="btnLogin" href="login.html">Iniciar sesión</a></li>
 
           <!-- Usuario logueado (foto + nombre) -->
@@ -34,7 +51,7 @@
   <div class="login-card">
       <img class="login-logo" src="https://cdn-icons-png.flaticon.com/512/847/847969.png">
 
-      <h2>Acceso Estudiante</h2>
+      <h2>Acceso Estudiante 🎓</h2>
 
       <form id="loginForm">
 
@@ -59,7 +76,7 @@
       <p id="mensajeError" class="error" style="display:none;">Credenciales incorrectas</p>
   </div>
 
-  <!-- JS login -->
+  <!-- Control de login -->
   <script src="Scripts/login-handler.js"></script>
 
   <!-- Navbar dinámico -->

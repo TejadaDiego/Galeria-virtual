@@ -58,12 +58,14 @@
         <a href="Contenido.html">Contenido</a>
         <a href="publicar.html">Publicar +</a>
 
+        <!-- Login (se oculta si hay usuario) -->
         <a id="btnLogin" href="login.html">Iniciar sesión</a>
 
-        <!-- Aquí sale foto + nombre -->
+        <!-- Caja de usuario -->
         <div id="navbarUserBox" class="navbar-user-box"></div>
     </div>
 </nav>
+
 
 <!-- PERFIL -->
 <div class="perfil-container">
@@ -82,21 +84,32 @@
     </div>
 </div>
 
+
 <!-- SCRIPT PERFIL -->
 <script>
-    const user = JSON.parse(localStorage.getItem("usuarioActivo"));
+    /* ================================
+       Cargar datos del usuario
+    ================================= */
+    const user = JSON.parse(localStorage.getItem("usuario"));
 
     if (!user) {
-        location.href = "login.html";
+        window.location.href = "login.html";
     }
 
     document.getElementById("fotoPerfil").src = user.foto || "img/default.png";
     document.getElementById("nombrePerfil").textContent = user.nombre;
-    document.getElementById("correoPerfil").textContent = user.correo || user.email;
+    document.getElementById("correoPerfil").textContent = user.email;
 
+
+    /* ================================
+       Cerrar sesión real
+    ================================= */
     function cerrarSesion() {
-        localStorage.removeItem("usuarioActivo");
-        window.location.href = "login.html";
+        fetch("Php/logout.php")
+            .then(() => {
+                localStorage.removeItem("usuario");
+                window.location.href = "login.html";
+            });
     }
 </script>
 

@@ -110,7 +110,7 @@ body {
 }
 
 /* ========================================================= */
-/* ======= 🔥 NUEVO → ESTILOS DEL SELECTOR DE TIPO ========= */
+/* ======= SELECTOR DE TIPO (Login / Registro) ============= */
 /* ========================================================= */
 
 .selector-tipo {
@@ -149,7 +149,7 @@ body {
 }
 
 /* ========================================================= */
-/* ========== 🔥🔥 NUEVO → BOTONES DE SELECCIÓN ============= */
+/* ========== BOTONES DE SELECCIÓN DE ROL =================== */
 /* ========================================================= */
 
 .btn-rol {
@@ -160,16 +160,13 @@ body {
   margin-top: 10px;
   border-radius: 12px;
   cursor: pointer;
-
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
-
   font-weight: 600;
   color: #fff;
   font-size: 0.95rem;
-
   transition: 0.28s ease;
   backdrop-filter: blur(10px);
 }
@@ -210,6 +207,7 @@ body {
   transition: 0.3s;
   border: 1px solid transparent;
 }
+
 .input-group:hover,
 .input-group:focus-within {
   box-shadow: 0 0 14px rgba(94, 23, 235, 0.35);
@@ -230,6 +228,7 @@ body {
   outline: none;
   font-size: 0.98rem;
 }
+
 .input-group input::placeholder {
   color: #cbd5e1;
 }
@@ -251,6 +250,7 @@ body {
   transition: 0.3s ease;
   letter-spacing: 0.4px;
 }
+
 .btn-submit:hover {
   transform: scale(1.06);
   box-shadow: 0 0 22px rgba(94, 23, 235, 0.75);
@@ -268,6 +268,7 @@ body {
   font-weight: 600;
   transition: 0.3s;
 }
+
 .crear-cuenta:hover {
   color: #d7caff;
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
@@ -321,7 +322,6 @@ body {
     padding: 10px 20px;
   }
 
-  /* Botones de tipo ocupan dos filas si no caben */
   .selector-tipo {
     flex-direction: column;
   }
@@ -330,6 +330,7 @@ body {
     margin: 5px 0;
   }
 }
+
 /* ========================================================= */
 /* ========================= VOLVER ========================= */
 /* ========================================================= */
@@ -349,9 +350,10 @@ body {
   transform: translateX(-4px);
 }
 
-/* ================================================= */
-/*               TOAST DE NOTIFICACIONES            */
-/* ================================================= */
+/* ========================================================= */
+/*               TOAST DE NOTIFICACIONES                    */
+/* ========================================================= */
+
 .toast {
   position: fixed;
   top: 25px;

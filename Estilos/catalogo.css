@@ -10,15 +10,15 @@ body {
 }
 
 /* ===========================
-   NAVBAR (centrada)
+   NAVBAR
 =========================== */
 .navbar {
     background: #0b0b12;
     padding: 10px 40px;
     display: flex;
-    justify-content: center;   /* ← CENTRA TODO EL CONTENIDO */
+    justify-content: center;
     align-items: center;
-    gap: 60px;                 /* ← SEPARACIÓN EQUILIBRADA */
+    gap: 60px;
     border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
@@ -26,14 +26,16 @@ body {
     display: flex;
     list-style: none;
     gap: 25px;
-    justify-content: center;   /* ← CENTRA EL MENÚ */
+    justify-content: center;
+    padding: 0;
+    margin: 0;
 }
 
 .navbar-menu a {
     color: #ccc;
     text-decoration: none;
     font-size: 15px;
-    transition: 0.3s;
+    transition: 0.3s ease-in-out;
 }
 
 .navbar-menu a:hover,
@@ -42,7 +44,7 @@ body {
     font-weight: bold;
 }
 
-/* carrito */
+/* CARRITO */
 .cart-box {
     display: flex;
     align-items: center;
@@ -51,7 +53,7 @@ body {
     border-radius: 10px;
     cursor: pointer;
     transition: 0.3s;
-    margin-right: 25px;        /* ← MANTENIDO COMO LO TENÍAS */
+    margin-right: 25px;
 }
 
 .cart-box:hover {
@@ -63,9 +65,10 @@ body {
     padding: 3px 8px;
     border-radius: 20px;
     margin-right: 8px;
+    font-size: 13px;
 }
 
-/* usuario */
+/* USUARIO */
 .navbar-user {
     display: flex;
     align-items: center;
@@ -87,8 +90,7 @@ body {
 .titulo {
     text-align: center;
     font-size: 28px;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin: 30px 0;
     color: #bca7ff;
     text-shadow: 0 0 8px rgba(94, 23, 235, 0.6);
 }
@@ -113,7 +115,7 @@ body {
     padding: 15px;
     border-radius: 14px;
     text-align: center;
-    transition: 0.3s;
+    transition: 0.3s ease;
     border: 1px solid transparent;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
@@ -124,7 +126,7 @@ body {
     box-shadow: 0 0 18px rgba(94, 23, 235, 0.6);
 }
 
-/* imagen */
+/* IMAGEN */
 .card img {
     width: 100%;
     height: 180px;
@@ -132,7 +134,7 @@ body {
     border-radius: 12px;
 }
 
-/* texto */
+/* TEXTO */
 .card h3 {
     font-size: 17px;
     margin-top: 12px;
@@ -162,7 +164,7 @@ body {
     color: #b28aff;
 }
 
-/* botón */
+/* BOTÓN */
 .precio-carrito button {
     background: #5E17EB;
     border: none;
@@ -171,7 +173,7 @@ body {
     color: white;
     font-size: 14px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.3s ease;
 }
 
 .precio-carrito button:hover {
@@ -179,9 +181,29 @@ body {
     transform: scale(1.08);
 }
 
+/* IMG EN EL CARRITO */
 .item-img {
     width: 60px;
     height: 60px;
     border-radius: 8px;
     object-fit: cover;
+}
+
+/* ===========================
+   RESPONSIVE IMPROVEMENTS
+=========================== */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 10px 20px;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .navbar-menu {
+        gap: 15px;
+    }
+
+    .titulo {
+        font-size: 24px;
+    }
 }

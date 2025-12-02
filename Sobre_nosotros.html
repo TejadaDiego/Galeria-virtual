@@ -5,17 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sobre Nosotros - Galería Virtual</title>
 
-  <!-- Fuente -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-
-  <!-- Estilos generales (tu archivo) -->
   <link rel="stylesheet" href="Estilos/estilos.css">
+
   <style>
-    /* Ajustes rápidos locales para asegurar que la navbar se vea bien */
+    /* ---------------- NAVBAR ---------------- */
     .navbar {
       width: 100%;
       padding: 18px 40px;
-      background: rgba(13,11,31,0.95);
+      background: rgba(13, 11, 31, 0.95);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -47,10 +45,10 @@
 
     .navbar-links a.active {
       background: linear-gradient(90deg, #7f00ff, #e100ff);
-      color: #fff;
       box-shadow: 0 6px 18px rgba(145, 65, 255, 0.18);
     }
 
+    /* ---------------- USUARIO NAV ---------------- */
     .navbar-user-box {
       display: flex;
       align-items: center;
@@ -66,40 +64,50 @@
       border: 2px solid #b48bff;
     }
 
-    /* menú de usuario desplegable */
+    /* Menú desplegable */
     #menuUsuario {
       position: absolute;
       right: 40px;
       top: 70px;
       background: #0b0a16;
-      border: 1px solid rgba(255,255,255,0.06);
-      padding: 10px;
-      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 12px;
+      border-radius: 12px;
       display: none;
       z-index: 1000;
-      min-width: 180px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+      min-width: 190px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.5);
     }
-    #menuUsuario button, #menuUsuario a {
+
+    #menuUsuario button,
+    #menuUsuario a {
       display: block;
       width: 100%;
-      text-align: left;
-      padding: 8px 10px;
+      padding: 9px 12px;
       background: transparent;
       border: none;
       color: #fff;
-      cursor: pointer;
-      text-decoration: none;
+      text-align: left;
       font-weight: 600;
+      cursor: pointer;
       border-radius: 6px;
-    }
-    #menuUsuario button:hover, #menuUsuario a:hover {
-      background: rgba(127,0,255,0.12);
+      text-decoration: none;
     }
 
-    /* Espaciado para que el contenido no quede bajo la navbar */
-    main { padding-top: 110px; }
-    .fondo { z-index: -1; } /* mantener fondo detrás */
+    #menuUsuario button:hover,
+    #menuUsuario a:hover {
+      background: rgba(127,0,255,0.15);
+    }
+
+    /* ---------------- ESPACIADO ---------------- */
+    main {
+      padding-top: 110px;
+    }
+
+    .fondo {
+      z-index: -1;
+    }
+
   </style>
 </head>
 
@@ -108,175 +116,137 @@
   <!-- Fondo decorativo -->
   <div class="fondo"></div>
 
-  <!-- NAVBAR UNIFICADA -->
-  <nav class="navbar" role="navigation" aria-label="Main navigation">
+  <!-- NAVBAR -->
+  <nav class="navbar">
     <div class="navbar-logo">Galería <span style="color:#b34cff">Virtual</span></div>
 
-    <div class="navbar-links" role="menu">
+    <div class="navbar-links">
       <a href="inicio.html">Inicio</a>
       <a href="Sobre_nosotros.html" class="active">Nosotros</a>
       <a href="Contenido.html">Contenido</a>
       <a href="publicar.html">Publicar +</a>
 
-      <!-- Botón login (se oculta si hay usuario) -->
+      <!-- Botón login -->
       <a id="btnLogin" href="login.html">Iniciar sesión</a>
 
-      <!-- Contenedor donde se mostrará foto+nombre si hay sesión -->
-      <div id="navbarUserBox" class="navbar-user-box" aria-hidden="true"></div>
+      <!-- Usuario -->
+      <div id="navbarUserBox" class="navbar-user-box"></div>
     </div>
   </nav>
 
-  <!-- Menú desplegable de usuario -->
-  <div id="menuUsuario" role="menu" aria-hidden="true">
-    <div style="padding:8px 10px; border-bottom:1px solid rgba(255,255,255,0.03); margin-bottom:8px;">
-      <strong id="menuNombre">Usuario</strong>
-      <div id="menuEmail" style="font-size:0.85rem; color:#cfcfe3"></div>
+  <!-- Menú usuario -->
+  <div id="menuUsuario">
+    <div style="padding:8px; border-bottom:1px solid rgba(255,255,255,0.06); margin-bottom:5px;">
+      <strong id="menuNombre"></strong>
+      <div id="menuEmail" style="font-size:0.82rem; opacity:.8;"></div>
     </div>
     <a href="cuenta.html">Ver perfil</a>
     <button id="btnLogout">Cerrar sesión</button>
   </div>
 
+  <!-- CONTENIDO -->
   <main>
-    <!-- SECCIÓN BIENVENIDA -->
-    <section id="sobre-inicio" class="inicio-section">
-      <div class="intro-container" style="max-width:920px; margin: 0 auto; text-align:center;">
-        <h2>Bienvenido a la Galería Virtual</h2>
-        <p>Explora el arte digital creado por nuestros estudiantes.</p>
-      </div>
+
+    <section class="inicio-section" style="text-align:center; max-width:900px; margin:auto;">
+      <h2>Bienvenido a la Galería Virtual</h2>
+      <p>Explora el arte digital creado por nuestros estudiantes.</p>
     </section>
 
-    <!-- SECCIÓN NOSOTROS -->
-    <section id="sobre-info" class="nosotros-section" style="max-width:980px; margin:40px auto; padding:40px;">
+    <section style="max-width:900px; margin:40px auto; padding:20px;">
       <h2>¿Qué somos?</h2>
       <p>
         Somos una galería virtual dedicada a exhibir y promover el arte digital.
-        Nuestro espacio ofrece una plataforma accesible donde los estudiantes pueden mostrar sus obras
-        y el público puede disfrutar del arte desde cualquier lugar del mundo.
+        Aquí estudiantes creativos pueden compartir sus obras con el mundo.
       </p>
       <p>
-        Fomentamos la creatividad, la innovación y la conexión entre el arte y la tecnología,
-        brindando una experiencia visual moderna e interactiva.
+        Buscamos unir arte y tecnología en una experiencia moderna, accesible e interactiva.
       </p>
     </section>
 
-    <!-- SECCIÓN PUBLICAR (informativa) -->
-    <section id="sobre-publicar" class="publicar-section" style="max-width:980px; margin:40px auto; padding:40px;">
+    <section style="max-width:900px; margin:40px auto; padding:20px;">
       <h2>Publica tu obra</h2>
-      <p>Comparte tus creaciones con el mundo 🌎. Sube tus imágenes o videos artísticos aquí.</p>
+      <p>Comparte tus creaciones subiendo imágenes o videos desde la pestaña "Publicar +".</p>
 
-      <form class="upload-form" enctype="multipart/form-data" onsubmit="event.preventDefault(); alert('Usa la página Publicar para subir tu obra.');">
-        <label for="titulo">Título de la obra:</label>
-        <input type="text" id="titulo" name="titulo" placeholder="Ej. Atardecer digital" required>
+      <form onsubmit="event.preventDefault(); alert('Esta página solo es informativa. Use la página: Publicar +');">
+        <label>Título:</label>
+        <input type="text" required>
 
-        <label for="descripcion">Descripción:</label>
-        <textarea id="descripcion" name="descripcion" rows="4"
-          placeholder="Describe brevemente tu obra..." required></textarea>
+        <label>Descripción:</label>
+        <textarea rows="4" required></textarea>
 
-        <label for="archivo">Sube tu archivo (imagen o video):</label>
-        <input type="file" id="archivo" name="archivo" accept="image/*,video/*" required>
+        <label>Archivo:</label>
+        <input type="file" accept="image/*,video/*" required>
 
-        <button type="submit" class="boton">Publicar</button>
+        <button class="boton">Publicar</button>
       </form>
     </section>
+
   </main>
 
-  <footer style="text-align:center; padding:20px 0; color:#cfcfe3;">
-    <p>© 2025 Galería Virtual | Proyecto Académico</p>
+  <footer style="text-align:center; padding:20px; color:#cfcfe3;">
+    <p>© 2025 Galería Virtual</p>
   </footer>
 
-  <!-- SCRIPTS -->
   <script src="Scripts/sesion-global.js"></script>
 
   <script>
-    // Control local del menú de usuario (se complementa con sesion-global.js)
     document.addEventListener("DOMContentLoaded", () => {
-      const userBox = document.getElementById('navbarUserBox');
-      const btnLogin = document.getElementById('btnLogin');
-      const menu = document.getElementById('menuUsuario');
-      const menuNombre = document.getElementById('menuNombre');
-      const menuEmail = document.getElementById('menuEmail');
-      const btnLogout = document.getElementById('btnLogout');
+      const userBox = document.getElementById("navbarUserBox");
+      const btnLogin = document.getElementById("btnLogin");
+      const menu = document.getElementById("menuUsuario");
+      const menuNombre = document.getElementById("menuNombre");
+      const menuEmail = document.getElementById("menuEmail");
+      const btnLogout = document.getElementById("btnLogout");
 
-      function mostrarUsuarioEnNav(usuario) {
+      function actualizarUI(usuario) {
         if (!usuario) {
-          // sin sesión
-          if (userBox) userBox.innerHTML = '';
-          if (btnLogin) btnLogin.style.display = 'inline-block';
-          menu.style.display = 'none';
-          menu.setAttribute('aria-hidden', 'true');
+          userBox.innerHTML = "";
+          btnLogin.style.display = "inline-block";
+          menu.style.display = "none";
           return;
         }
 
-        // con sesión
-        if (btnLogin) btnLogin.style.display = 'none';
+        btnLogin.style.display = "none";
 
-        const foto = usuario.foto && usuario.foto !== '' ? usuario.foto : 'img/default.png';
+        const foto = usuario.foto || "img/default.png";
         userBox.innerHTML = `
-          <img src="${foto}" alt="Foto usuario">
+          <img src="${foto}">
           <span style="color:#fff; font-weight:600;">${usuario.nombre}</span>
         `;
-        userBox.setAttribute('aria-hidden', 'false');
 
-        // rellenar menú
-        menuNombre.textContent = usuario.nombre || 'Usuario';
-        menuEmail.textContent = usuario.email || '';
+        menuNombre.textContent = usuario.nombre;
+        menuEmail.textContent = usuario.email;
 
-        // click para abrir/cerrar menú
-        userBox.onclick = (e) => {
-          e.stopPropagation();
-          if (menu.style.display === 'block') {
-            menu.style.display = 'none';
-            menu.setAttribute('aria-hidden', 'true');
-          } else {
-            menu.style.display = 'block';
-            menu.setAttribute('aria-hidden', 'false');
-          }
+        userBox.onclick = () => {
+          menu.style.display = menu.style.display === "block" ? "none" : "block";
         };
       }
 
-      // Cerrar menú al clickear fuera
-      document.addEventListener('click', (e) => {
+      // cerrar menú al hacer click fuera
+      document.addEventListener("click", (e) => {
         if (!menu.contains(e.target) && !userBox.contains(e.target)) {
-          menu.style.display = 'none';
-          menu.setAttribute('aria-hidden', 'true');
+          menu.style.display = "none";
         }
       });
 
-      // Logout: llama a Php/logout.php y limpia localStorage
-      btnLogout.addEventListener('click', async () => {
-        try {
-          await fetch('Php/logout.php', { method: 'GET' });
-        } catch (err) {
-          // ignorar si falla la petición, igual limpiamos el cliente
-          console.warn('Logout fetch error', err);
-        }
-        localStorage.removeItem('usuarioActivo');
-        // generar evento para sincronizar UI en otras pestañas
-        localStorage.setItem('usuarioActivo', null);
-        localStorage.removeItem('usuarioActivo');
-        mostrarUsuarioEnNav(null);
-        window.location.href = 'inicio.html';
-      });
+      // logout
+      btnLogout.onclick = async () => {
+        await fetch("Php/logout.php");
+        localStorage.removeItem("usuarioActivo");
+        actualizarUI(null);
+        window.location.href = "inicio.html";
+      };
 
-      // Inicializar con lo que haya en localStorage
+      // Cargar usuario al inicio
       let usuario = null;
-      try { usuario = JSON.parse(localStorage.getItem('usuarioActivo')); } catch(e){ usuario = null; }
-      mostrarUsuarioEnNav(usuario);
+      try { usuario = JSON.parse(localStorage.getItem("usuarioActivo")); } catch {}
+      actualizarUI(usuario);
 
-      // Actualizar si cambia en otra pestaña
-      window.addEventListener('storage', (ev) => {
-        if (ev.key === 'usuarioActivo') {
-          let u = null;
-          try { u = JSON.parse(localStorage.getItem('usuarioActivo')); } catch(e){ u = null; }
-          mostrarUsuarioEnNav(u);
-        }
-      });
-
-      // Evento manual para forzar actualización desde otras partes
-      window.addEventListener('actualizarUsuarioUI', () => {
+      // Escuchar cambios entre pestañas
+      window.addEventListener("storage", () => {
         let u = null;
-        try { u = JSON.parse(localStorage.getItem('usuarioActivo')); } catch(e){ u = null; }
-        mostrarUsuarioEnNav(u);
+        try { u = JSON.parse(localStorage.getItem("usuarioActivo")); } catch {}
+        actualizarUI(u);
       });
     });
   </script>

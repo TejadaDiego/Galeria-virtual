@@ -3,62 +3,78 @@
 session_start();
 require_once __DIR__ . "/conexion.php";
 
+// IMPORTANTE → enviamos JSON SIEMPRE
 header("Content-Type: application/json");
 
-// --------------------------------------------------------------
+
+// =====================================================
 // 1. VERIFICAR SESIÓN
-// --------------------------------------------------------------
+// =====================================================
 if (!isset($_SESSION['user_id'])) {
     echo json_encode(["error" => "Debes iniciar sesión para publicar."]);
     exit;
 }
 
-$usuario_id = intval($_SESSION["user_id"]);
+$usuario_id = intval($_SESSION['user_id']);
 
-// --------------------------------------------------------------
+
+// =====================================================
 // 2. VALIDAR DATOS RECIBIDOS
-// --------------------------------------------------------------
-$titulo = trim($_POST['titulo'] ?? '');
+// =====================================================
+$titulo      = trim($_POST['titulo'] ?? '');
 $descripcion = trim($_POST['descripcion'] ?? '');
-$precio = floatval($_POST['precio'] ?? 0);
+$precio      = floatval($_POST['precio'] ?? 0);
 
-if ($titulo === '' || $precio <= 0) {
-    echo json_encode(["error" => "Campos incompletos o inválidos."]);
+if ($titulo === "" || $descripcion === "" || $precio <= 0) {
+    echo json_encode(["error" => "Todos los campos son obligatorios."]);
     exit;
 }
 
-// --------------------------------------------------------------
-// 3. MANEJO DE IMAGEN
-// --------------------------------------------------------------
+
+// =====================================================
+// 3. SUBIR IMAGEN (OPCIONAL PERO SOPORTADO)
+// =====================================================
 $nombreArchivo = null;
 
-if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === 0) {
+if (!empty($_FILES['imagen']['name']) && $_FILES['imagen']['error'] === 0) {
 
-    // Carpeta PÚBLICA para las imágenes
-    $carpetaPublica = __DIR__ . "/../uploads/"; 
-    $rutaParaDB = "uploads/";
+    // Carpeta donde irán las imágenes
+    $carpetaUploads = __DIR__ . "/../uploads/";
+    $rutaDB = "uploads/";
 
-    if (!is_dir($carpetaPublica)) {
-        mkdir($carpetaPublica, 0777, true);
+    if (!is_dir($carpetaUploads)) {
+        mkdir($carpetaUploads, 0777, true);
     }
 
-    $nombreArchivoLimpio = preg_replace('/[^a-zA-Z0-9._-]/', '_', $_FILES['imagen']['name']);
-    $nombreArchivo = time() . "_" . $nombreArchivoLimpio;
+    // Asegurar nombre seguro
+    $nombreLimpio = preg_replace('/[^a-zA-Z0-9._-]/', '_', $_FILES['imagen']['name']);
+    $nombreFinal = time() . "_" . $nombreLimpio;
 
-    $rutaDestino = $carpetaPublica . $nombreArchivo;
+    $rutaFinal = $carpetaUploads . $nombreFinal;
 
-    if (!move_uploaded_file($_FILES['imagen']['tmp_name'], $rutaDestino)) {
-        echo json_encode(["error" => "Error al guardar la imagen en el servidor."]);
+    // Validar tipo de imagen
+    $permitidos = ["image/jpeg", "image/png", "image/webp"];
+
+    if (!in_array($_FILES['imagen']['type'], $permitidos)) {
+        echo json_encode(["error" => "Formato de imagen no permitido (solo JPG, PNG o WEBP)."]);
         exit;
     }
 
-    // Valor que se guardará en la base de datos
-    $nombreArchivo = $rutaParaDB . $nombreArchivo;
+    // Subir archivo
+    if (!move_uploaded_file($_FILES['imagen']['tmp_name'], $rutaFinal)) {
+        echo json_encode(["error" => "No se pudo guardar la imagen en el servidor."]);
+        exit;
+    }
+
+    // Ruta para la base de datos
+    $nombreArchivo = $rutaDB . $nombreFinal;
 }
 
-// --------------------------------------------------------------
-// 4. INSERTAR EN LA BASE DE DATOS
-// --------------------------------------------------------------
+
+
+// =====================================================
+// 4. INSERTAR PUBLICACIÓN
+// =====================================================
 $sql = "INSERT INTO trabajos (titulo, descripcion, precio, imagen, publicado_por)
         VALUES (?, ?, ?, ?, ?)";
 
@@ -75,10 +91,13 @@ if (!$stmt) {
 $stmt->bind_param("ssdsi", $titulo, $descripcion, $precio, $nombreArchivo, $usuario_id);
 
 if ($stmt->execute()) {
-    echo json_encode(["success" => true]);
+
+    // ⚠ Tu JS espera exactamente "ok"
+    echo json_encode("ok");
+
 } else {
     echo json_encode([
-        "error" => "Error al insertar",
+        "error" => "No se pudo guardar la publicación.",
         "detalle" => $stmt->error
     ]);
 }

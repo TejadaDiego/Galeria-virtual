@@ -2,8 +2,10 @@
 //   CARGAR CARRITO EN TABLA
 // ===============================
 function cargarCarrito() {
-    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
     const tabla = document.getElementById("tablaCarrito");
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    if (!tabla) return;
 
     tabla.innerHTML = `
         <tr>
@@ -28,7 +30,7 @@ function cargarCarrito() {
                 <td>${item.nombre}</td>
                 <td>S/ ${item.precio}</td>
                 <td>${item.cantidad}</td>
-                <td>S/ ${subtotal}</td>
+                <td>S/ ${subtotal.toFixed(2)}</td>
                 <td class="acciones">
                     <button class="btn" onclick="cambiarCantidad(${index}, 1)">+</button>
                     <button class="btn" onclick="cambiarCantidad(${index}, -1)">-</button>
@@ -39,7 +41,8 @@ function cargarCarrito() {
     });
 
     document.getElementById("totalCarrito").textContent = total.toFixed(2);
-    actualizarCarritoUI();
+
+    actualizarCarritoUI(); // actualiza el contador global del carrito
 }
 
 // ===============================
@@ -50,10 +53,11 @@ function cambiarCantidad(i, cantidad) {
 
     carrito[i].cantidad += cantidad;
 
-    if (carrito[i].cantidad <= 0) carrito.splice(i, 1);
+    if (carrito[i].cantidad <= 0) {
+        carrito.splice(i, 1);
+    }
 
     localStorage.setItem("carrito", JSON.stringify(carrito));
-
     cargarCarrito();
 }
 
@@ -64,8 +68,8 @@ function eliminarItem(i) {
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
     carrito.splice(i, 1);
-    localStorage.setItem("carrito", JSON.stringify(carrito));
 
+    localStorage.setItem("carrito", JSON.stringify(carrito));
     cargarCarrito();
 }
 
@@ -81,8 +85,10 @@ function vaciarCarrito() {
 //   COMPLETAR COMPRA
 // ===============================
 function comprar() {
-    alert("✔ Compra realizada con éxito");
-    vaciarCarrito();
+    if (confirm("¿Deseas completar la compra?")) {
+        alert("✔ Compra realizada con éxito");
+        vaciarCarrito();
+    }
 }
 
 // ===============================
@@ -90,5 +96,5 @@ function comprar() {
 // ===============================
 document.addEventListener("DOMContentLoaded", () => {
     cargarCarrito();
-    actualizarCarritoUI();
+    actualizarCarritoUI(); // vuelve a sincronizar el contador global
 });

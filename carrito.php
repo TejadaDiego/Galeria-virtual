@@ -1,5 +1,32 @@
 <?php
 session_start();
+
+// ===================================================
+// ACCIONES DIRECTAS EN ESTE MISMO ARCHIVO
+// ===================================================
+
+// Quitar un producto
+if (isset($_POST["remove_id"])) {
+    $id = $_POST["remove_id"];
+
+    foreach ($_SESSION["cart"] as $i => $item) {
+        if ($item["id"] == $id) {
+            unset($_SESSION["cart"][$i]);
+            break;
+        }
+    }
+
+    $_SESSION["cart"] = array_values($_SESSION["cart"]); // Reindexar
+}
+
+// Vaciar carrito
+if (isset($_POST["clear_cart"])) {
+    unset($_SESSION["cart"]);
+}
+
+// ===================================================
+// Cargar carrito actualizado
+// ===================================================
 $cart = $_SESSION['cart'] ?? [];
 $total = 0;
 $qty_total = 0;
@@ -9,50 +36,155 @@ foreach ($cart as $c) {
     $qty_total += $c['cantidad'];
 }
 ?>
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="es">
 <head>
-    <meta charset="utf-8">
-    <title>Carrito</title>
+    <meta charset="UTF-8">
+    <title>Carrito de Compras</title>
+
+    <style>
+        body {
+            background: #0d0b14;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .carrito-container {
+            width: 92%;
+            max-width: 1100px;
+            margin: 40px auto;
+            background: rgba(255,255,255,0.06);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th {
+            background: #5E17EB;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: left;
+        }
+        td {
+            padding: 14px 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .item-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 2px solid white;
+        }
+
+        .btn {
+            background: #5E17EB;
+            padding: 7px 14px;
+            color: white;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-danger { background: #dc2626; }
+        .btn-large { padding: 10px 20px; }
+
+        .total-box {
+            text-align: right;
+            margin-top: 20px;
+            font-size: 1.3rem;
+        }
+
+        .final-buttons {
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        a.btn {
+            text-decoration: none;
+            color: white;
+            display: inline-block;
+        }
+    </style>
 </head>
+
 <body>
-  <h2>Tu carrito</h2>
 
-  <?php if(empty($cart)): ?>
+<div class="carrito-container">
 
-      <p>Tu carrito está vacío.</p>
+    <h2>🛒 Tu Carrito</h2>
 
-  <?php else: ?>
+<?php if(empty($cart)): ?>
 
-      <table border="1" cellpadding="8">
+    <p>Tu carrito está vacío.</p>
+
+<?php else: ?>
+
+    <table>
         <tr>
-          <th>Producto</th>
-          <th>Precio</th>
-          <th>Cantidad</th>
-          <th>Subtotal</th>
+            <th>Imagen</th>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cant.</th>
+            <th>Subtotal</th>
+            <th>Acciones</th>
         </tr>
 
         <?php foreach($cart as $item): ?>
         <tr>
-          <td><?=htmlspecialchars($item['titulo'])?></td>
-          <td>S/ <?=number_format($item['precio'],2)?></td>
-          <td><?=intval($item['cantidad'])?></td>
-          <td>S/ <?=number_format($item['subtotal'],2)?></td>
+            <td><img src="<?= htmlspecialchars($item['imagen'] ?? 'Img/default.png') ?>" class="item-img"></td>
+
+            <td><?= htmlspecialchars($item['titulo']) ?></td>
+
+            <td>S/ <?= number_format($item['precio'], 2) ?></td>
+
+            <td><?= intval($item['cantidad']) ?></td>
+
+            <td>S/ <?= number_format($item['subtotal'], 2) ?></td>
+
+            <td>
+                <!-- ELIMINAR DESDE EL MISMO ARCHIVO -->
+                <form action="" method="POST" style="display:inline;">
+                    <input type="hidden" name="remove_id" value="<?= $item['id'] ?>">
+                    <button class="btn-danger btn" type="submit">Eliminar</button>
+                </form>
+            </td>
         </tr>
         <?php endforeach; ?>
+    </table>
 
-      </table>
+    <div class="total-box">
+        Total: <strong>S/ <?= number_format($total, 2) ?></strong>
+    </div>
 
-      <p>Cantidad total: <?=$qty_total?></p>
-      <p>Total: S/ <?=number_format($total,2)?></p>
+    <div class="final-buttons">
 
-      <!-- FORMULARIO PARA FINALIZAR COMPRA -->
-      <form action="Php/checkout.php" method="post">
-        <input type="text" name="direccion" placeholder="Dirección (opcional)">
-        <button type="submit" onclick="return confirm('Confirmar compra?')">Comprar</button>
-      </form>
+        <!-- VACIAR CARRITO DESDE ESTE MISMO ARCHIVO -->
+        <form action="" method="POST">
+            <button class="btn btn-danger btn-large" name="clear_cart" type="submit"
+                onclick="return confirm('¿Vaciar carrito por completo?')">
+                🗑 Vaciar carrito
+            </button>
+        </form>
 
-  <?php endif; ?>
+        <!-- FINALIZAR COMPRA -->
+        <form action="checkout.php" method="POST">
+            <input type="text" name="direccion" placeholder="Dirección (opcional)"
+                style="padding:8px; width:250px; border-radius:6px;">
+            <button class="btn btn-large" type="submit"
+                onclick="return confirm('¿Confirmar compra?')">💳 Comprar</button>
+        </form>
+
+    </div>
+
+<?php endif; ?>
+
+</div>
 
 </body>
 </html>

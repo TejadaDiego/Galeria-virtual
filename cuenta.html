@@ -8,33 +8,53 @@
 
 <body>
 
-    <div class="cuenta-container">
+<!-- NAVBAR UNIVERSAL -->
+<nav class="navbar">
+    <div class="navbar-logo">Galería Virtual</div>
 
-        <h1>Mi Cuenta</h1>
+    <div class="navbar-links">
+        <a href="inicio.html">Inicio</a>
+        <a href="Sobre_nosotros.html">Nosotros</a>
+        <a href="Contenido.html">Contenido</a>
+        <a href="publicar.html">Publicar +</a>
 
-        <!-- FOTO -->
-        <img id="fotoPerfil" class="foto-perfil" src="Img/default.png">
+        <!-- Botón login -->
+        <a id="btnLogin" href="login.html">Iniciar sesión</a>
 
-        <button id="btnCambiarFoto">Cambiar foto</button>
-        <input type="file" id="nuevaFoto" accept="image/*" style="display:none">
-
-        <!-- NOMBRE -->
-        <div class="input-group">
-            <label>Nombre:</label>
-            <input type="text" id="nuevoNombre">
-        </div>
-
-        <!-- CORREO (solo lectura) -->
-        <div class="input-group">
-            <label>Correo:</label>
-            <input type="text" id="correoUsuario" readonly>
-        </div>
-
-        <button id="guardarCambios" class="btn-guardar">Guardar cambios</button>
-
-        <button class="btn-salir" onclick="cerrarSesion()">Cerrar sesión</button>
-
+        <!-- Contenedor usuario -->
+        <div id="navbarUserBox" class="navbar-user-box"></div>
     </div>
+</nav>
+
+
+<!-- CONTENIDO PRINCIPAL -->
+<div class="cuenta-container">
+
+    <h1>Mi Cuenta</h1>
+
+    <!-- FOTO -->
+    <img id="fotoPerfil" class="foto-perfil" src="img/default.png">
+
+    <button id="btnCambiarFoto">Cambiar foto</button>
+    <input type="file" id="nuevaFoto" accept="image/*" style="display:none">
+
+    <!-- NOMBRE -->
+    <div class="input-group">
+        <label>Nombre:</label>
+        <input type="text" id="nuevoNombre">
+    </div>
+
+    <!-- CORREO -->
+    <div class="input-group">
+        <label>Correo:</label>
+        <input type="text" id="correoUsuario" readonly>
+    </div>
+
+    <button id="guardarCambios" class="btn-guardar">Guardar cambios</button>
+
+    <button class="btn-salir" onclick="cerrarSesion()">Cerrar sesión</button>
+
+</div>
 
 
 <script>
@@ -49,15 +69,15 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    // Cargar datos existentes
-    document.getElementById("fotoPerfil").src = user.foto || "Img/default.png";
+    // Cargar foto, nombre y correo
+    document.getElementById("fotoPerfil").src = user.foto || "img/default.png";
     document.getElementById("nuevoNombre").value = user.nombre || "";
     document.getElementById("correoUsuario").value = user.correo || "";
 });
 
 
 // ------------------------------------------------------
-//  CAMBIAR FOTO (Sube Base64 y actualiza navbar)
+//  CAMBIAR FOTO DE PERFIL
 // ------------------------------------------------------
 document.getElementById("btnCambiarFoto").addEventListener("click", () => {
     document.getElementById("nuevaFoto").click();
@@ -77,16 +97,17 @@ document.getElementById("nuevaFoto").addEventListener("change", function () {
         let user = JSON.parse(localStorage.getItem("usuarioActivo"));
         user.foto = reader.result;
 
+        // Guardar nueva foto
         localStorage.setItem("usuarioActivo", JSON.stringify(user));
 
-        // Cambiar foto en la página
+        // Actualizar foto en página
         document.getElementById("fotoPerfil").src = reader.result;
 
-        // Actualizar foto del navbar si está visible
-        const navFoto = document.querySelector(".user-photo");
+        // Actualizar foto en navbar
+        const navFoto = document.querySelector("#navbarUserBox img");
         if (navFoto) navFoto.src = reader.result;
 
-        alert("Foto de perfil actualizada");
+        alert("Foto actualizada correctamente.");
     };
 
     reader.readAsDataURL(archivo);
@@ -94,11 +115,10 @@ document.getElementById("nuevaFoto").addEventListener("change", function () {
 
 
 // ------------------------------------------------------
-//  GUARDAR CAMBIOS DE NOMBRE
+//  GUARDAR CAMBIO DE NOMBRE
 // ------------------------------------------------------
 document.getElementById("guardarCambios").addEventListener("click", () => {
     let user = JSON.parse(localStorage.getItem("usuarioActivo"));
-
     const nuevoNombre = document.getElementById("nuevoNombre").value.trim();
 
     if (nuevoNombre.length < 2) {
@@ -107,14 +127,13 @@ document.getElementById("guardarCambios").addEventListener("click", () => {
     }
 
     user.nombre = nuevoNombre;
-
     localStorage.setItem("usuarioActivo", JSON.stringify(user));
 
-    // Actualizar nombre en navbar si existe
-    const navbarNombre = document.querySelector(".usuario-box span");
+    // Actualizar nombre en navbar
+    const navbarNombre = document.querySelector("#navbarUserBox span");
     if (navbarNombre) navbarNombre.textContent = nuevoNombre;
 
-    alert("Cambios guardados correctamente");
+    alert("Datos actualizados correctamente.");
 });
 
 
@@ -125,8 +144,9 @@ function cerrarSesion() {
     localStorage.removeItem("usuarioActivo");
     location.href = "login.html";
 }
-
 </script>
+
+<script src="Scripts/sesion-global.js"></script>
 
 </body>
 </html>

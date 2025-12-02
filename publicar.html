@@ -4,10 +4,8 @@
   <meta charset="UTF-8">
   <title>Publicar Trabajo - Galería Virtual</title>
 
-  <!-- ESTILOS GENERALES -->
   <link rel="stylesheet" href="Estilos/publicar.css">
 
-  <!-- NAVBAR GLOBAL -->
   <style>
     .navbar {
       width: 100%;
@@ -69,19 +67,16 @@
       <a href="Contenido.html">Contenido</a>
       <a href="publicar.html" class="active">Publicar +</a>
 
-      <!-- BOTÓN LOGIN -->
       <a id="btnLogin" href="login.html">Iniciar sesión</a>
 
-      <!-- FOTO + NOMBRE DEL USUARIO -->
       <div id="navbarUserBox" class="navbar-user-box"></div>
     </div>
   </nav>
 
-  <!-- === CONTENEDOR DEL FORMULARIO === -->
   <div class="form-container">
     <h2>Publicar nuevo trabajo</h2>
 
-    <form id="formPublicar" action="publicar_handler.php" method="post" enctype="multipart/form-data">
+    <form id="formPublicar" action="Php/publicar_handler.php" method="post" enctype="multipart/form-data">
 
       <label for="titulo">Nombre del trabajo:</label>
       <input type="text" id="titulo" name="titulo" required>
@@ -95,18 +90,15 @@
       <label for="imagen">Imagen del trabajo:</label>
       <input type="file" id="imagen" name="imagen" accept="image/*" required>
 
-      <!-- ID DEL USUARIO -->
-      <input type="hidden" name="usuario_id" id="usuario_id">
-
       <div class="preview">
-        <img id="previewImg" style="display:none;" alt="Vista previa">
+        <img id="previewImg" style="display:none; width:200px; border-radius:10px;" alt="Vista previa">
       </div>
 
       <button type="submit">Subir trabajo</button>
     </form>
   </div>
 
-  <!-- === Vista previa de la imagen === -->
+  <!-- Vista previa de imagen -->
   <script>
     document.getElementById("imagen").addEventListener("change", function () {
       const file = this.files[0];
@@ -119,23 +111,18 @@
     });
   </script>
 
-  <!-- === Cargar ID DEL USUARIO DESDE localStorage === -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
-      if (usuario) {
-        document.getElementById("usuario_id").value = usuario.id;
-      }
-    });
-  </script>
-
-  <!-- === Enviar formulario AJAX === -->
+  <!-- Enviar formulario AJAX -->
   <script>
     document.getElementById('formPublicar').addEventListener('submit', async function (e) {
       e.preventDefault();
 
       const form = new FormData(this);
-      const res = await fetch(this.action, { method: 'POST', body: form });
+
+      const res = await fetch(this.action, {
+        method: 'POST',
+        body: form
+      });
+
       const data = await res.json();
 
       if (data.success) {
@@ -147,7 +134,7 @@
     });
   </script>
 
-  <!-- === Mostrar usuario en NAVBAR === -->
+  <!-- Mostrar usuario en la navbar -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
 
@@ -170,7 +157,7 @@
       box.innerHTML = `
         <div class="usuario-box" onclick="location.href='cuenta.html'">
           <img src="${foto}">
-          <span>${usuario.nombre}</span>
+          <span style="color:white;">${usuario.nombre}</span>
         </div>`;
     });
   </script>

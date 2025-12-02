@@ -1,3 +1,7 @@
+// ===============================
+//   LISTA DE PRODUCTOS
+// ===============================
+
 const productos = [
   { id: 1, titulo: "Creando el Futuro Digital", descripcion: "Representa el proceso de codificación.", imagen: "https://picsum.photos/400?random=1", precio: 15 },
   { id: 2, titulo: "Proceso Creativo", descripcion: "Simboliza la creación artística activa.", imagen: "https://picsum.photos/400?random=2", precio: 18 },
@@ -11,6 +15,11 @@ const productos = [
   { id: 10, titulo: "Bases de Datos", descripcion: "Diseño de sistemas.", imagen: "https://picsum.photos/400?random=10", precio: 17 }
 ];
 
+
+// ===============================
+//   CARGAR PRODUCTOS EN EL DOM
+// ===============================
+
 const contenedor = document.getElementById("catalogo");
 
 productos.forEach(p => {
@@ -18,13 +27,17 @@ productos.forEach(p => {
   card.classList.add("card");
 
   card.innerHTML = `
-    <img src="${p.imagen}" alt="">
-    <h3>${p.titulo}</h3>
-    <p>${p.descripcion}</p>
-    <div class="precio-carrito">
-      <span class="precio">S/ ${p.precio}</span>
-      <button onclick="agregarAlCarrito(${p.id}, '${p.titulo}', ${p.precio})">🛒 Añadir</button>
-    </div>
+      <img src="${p.imagen}" alt="${p.titulo}">
+      <h3>${p.titulo}</h3>
+      <p>${p.descripcion}</p>
+
+      <div class="precio-carrito">
+          <span class="precio">S/ ${p.precio}</span>
+
+          <button onclick="agregarAlCarrito(${p.id}, '${p.titulo.replace(/'/g, "\\'")}', ${p.precio}, '${p.imagen}')">
+              🛒 Añadir
+          </button>
+      </div>
   `;
 
   contenedor.appendChild(card);

@@ -6,6 +6,7 @@
 /* Fuente moderna */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
+/* Reset global */
 * {
     margin: 0;
     padding: 0;
@@ -51,6 +52,7 @@ body {
     z-index: 900;
 }
 
+/* Menú */
 .navbar-menu {
     display: flex;
     gap: 32px;
@@ -81,9 +83,10 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    object-fit: cover;
 }
 
-/* Carrillo */
+/* Carrito */
 .cart-box {
     position: relative;
     cursor: pointer;
@@ -92,6 +95,7 @@ body {
 
 .cart-icon {
     font-size: 24px;
+    color: var(--light);
 }
 
 .cart-count {
@@ -175,11 +179,6 @@ body {
     color: var(--accent);
 }
 
-/* Botones globales */
-button {
-    cursor: pointer;
-}
-
 /* Botón añadir */
 .precio-carrito button {
     background: var(--primary);
@@ -189,6 +188,7 @@ button {
     border-radius: 8px;
     font-size: 14px;
     transition: 0.2s;
+    cursor: pointer;
 }
 
 .precio-carrito button:hover {
@@ -228,6 +228,7 @@ td {
     border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
+/* Imagen */
 .item-img {
     width: 65px;
     height: 65px;
@@ -235,13 +236,15 @@ td {
     object-fit: cover;
 }
 
-/* Botones dentro del carrito */
+/* Botones */
 .btn {
     background: var(--primary);
     padding: 6px 12px;
     color: white;
     border-radius: 8px;
     border: none;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
 .btn:hover {
@@ -284,6 +287,7 @@ td {
     border-radius: 8px;
     border: none;
     font-size: 16px;
+    cursor: pointer;
 }
 
 .btn-large:hover {
