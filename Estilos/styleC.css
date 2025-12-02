@@ -1,21 +1,21 @@
 /* ==========================================================
-   NAVBAR + USUARIO — VERSIÓN UNIFICADA
+   NAVBAR + USUARIO — VERSIÓN UNIFICADA Y FUNCIONAL
 ========================================================== */
 
-/* Caja del usuario */
+/* Caja del usuario (foto + nombre) */
 .usuario-box {
     display: flex;
     align-items: center;
     gap: 8px;
-    background: rgba(255,255,255,0.15);
+    background: rgba(255, 255, 255, 0.15);
     padding: 6px 14px;
     border-radius: 20px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: background 0.3s ease;
 }
 
 .usuario-box:hover {
-    background: rgba(255,255,255,0.25);
+    background: rgba(255, 255, 255, 0.25);
 }
 
 .usuario-box img {
@@ -23,6 +23,7 @@
     height: 34px;
     border-radius: 50%;
     object-fit: cover;
+    border: 2px solid #5E17EB;
 }
 
 .usuario-box span {
@@ -32,56 +33,68 @@
     white-space: nowrap;
 }
 
-/* Botón login */
+/* Botón Login */
 .btn-login {
     background: #5b3fff;
     padding: 6px 15px;
     border-radius: 20px;
     color: white;
     text-decoration: none;
+    transition: 0.3s;
 }
 
-/* Menú desplegable */
+.btn-login:hover {
+    background: #7c5bff;
+}
+
+/* Menú desplegable del usuario */
 .usuario-menu {
     position: absolute;
     right: 20px;
     top: 70px;
     background: #111;
     padding: 15px;
-    width: 200px;
+    width: 210px;
     border-radius: 10px;
-    display: none;
+    display: none;          /* oculto por defecto */
     flex-direction: column;
-    gap: 10px;
-    box-shadow: 0 0 12px #0007;
+    gap: 12px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.45);
     z-index: 9999;
 }
 
 .usuario-menu.activo {
-    display: flex;
+    display: flex;          /* se activa al hacer click */
 }
 
+/* Texto del menú */
 .usuario-menu p {
     margin: 0;
-    color: #ddd;
+    color: #ccc;
     font-size: 0.9rem;
 }
 
-/* Botones */
+/* Botones del menú */
 .usuario-menu button {
     background: #333;
     border: none;
-    padding: 8px;
-    border-radius: 5px;
+    padding: 10px;
+    border-radius: 6px;
     color: white;
     cursor: pointer;
+    font-size: 0.9rem;
     transition: 0.2s;
 }
 
 .usuario-menu button:hover {
-    opacity: 0.8;
+    background: #444;
 }
 
+/* Botón Cerrar Sesión */
 .usuario-menu .logout {
     background: #d00000;
+}
+
+.usuario-menu .logout:hover {
+    background: #b30000;
 }
