@@ -1,62 +1,33 @@
-// === Sesión global: Cargar usuario en navbar ===
-window.addEventListener("DOMContentLoaded", () => {
+// Scripts/sesion-global.js
+document.addEventListener("DOMContentLoaded", () => {
+  const user = JSON.parse(localStorage.getItem('usuarioActivo'));
+  const btnLoginElems = document.querySelectorAll('#btnLogin, #btnLoginNav');
+  const navbarBoxes = document.querySelectorAll('#navbarUserBox, #usuarioNav, .navbar-user, .usuario-box');
 
-    const userBox = document.getElementById("navbarUserBox");
-    const btnLogin = document.getElementById("btnLogin");
-    const menuUsuario = document.getElementById("menuUsuario");
-
-    if (!userBox) return; // Seguridad
-
-    let usuario =
-        JSON.parse(localStorage.getItem("usuarioActivo")) ||
-        JSON.parse(localStorage.getItem("usuario"));
-
-    actualizarNavbar(usuario);
-
-    // Si otra pestaña cambia la sesión
-    window.addEventListener("storage", () => {
-        usuario =
-            JSON.parse(localStorage.getItem("usuarioActivo")) ||
-            JSON.parse(localStorage.getItem("usuario"));
-        actualizarNavbar(usuario);
+  function showUser(u) {
+    btnLoginElems.forEach(el => { if (el) el.style.display = 'none'; });
+    navbarBoxes.forEach(box => {
+      if (!box) return;
+      box.innerHTML = `<div class="usuario-mini" onclick="location.href='cuenta.html'">
+        <img src="${u.foto || 'Img/default.png'}" class="user-photo" />
+        <span>${u.nombre}</span>
+      </div>`;
     });
+  }
 
+  function hideUser() {
+    btnLoginElems.forEach(el => { if (el) el.style.display = 'inline-block'; });
+    navbarBoxes.forEach(box => { if (box) box.innerHTML = ''; });
+  }
 
-    // ===========================
-    //   FUNCIÓN PRINCIPAL
-    // ===========================
-    function actualizarNavbar(user) {
+  if (user) showUser(user);
+  else hideUser();
 
-        // --- No hay usuario ---
-        if (!user) {
-            if (btnLogin) btnLogin.style.display = "inline-block";
-            userBox.innerHTML = "";
-            if (menuUsuario) menuUsuario.classList.remove("activo");
-            return;
-        }
-
-        // --- Si hay usuario logueado ---
-        if (btnLogin) btnLogin.style.display = "none";
-
-        const foto =
-            user.foto && user.foto.trim() !== ""
-                ? user.foto
-                : "img/default.png";
-
-        userBox.innerHTML = `
-            <div class="usuario-box" id="btnUsuario">
-                <img src="${foto}" alt="foto">
-                <span>${user.nombre}</span>
-            </div>
-        `;
-
-        // Activar botón del menú
-        const btnUsuario = document.getElementById("btnUsuario");
-
-        if (btnUsuario && menuUsuario) {
-            btnUsuario.onclick = () => {
-                menuUsuario.classList.toggle("activo");
-            };
-        }
+  // Escuchar cambios desde otras pestañas
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'usuarioActivo') {
+      const newU = JSON.parse(localStorage.getItem('usuarioActivo'));
+      if (newU) showUser(newU); else hideUser();
     }
+  });
 });

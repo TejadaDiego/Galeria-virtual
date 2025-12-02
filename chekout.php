@@ -1,94 +1,42 @@
 <?php
+// Php/checkout.php
 session_start();
-require_once __DIR__ . "/conexion.php"; 
+require_once __DIR__ . "/conexion.php";
 
-// =====================================
-// 0. Validar carrito
-// =====================================
 if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
     die("Carrito vacío");
 }
-
 $cart = $_SESSION['cart'];
 
-// Usuario logueado (si lo usas)
-$usuario_id = $_SESSION['user_id'] ?? null;
-
-// =====================================
-// 1. Calcular total
-// =====================================
 $total = 0;
-foreach ($cart as $c) {
-    $total += floatval($c["subtotal"]);
-}
+foreach ($cart as $c) $total += floatval($c['subtotal']);
 
-$direccion = $_POST['direccion'] ?? null;
-if ($direccion === "") $direccion = null;
+$direccion = trim($_POST['direccion'] ?? null);
 
-// =====================================
-// 2. Registrar Pedido
-// =====================================
-$sql = "INSERT INTO pedidos (usuario_id, total, direccion) VALUES (?, ?, ?)";
-$stmt = $conn->prepare($sql);
-
-if (!$stmt) {
-    die("Error en prepare(): " . $conn->error);
-}
-
-// i = int (usuario) | d = double (total) | s = string (direccion)
-$stmt->bind_param("ids", $usuario_id, $total, $direccion);
-
-if (!$stmt->execute()) {
-    die("Error al insertar pedido: " . $stmt->error);
-}
-
+// Insert pedido
+$stmt = $conn->prepare("INSERT INTO pedidos (total, direccion) VALUES (?, ?)");
+if (!$stmt) { die("Error prepare pedidos: ".$conn->error); }
+$stmt->bind_param("ds", $total, $direccion);
+$stmt->execute();
 $pedido_id = $stmt->insert_id;
 $stmt->close();
 
-// =====================================
-// 3. Registrar Detalles del Pedido
-// =====================================
-$sql_det = "INSERT INTO pedido_detalle 
-(pedido_id, titulo, precio, cantidad, subtotal)
-VALUES (?, ?, ?, ?, ?)";
-
-$stmt_det = $conn->prepare($sql_det);
-
-if (!$stmt_det) {
-    die("Error en prepare detalle(): " . $conn->error);
-}
+// Insert detalles
+$stmt = $conn->prepare("INSERT INTO pedido_detalle (pedido_id, titulo, precio, cantidad, subtotal) VALUES (?, ?, ?, ?, ?)");
+if (!$stmt) { die("Error prepare detalle: ".$conn->error); }
 
 foreach ($cart as $item) {
-
-    $titulo   = $item['titulo'];
-    $precio   = floatval($item['precio']);
+    $precio = floatval($item['precio']);
     $cantidad = intval($item['cantidad']);
     $subtotal = floatval($item['subtotal']);
-
-    // i = int | s = string | d = double | i = int | d = double
-    $stmt_det->bind_param("isdid",
-        $pedido_id,
-        $titulo,
-        $precio,
-        $cantidad,
-        $subtotal
-    );
-
-    if (!$stmt_det->execute()) {
-        die("Error al insertar detalle: " . $stmt_det->error);
-    }
+    $titulo = $item['titulo'];
+    $stmt->bind_param("isdis", $pedido_id, $titulo, $precio, $cantidad, $subtotal);
+    $stmt->execute();
 }
-
-$stmt_det->close();
+$stmt->close();
 $conn->close();
 
-// =====================================
-// 4. LIMPIAR CARRITO
-// =====================================
+// Limpiar carrito y redirigir
 unset($_SESSION['cart']);
-
-// =====================================
-// 5. Redirigir al mensaje de compra exitosa
-// =====================================
 header("Location: ../compra_exitosa.html");
 exit;

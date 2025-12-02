@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito de Compras</title>
 
+    <!-- CSS principal -->
     <link rel="stylesheet" href="Estilos/catalogo.css">
 
     <style>
+        body { background: #0d0b14; color: white; }
+
         .carrito-container {
             width: 92%;
             max-width: 1100px;
@@ -15,7 +18,6 @@
             background: rgba(255,255,255,0.06);
             padding: 25px;
             border-radius: 12px;
-            color: white;
             box-shadow: 0 8px 25px rgba(0,0,0,0.4);
         }
 
@@ -23,7 +25,6 @@
         th {
             background: #5E17EB;
             padding: 12px;
-            border-radius: 6px;
             text-align: left;
         }
         td {
@@ -34,28 +35,17 @@
         .item-img {
             width: 60px;
             height: 60px;
-            border-radius: 8px;
             object-fit: cover;
+            border-radius: 8px;
             border: 2px solid white;
         }
 
-        .btn {
-            background: #5E17EB;
-            padding: 6px 12px;
-            color: white;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-        }
-
+        .btn { padding: 6px 12px; border: none; cursor: pointer; border-radius: 6px; color: white; }
         .btn-danger { background: #dc2626; }
-        .acciones { display: flex; gap: 10px; }
+        .btn-large { padding: 10px 16px; background: #5E17EB; }
 
-        .total-box {
-            text-align: right;
-            margin-top: 20px;
-            font-size: 1.3rem;
-        }
+        .acciones { display: flex; gap: 10px; }
+        .total-box { text-align: right; font-size: 1.3rem; margin-top: 20px; }
 
         .final-buttons {
             margin-top: 25px;
@@ -63,37 +53,77 @@
             justify-content: space-between;
         }
 
-        .btn-large { padding: 12px 20px; }
+        /* Navbar universal */
+        .navbar {
+            background: #0d0b1f;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar-menu {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+            padding: 0;
+            margin: 0;
+        }
+        .navbar-menu li a {
+            color: white;
+            text-decoration: none;
+            font-size: 17px;
+        }
+        .usuario-box { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .usuario-box img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #a569ff;
+        }
+
+        /* Carrito icono */
+        .cart-box {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: white;
+            font-size: 18px;
+        }
+        .cart-count {
+            background: #5E17EB;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
     </style>
 </head>
 
 <body>
 
-<!-- ⭐ NAVBAR UNIVERSAL FUNCIONAL ⭐ -->
+<!-- NAVBAR UNIVERSAL -->
 <nav class="navbar">
     <ul class="navbar-menu">
-
         <li><a href="inicio.html">Inicio</a></li>
         <li><a href="Sobre_nosotros.html">Nosotros</a></li>
         <li><a href="Contenido.html">Contenido</a></li>
         <li><a href="publicar.html">Publicar +</a></li>
 
-        <!-- Botón login (se oculta si hay usuario) -->
+        <!-- Botón login -->
         <li><a id="btnLogin" href="login.html">Iniciar sesión</a></li>
 
-        <!-- Contenedor dinámico para usuario -->
+        <!-- Usuario -->
         <li id="navbarUserBox" class="usuario-box"></li>
     </ul>
 
     <!-- Carrito -->
-    <div class="cart-box" onclick="window.location.href='carrito.html'">
-        <span class="cart-count" id="cartCount">0</span>
-        <span class="cart-icon">🛒</span>
+    <div class="cart-box" onclick="location.href='carrito.html'">
+        <span id="cartCount" class="cart-count">0</span> 🛒
     </div>
 </nav>
 
 
-<!-- ⭐ CONTENIDO DEL CARRITO ⭐ -->
+<!-- CONTENIDO DEL CARRITO -->
 <div class="carrito-container">
 
     <h2>🛒 Carrito de Compras</h2>
@@ -121,77 +151,36 @@
 </div>
 
 
-<!-- ⭐ SCRIPT DE FUNCIONAMIENTO DEL CARRITO ⭐ -->
+<!-- =============================== -->
+<!-- SCRIPTS DEL CARRITO -->
+<!-- =============================== -->
+<script src="Scripts/carrito.js"></script>
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     cargarCarrito();
-    actualizarContadorCarrito();
     cargarUsuarioNavbar();
 });
 
 
-/* ============================================================
-   ⭐ CARGAR CARRITO DESDE PHP ⭐
-   ============================================================ */
-function cargarCarrito() {
-    fetch("get_cart.php")
-    .then(res => res.json())
-    .then(data => {
-        const tabla = document.getElementById("tablaCarrito");
-        const totalBox = document.getElementById("totalCarrito");
-
-        // Limpiar filas antiguas (solo deja cabecera)
-        tabla.innerHTML = `
-            <tr>
-                <th>Imagen</th>
-                <th>Producto</th>
-                <th>Precio</th>
-                <th>Cant.</th>
-                <th>Subtotal</th>
-                <th>Acciones</th>
-            </tr>
-        `;
-
-        let total = 0;
-
-        data.forEach(item => {
-            total += item.subtotal;
-
-            tabla.innerHTML += `
-                <tr>
-                    <td><img src="${item.imagen}" class="item-img"></td>
-                    <td>${item.titulo}</td>
-                    <td>S/ ${item.precio.toFixed(2)}</td>
-                    <td>${item.cantidad}</td>
-                    <td>S/ ${item.subtotal.toFixed(2)}</td>
-
-                    <td>
-                        <button class="btn btn-danger" onclick="eliminarItem(${item.id})">Eliminar</button>
-                    </td>
-                </tr>
-            `;
-        });
-
-        totalBox.textContent = total.toFixed(2);
-    });
-}
-
-/* ============================================================
-   ⭐ MOSTRAR USUARIO EN NAVBAR ⭐
-   ============================================================ */
+/* Cargar usuario */
 function cargarUsuarioNavbar() {
     let user = JSON.parse(localStorage.getItem("usuarioActivo"));
+    const box = document.getElementById("navbarUserBox");
     const btnLogin = document.getElementById("btnLogin");
-    const boxUser = document.getElementById("navbarUserBox");
 
-    if (user) {
-        btnLogin.style.display = "none";
-        boxUser.innerHTML = `
-            <img src="${user.foto || 'Img/default.png'}" class="user-photo">
-            <span>${user.nombre}</span>
-        `;
-        boxUser.onclick = () => location.href = "cuenta.html";
+    if (!user) {
+        box.innerHTML = "";
+        btnLogin.style.display = "inline-block";
+        return;
     }
+
+    btnLogin.style.display = "none";
+    box.innerHTML = `
+        <img src="${user.foto || 'img/default.png'}">
+        <span>${user.nombre}</span>
+    `;
+    box.onclick = () => location.href = "cuenta.html";
 }
 </script>
 

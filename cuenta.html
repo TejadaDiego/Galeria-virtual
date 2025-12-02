@@ -4,11 +4,51 @@
     <meta charset="UTF-8">
     <title>Mi Cuenta</title>
     <link rel="stylesheet" href="Estilos/cuenta.css">
+
+    <style>
+        /* ESTILOS DEL NAVBAR UNIVERSAL */
+        .navbar {
+            width: 100%;
+            padding: 18px 30px;
+            background: #0d0b1f;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar-logo {
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .navbar-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+        .navbar-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 17px;
+        }
+        .navbar-user-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        .navbar-user-box img {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 2px solid #9d4bff;
+            object-fit: cover;
+        }
+    </style>
 </head>
 
 <body>
 
-<!-- NAVBAR UNIVERSAL -->
+<!-- ================= NAVBAR UNIVERSAL ================= -->
 <nav class="navbar">
     <div class="navbar-logo">Galería Virtual</div>
 
@@ -18,16 +58,14 @@
         <a href="Contenido.html">Contenido</a>
         <a href="publicar.html">Publicar +</a>
 
-        <!-- Botón login -->
         <a id="btnLogin" href="login.html">Iniciar sesión</a>
 
-        <!-- Contenedor usuario -->
+        <!-- Usuario -->
         <div id="navbarUserBox" class="navbar-user-box"></div>
     </div>
 </nav>
 
-
-<!-- CONTENIDO PRINCIPAL -->
+<!-- ================= CONTENIDO ================= -->
 <div class="cuenta-container">
 
     <h1>Mi Cuenta</h1>
@@ -56,12 +94,10 @@
 
 </div>
 
-
+<!-- ================= SCRIPT PRINCIPAL ================= -->
 <script>
-// ------------------------------------------------------
-//  CARGAR DATOS DEL USUARIO
-// ------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
+
     const user = JSON.parse(localStorage.getItem("usuarioActivo"));
 
     if (!user) {
@@ -69,56 +105,85 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    // Cargar foto, nombre y correo
+    // Cargar datos
     document.getElementById("fotoPerfil").src = user.foto || "img/default.png";
     document.getElementById("nuevoNombre").value = user.nombre || "";
     document.getElementById("correoUsuario").value = user.correo || "";
+
+    // Cargar Usuario en el Navbar
+    cargarUsuarioNavbar();
 });
 
+/* ------------------------------------------------------
+   MOSTRAR USUARIO EN EL NAVBAR UNIVERSAL
+------------------------------------------------------- */
+function cargarUsuarioNavbar() {
+    const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
+    const box = document.getElementById("navbarUserBox");
+    const loginBtn = document.getElementById("btnLogin");
 
-// ------------------------------------------------------
-//  CAMBIAR FOTO DE PERFIL
-// ------------------------------------------------------
+    if (!usuario) {
+        loginBtn.style.display = "inline-block";
+        box.innerHTML = "";
+        return;
+    }
+
+    loginBtn.style.display = "none";
+
+    const foto = usuario.foto ? usuario.foto : "img/default.png";
+
+    box.innerHTML = `
+        <img src="${foto}">
+        <span>${usuario.nombre}</span>
+    `;
+
+    box.onclick = () => location.href = "cuenta.html";
+}
+
+
+/* ------------------------------------------------------
+   CAMBIAR FOTO
+------------------------------------------------------- */
 document.getElementById("btnCambiarFoto").addEventListener("click", () => {
     document.getElementById("nuevaFoto").click();
 });
 
 document.getElementById("nuevaFoto").addEventListener("change", function () {
-    const archivo = this.files[0];
-    if (!archivo) return;
+    const file = this.files[0];
+    if (!file) return;
 
-    if (archivo.size > 2 * 1024 * 1024) {
-        alert("La imagen es demasiado grande (máximo 2MB).");
+    if (file.size > 2 * 1024 * 1024) {
+        alert("La imagen es demasiado grande. Máximo 2MB.");
         return;
     }
 
     const reader = new FileReader();
+
     reader.onload = () => {
         let user = JSON.parse(localStorage.getItem("usuarioActivo"));
         user.foto = reader.result;
 
-        // Guardar nueva foto
         localStorage.setItem("usuarioActivo", JSON.stringify(user));
 
-        // Actualizar foto en página
         document.getElementById("fotoPerfil").src = reader.result;
 
-        // Actualizar foto en navbar
         const navFoto = document.querySelector("#navbarUserBox img");
         if (navFoto) navFoto.src = reader.result;
 
-        alert("Foto actualizada correctamente.");
+        alert("Foto actualizada correctamente");
     };
 
-    reader.readAsDataURL(archivo);
+    reader.readAsDataURL(file);
 });
 
 
-// ------------------------------------------------------
-//  GUARDAR CAMBIO DE NOMBRE
-// ------------------------------------------------------
+/* ------------------------------------------------------
+   GUARDAR NOMBRE
+------------------------------------------------------- */
 document.getElementById("guardarCambios").addEventListener("click", () => {
+
     let user = JSON.parse(localStorage.getItem("usuarioActivo"));
+
     const nuevoNombre = document.getElementById("nuevoNombre").value.trim();
 
     if (nuevoNombre.length < 2) {
@@ -127,26 +192,24 @@ document.getElementById("guardarCambios").addEventListener("click", () => {
     }
 
     user.nombre = nuevoNombre;
+
     localStorage.setItem("usuarioActivo", JSON.stringify(user));
 
-    // Actualizar nombre en navbar
-    const navbarNombre = document.querySelector("#navbarUserBox span");
-    if (navbarNombre) navbarNombre.textContent = nuevoNombre;
+    const span = document.querySelector("#navbarUserBox span");
+    if (span) span.textContent = nuevoNombre;
 
     alert("Datos actualizados correctamente.");
 });
 
 
-// ------------------------------------------------------
-//  CERRAR SESIÓN
-// ------------------------------------------------------
+/* ------------------------------------------------------
+   CERRAR SESIÓN
+------------------------------------------------------- */
 function cerrarSesion() {
     localStorage.removeItem("usuarioActivo");
     location.href = "login.html";
 }
 </script>
-
-<script src="Scripts/sesion-global.js"></script>
 
 </body>
 </html>
