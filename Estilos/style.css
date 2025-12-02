@@ -1,6 +1,4 @@
-/* ================================
-   🔄 RESETEO GLOBAL
-================================ */
+/* === RESETEO === */
 * {
   margin: 0;
   padding: 0;
@@ -8,207 +6,138 @@
 }
 
 body {
-  background: #0f172a;
+  background: linear-gradient(180deg, #0a0826, #160835);
+  color: white;
   font-family: Arial, Helvetica, sans-serif;
-  color: #fff;
-  overflow-x: hidden;
+  min-height: 100vh;
 }
 
-/* ================================
-   🌐 NAVBAR
-================================ */
+/* === NAVBAR === */
 .navbar {
   width: 100%;
-  padding: 15px 45px;
-  background: rgba(17, 24, 39, 0.9);
-  backdrop-filter: blur(12px);
+  padding: 18px 50px;
+  background: #050314;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
   position: sticky;
   top: 0;
   z-index: 1000;
 }
 
-/* ========== MENÚ IZQUIERDO ========== */
-.nav-left {
-  list-style: none;
-  display: flex;
-  gap: 25px;
+/* LOGO */
+.logo {
+  font-size: 28px;
+  font-weight: bold;
 }
 
-.nav-left a {
+.logo span {
+  color: #b388ff;
+}
+
+/* MENÚ */
+.nav-links {
+  display: flex;
+  gap: 35px;
+}
+
+.nav-links a {
   color: #fff;
   text-decoration: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  transition: 0.3s;
-  font-weight: 500;
-}
-
-.nav-left a:hover,
-.nav-left .active {
-  background: #5E17EB;
-  box-shadow: 0 0 10px rgba(94, 23, 235, 0.5);
-}
-
-/* ========== BOTÓN LOGIN ========== */
-.login-btn {
-  color: white;
-  background: #5E17EB;
+  font-weight: 600;
+  font-size: 17px;
   padding: 8px 16px;
-  border-radius: 8px;
-  text-decoration: none;
-  margin-left: auto;
+  border-radius: 10px;
   transition: 0.3s;
 }
 
-.login-btn:hover {
-  background: #7c3aed;
+.nav-links a:hover,
+.nav-links .active {
+  background: #5E17EB;
+  box-shadow: 0 0 12px #5E17EB;
 }
 
-/* ========== USUARIO LOGUEADO NAV ========== */
-.usuario-nav {
+/* USUARIO (logueado) */
+.usuario-box {
   display: flex;
   align-items: center;
   gap: 10px;
+  background: rgba(255,255,255,0.15);
   padding: 6px 14px;
-  background: rgba(255,255,255,0.12);
-  border-radius: 12px;
-  cursor: pointer;
-  margin-left: auto;
-  transition: 0.3s;
+  border-radius: 20px;
 }
 
-.usuario-nav:hover {
-  background: rgba(255,255,255,0.22);
-}
-
-.foto-nav {
+.usuario-box img {
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #5E17EB;
+  border: 2px solid #b388ff;
 }
 
-#nombreUsuarioNav {
+.usuario-box span {
   font-size: 15px;
   font-weight: 600;
 }
 
-/* ================================
-   🎞 CARRUSEL
-================================ */
-.carrusel {
-  margin: 40px auto;
-  width: 85%;
+/* TÍTULOS */
+.titulo-pagina {
+  text-align: center;
+  margin-top: 70px;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+/* SUBTÍTULO */
+.subtitulo {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 18px;
+  color: #c6b4ff;
+}
+
+/* SECCIÓN PRINCIPAL */
+.seccion {
+  width: 80%;
+  margin: auto;
+  margin-top: 50px;
+  line-height: 30px;
+  font-size: 18px;
+}
+
+.seccion h2 {
+  margin-bottom: 15px;
+  font-size: 28px;
+  color: #d8caff;
+}
+
+/* FORMULARIO PUBLICAR */
+.form-publicar {
+  margin-top: 30px;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
+  flex-direction: column;
+  gap: 15px;
 }
 
-.imagenes img {
+.form-publicar input,
+.form-publicar textarea {
   width: 100%;
-  border-radius: 20px;
-  display: block;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
 }
 
-/* TÍTULO sobre el carrusel */
-.texto {
-  width: 90%;
-  max-width: 800px;
-  position: relative;
-  margin: -70px auto 0 auto;
-  text-align: center;
-  background: rgba(0,0,0,0.45);
-  padding: 20px;
-  border-radius: 12px;
-  backdrop-filter: blur(4px);
-  animation: fadeIn 1.2s ease;
-}
-
-/* Puntos del carrusel */
-.puntos {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.puntos p {
-  display: inline-block;
-  font-size: 25px;
-  padding: 0 6px;
+.form-publicar button {
+  width: 150px;
+  padding: 10px;
+  background: #5E17EB;
+  border-radius: 10px;
+  color: white;
+  border: none;
   cursor: pointer;
-  transition: 0.2s;
+  font-weight: bold;
 }
 
-.puntos p:hover {
-  transform: scale(1.2);
-}
-
-.bold {
-  color: #5E17EB;
-  text-shadow: 0 0 10px rgba(94, 23, 235, 0.7);
-}
-
-/* ================================
-   🔥 ANIMACIONES
-================================ */
-@keyframes fadeIn {
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-/* ================================
-   📱 RESPONSIVE
-================================ */
-@media (max-width: 850px) {
-  .navbar {
-    padding: 12px 20px;
-  }
-
-  .nav-left {
-    gap: 15px;
-  }
-
-  .usuario-nav {
-    padding: 5px 10px;
-  }
-
-  .carrusel {
-    width: 95%;
-  }
-
-  .texto {
-    margin-top: -50px;
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 600px) {
-
-  .nav-left {
-    display: none; /* Oculta menú grande */
-  }
-
-  .navbar {
-    justify-content: center;
-  }
-
-  .login-btn,
-  .usuario-nav {
-    margin-left: 0;
-  }
-
-  .texto {
-    margin-top: -40px;
-    font-size: 13px;
-  }
-
-  .puntos p {
-    font-size: 20px;
-  }
+.form-publicar button:hover {
+  background: #7c3aed;
 }

@@ -2,154 +2,35 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Estilos/style.css">
     <title>Inicio - Galería Virtual</title>
-
-    <!-- Estilos del carrusel -->
-    <link rel="stylesheet" href="Estilos/styleC.css">
-
-    <!-- Estilos del navbar -->
-    <style>
-        /* NAVBAR UNIFICADO */
-        .navbar {
-            width: 100%;
-            padding: 20px;
-            background: #0d0b1f;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-        }
-
-        .navbar-logo {
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .navbar-links {
-            display: flex;
-            gap: 25px;
-            align-items: center;
-        }
-
-        .navbar-links a {
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-        }
-
-        .navbar-links a.active {
-            color: #b34cff;
-            font-weight: bold;
-        }
-
-        /* Usuario mini */
-        .usuario-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #1a1333;
-            padding: 6px 12px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .usuario-box:hover {
-            background: #3d2c8d;
-        }
-
-        .usuario-box img {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #8f78ff;
-        }
-    </style>
 </head>
 
 <body>
 
-    <!-- NAVBAR UNIFICADO -->
     <nav class="navbar">
-        <div class="navbar-logo">Galería Virtual</div>
+        <div class="logo">Galería <span>Virtual</span></div>
 
-        <div class="navbar-links">
-            <a href="inicio.html" class="active">Inicio</a>
+        <div class="nav-links">
+            <a class="active" href="inicio.html">Inicio</a>
             <a href="Sobre_nosotros.html">Nosotros</a>
-            <a href="Contenido.html">Contenido</a>
+            <a href="contenido.html">Contenido</a>
             <a href="publicar.html">Publicar +</a>
+        </div>
 
-            <!-- Botón login (se oculta si hay usuario) -->
-            <a id="btnLogin" href="login.html">Iniciar sesión</a>
-
-            <!-- Aquí aparece foto + nombre -->
-            <div id="navbarUserBox"></div>
+        <div class="usuario-box">
+            <img src="img/user.jpg">
+            <span>Fredi</span>
         </div>
     </nav>
 
-    <!-- CARRUSEL -->
-    <div class="carousel-container">
+    <h1 class="titulo-pagina">Galería Virtual</h1>
+    <p class="subtitulo">Plataforma donde los estudiantes pueden mostrar y vender sus trabajos creativos.</p>
 
-        <div class="carousel-slide active">
-            <img src="img/banner1.jpg" alt="Imagen 1">
-        </div>
-
-        <div class="carousel-slide">
-            <img src="img/banner2.jpg" alt="Imagen 2">
-        </div>
-
-        <div class="carousel-slide">
-            <img src="img/banner3.jpg" alt="Imagen 3">
-        </div>
-
-        <!-- Botones -->
-        <button class="prev">&#10094;</button>
-        <button class="next">&#10095;</button>
+    <div class="carrusel">
+        <img src="img/imagen1.jpg" width="80%">
     </div>
-
-    <!-- Puntos -->
-    <div class="dots">
-        <span class="dot active-dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-    </div>
-
-    <!-- Script del carrusel -->
+    <script src="Scripts/sesion-global.js"></script>
     <script src="Scripts/app.js"></script>
-
-    <!-- SESIÓN GLOBAL (Muestra usuario en navbar) -->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-
-            const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
-            const box = document.getElementById("navbarUserBox");
-            const btnLogin = document.getElementById("btnLogin");
-
-            if (!usuario) {
-                box.innerHTML = "";
-                btnLogin.style.display = "inline-block";
-                return;
-            }
-
-            // ocultar login
-            btnLogin.style.display = "none";
-
-            // Foto segura (si no tiene, usa default)
-            const foto = usuario.foto && usuario.foto.trim() !== ""
-                ? usuario.foto
-                : "img/default.png";
-
-            box.innerHTML = `
-                <div class="usuario-box" onclick="location.href='cuenta.html'">
-                    <img src="${foto}">
-                    <span>${usuario.nombre}</span>
-                </div>
-            `;
-        });
-    </script>
-
 </body>
 </html>

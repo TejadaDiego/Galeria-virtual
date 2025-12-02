@@ -1,255 +1,51 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sobre Nosotros - Galería Virtual</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="Estilos/estilos.css">
-
-  <style>
-    /* ---------------- NAVBAR ---------------- */
-    .navbar {
-      width: 100%;
-      padding: 18px 40px;
-      background: rgba(13, 11, 31, 0.95);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 999;
-    }
-
-    .navbar-logo {
-      color: #fff;
-      font-size: 1.4rem;
-      font-weight: 700;
-    }
-
-    .navbar-links {
-      display: flex;
-      gap: 22px;
-      align-items: center;
-    }
-
-    .navbar-links a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 600;
-      padding: 8px 12px;
-      border-radius: 8px;
-    }
-
-    .navbar-links a.active {
-      background: linear-gradient(90deg, #7f00ff, #e100ff);
-      box-shadow: 0 6px 18px rgba(145, 65, 255, 0.18);
-    }
-
-    /* ---------------- USUARIO NAV ---------------- */
-    .navbar-user-box {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-    }
-
-    .navbar-user-box img {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #b48bff;
-    }
-
-    /* Menú desplegable */
-    #menuUsuario {
-      position: absolute;
-      right: 40px;
-      top: 70px;
-      background: #0b0a16;
-      border: 1px solid rgba(255,255,255,0.08);
-      padding: 12px;
-      border-radius: 12px;
-      display: none;
-      z-index: 1000;
-      min-width: 190px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-    }
-
-    #menuUsuario button,
-    #menuUsuario a {
-      display: block;
-      width: 100%;
-      padding: 9px 12px;
-      background: transparent;
-      border: none;
-      color: #fff;
-      text-align: left;
-      font-weight: 600;
-      cursor: pointer;
-      border-radius: 6px;
-      text-decoration: none;
-    }
-
-    #menuUsuario button:hover,
-    #menuUsuario a:hover {
-      background: rgba(127,0,255,0.15);
-    }
-
-    /* ---------------- ESPACIADO ---------------- */
-    main {
-      padding-top: 110px;
-    }
-
-    .fondo {
-      z-index: -1;
-    }
-
-  </style>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="Estilos/estilos.css">
+    <title>Sobre Nosotros</title>
 </head>
 
 <body>
 
-  <!-- Fondo decorativo -->
-  <div class="fondo"></div>
+    <nav class="navbar">
+        <div class="logo">Galería <span>Virtual</span></div>
 
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <div class="navbar-logo">Galería <span style="color:#b34cff">Virtual</span></div>
+        <div class="nav-links">
+            <a href="inicio.html">Inicio</a>
+            <a class="active" href="Sobre_nosotros.html">Nosotros</a>
+            <a href="contenido.html">Contenido</a>
+            <a href="publicar.html">Publicar +</a>
+        </div>
 
-    <div class="navbar-links">
-      <a href="inicio.html">Inicio</a>
-      <a href="Sobre_nosotros.html" class="active">Nosotros</a>
-      <a href="Contenido.html">Contenido</a>
-      <a href="publicar.html">Publicar +</a>
+        <div class="usuario-box">
+            <img src="img/user.jpg">
+            <span>Fredi</span>
+        </div>
+    </nav>
 
-      <!-- Botón login -->
-      <a id="btnLogin" href="login.html">Iniciar sesión</a>
+    <h1 class="titulo-pagina">Bienvenido a la Galería Virtual</h1>
+    <p class="subtitulo">Explora el arte digital creado por nuestros estudiantes.</p>
 
-      <!-- Usuario -->
-      <div id="navbarUserBox" class="navbar-user-box"></div>
+    <div class="seccion">
+        <h2>¿Qué somos?</h2>
+        <p>
+            Somos una galería virtual dedicada a exhibir y promover el arte digital.
+            Aquí estudiantes creativos pueden compartir sus obras con el mundo.
+        </p>
+        <p>
+            Buscamos unir arte y tecnología en una experiencia moderna, accesible e interactiva.
+        </p>
+
+        <h2 style="margin-top:40px;">Publica tu obra</h2>
+
+        <form class="form-publicar">
+            <input type="text" placeholder="Título">
+            <textarea placeholder="Descripción"></textarea>
+            <input type="file">
+            <button>Publicar</button>
+        </form>
     </div>
-  </nav>
-
-  <!-- Menú usuario -->
-  <div id="menuUsuario">
-    <div style="padding:8px; border-bottom:1px solid rgba(255,255,255,0.06); margin-bottom:5px;">
-      <strong id="menuNombre"></strong>
-      <div id="menuEmail" style="font-size:0.82rem; opacity:.8;"></div>
-    </div>
-    <a href="cuenta.html">Ver perfil</a>
-    <button id="btnLogout">Cerrar sesión</button>
-  </div>
-
-  <!-- CONTENIDO -->
-  <main>
-
-    <section class="inicio-section" style="text-align:center; max-width:900px; margin:auto;">
-      <h2>Bienvenido a la Galería Virtual</h2>
-      <p>Explora el arte digital creado por nuestros estudiantes.</p>
-    </section>
-
-    <section style="max-width:900px; margin:40px auto; padding:20px;">
-      <h2>¿Qué somos?</h2>
-      <p>
-        Somos una galería virtual dedicada a exhibir y promover el arte digital.
-        Aquí estudiantes creativos pueden compartir sus obras con el mundo.
-      </p>
-      <p>
-        Buscamos unir arte y tecnología en una experiencia moderna, accesible e interactiva.
-      </p>
-    </section>
-
-    <section style="max-width:900px; margin:40px auto; padding:20px;">
-      <h2>Publica tu obra</h2>
-      <p>Comparte tus creaciones subiendo imágenes o videos desde la pestaña "Publicar +".</p>
-
-      <form onsubmit="event.preventDefault(); alert('Esta página solo es informativa. Use la página: Publicar +');">
-        <label>Título:</label>
-        <input type="text" required>
-
-        <label>Descripción:</label>
-        <textarea rows="4" required></textarea>
-
-        <label>Archivo:</label>
-        <input type="file" accept="image/*,video/*" required>
-
-        <button class="boton">Publicar</button>
-      </form>
-    </section>
-
-  </main>
-
-  <footer style="text-align:center; padding:20px; color:#cfcfe3;">
-    <p>© 2025 Galería Virtual</p>
-  </footer>
-
-  <script src="Scripts/sesion-global.js"></script>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const userBox = document.getElementById("navbarUserBox");
-      const btnLogin = document.getElementById("btnLogin");
-      const menu = document.getElementById("menuUsuario");
-      const menuNombre = document.getElementById("menuNombre");
-      const menuEmail = document.getElementById("menuEmail");
-      const btnLogout = document.getElementById("btnLogout");
-
-      function actualizarUI(usuario) {
-        if (!usuario) {
-          userBox.innerHTML = "";
-          btnLogin.style.display = "inline-block";
-          menu.style.display = "none";
-          return;
-        }
-
-        btnLogin.style.display = "none";
-
-        const foto = usuario.foto || "img/default.png";
-        userBox.innerHTML = `
-          <img src="${foto}">
-          <span style="color:#fff; font-weight:600;">${usuario.nombre}</span>
-        `;
-
-        menuNombre.textContent = usuario.nombre;
-        menuEmail.textContent = usuario.email;
-
-        userBox.onclick = () => {
-          menu.style.display = menu.style.display === "block" ? "none" : "block";
-        };
-      }
-
-      // cerrar menú al hacer click fuera
-      document.addEventListener("click", (e) => {
-        if (!menu.contains(e.target) && !userBox.contains(e.target)) {
-          menu.style.display = "none";
-        }
-      });
-
-      // logout
-      btnLogout.onclick = async () => {
-        await fetch("logout.php");
-        localStorage.removeItem("usuarioActivo");
-        actualizarUI(null);
-        window.location.href = "inicio.html";
-      };
-
-      // Cargar usuario al inicio
-      let usuario = null;
-      try { usuario = JSON.parse(localStorage.getItem("usuarioActivo")); } catch {}
-      actualizarUI(usuario);
-
-      // Escuchar cambios entre pestañas
-      window.addEventListener("storage", () => {
-        let u = null;
-        try { u = JSON.parse(localStorage.getItem("usuarioActivo")); } catch {}
-        actualizarUI(u);
-      });
-    });
-  </script>
-
+    <script src="Scripts/sesion-global.js"></script>
 </body>
 </html>
