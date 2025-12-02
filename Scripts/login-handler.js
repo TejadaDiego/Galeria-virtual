@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const datos = new FormData(form);
 
         try {
-            const res = await fetch("Php/login.php", {
+            const res = await fetch("login.php", {
                 method: "POST",
                 body: datos
             });

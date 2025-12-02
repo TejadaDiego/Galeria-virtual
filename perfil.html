@@ -105,7 +105,7 @@
        Cerrar sesión real
     ================================= */
     function cerrarSesion() {
-        fetch("Php/logout.php")
+        fetch("logout.php")
             .then(() => {
                 localStorage.removeItem("usuario");
                 window.location.href = "login.html";

@@ -231,7 +231,7 @@
 
       // logout
       btnLogout.onclick = async () => {
-        await fetch("Php/logout.php");
+        await fetch("logout.php");
         localStorage.removeItem("usuarioActivo");
         actualizarUI(null);
         window.location.href = "inicio.html";
