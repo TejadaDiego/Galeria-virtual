@@ -58,10 +58,10 @@
         <a href="Contenido.html">Contenido</a>
         <a href="publicar.html">Publicar +</a>
 
-        <!-- Login (se oculta si hay usuario) -->
+        <!-- Login (oculto si hay usuario) -->
         <a id="btnLogin" href="login.html">Iniciar sesión</a>
 
-        <!-- Caja de usuario -->
+        <!-- Caja del usuario logueado -->
         <div id="navbarUserBox" class="navbar-user-box"></div>
     </div>
 </nav>
@@ -85,12 +85,15 @@
 </div>
 
 
-<!-- SCRIPT PERFIL -->
+
+<!-- ======================== -->
+<!--      SCRIPT PERFIL       -->
+<!-- ======================== -->
 <script>
     /* ================================
        Cargar datos del usuario
     ================================= */
-    const user = JSON.parse(localStorage.getItem("usuario"));
+    const user = JSON.parse(localStorage.getItem("usuarioActivo"));
 
     if (!user) {
         window.location.href = "login.html";
@@ -98,21 +101,20 @@
 
     document.getElementById("fotoPerfil").src = user.foto || "img/default.png";
     document.getElementById("nombrePerfil").textContent = user.nombre;
-    document.getElementById("correoPerfil").textContent = user.email;
+    document.getElementById("correoPerfil").textContent = user.correo;
+
 
 
     /* ================================
-       Cerrar sesión real
+       CERRAR SESIÓN 100% FUNCIONAL
     ================================= */
     function cerrarSesion() {
-        fetch("logout.php")
-            .then(() => {
-                localStorage.removeItem("usuario");
-                window.location.href = "login.html";
-            });
+        localStorage.removeItem("usuarioActivo");
+        window.location.href = "login.html";
     }
 </script>
 
+<!-- Navbar dinámico -->
 <script src="Scripts/sesion-global.js"></script>
 
 </body>

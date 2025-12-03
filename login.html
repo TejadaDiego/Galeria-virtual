@@ -11,119 +11,126 @@
 
 <body>
 
-    <!-- ======================================================== -->
-    <!--                     NAVBAR GLOBAL                        -->
-    <!-- ======================================================== -->
-    <nav class="navbar">
-        <h2 class="logo">Galería <span>Virtual</span></h2>
+<!-- ======================================================== -->
+<!--                     NAVBAR GLOBAL                        -->
+<!-- ======================================================== -->
+<nav class="navbar">
+    <h2 class="logo">Galería <span>Virtual</span></h2>
 
-        <ul class="navbar-links">
-            <li><a href="inicio.html">Inicio</a></li>
-            <li><a href="Sobre_nosotros.html">Nosotros</a></li>
-            <li><a href="Contenido.html">Contenido</a></li>
-            <li><a href="publicar.html">Publicar +</a></li>
+    <ul class="navbar-links">
+        <li><a href="inicio.html">Inicio</a></li>
+        <li><a href="Sobre_nosotros.html">Nosotros</a></li>
+        <li><a href="Contenido.html">Contenido</a></li>
+        <li><a href="publicar.html">Publicar +</a></li>
 
-            <!-- Botón login (oculto si hay usuario en localStorage) -->
-            <li><a id="btnLoginNav" href="login.html">Iniciar sesión</a></li>
+        <!-- Botón login → oculto si ya hay usuario -->
+        <li><a id="btnLoginNav" href="login.html">Iniciar sesión</a></li>
 
-            <!-- Aquí se carga foto + nombre -->
-            <li id="navbarUserBox" class="usuario-box"></li>
-        </ul>
-    </nav>
-
-
-
-    <!-- ======================================================== -->
-    <!--          PANTALLA 1 → SELECCIÓN DE TIPO DE LOGIN         -->
-    <!-- ======================================================== -->
-
-    <div class="login-card" id="selector-roles">
-        <img class="login-logo" src="https://cdn-icons-png.flaticon.com/512/847/847969.png">
-
-        <h2>¿Cómo deseas ingresar?</h2>
-
-        <button class="btn-rol btn-comprador" onclick="seleccionarRol('comprador')">
-            🛒 Entrar como Comprador
-        </button>
-
-        <button class="btn-rol btn-estudiante" onclick="seleccionarRol('estudiante')">
-            📚 Entrar como Estudiante
-        </button>
-
-        <button class="btn-rol btn-admin" onclick="seleccionarRol('admin')">
-            🛡️ Entrar como Administrador
-        </button>
-    </div>
-
-
-    <!-- ======================================================== -->
-    <!--                    PANTALLA LOGIN FORM                   -->
-    <!-- ======================================================== -->
-
-    <div class="login-card" id="formulario-login" style="display:none;">
-        <img class="login-logo" src="https://cdn-icons-png.flaticon.com/512/847/847969.png">
-
-        <h2 id="titulo-login">Acceso al Sistema</h2>
-
-        <form id="loginForm">
-
-            <!-- Campo oculto con el tipo seleccionado -->
-            <input type="hidden" id="tipoSeleccionado" name="tipo" value="">
-
-            <div class="input-group">
-                <span>📧</span>
-                <input type="email" name="email" required placeholder="Correo registrado">
-            </div>
-
-            <div class="input-group">
-                <span>🔒</span>
-                <input type="password" name="password" required placeholder="Contraseña">
-            </div>
-
-            <button class="btn-submit" type="submit">Entrar</button>
-        </form>
-
-        <a class="crear-cuenta" href="registro.html">¿No tienes cuenta? Crear cuenta</a>
-
-        <p class="volver" onclick="volverRoles()">⬅ Volver</p>
-
-        <p class="error" id="mensajeError" style="display:none;">Credenciales incorrectas</p>
-    </div>
+        <!-- Aquí se carga la foto + nombre al iniciar sesión -->
+        <li id="navbarUserBox" class="usuario-box"></li>
+    </ul>
+</nav>
 
 
 
-    <!-- ======================================================== -->
-    <!--                       SCRIPTS                            -->
-    <!-- ======================================================== -->
+<!-- ======================================================== -->
+<!--      PANTALLA 1 → SELECCIÓN DEL TIPO DE LOGIN             -->
+<!-- ======================================================== -->
 
-    <script>
-        /* ==========================
-           Cambio de Pantallas
-        ========================== */
-        function seleccionarRol(rol) {
-            document.getElementById("selector-roles").style.display = "none";
-            document.getElementById("formulario-login").style.display = "block";
+<div class="login-card" id="selector-roles">
+    <img class="login-logo" src="https://cdn-icons-png.flaticon.com/512/847/847969.png">
 
-            document.getElementById("tipoSeleccionado").value = rol;
+    <h2>¿Cómo deseas ingresar?</h2>
 
-            const titulo = document.getElementById("titulo-login");
+    <button class="btn-rol btn-comprador" onclick="seleccionarRol('Comprador/Vendedor')">
+        🛒 Entrar como Comprador
+    </button>
 
-            if (rol === "comprador") titulo.textContent = "Acceso de Comprador 🛒";
-            if (rol === "estudiante") titulo.textContent = "Acceso de Estudiante 📚";
-            if (rol === "admin") titulo.textContent = "Acceso de Administrador 🛡️";
-        }
+    <button class="btn-rol btn-estudiante" onclick="seleccionarRol('Estudiante')">
+        📚 Entrar como Estudiante
+    </button>
 
-        function volverRoles() {
-            document.getElementById("formulario-login").style.display = "none";
-            document.getElementById("selector-roles").style.display = "block";
-        }
-    </script>
+    <button class="btn-rol btn-admin" onclick="seleccionarRol('Administrador')">
+        🛡️ Entrar como Administrador
+    </button>
+</div>
 
-    <!-- Script que maneja el LOGIN (fetch → login.php) -->
-    <script src="Scripts/login-handler.js"></script>
 
-    <!-- Navbar global: muestra usuario logueado -->
-    <script src="Scripts/sesion-global.js"></script>
+
+<!-- ======================================================== -->
+<!--                PANTALLA LOGIN FORM REAL                  -->
+<!-- ======================================================== -->
+
+<div class="login-card" id="formulario-login" style="display:none;">
+    <img class="login-logo" src="https://cdn-icons-png.flaticon.com/512/847/847969.png">
+
+    <h2 id="titulo-login">Acceso al Sistema</h2>
+
+    <form id="loginForm">
+
+        <!-- Campo oculto con el tipo elegido -->
+        <input type="hidden" id="tipoSeleccionado" name="tipo" value="">
+
+        <div class="input-group">
+            <span>📧</span>
+            <input type="email" name="email" required placeholder="Correo registrado">
+        </div>
+
+        <div class="input-group">
+            <span>🔒</span>
+            <input type="password" name="password" required placeholder="Contraseña">
+        </div>
+
+        <button class="btn-submit" type="submit">Entrar</button>
+    </form>
+
+    <a class="crear-cuenta" href="registro.html">¿No tienes cuenta? Crear cuenta</a>
+
+    <p class="volver" onclick="volverRoles()">⬅ Volver</p>
+
+    <p class="error" id="mensajeError" style="display:none;">Credenciales incorrectas</p>
+</div>
+
+
+
+<!-- ======================================================== -->
+<!--                       JS INTERNO                         -->
+<!-- ======================================================== -->
+
+<script>
+/* ===============================
+   Cambiar entre pantallas
+=============================== */
+function seleccionarRol(rol) {
+    document.getElementById("selector-roles").style.display = "none";
+    document.getElementById("formulario-login").style.display = "block";
+
+    // Set del tipo
+    document.getElementById("tipoSeleccionado").value = rol;
+
+    const titulo = document.getElementById("titulo-login");
+
+    if (rol === "Comprador/Vendedor") titulo.textContent = "Acceso de Comprador 🛒";
+    if (rol === "Estudiante") titulo.textContent = "Acceso de Estudiante 📚";
+    if (rol === "Administrador") titulo.textContent = "Acceso de Administrador 🛡️";
+}
+
+function volverRoles() {
+    document.getElementById("formulario-login").style.display = "none";
+    document.getElementById("selector-roles").style.display = "block";
+}
+</script>
+
+
+<!-- ======================================================== -->
+<!--                      SCRIPTS GLOBALES                    -->
+<!-- ======================================================== -->
+
+<!-- Maneja el LOGIN real (fetch a login.php) -->
+<script src="Scripts/login-handler.js"></script>
+
+<!-- Navbar dinámico (muestra foto + nombre) -->
+<script src="Scripts/sesion-global.js"></script>
 
 </body>
 </html>

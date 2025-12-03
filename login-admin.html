@@ -1,57 +1,33 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Login Administrador</title>
-  <link rel="stylesheet" href="Estilos/login.css">
-
-  <style>
-    /* Ajuste para que la foto del usuario en navbar no rompa el diseño */
-    .usuario-box {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .usuario-box img {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #a47bff;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login Administrador - Galería Virtual</title>
+  <link rel="stylesheet" href="Estilos/login.css" />
 </head>
-
 <body>
 
-  <!-- === NAVBAR UNIVERSAL === -->
+  <!-- NAVBAR UNIVERSAL -->
   <nav class="navbar">
     <h2 class="logo">Galería <span>Virtual</span></h2>
-
     <ul>
       <li><a href="inicio.html">Inicio</a></li>
       <li><a href="Sobre_nosotros.html">Nosotros</a></li>
       <li><a href="Contenido.html">Contenido</a></li>
       <li><a href="publicar.html">Publicar +</a></li>
 
-      <!-- Botón login -->
-      <li><a id="btnLogin" href="login.html">Iniciar sesión</a></li>
-
-      <!-- Aquí se mostrará foto + nombre -->
+      <li><a id="btnLoginNav" href="login.html">Iniciar sesión</a></li>
       <li id="navbarUserBox"></li>
     </ul>
   </nav>
 
-  <!-- === TARJETA DE LOGIN ADMIN === -->
-  <div class="login-card">
-    <img class="login-logo" src="https://cdn-icons-png.flaticon.com/512/847/847969.png">
-
+  <!-- LOGIN CARD -->
+  <div class="login-card" style="margin-top:110px;">
+    <img class="login-logo" src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="logo">
     <h2>Acceso Administrador 🛡️</h2>
 
-    <form id="loginForm">
-
-      <!-- Se fuerza a tipo "admin" -->
+    <form id="loginForm" autocomplete="off">
       <input type="hidden" name="tipo" value="admin">
 
       <div class="input-group">
@@ -68,15 +44,61 @@
     </form>
 
     <a class="crear-cuenta" href="registro.html">¿No tienes cuenta? Crear cuenta</a>
-    <a class="volver" href="login.html">⬅ Volver</a>
+    <a class="volver" href="login.html" style="display:block;margin-top:8px;">⬅ Volver</a>
+
+    <p id="mensajeError" class="error" style="display:none;margin-top:10px;"></p>
   </div>
 
-  <!-- === SCRIPTS === -->
-  <!-- Manejo del usuario en navbar y control de sesión -->
-  <script src="Scripts/sesion-global.js"></script>
+  <script>
+    // Navbar user
+    (function initNavbar() {
+      const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
+      const btnLogin = document.getElementById("btnLoginNav");
+      const box = document.getElementById("navbarUserBox");
+      if (!usuario) {
+        if (btnLogin) btnLogin.style.display = "inline-block";
+        if (box) box.innerHTML = "";
+        return;
+      }
+      if (btnLogin) btnLogin.style.display = "none";
+      const foto = usuario.foto && usuario.foto.trim() !== "" ? usuario.foto : "img/default.png";
+      box.innerHTML = `<div class="usuario-box" onclick="location.href='cuenta.html'">
+                         <img src="${foto}" alt="foto" style="width:35px;height:35px;border-radius:50%;object-fit:cover;border:2px solid #a47bff;">
+                         <span style="color:#fff;margin-left:8px;">${usuario.nombre}</span>
+                       </div>`;
+    })();
 
-  <!-- Lógica del login (validación, envío AJAX, almacenamiento localStorage, etc.) -->
-  <script src="Scripts/login-handler.js"></script>
+    // Submit
+    document.getElementById('loginForm').addEventListener('submit', async function(e){
+      e.preventDefault();
+      const f = new FormData(this);
+      try {
+        const res = await fetch('Php/login.php', { method: 'POST', body: f });
+        const text = await res.text();
+        if (!res.ok) {
+          document.getElementById('mensajeError').style.display = "block";
+          document.getElementById('mensajeError').textContent = text || 'Error en el servidor';
+          return;
+        }
+        let json;
+        try { json = JSON.parse(text); } catch (err) {
+          document.getElementById('mensajeError').style.display = "block";
+          document.getElementById('mensajeError').textContent = 'Respuesta inesperada del servidor';
+          return;
+        }
+        if (json.error) {
+          document.getElementById('mensajeError').style.display = "block";
+          document.getElementById('mensajeError').textContent = json.error;
+          return;
+        }
+        if (json.usuario) localStorage.setItem('usuarioActivo', JSON.stringify(json.usuario));
+        window.location.href = 'inicio.html';
+      } catch (err) {
+        document.getElementById('mensajeError').style.display = "block";
+        document.getElementById('mensajeError').textContent = 'No se pudo conectar con el servidor';
+      }
+    });
+  </script>
 
 </body>
 </html>

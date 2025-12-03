@@ -2,35 +2,54 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="Estilos/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio - Galería Virtual</title>
+
+    <!-- CSS PRINCIPAL -->
+    <link rel="stylesheet" href="Estilos/style.css">
 </head>
 
 <body>
 
-    <nav class="navbar">
-        <div class="logo">Galería <span>Virtual</span></div>
+<!-- ============================
+     ⭐ NAVBAR UNIVERSAL ⭐
+=============================== -->
+<nav class="navbar">
+    <div class="logo">Galería <span>Virtual</span></div>
 
-        <div class="nav-links">
-            <a class="active" href="inicio.html">Inicio</a>
-            <a href="Sobre_nosotros.html">Nosotros</a>
-            <a href="contenido.html">Contenido</a>
-            <a href="publicar.html">Publicar +</a>
+    <div class="nav-links">
+        <a class="active" href="inicio.html">Inicio</a>
+        <a href="Sobre_nosotros.html">Nosotros</a>
+        <a href="Contenido.html">Contenido</a>
+        <a href="publicar.html">Publicar +</a>
+
+        <!-- Login (desaparece si hay usuario logueado) -->
+        <a id="btnLogin" href="login.html">Iniciar sesión</a>
+
+        <!-- Contenedor usuario logueado -->
+        <div id="navbarUserBox" class="usuario-box"></div>
+
+        <!-- Carrito -->
+        <div class="cart-box" onclick="location.href='carrito.html'">
+            <span id="cartCount">0</span> 🛒
         </div>
-
-        <div class="usuario-box">
-            <img src="img/user.jpg">
-            <span>Fredi</span>
-        </div>
-    </nav>
-
-    <h1 class="titulo-pagina">Galería Virtual</h1>
-    <p class="subtitulo">Plataforma donde los estudiantes pueden mostrar y vender sus trabajos creativos.</p>
-
-    <div class="carrusel">
-        <img src="img/imagen1.jpg" width="80%">
     </div>
-    <script src="Scripts/sesion-global.js"></script>
-    <script src="Scripts/app.js"></script>
+</nav>
+
+<!-- ============================
+        CONTENIDO PRINCIPAL
+=============================== -->
+
+<h1 class="titulo-pagina">Galería Virtual</h1>
+<p class="subtitulo">Plataforma donde los estudiantes pueden mostrar y vender sus trabajos creativos.</p>
+
+<div class="carrusel">
+    <img src="img/imagen1.jpg" width="80%">
+</div>
+
+<!-- Scripts -->
+<script src="Scripts/sesion-global.js"></script>
+<script src="Scripts/app.js"></script>
+
 </body>
 </html>
