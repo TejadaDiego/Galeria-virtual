@@ -2,13 +2,78 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <title>Sobre Nosotros - Galería Virtual</title>
+
     <link rel="stylesheet" href="Estilos/estilos.css">
-    <title>Sobre Nosotros</title>
+
+    <style>
+        body { background:#0d0b1f; color:white; font-family:Arial; }
+
+        .navbar {
+            width: 100%;
+            padding: 20px;
+            background: #09071a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+        .logo span { color:#b34cff; }
+
+        .nav-links a {
+            margin-left: 20px;
+            color:white;
+            text-decoration:none;
+            font-size: 17px;
+        }
+        .nav-links a.active { color:#b34cff; }
+
+        .usuario-box {
+            display:flex;
+            align-items:center;
+            gap:10px;
+            cursor:pointer;
+        }
+        .usuario-box img {
+            width:45px;
+            height:45px;
+            border-radius:50%;
+            object-fit:cover;
+            border:2px solid #a569ff;
+        }
+
+        .titulo-pagina {
+            text-align:center;
+            margin-top:40px;
+            font-size:36px;
+        }
+        .subtitulo {
+            text-align:center;
+            margin-bottom:40px;
+            color:#c9b8ff;
+        }
+
+        .seccion {
+            width:80%;
+            margin:auto;
+            background:#131129;
+            padding:30px;
+            border-radius:15px;
+        }
+        .seccion h2 { color:#b34cff; }
+    </style>
 </head>
 
 <body>
 
+    <!-- NAVBAR DINÁMICO -->
     <nav class="navbar">
+
         <div class="logo">Galería <span>Virtual</span></div>
 
         <div class="nav-links">
@@ -16,14 +81,18 @@
             <a class="active" href="Sobre_nosotros.html">Nosotros</a>
             <a href="contenido.html">Contenido</a>
             <a href="publicar.html">Publicar +</a>
+
+            <!-- Botón login -->
+            <a id="btnLogin" href="login.html">Iniciar sesión</a>
         </div>
 
-        <div class="usuario-box">
-            <img src="img/user.jpg">
-            <span>Fredi</span>
-        </div>
+        <!-- Usuario logueado -->
+        <div id="navbarUserBox"></div>
     </nav>
 
+
+
+    <!-- CUERPO DE LA PÁGINA -->
     <h1 class="titulo-pagina">Bienvenido a la Galería Virtual</h1>
     <p class="subtitulo">Explora el arte digital creado por nuestros estudiantes.</p>
 
@@ -37,15 +106,45 @@
             Buscamos unir arte y tecnología en una experiencia moderna, accesible e interactiva.
         </p>
 
-        <h2 style="margin-top:40px;">Publica tu obra</h2>
-
-        <form class="form-publicar">
-            <input type="text" placeholder="Título">
-            <textarea placeholder="Descripción"></textarea>
-            <input type="file">
-            <button>Publicar</button>
-        </form>
+        <h2 style="margin-top:40px;">Nuestra misión</h2>
+        <p>
+            Impulsar la creatividad, apoyar a nuevos talentos y dar visibilidad a trabajos digitales de alta calidad.
+        </p>
     </div>
+
+    <script>
+        /* ==========================
+            NAVBAR DINÁMICO
+        =========================== */
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
+            const box     = document.getElementById("navbarUserBox");
+            const btnLogin = document.getElementById("btnLogin");
+
+            if (!usuario) {
+                box.innerHTML = "";
+                btnLogin.style.display = "inline-block";
+                return;
+            }
+
+            btnLogin.style.display = "none";
+
+            const foto = usuario.foto && usuario.foto.trim() !== ""
+                ? usuario.foto
+                : "img/default.png";
+
+            box.innerHTML = `
+                <div class="usuario-box" onclick="location.href='cuenta.html'">
+                    <img src="${foto}">
+                    <span>${usuario.nombre}</span>
+                </div>
+            `;
+        });
+    </script>
+
     <script src="Scripts/sesion-global.js"></script>
+
 </body>
 </html>

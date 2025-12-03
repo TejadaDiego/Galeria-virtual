@@ -1,60 +1,54 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Compra Exitosa</title>
+    <meta charset="UTF-8">
+    <title>Compra Exitosa - Galería Virtual</title>
+    <link rel="stylesheet" href="Estilos/compra.css">
 
-<style>
-    body {
-        background: #0d0b14;
-        color: white;
-        font-family: Arial, sans-serif;
-        text-align: center;
-        padding: 60px 20px;
-    }
-
-    .box {
-        background: rgba(255,255,255,0.08);
-        padding: 35px;
-        width: 90%;
-        max-width: 420px;
-        margin: auto;
-        border-radius: 14px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-    }
-
-    h2 {
-        color: #5E17EB;
-        margin-bottom: 15px;
-    }
-
-    a {
-        display: inline-block;
-        margin-top: 20px;
-        padding: 10px 18px;
-        background: #5E17EB;
-        color: white;
-        border-radius: 8px;
-        text-decoration: none;
-        font-size: 1rem;
-        transition: 0.3s;
-    }
-
-    a:hover {
-        background: #4a13c0;
-    }
-</style>
+    <style>
+        body {
+            background: #0d0b1f;
+            color: white;
+            font-family: Arial;
+            text-align: center;
+            padding-top: 100px;
+        }
+        .box {
+            background: #1c1a33;
+            width: 450px;
+            margin: auto;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px #a569ff;
+        }
+        .box h1 { color: #b34cff; }
+        .box button {
+            margin-top: 25px;
+            padding: 12px 25px;
+            font-size: 16px;
+            background: #b34cff;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
 
 <div class="box">
-    <h2>🎉 ¡Compra Exitosa!</h2>
-    <p>Tu pedido fue procesado correctamente.</p>
+    <h1>¡Compra Realizada con Éxito! 🎉</h1>
+    <p>Tu pedido se ha registrado correctamente.</p>
 
-    <!-- Ruta correcta según tu proyecto -->
-    <a href="Contenido.html">Volver al contenido</a>
+    <button onclick="location.href='contenido.html'">Ver más trabajos</button>
+    <button onclick="location.href='inicio.html'">Volver al inicio</button>
 </div>
+
+<script>
+    // limpiar carrito tras compra
+    localStorage.removeItem("carrito");
+</script>
 
 </body>
 </html>

@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="Estilos/publicar.css">
 
   <style>
+    body { background: #0d0b1f; margin:0; }
+
     .navbar {
       width: 100%;
       padding: 20px;
@@ -16,153 +18,105 @@
       align-items: center;
     }
 
-    .navbar-logo {
-      color: white;
-      font-size: 22px;
-      font-weight: bold;
-    }
+    .navbar-links { display:flex; gap:25px; align-items:center; }
+    .navbar-links a { color:white; text-decoration:none; font-size:17px; }
+    .navbar-links a.active { color:#b34cff; }
 
-    .navbar-links {
-      display: flex;
-      gap: 25px;
-      align-items: center;
-    }
-
-    .navbar-links a {
-      color: white;
-      text-decoration: none;
-      font-size: 17px;
-    }
-
-    .navbar-links a.active {
-      color: #b34cff;
-    }
-
-    .navbar-user-box {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      cursor: pointer;
-    }
-
+    .navbar-user-box { display:flex; align-items:center; gap:10px; cursor:pointer; }
     .navbar-user-box img {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #a569ff;
+      width:45px; height:45px; border-radius:50%;
+      border:2px solid #a569ff; object-fit:cover;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- === NAVBAR UNIVERSAL === -->
-  <nav class="navbar">
-    <div class="navbar-logo">Galería Virtual</div>
+<nav class="navbar">
+  <div class="navbar-logo" style="color:white; font-size:22px;">Galería Virtual</div>
 
-    <div class="navbar-links">
-      <a href="inicio.html">Inicio</a>
-      <a href="Sobre_nosotros.html">Nosotros</a>
-      <a href="Contenido.html">Contenido</a>
-      <a href="publicar.html" class="active">Publicar +</a>
+  <div class="navbar-links">
+    <a href="inicio.html">Inicio</a>
+    <a href="Sobre_nosotros.html">Nosotros</a>
+    <a href="Contenido.html">Contenido</a>
+    <a href="publicar.html" class="active">Publicar +</a>
 
-      <a id="btnLogin" href="login.html">Iniciar sesión</a>
-
-      <div id="navbarUserBox" class="navbar-user-box"></div>
-    </div>
-  </nav>
-
-  <div class="form-container">
-    <h2>Publicar nuevo trabajo</h2>
-
-    <form id="formPublicar" action="publicar_handler.php" method="post" enctype="multipart/form-data">
-
-      <label for="titulo">Nombre del trabajo:</label>
-      <input type="text" id="titulo" name="titulo" required>
-
-      <label for="descripcion">Descripción:</label>
-      <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
-
-      <label for="precio">Precio (S/):</label>
-      <input type="number" id="precio" name="precio" required>
-
-      <label for="imagen">Imagen del trabajo:</label>
-      <input type="file" id="imagen" name="imagen" accept="image/*" required>
-
-      <div class="preview">
-        <img id="previewImg" style="display:none; width:200px; border-radius:10px;" alt="Vista previa">
-      </div>
-
-      <button type="submit">Subir trabajo</button>
-    </form>
+    <a id="btnLogin" href="login.html">Iniciar sesión</a>
+    <div id="navbarUserBox" class="navbar-user-box"></div>
   </div>
+</nav>
 
-  <!-- Vista previa de imagen -->
-  <script>
-    document.getElementById("imagen").addEventListener("change", function () {
-      const file = this.files[0];
-      const preview = document.getElementById("previewImg");
+<div class="form-container">
+  <h2>Publicar nuevo trabajo</h2>
 
-      if (file) {
-        preview.src = URL.createObjectURL(file);
-        preview.style.display = "block";
-      }
-    });
-  </script>
+  <form id="formPublicar" action="publicar_handler.php" method="post" enctype="multipart/form-data">
 
-  <!-- Enviar formulario AJAX -->
-  <script>
-    document.getElementById('formPublicar').addEventListener('submit', async function (e) {
-      e.preventDefault();
+    <label for="titulo">Nombre del trabajo:</label>
+    <input type="text" id="titulo" name="titulo" required>
 
-      const form = new FormData(this);
+    <label for="descripcion">Descripción:</label>
+    <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
 
-      const res = await fetch(this.action, {
-        method: 'POST',
-        body: form
-      });
+    <label for="precio">Precio (S/):</label>
+    <input type="number" id="precio" name="precio" required>
 
-      const data = await res.json();
+    <label for="imagen">Imagen del trabajo:</label>
+    <input type="file" id="imagen" name="imagen" accept="image/*" required>
 
-      if (data.success) {
-        alert("Trabajo publicado con éxito");
-        window.location.href = "Contenido.html";
-      } else {
-        alert("Error: " + data.error);
-      }
-    });
-  </script>
+    <img id="previewImg" style="display:none; width:200px; border-radius:10px;">
 
-  <!-- Mostrar usuario en la navbar -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
+    <button type="submit">Subir trabajo</button>
+  </form>
+</div>
 
-      const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
-      const box = document.getElementById("navbarUserBox");
-      const btnLogin = document.getElementById("btnLogin");
+<script>
+  document.getElementById("imagen").addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    const preview = document.getElementById("previewImg");
 
-      if (!usuario) {
-        box.innerHTML = "";
-        btnLogin.style.display = "inline-block";
-        return;
-      }
+    if (file) {
+      preview.src = URL.createObjectURL(file);
+      preview.style.display = "block";
+    }
+  });
 
-      btnLogin.style.display = "none";
+  document.getElementById('formPublicar').addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-      const foto = usuario.foto && usuario.foto.trim() !== ""
-        ? usuario.foto
-        : "img/default.png";
+    const form = new FormData(e.target);
 
-      box.innerHTML = `
-        <div class="usuario-box" onclick="location.href='cuenta.html'">
-          <img src="${foto}">
-          <span style="color:white;">${usuario.nombre}</span>
-        </div>`;
-    });
-  </script>
+    const res = await fetch(e.target.action, { method:"POST", body:form });
+    const data = await res.json();
 
-  <script src="Scripts/sesion-global.js"></script>
+    if (data.success) {
+      alert("Trabajo publicado con éxito");
+      location.href = "Contenido.html";
+    } else {
+      alert("Error: " + data.error);
+    }
+  });
+
+  // usuario navbar
+  document.addEventListener("DOMContentLoaded", () => {
+    const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
+    const box = document.getElementById("navbarUserBox");
+    const btnLogin = document.getElementById("btnLogin");
+
+    if (!usuario) return;
+
+    btnLogin.style.display = "none";
+    const foto = usuario.foto || "img/default.png";
+
+    box.innerHTML = `
+      <div class="usuario-box" onclick="location.href='cuenta.html'">
+        <img src="${foto}">
+        <span style="color:white;">${usuario.nombre}</span>
+      </div>
+    `;
+  });
+</script>
+
+<script src="Scripts/sesion-global.js"></script>
 
 </body>
 </html>

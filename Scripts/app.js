@@ -36,18 +36,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const puntos = document.getElementById("puntos");
   const texto = document.getElementById("texto");
 
-  // Si alguno no existe, evitar errores
+  // Prevenir errores si el carrusel no está en esta página
   if (!atras || !adelante || !imagen || !puntos || !texto) {
-    console.warn("⚠ app.js: Elementos del carrusel no encontrados.");
+    console.warn("⚠ app.js: Elementos del carrusel no encontrados. (Es normal si no estás en inicio.html)");
     return;
   }
 
   let actual = 0;
   let autoPlay;
 
-  // ---------------------------------------
   // Mostrar carrusel
-  // ---------------------------------------
   function mostrarCarrusel() {
     imagen.classList.add("fade");
 
@@ -63,13 +61,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       posicionCarrusel();
       imagen.classList.remove("fade");
-
     }, 300);
   }
 
-  // ---------------------------------------
-  // Crear puntos inferiores
-  // ---------------------------------------
+  // Crear puntos del carrusel
   function posicionCarrusel() {
     puntos.innerHTML = "";
     imagenes.forEach((_, i) => {
@@ -77,9 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ---------------------------------------
-  // Auto-rotación
-  // ---------------------------------------
+  // Auto-play
   function iniciarAutoPlay() {
     autoPlay = setInterval(() => {
       actual = (actual + 1) % imagenes.length;
@@ -91,9 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
     clearInterval(autoPlay);
   }
 
-  // ---------------------------------------
-  // Eventos de botones
-  // ---------------------------------------
+  // Eventos
   atras.addEventListener("click", () => {
     actual = (actual - 1 + imagenes.length) % imagenes.length;
     mostrarCarrusel();
@@ -104,11 +95,9 @@ document.addEventListener("DOMContentLoaded", () => {
     mostrarCarrusel();
   });
 
-  // Pausar autoplay con el mouse
   imagen.addEventListener("mouseenter", detenerAutoPlay);
   imagen.addEventListener("mouseleave", iniciarAutoPlay);
 
-  // Puntos clickeables
   puntos.addEventListener("click", (e) => {
     if (e.target.tagName === "P") {
       actual = Array.from(puntos.children).indexOf(e.target);
@@ -116,10 +105,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Click en la imagen redirige
+  // Al hacer clic en la imagen → ir a Contenido
   imagen.addEventListener("click", (e) => {
     if (e.target.tagName.toLowerCase() === "img") {
-      window.location.href = "Contenido.html";
+      window.location.href = "contenido.html";
     }
   });
 

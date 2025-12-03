@@ -2,213 +2,64 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Mi Cuenta</title>
+    <title>Mi Cuenta - Galería Virtual</title>
     <link rel="stylesheet" href="Estilos/cuenta.css">
 
     <style>
-        /* ESTILOS DEL NAVBAR UNIVERSAL */
-        .navbar {
-            width: 100%;
-            padding: 18px 30px;
-            background: #0d0b1f;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        body { background:#0d0b1f; color:white; font-family: Arial; }
+        .container {
+            width: 450px;
+            margin: 80px auto;
+            background: #1c1a33;
+            padding: 35px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 0 15px #a569ff;
         }
-        .navbar-logo {
-            color: white;
-            font-size: 22px;
-            font-weight: bold;
-        }
-        .navbar-links {
-            display: flex;
-            gap: 25px;
-            align-items: center;
-        }
-        .navbar-links a {
-            color: white;
-            text-decoration: none;
-            font-size: 17px;
-        }
-        .navbar-user-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-        }
-        .navbar-user-box img {
-            width: 42px;
-            height: 42px;
+        img {
+            width: 110px; height:110px;
             border-radius: 50%;
-            border: 2px solid #9d4bff;
+            border: 3px solid #b34cff;
             object-fit: cover;
+        }
+        button {
+            padding: 12px 20px;
+            margin-top: 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            background: #b34cff;
+            color: white;
+            cursor: pointer;
         }
     </style>
 </head>
 
 <body>
 
-<!-- ================= NAVBAR UNIVERSAL ================= -->
-<nav class="navbar">
-    <div class="navbar-logo">Galería Virtual</div>
+<div class="container">
+    <img id="fotoUser" src="img/default.png">
 
-    <div class="navbar-links">
-        <a href="inicio.html">Inicio</a>
-        <a href="Sobre_nosotros.html">Nosotros</a>
-        <a href="Contenido.html">Contenido</a>
-        <a href="publicar.html">Publicar +</a>
+    <h2 id="nombreUser">Usuario</h2>
+    <p id="correoUser"></p>
 
-        <a id="btnLogin" href="login.html">Iniciar sesión</a>
-
-        <!-- Usuario -->
-        <div id="navbarUserBox" class="navbar-user-box"></div>
-    </div>
-</nav>
-
-<!-- ================= CONTENIDO ================= -->
-<div class="cuenta-container">
-
-    <h1>Mi Cuenta</h1>
-
-    <!-- FOTO -->
-    <img id="fotoPerfil" class="foto-perfil" src="img/default.png">
-
-    <button id="btnCambiarFoto">Cambiar foto</button>
-    <input type="file" id="nuevaFoto" accept="image/*" style="display:none">
-
-    <!-- NOMBRE -->
-    <div class="input-group">
-        <label>Nombre:</label>
-        <input type="text" id="nuevoNombre">
-    </div>
-
-    <!-- CORREO -->
-    <div class="input-group">
-        <label>Correo:</label>
-        <input type="text" id="correoUsuario" readonly>
-    </div>
-
-    <button id="guardarCambios" class="btn-guardar">Guardar cambios</button>
-
-    <button class="btn-salir" onclick="cerrarSesion()">Cerrar sesión</button>
-
+    <button onclick="location.href='perfil.html'">Editar perfil</button>
+    <button onclick="cerrarSesion()">Cerrar sesión</button>
 </div>
 
-<!-- ================= SCRIPT PRINCIPAL ================= -->
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-
     const user = JSON.parse(localStorage.getItem("usuarioActivo"));
 
-    if (!user) {
-        location.href = "login.html";
-        return;
+    if (!user) location.href = "login.html";
+
+    document.getElementById("nombreUser").textContent = user.nombre;
+    document.getElementById("correoUser").textContent = user.email;
+    document.getElementById("fotoUser").src = user.foto || "img/default.png";
+
+    function cerrarSesion() {
+        localStorage.removeItem("usuarioActivo");
+        window.location.href = "login.html";
     }
-
-    // Cargar datos
-    document.getElementById("fotoPerfil").src = user.foto || "img/default.png";
-    document.getElementById("nuevoNombre").value = user.nombre || "";
-    document.getElementById("correoUsuario").value = user.correo || "";
-
-    // Cargar Usuario en el Navbar
-    cargarUsuarioNavbar();
-});
-
-/* ------------------------------------------------------
-   MOSTRAR USUARIO EN EL NAVBAR UNIVERSAL
-------------------------------------------------------- */
-function cargarUsuarioNavbar() {
-    const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
-    const box = document.getElementById("navbarUserBox");
-    const loginBtn = document.getElementById("btnLogin");
-
-    if (!usuario) {
-        loginBtn.style.display = "inline-block";
-        box.innerHTML = "";
-        return;
-    }
-
-    loginBtn.style.display = "none";
-
-    const foto = usuario.foto ? usuario.foto : "img/default.png";
-
-    box.innerHTML = `
-        <img src="${foto}">
-        <span>${usuario.nombre}</span>
-    `;
-
-    box.onclick = () => location.href = "cuenta.html";
-}
-
-
-/* ------------------------------------------------------
-   CAMBIAR FOTO
-------------------------------------------------------- */
-document.getElementById("btnCambiarFoto").addEventListener("click", () => {
-    document.getElementById("nuevaFoto").click();
-});
-
-document.getElementById("nuevaFoto").addEventListener("change", function () {
-    const file = this.files[0];
-    if (!file) return;
-
-    if (file.size > 2 * 1024 * 1024) {
-        alert("La imagen es demasiado grande. Máximo 2MB.");
-        return;
-    }
-
-    const reader = new FileReader();
-
-    reader.onload = () => {
-        let user = JSON.parse(localStorage.getItem("usuarioActivo"));
-        user.foto = reader.result;
-
-        localStorage.setItem("usuarioActivo", JSON.stringify(user));
-
-        document.getElementById("fotoPerfil").src = reader.result;
-
-        const navFoto = document.querySelector("#navbarUserBox img");
-        if (navFoto) navFoto.src = reader.result;
-
-        alert("Foto actualizada correctamente");
-    };
-
-    reader.readAsDataURL(file);
-});
-
-
-/* ------------------------------------------------------
-   GUARDAR NOMBRE
-------------------------------------------------------- */
-document.getElementById("guardarCambios").addEventListener("click", () => {
-
-    let user = JSON.parse(localStorage.getItem("usuarioActivo"));
-
-    const nuevoNombre = document.getElementById("nuevoNombre").value.trim();
-
-    if (nuevoNombre.length < 2) {
-        alert("El nombre es demasiado corto.");
-        return;
-    }
-
-    user.nombre = nuevoNombre;
-
-    localStorage.setItem("usuarioActivo", JSON.stringify(user));
-
-    const span = document.querySelector("#navbarUserBox span");
-    if (span) span.textContent = nuevoNombre;
-
-    alert("Datos actualizados correctamente.");
-});
-
-
-/* ------------------------------------------------------
-   CERRAR SESIÓN
-------------------------------------------------------- */
-function cerrarSesion() {
-    localStorage.removeItem("usuarioActivo");
-    location.href = "login.html";
-}
 </script>
 
 </body>

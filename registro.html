@@ -2,100 +2,93 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrarse - Galería Virtual</title>
-
+    <title>Registro</title>
     <link rel="stylesheet" href="Estilos/login.css">
-    <link rel="stylesheet" href="Estilos/estilos.css">
+
+    <style>
+        body { background:#0d0b1f; margin:0; color:white; }
+
+        .registro-card {
+            width: 380px;
+            background:#1a1635;
+            padding:30px;
+            margin:60px auto;
+            border-radius:15px;
+            text-align:center;
+            color:white;
+        }
+
+        input, select {
+            width:100%;
+            padding:10px;
+            margin:10px 0;
+            border-radius:8px;
+            border:none;
+        }
+
+        button {
+            width:100%;
+            padding:12px;
+            background:#b34cff;
+            color:white;
+            border:none;
+            border-radius:8px;
+            cursor:pointer;
+            margin-top:10px;
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- ================= NAVBAR GLOBAL ================= -->
-    <nav class="navbar">
-        <div class="navbar-logo">Galería <span style="color:#b34cff">Virtual</span></div>
+<div class="registro-card">
+    <h2>Crear Cuenta</h2>
 
-        <div class="navbar-links">
-            <a href="inicio.html">Inicio</a>
-            <a href="Sobre_nosotros.html">Nosotros</a>
-            <a href="Contenido.html">Contenido</a>
-            <a href="publicar.html">Publicar +</a>
+    <form id="formRegistro">
 
-            <!-- Login -->
-            <a id="btnLogin" href="login.html">Iniciar sesión</a>
+        <input type="text" name="nombre" required placeholder="Nombre completo">
 
-            <!-- Foto + nombre -->
-            <div id="navbarUserBox" class="navbar-user-box"></div>
-        </div>
-    </nav>
+        <input type="email" name="email" required placeholder="Correo electrónico">
 
-    <!-- =============== FORMULARIO DE REGISTRO ================== -->
-    <div class="login-container">
-        <h2>Crear una cuenta</h2>
+        <input type="password" name="password" required placeholder="Contraseña">
 
-        <form id="registerForm" enctype="multipart/form-data">
-            
-            <label>Nombre completo</label>
-            <input type="text" name="nombre" required>
+        <select name="tipo" required>
+            <option value="">Seleccionar tipo...</option>
+            <option value="comprador">Comprador</option>
+            <option value="estudiante">Estudiante</option>
+            <option value="admin">Administrador</option>
+        </select>
 
-            <label>Correo electrónico</label>
-            <input type="email" name="email" required>
+        <button>Registrarse</button>
+    </form>
 
-            <label>Contraseña</label>
-            <input type="password" name="password" required>
+    <p>¿Ya tienes cuenta? <a href="login.html" style="color:#b34cff;">Inicia sesión</a></p>
+</div>
 
-            <!-- Rol fijo -->
-            <input type="hidden" name="tipo" value="Comprador/Vendedor">
+<script>
+document.getElementById("formRegistro").addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-            <label>Foto de perfil (opcional)</label>
-            <input type="file" name="foto" accept="image/*">
+    const form = new FormData(e.target);
 
-            <button type="submit">Registrarme</button>
+    const res = await fetch("registro.php", {
+        method:"POST",
+        body:form
+    });
 
-            <p class="login-link">
-                ¿Ya tienes una cuenta? <a href="login.html">Inicia sesión</a>
-            </p>
-        </form>
-    </div>
+    const data = await res.json();
 
-    <!-- =============== SCRIPT DE REGISTRO ================= -->
-    <script>
-        document.getElementById("registerForm").addEventListener("submit", async function (e) {
-            e.preventDefault();
+    if (data.success) {
+        alert("Usuario registrado correctamente");
 
-            const formData = new FormData(this);
+        localStorage.setItem("usuarioActivo", JSON.stringify(data.usuario));
 
-            const res = await fetch("register.php", {
-                method: "POST",
-                body: formData
-            });
-
-            const respuesta = await res.text();
-            console.log("Respuesta del servidor:", respuesta);
-
-            // Backend devuelve EXACTAMENTE "ok"
-            if (respuesta.trim() === "ok") {
-                alert("Registro exitoso 🎉");
-
-                // Guardar usuario temporalmente hasta que inicie sesión
-                const nuevoUsuario = {
-                    nombre: formData.get("nombre"),
-                    email: formData.get("email"),
-                    foto: "img/default.png",
-                    tipo: "Comprador/Vendedor"
-                };
-
-                localStorage.setItem("usuarioActivo", JSON.stringify(nuevoUsuario));
-
-                window.location.href = "inicio.html";
-            } 
-            else {
-                alert("❌ Error: " + respuesta);
-            }
-        });
-    </script>
-
-    <script src="Scripts/sesion-global.js"></script>
+        location.href = "inicio.html";
+    } else {
+        alert("Error: " + data.error);
+    }
+});
+</script>
 
 </body>
 </html>

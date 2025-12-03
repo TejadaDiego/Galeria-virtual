@@ -22,7 +22,6 @@ function guardarCarrito() {
 //      AGREGAR AL CARRITO
 // ===============================
 function agregarAlCarrito(id, nombre, precio, imagen) {
-
     if (!imagen) imagen = "img/default.png";
 
     const item = carrito.find(p => p.id === id);
@@ -89,8 +88,13 @@ function comprar() {
         return;
     }
 
+    // Puedes redirigir a compraexitosa.html
+    localStorage.setItem("ultimaCompra", JSON.stringify(carrito));
+
     alert("✔ Compra realizada con éxito");
     vaciarCarrito();
+
+    window.location.href = "compraexitosa.html";
 }
 
 // ===============================

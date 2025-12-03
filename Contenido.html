@@ -1,237 +1,108 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Catálogo - Galería Virtual</title>
+    <meta charset="UTF-8">
+    <title>Contenido - Galería Virtual</title>
+    <link rel="stylesheet" href="Estilos/contenido.css">
 
-  <!-- CSS PRINCIPAL -->
-  <link rel="stylesheet" href="Estilos/catalogo.css" />
+    <style>
+        body { background:#0d0b1f; color:white; font-family: Arial; }
+        .navbar { padding:20px; background:#0d0b1f; display:flex; justify-content:space-between; }
+        .navbar-links { display:flex; gap:25px; align-items:center; }
+        .navbar-links a { color:white; text-decoration:none; }
+        .usuario-box img {
+            width:40px; height:40px; border-radius:50%;
+            border:2px solid #b34cff;
+        }
+        .grid {
+            margin: 40px auto;
+            width: 90%;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
+            gap: 25px;
+        }
+        .card {
+            background:#1c1a33;
+            padding:20px;
+            border-radius:15px;
+            text-align:center;
+            box-shadow:0 0 10px #a569ff;
+        }
+        .card img {
+            width:100%; height:180px; object-fit:cover;
+            border-radius:10px;
+        }
+        .card button {
+            margin-top:10px;
+            padding:10px;
+            width:100%;
+            border:none;
+            background:#b34cff;
+            color:white;
+            cursor:pointer;
+            border-radius:10px;
+        }
+    </style>
 </head>
 
 <body>
 
-<!-- =============== NAVBAR UNIVERSAL =============== -->
 <nav class="navbar">
-  <div class="navbar-logo">Galería Virtual</div>
+    <div style="color:white; font-size:22px;">Galería Virtual</div>
 
-  <div class="navbar-links">
-    <a href="inicio.html">Inicio</a>
-    <a href="Sobre_nosotros.html">Nosotros</a>
-    <a href="Contenido.html" class="active">Contenido</a>
-    <a href="publicar.html">Publicar +</a>
-
-    <a id="btnLogin" href="login.html">Iniciar sesión</a>
-
-    <!-- Usuario -->
-    <div id="navbarUserBox" class="navbar-user-box"></div>
-
-    <!-- Carrito -->
-    <div class="cart-box" onclick="location.href='carrito.html'">
-      <span id="cartCount">0</span> 🛒
+    <div class="navbar-links">
+        <a href="inicio.html">Inicio</a>
+        <a href="Sobre_nosotros.html">Nosotros</a>
+        <a href="contenido.html" class="active">Contenido</a>
+        <a href="publicar.html">Publicar +</a>
+        <a id="btnLogin" href="login.html">Iniciar sesión</a>
+        <div id="navbarUserBox"></div>
     </div>
-  </div>
 </nav>
 
-<!-- Estilos del navbar -->
-<style>
-.navbar {
-  width: 100%;
-  padding: 20px;
-  background: #0d0b1f;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.navbar-logo { color:white; font-size:22px; font-weight:bold; }
-.navbar-links { display:flex; gap:25px; align-items:center; }
-.navbar-links a { color:white; text-decoration:none; font-size:17px; }
-.navbar-links a.active { color:#b34cff; }
+<h1 style="text-align:center; margin-top:30px;">Trabajos Disponibles</h1>
 
-.navbar-user-box img {
-  width:45px; height:45px; border-radius:50%;
-  object-fit:cover; border:2px solid #a569ff;
-}
-</style>
-
-<!-- ==================== CATÁLOGO FIJO ===================== -->
-
-<h1 class="titulo">Catálogo de Productos</h1>
-
-<div id="catalogo" class="grid">
-
-  <!-- 10 PRODUCTOS FIJOS ORIGINALES -->
-
-  <!-- 1 -->
-  <div class="card">
-    <img src="img/11.jpg">
-    <h3>Creando el Futuro Digital</h3>
-    <p>Representa el proceso de codificación...</p>
-    <div class="precio-carrito">
-      <span class="precio">S/ 25.00</span>
-      <button onclick="agregarAlCarrito(201,'Creando el Futuro Digital',25,'img/11.jpg')">🛒 Añadir</button>
-    </div>
-  </div>
-
-  <!-- 2 -->
-  <div class="card">
-    <img src="img/12.jpg">
-    <h3>Manos a la Obra</h3>
-    <p>Simboliza la creación artística...</p>
-    <div class="precio-carrito">
-      <span class="precio">S/ 30.00</span>
-      <button onclick="agregarAlCarrito(202,'Manos a la Obra',30,'img/12.jpg')">🛒 Añadir</button>
-    </div>
-  </div>
-
-  <!-- 3 -->
-  <div class="card">
-    <img src="img/13.jpg">
-    <h3>Ecosistema Web</h3>
-    <p>Lenguajes web más usados...</p>
-    <div class="precio-carrito">
-      <span class="precio">S/ 28.00</span>
-      <button onclick="agregarAlCarrito(203,'Ecosistema Web',28,'img/13.jpg')">🛒 Añadir</button>
-    </div>
-  </div>
-
-  <!-- 4 -->
-  <div class="card">
-    <img src="img/14.jpg">
-    <h3>Conexion Natural</h3>
-    <p>La relación entre arte y naturaleza...</p>
-    <div class="precio-carrito">
-      <span class="precio">S/ 22.00</span>
-      <button onclick="agregarAlCarrito(204,'Conexion Natural',22,'img/14.jpg')">🛒 Añadir</button>
-    </div>
-  </div>
-
-  <!-- 5 -->
-  <div class="card">
-    <img src="img/15.jpg">
-    <h3>La Inspiración</h3>
-    <p>Un momento único captado en arte...</p>
-    <div class="precio-carrito">
-      <span class="precio">S/ 31.00</span>
-      <button onclick="agregarAlCarrito(205,'La Inspiración',31,'img/15.jpg')">🛒 Añadir</button>
-    </div>
-  </div>
-
-  <!-- 6 -->
-  <div class="card">
-    <img src="img/16.jpg">
-    <h3>Ciudad Digital</h3>
-    <p>Modernidad y tecnología...</p>
-    <div class="precio-carrito">
-      <span class="precio">S/ 40.00</span>
-      <button onclick="agregarAlCarrito(206,'Ciudad Digital',40,'img/16.jpg')">🛒 Añadir</button>
-    </div>
-  </div>
-
-  <!-- 7 -->
-  <div class="card">
-    <img src="img/17.jpg">
-    <h3>Arte y Futuro</h3>
-    <p>Fusión de creatividad e IA...</p>
-    <div class="precio-carrito">
-      <span class="precio">S/ 35.00</span>
-      <button onclick="agregarAlCarrito(207,'Arte y Futuro',35,'img/17.jpg')">🛒 Añadir</button>
-    </div>
-  </div>
-
-  <!-- 8 -->
-  <div class="card">
-    <img src="img/18.jpg">
-    <h3>La Realidad Virtual</h3>
-    <p>Exploración tecnológica...</p>
-    <div class="precio-carrito">
-      <span class="precio">S/ 45.00</span>
-      <button onclick="agregarAlCarrito(208,'La Realidad Virtual',45,'img/18.jpg')">🛒 Añadir</button>
-    </div>
-  </div>
-
-  <!-- 9 -->
-  <div class="card">
-    <img src="img/19.jpg">
-    <h3>Conexión y Arte</h3>
-    <p>Representación conceptual...</p>
-    <div class="precio-carrito">
-      <span class="precio">S/ 26.00</span>
-      <button onclick="agregarAlCarrito(209,'Conexión y Arte',26,'img/19.jpg')">🛒 Añadir</button>
-    </div>
-  </div>
-
-  <!-- 10 -->
-  <div class="card">
-    <img src="img/20.jpg">
-    <h3>La Evolución Digital</h3>
-    <p>La era moderna en una sola pieza...</p>
-    <div class="precio-carrito">
-      <span class="precio">S/ 50.00</span>
-      <button onclick="agregarAlCarrito(210,'La Evolución Digital',50,'img/20.jpg')">🛒 Añadir</button>
-    </div>
-  </div>
-
-</div>
-
-<!-- ================== GALERÍA DINÁMICA MYSQL ================== -->
-
-<h2 class="titulo" style="margin-top:60px">Trabajos Subidos por la Comunidad</h2>
-
-<div id="galeria" class="grid"></div>
+<div id="contenedor" class="grid"></div>
 
 <script>
-async function cargarTrabajos() {
-  try {
-    const res = await fetch("get_trabajos.php");
-    const trabajos = await res.json();
-    const cont = document.getElementById("galeria");
+    const trabajos = [
+        {titulo:"Ilustración Digital", precio:30, img:"img/1.jpg"},
+        {titulo:"Logo Minimalista", precio:45, img:"img/2.jpg"},
+        {titulo:"Retoque Fotográfico", precio:15, img:"img/3.jpg"},
+        {titulo:"Diseño de Portada", precio:35, img:"img/4.jpg"},
+        {titulo:"Banner Publicitario", precio:25, img:"img/5.jpg"},
+        {titulo:"Render 3D", precio:55, img:"img/6.jpg"},
+        {titulo:"Ilustración Anime", precio:40, img:"img/7.jpg"},
+        {titulo:"Edición de Video", precio:60, img:"img/8.jpg"},
+        {titulo:"Fotografía Profesional", precio:50, img:"img/9.jpg"},
+        {titulo:"Vectorización", precio:20, img:"img/10.jpg"}
+    ];
 
-    cont.innerHTML = "";
+    const cont = document.getElementById("contenedor");
 
-    trabajos.forEach(t => {
-      cont.innerHTML += `
-        <div class="card">
-          <img src="${t.imagen || 'Img/default.png'}">
-          <h3>${t.titulo}</h3>
-          <p>${t.descripcion}</p>
-          <div class="precio-carrito">
-            <span class="precio">S/ ${parseFloat(t.precio).toFixed(2)}</span>
-            <button onclick="agregarAlCarrito(${t.id}, '${t.titulo}', ${t.precio}, '${t.imagen}')">🛒 Añadir</button>
-          </div>
-        </div>
-      `;
+    trabajos.forEach((t, index) => {
+        cont.innerHTML += `
+            <div class="card">
+                <img src="${t.img}">
+                <h3>${t.titulo}</h3>
+                <p>S/ ${t.precio}</p>
+                <button onclick="agregarCarrito(${index})">Agregar al carrito</button>
+            </div>
+        `;
     });
-  } catch (e) {
-    console.error("Error:", e);
-  }
-}
-cargarTrabajos();
+
+    if (localStorage.getItem("carrito") === null)
+        localStorage.setItem("carrito", JSON.stringify([]));
+
+    function agregarCarrito(i) {
+        const carrito = JSON.parse(localStorage.getItem("carrito"));
+        carrito.push(trabajos[i]);
+        localStorage.setItem("carrito", JSON.stringify(carrito));
+        alert("Agregado al carrito");
+    }
 </script>
 
-<!-- Sesión -->
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
-  const box = document.getElementById("navbarUserBox");
-  const login = document.getElementById("btnLogin");
-
-  if (!usuario) return;
-
-  login.style.display = "none";
-  const foto = usuario.foto || "img/default.png";
-
-  box.innerHTML = `
-      <div class="usuario-box" onclick="location.href='cuenta.html'">
-        <img src="${foto}">
-        <span>${usuario.nombre}</span>
-      </div>
-  `;
-});
-</script>
-
-<!-- Carrito -->
-<script src="Scripts/carrito.js"></script>
+<script src="Scripts/sesion-global.js"></script>
 
 </body>
 </html>

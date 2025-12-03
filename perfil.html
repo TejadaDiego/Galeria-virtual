@@ -5,7 +5,6 @@
     <title>Mi Perfil</title>
     <link rel="stylesheet" href="Estilos/perfil.css">
 
-    <!-- NAVBAR universal -->
     <style>
         .navbar {
             width: 100%;
@@ -15,40 +14,16 @@
             justify-content: space-between;
             align-items: center;
         }
-        .navbar-logo {
-            color: white;
-            font-size: 22px;
-            font-weight: bold;
-        }
-        .navbar-links {
-            display: flex;
-            gap: 25px;
-            align-items: center;
-        }
-        .navbar-links a {
-            color: white;
-            text-decoration: none;
-            font-size: 17px;
-        }
-        .navbar-user-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-        }
+        .navbar-links { display:flex; gap:20px; align-items:center; }
         .navbar-user-box img {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #a569ff;
+            width:45px; height:45px;
+            border-radius:50%; border:2px solid #a569ff;
         }
     </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar">
     <div class="navbar-logo">Galería Virtual</div>
 
@@ -58,16 +33,12 @@
         <a href="Contenido.html">Contenido</a>
         <a href="publicar.html">Publicar +</a>
 
-        <!-- Login (oculto si hay usuario) -->
         <a id="btnLogin" href="login.html">Iniciar sesión</a>
 
-        <!-- Caja del usuario logueado -->
         <div id="navbarUserBox" class="navbar-user-box"></div>
     </div>
 </nav>
 
-
-<!-- PERFIL -->
 <div class="perfil-container">
 
     <img id="fotoPerfil" class="perfil-foto" src="img/default.png">
@@ -75,7 +46,7 @@
     <h1 id="nombrePerfil" class="perfil-nombre">Usuario</h1>
 
     <div class="perfil-info">
-        <p><span>Correo:</span> <span id="correoPerfil"></span></p>
+        <p><b>Correo:</b> <span id="correoPerfil"></span></p>
     </div>
 
     <div class="perfil-botones">
@@ -84,37 +55,21 @@
     </div>
 </div>
 
-
-
-<!-- ======================== -->
-<!--      SCRIPT PERFIL       -->
-<!-- ======================== -->
 <script>
-    /* ================================
-       Cargar datos del usuario
-    ================================= */
     const user = JSON.parse(localStorage.getItem("usuarioActivo"));
 
-    if (!user) {
-        window.location.href = "login.html";
-    }
+    if (!user) window.location.href = "login.html";
 
     document.getElementById("fotoPerfil").src = user.foto || "img/default.png";
     document.getElementById("nombrePerfil").textContent = user.nombre;
-    document.getElementById("correoPerfil").textContent = user.correo;
+    document.getElementById("correoPerfil").textContent = user.email;
 
-
-
-    /* ================================
-       CERRAR SESIÓN 100% FUNCIONAL
-    ================================= */
     function cerrarSesion() {
         localStorage.removeItem("usuarioActivo");
         window.location.href = "login.html";
     }
 </script>
 
-<!-- Navbar dinámico -->
 <script src="Scripts/sesion-global.js"></script>
 
 </body>
