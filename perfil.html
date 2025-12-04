@@ -2,75 +2,65 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Perfil</title>
-    <link rel="stylesheet" href="Estilos/perfil.css">
 
-    <style>
-        .navbar {
-            width: 100%;
-            padding: 20px;
-            background: #0d0b1f;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .navbar-links { display:flex; gap:20px; align-items:center; }
-        .navbar-user-box img {
-            width:45px; height:45px;
-            border-radius:50%; border:2px solid #a569ff;
-        }
-    </style>
+    <!-- CSS Opcional -->
+    <link rel="stylesheet" href="Estilos/perfil.css">
 </head>
 
 <body>
 
-<nav class="navbar">
-    <div class="navbar-logo">Galería Virtual</div>
+    <!-- NAVBAR GLOBAL (Generado por sesion-global.js) -->
+    <nav id="navbar"></nav>
 
-    <div class="navbar-links">
-        <a href="inicio.html">Inicio</a>
-        <a href="Sobre_nosotros.html">Nosotros</a>
-        <a href="Contenido.html">Contenido</a>
-        <a href="publicar.html">Publicar +</a>
+    <!-- CONTENIDO DEL PERFIL -->
+    <main class="contenedor-perfil">
 
-        <a id="btnLogin" href="login.html">Iniciar sesión</a>
+        <!-- FOTO DEL USUARIO -->
+        <div class="foto-contenedor">
+            <img id="fotoUsuario" src="img/default.png" alt="Foto de perfil" class="foto-usuario">
 
-        <div id="navbarUserBox" class="navbar-user-box"></div>
-    </div>
-</nav>
+            <label class="btn-subir-foto">
+                Cambiar foto
+                <input type="file" id="nuevaFoto" accept="image/*" hidden>
+            </label>
+        </div>
 
-<div class="perfil-container">
+        <!-- FORMULARIO DE DATOS -->
+        <div class="datos-perfil">
 
-    <img id="fotoPerfil" class="perfil-foto" src="img/default.png">
+            <div class="campo">
+                <label>Nombre completo</label>
+                <input type="text" id="nombreUsuario" placeholder="Tu nombre">
+            </div>
 
-    <h1 id="nombrePerfil" class="perfil-nombre">Usuario</h1>
+            <div class="campo">
+                <label>Correo electrónico</label>
+                <input type="email" id="correoUsuario" placeholder="correo@ejemplo.com">
+            </div>
 
-    <div class="perfil-info">
-        <p><b>Correo:</b> <span id="correoPerfil"></span></p>
-    </div>
+            <div class="campo">
+                <label>Usuario (Login)</label>
+                <input type="text" id="usernameUsuario" placeholder="Tu username">
+            </div>
 
-    <div class="perfil-botones">
-        <a href="editar-perfil.html" class="btn-perfil">Editar Perfil</a>
-        <button class="btn-perfil" onclick="cerrarSesion()">Cerrar Sesión</button>
-    </div>
-</div>
+            <div class="campo">
+                <label>Tipo de usuario</label>
+                <p id="tipoUsuario" class="tipo-texto"></p>
+            </div>
 
-<script>
-    const user = JSON.parse(localStorage.getItem("usuarioActivo"));
+            <button id="guardarCambios" class="btn-guardar">Guardar cambios</button>
 
-    if (!user) window.location.href = "login.html";
+            <button id="cerrarSesion" class="btn-cerrar">Cerrar Sesión</button>
 
-    document.getElementById("fotoPerfil").src = user.foto || "img/default.png";
-    document.getElementById("nombrePerfil").textContent = user.nombre;
-    document.getElementById("correoPerfil").textContent = user.email;
+        </div>
 
-    function cerrarSesion() {
-        localStorage.removeItem("usuarioActivo");
-        window.location.href = "login.html";
-    }
-</script>
+    </main>
 
-<script src="Scripts/sesion-global.js"></script>
+    <!-- Scripts -->
+    <script src="Scripts/sesion-global.js"></script>
+    <script src="Scripts/perfil.js"></script>
 
 </body>
 </html>

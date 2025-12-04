@@ -5,6 +5,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     let usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
+    let usuariosRegistrados = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
 
     // Si no hay sesión → ir al login
     if (!usuario) {
@@ -16,56 +17,91 @@ document.addEventListener("DOMContentLoaded", () => {
     //   CARGAR DATOS DEL PERFIL
     // ===============================
 
-    document.getElementById("fotoUsuario").src = usuario.foto || "img/default.png";
-    document.getElementById("nombreUsuario").value = usuario.nombre || "";
-    document.getElementById("correoUsuario").value = usuario.email || ""; // ✔ Corregido
-    document.getElementById("tipoUsuario").textContent = usuario.tipo || "Estudiante";
+    const fotoUsuario = document.getElementById("fotoUsuario");
+    const nombreUsuario = document.getElementById("nombreUsuario");
+    const correoUsuario = document.getElementById("correoUsuario");
+    const usernameUsuario = document.getElementById("usernameUsuario");
+    const tipoUsuario = document.getElementById("tipoUsuario");
 
+    if (fotoUsuario) fotoUsuario.src = usuario.foto || "img/default.png";
+    if (nombreUsuario) nombreUsuario.value = usuario.nombre || "";
+    if (correoUsuario) correoUsuario.value = usuario.email || "";
+    if (usernameUsuario) usernameUsuario.value = usuario.username || "";
+    if (tipoUsuario) tipoUsuario.textContent = usuario.tipo || "Estudiante";
 
     // ===============================
     //   CAMBIAR FOTO LOCAL
     // ===============================
 
-    document.getElementById("nuevaFoto").addEventListener("change", function () {
-        const file = this.files[0];
-        if (!file) return;
+    const nuevaFoto = document.getElementById("nuevaFoto");
 
-        const reader = new FileReader();
+    if (nuevaFoto) {
+        nuevaFoto.addEventListener("change", function () {
+            const file = this.files[0];
+            if (!file) return;
 
-        reader.onload = function (e) {
-            document.getElementById("fotoUsuario").src = e.target.result;
-            usuario.foto = e.target.result; // se guarda en localStorage
-        };
+            const reader = new FileReader();
 
-        reader.readAsDataURL(file);
-    });
+            reader.onload = function (e) {
+                if (fotoUsuario) fotoUsuario.src = e.target.result;
 
+                usuario.foto = e.target.result; // Guardar imagen en base64
+            };
+
+            reader.readAsDataURL(file);
+        });
+    }
 
     // ===============================
     //   GUARDAR CAMBIOS
     // ===============================
 
-    document.getElementById("guardarCambios").onclick = () => {
+    const guardar = document.getElementById("guardarCambios");
 
-        usuario.nombre = document.getElementById("nombreUsuario").value.trim();
-        usuario.email = document.getElementById("correoUsuario").value.trim(); // ✔ Corregido
+    if (guardar) {
+        guardar.onclick = () => {
 
-        localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
+            // Validaciones básicas
+            if (!nombreUsuario.value.trim()) {
+                alert("El nombre no puede estar vacío");
+                return;
+            }
+            if (!correoUsuario.value.trim()) {
+                alert("El correo no puede estar vacío");
+                return;
+            }
 
-        // Actualizar barra de navegación global
-        window.dispatchEvent(new Event("storage"));
+            // Actualizar datos del usuario activo
+            usuario.nombre = nombreUsuario.value.trim();
+            usuario.email = correoUsuario.value.trim();
+            usuario.username = usernameUsuario.value.trim();
 
-        alert("✔ Cambios guardados correctamente");
-    };
+            // Sincronizar también en la lista global de usuarios
+            const index = usuariosRegistrados.findIndex(u => u.email === usuario.email || u.username === usuario.username);
 
+            if (index !== -1) {
+                usuariosRegistrados[index] = usuario;
+            }
+
+            // Guardar en localStorage
+            localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
+            localStorage.setItem("usuariosRegistrados", JSON.stringify(usuariosRegistrados));
+
+            alert("✔ Cambios guardados correctamente");
+        };
+    }
 
     // ===============================
     //   CERRAR SESIÓN
     // ===============================
 
-    document.getElementById("cerrarSesion").onclick = () => {
-        localStorage.removeItem("usuarioActivo");
-        window.location.href = "login.html";
-    };
+    const cerrar = document.getElementById("cerrarSesion");
+
+    if (cerrar) {
+        cerrar.onclick = () => {
+            localStorage.removeItem("usuarioActivo");
+            window.location.href = "login.html";
+        };
+    }
 
 });
