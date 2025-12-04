@@ -71,7 +71,7 @@ document.getElementById("formRegistro").addEventListener("submit", async (e) => 
 
     const form = new FormData(e.target);
 
-    const res = await fetch("registro.php", {
+    const res = await fetch("register.php", {
         method:"POST",
         body:form
     });
