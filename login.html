@@ -1,85 +1,84 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Iniciar Sesión</title>
-    <link rel="stylesheet" href="Estilos/login.css">
+  <meta charset="UTF-8">
+  <title>Iniciar Sesión</title>
+
+  <link rel="stylesheet" href="Estilos/login.css">
+
+  <style>
+    body {
+      margin: 0;
+      background: #0d0b1f;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+
+    .login-container {
+      width: 350px;
+      margin: 80px auto;
+      padding: 25px;
+      background: #14122b;
+      border-radius: 12px;
+      box-shadow: 0 0 12px #000;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      border-radius: 6px;
+      border: none;
+      font-size: 15px;
+    }
+
+    button {
+      background: #a569ff;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover { background: #8b46ff; }
+  </style>
 </head>
 
 <body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <h2 class="logo">Galería <span>Virtual</span></h2>
+<div class="login-container">
+  <h2>Iniciar Sesión</h2>
 
-        <ul class="navbar-links">
-            <li><a href="inicio.html">Inicio</a></li>
-            <li><a href="Sobre_nosotros.html">Nosotros</a></li>
-            <li><a href="Contenido.html">Contenido</a></li>
-            <li><a href="publicar.html">Publicar +</a></li>
+  <!-- FORMULARIO LOGIN NORMAL -->
+  <form id="loginForm">
+    <label>Email:</label>
+    <input type="email" id="email" required>
 
-            <li><a id="btnLoginNav" href="login.html">Iniciar sesión</a></li>
-            <li id="navbarUserBox"></li>
-        </ul>
-    </nav>
+    <label>Contraseña:</label>
+    <input type="password" id="password" required>
 
-    <!-- SELECCIÓN DE ROLES -->
-    <div class="login-card" id="selector-roles">
-        <img class="login-logo" src="https://cdn-icons-png.flaticon.com/512/847/847969.png">
-        <h2>¿Cómo deseas ingresar?</h2>
+    <button type="submit">Ingresar</button>
+  </form>
 
-        <button class="btn-rol" onclick="seleccionarRol('comprador')">🛒 Comprador</button>
-        <button class="btn-rol" onclick="seleccionarRol('estudiante')">📚 Estudiante</button>
-        <button class="btn-rol" onclick="seleccionarRol('admin')">🛡️ Administrador</button>
-    </div>
+  <hr style="margin: 20px 0; opacity: .3;">
 
-    <!-- FORMULARIO LOGIN -->
-    <div class="login-card" id="formulario-login" style="display:none;">
-        <img class="login-logo" src="https://cdn-icons-png.flaticon.com/512/847/847969.png">
-        <h2 id="titulo-login">Acceso</h2>
+  <!-- BOTÓN LOGIN GOOGLE -->
+  <button id="btnGoogle">Iniciar con Google</button>
 
-        <form id="loginForm">
-            <input type="hidden" id="tipoSeleccionado" name="tipo">
+  <!-- BOTÓN LOGIN FACEBOOK -->
+  <button id="btnFacebook" style="background:#3b5998;">Iniciar con Facebook</button>
+</div>
 
-            <div class="input-group">
-                <span>📧</span>
-                <input type="email" name="email" required placeholder="Correo registrado">
-            </div>
+<!-- ======================== -->
+<!--  SCRIPTS NECESARIOS      -->
+<!-- ======================== -->
 
-            <div class="input-group">
-                <span>🔒</span>
-                <input type="password" name="password" required placeholder="Contraseña">
-            </div>
+<!-- 1. Maneja el login y crea la sesión -->
+<script src="Scripts/script.js"></script>
 
-            <button class="btn-submit" type="submit">Entrar</button>
-        </form>
+<!-- 2. Maneja cómo se guarda/carga la sesión global -->
+<script src="Scripts/sesion-global.js"></script>
 
-        <a class="crear-cuenta" href="registro.html">¿No tienes cuenta? Crear cuenta</a>
-        <p onclick="volverRoles()" class="volver">⬅ Volver</p>
-    </div>
-
-    <!-- CONTROL DE PANTALLAS -->
-    <script>
-        function seleccionarRol(rol) {
-            document.getElementById("selector-roles").style.display = "none";
-            document.getElementById("formulario-login").style.display = "block";
-            document.getElementById("tipoSeleccionado").value = rol;
-
-            const titulo = document.getElementById("titulo-login");
-            if (rol === "comprador") titulo.textContent = "Acceso Comprador 🛒";
-            if (rol === "estudiante") titulo.textContent = "Acceso Estudiante 🎓";
-            if (rol === "admin") titulo.textContent = "Acceso Administrador 🛡️";
-        }
-
-        function volverRoles() {
-            document.getElementById("formulario-login").style.display = "none";
-            document.getElementById("selector-roles").style.display = "block";
-        }
-    </script>
-
-    <!-- SCRIPTS -->
-    <script src="Scripts/login-handler.js"></script>
-    <script src="Scripts/sesion-global.js"></script>
+<!-- 3. Validaciones del formulario (si usas login-handler.js) -->
+<script src="Scripts/login-handler.js"></script>
 
 </body>
 </html>

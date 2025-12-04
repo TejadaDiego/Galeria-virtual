@@ -22,7 +22,6 @@
     .navbar-links a { color:white; text-decoration:none; font-size:17px; }
     .navbar-links a.active { color:#b34cff; }
 
-    .navbar-user-box { display:flex; align-items:center; gap:10px; cursor:pointer; }
     .navbar-user-box img {
       width:45px; height:45px; border-radius:50%;
       border:2px solid #a569ff; object-fit:cover;
@@ -32,6 +31,7 @@
 
 <body>
 
+<!-- NAV -->
 <nav class="navbar">
   <div class="navbar-logo" style="color:white; font-size:22px;">Galería Virtual</div>
 
@@ -41,15 +41,16 @@
     <a href="Contenido.html">Contenido</a>
     <a href="publicar.html" class="active">Publicar +</a>
 
-    <a id="btnLogin" href="login.html">Iniciar sesión</a>
-    <div id="navbarUserBox" class="navbar-user-box"></div>
+    <!-- Este será reemplazado automáticamente -->
+    <div id="navbarUserBox"></div>
   </div>
 </nav>
 
+<!-- FORMULARIO -->
 <div class="form-container">
   <h2>Publicar nuevo trabajo</h2>
 
-  <form id="formPublicar" action="publicar_handler.php" method="post" enctype="multipart/form-data">
+  <form id="formPublicar" enctype="multipart/form-data">
 
     <label for="titulo">Nombre del trabajo:</label>
     <input type="text" id="titulo" name="titulo" required>
@@ -58,64 +59,21 @@
     <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
 
     <label for="precio">Precio (S/):</label>
-    <input type="number" id="precio" name="precio" required>
+    <input type="number" id="precio" name="precio" step="0.01" required>
 
     <label for="imagen">Imagen del trabajo:</label>
     <input type="file" id="imagen" name="imagen" accept="image/*" required>
 
-    <img id="previewImg" style="display:none; width:200px; border-radius:10px;">
+    <img id="previewImg" style="display:none; width:200px; border-radius:10px; margin-top:10px;">
 
     <button type="submit">Subir trabajo</button>
   </form>
 </div>
 
-<script>
-  document.getElementById("imagen").addEventListener("change", (e) => {
-    const file = e.target.files[0];
-    const preview = document.getElementById("previewImg");
+<!-- PUBLICAR.JS -->
+<script src="Scripts/publicar.js"></script>
 
-    if (file) {
-      preview.src = URL.createObjectURL(file);
-      preview.style.display = "block";
-    }
-  });
-
-  document.getElementById('formPublicar').addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const form = new FormData(e.target);
-
-    const res = await fetch(e.target.action, { method:"POST", body:form });
-    const data = await res.json();
-
-    if (data.success) {
-      alert("Trabajo publicado con éxito");
-      location.href = "Contenido.html";
-    } else {
-      alert("Error: " + data.error);
-    }
-  });
-
-  // usuario navbar
-  document.addEventListener("DOMContentLoaded", () => {
-    const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
-    const box = document.getElementById("navbarUserBox");
-    const btnLogin = document.getElementById("btnLogin");
-
-    if (!usuario) return;
-
-    btnLogin.style.display = "none";
-    const foto = usuario.foto || "img/default.png";
-
-    box.innerHTML = `
-      <div class="usuario-box" onclick="location.href='cuenta.html'">
-        <img src="${foto}">
-        <span style="color:white;">${usuario.nombre}</span>
-      </div>
-    `;
-  });
-</script>
-
+<!-- NAVBAR UNIVERSAL -->
 <script src="Scripts/sesion-global.js"></script>
 
 </body>

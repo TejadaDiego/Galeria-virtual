@@ -36,6 +36,7 @@ function guardarSesion(tipo, email) {
 }
 
 
+
 // ========= LOGIN COMPRADOR ========= //
 const formComprador = document.getElementById("formComprador");
 
@@ -111,6 +112,7 @@ if (formAdmin) {
 
 
 
+
 // ========= MOSTRAR USUARIO LOGEADO EN NAVBAR ========= //
 window.addEventListener("DOMContentLoaded", () => {
   const nav = document.querySelector(".navbar");
@@ -119,22 +121,22 @@ window.addEventListener("DOMContentLoaded", () => {
   const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
   if (!usuario) return;
 
-  // Ocultar botón "Iniciar sesión" si existe
-  const ul = nav.querySelector("ul");
-  if (ul) {
-    const loginBtn = ul.querySelector('a[href="login.html"]');
-    if (loginBtn) loginBtn.style.display = "none";
-  }
+  // Ocultar botón "Iniciar sesión"
+  const loginBtn = nav.querySelector('a[href="login.html"]');
+  if (loginBtn) loginBtn.style.display = "none";
 
-  // Mostrar caja usuario
-  const userBox = document.createElement("div");
-  userBox.classList.add("usuario-box");
-  userBox.innerHTML = `
-    <img src="${usuario.foto}" alt="Usuario" class="usuario-foto">
-    <span class="usuario-nombre">${usuario.nombre}</span>
-    <button id="logoutBtn" class="logout-btn">Cerrar sesión</button>
+  // Insertar caja de usuario
+  const userBoxHTML = `
+    <div class="navbar-user-box" id="navbarUserBox">
+      <img src="${usuario.foto}" alt="Foto usuario">
+      <div class="user-info">
+        <span>${usuario.nombre}</span>
+      </div>
+      <button id="logoutBtn" class="logout-btn">Salir</button>
+    </div>
   `;
-  nav.appendChild(userBox);
+
+  nav.insertAdjacentHTML("beforeend", userBoxHTML);
 
   // Cerrar sesión
   document.getElementById("logoutBtn").addEventListener("click", () => {

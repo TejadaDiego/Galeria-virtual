@@ -1,25 +1,122 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Perfil</title>
+    <title>Mi Perfil - Galería Virtual</title>
 
-    <!-- CSS Opcional -->
+    <!-- CSS propio -->
     <link rel="stylesheet" href="Estilos/perfil.css">
+
+    <!-- ESTILO PROPIO RECUPERADO -->
+    <style>
+        body {
+            background: #0d0b1f;
+            color: white;
+            font-family: Arial;
+            margin: 0;
+            padding: 0;
+        }
+
+        .contenedor-perfil {
+            width: 450px;
+            margin: 40px auto;
+            background: #1c1a33;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px #a569ff;
+        }
+
+        .foto-contenedor {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .foto-usuario {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 3px solid #b34cff;
+            object-fit: cover;
+        }
+
+        .btn-subir-foto {
+            display: inline-block;
+            margin-top: 10px;
+            background: #b34cff;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .datos-perfil {
+            margin-top: 20px;
+        }
+
+        .campo {
+            margin-bottom: 20px;
+        }
+
+        .campo label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #cbaaff;
+        }
+
+        .campo input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: #2c284d;
+            color: white;
+            font-size: 15px;
+        }
+
+        .tipo-texto {
+            background: #2c284d;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .btn-guardar,
+        .btn-cerrar {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn-guardar {
+            background: #b34cff;
+            color: white;
+        }
+
+        .btn-cerrar {
+            background: #b34cff;
+            color: white;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- NAVBAR GLOBAL (Generado por sesion-global.js) -->
+    <!-- NAVBAR generado automáticamente -->
     <nav id="navbar"></nav>
 
     <!-- CONTENIDO DEL PERFIL -->
     <main class="contenedor-perfil">
 
-        <!-- FOTO DEL USUARIO -->
+        <!-- FOTO -->
         <div class="foto-contenedor">
-            <img id="fotoUsuario" src="img/default.png" alt="Foto de perfil" class="foto-usuario">
+            <img id="fotoUsuario" src="img/default.png" class="foto-usuario" alt="Foto de perfil">
 
             <label class="btn-subir-foto">
                 Cambiar foto
@@ -27,7 +124,7 @@
             </label>
         </div>
 
-        <!-- FORMULARIO DE DATOS -->
+        <!-- DATOS DEL PERFIL -->
         <div class="datos-perfil">
 
             <div class="campo">
@@ -42,11 +139,11 @@
 
             <div class="campo">
                 <label>Usuario (Login)</label>
-                <input type="text" id="usernameUsuario" placeholder="Tu username">
+                <input type="text" id="usernameUsuario" placeholder="Tu usuario">
             </div>
 
             <div class="campo">
-                <label>Tipo de usuario</label>
+                <label>Tipo de Usuario</label>
                 <p id="tipoUsuario" class="tipo-texto"></p>
             </div>
 
@@ -55,10 +152,9 @@
             <button id="cerrarSesion" class="btn-cerrar">Cerrar Sesión</button>
 
         </div>
-
     </main>
 
-    <!-- Scripts -->
+    <!-- Scripts necesarios -->
     <script src="Scripts/sesion-global.js"></script>
     <script src="Scripts/perfil.js"></script>
 

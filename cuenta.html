@@ -6,10 +6,18 @@
     <link rel="stylesheet" href="Estilos/cuenta.css">
 
     <style>
-        body { background:#0d0b1f; color:white; font-family: Arial; }
+        body { 
+            background:#0d0b1f; 
+            color:white; 
+            font-family: Arial; 
+        }
+
+        /* Espacio para la barra superior */
+        #navbar { margin-bottom: 40px; }
+
         .container {
             width: 450px;
-            margin: 80px auto;
+            margin: 50px auto;
             background: #1c1a33;
             padding: 35px;
             border-radius: 15px;
@@ -17,10 +25,12 @@
             box-shadow: 0 0 15px #a569ff;
         }
         img {
-            width: 110px; height:110px;
+            width: 110px;
+            height:110px;
             border-radius: 50%;
             border: 3px solid #b34cff;
             object-fit: cover;
+            margin-bottom: 10px;
         }
         button {
             padding: 12px 20px;
@@ -31,36 +41,50 @@
             background: #b34cff;
             color: white;
             cursor: pointer;
+            width: 70%;
+        }
+        button:hover {
+            background: #993dff;
         }
     </style>
 </head>
 
 <body>
 
-<div class="container">
-    <img id="fotoUser" src="img/default.png">
+    <!-- NAVBAR GLOBAL DE SESIÓN -->
+    <nav id="navbar"></nav>
 
-    <h2 id="nombreUser">Usuario</h2>
-    <p id="correoUser"></p>
+    <div class="container">
+        <img id="fotoUser" src="img/default.png">
 
-    <button onclick="location.href='perfil.html'">Editar perfil</button>
-    <button onclick="cerrarSesion()">Cerrar sesión</button>
-</div>
+        <h2 id="nombreUser">Usuario</h2>
+        <p id="correoUser"></p>
 
-<script>
-    const user = JSON.parse(localStorage.getItem("usuarioActivo"));
+        <button onclick="location.href='perfil.html'">Editar perfil</button>
+        <button onclick="cerrarSesion()">Cerrar sesión</button>
+    </div>
 
-    if (!user) location.href = "login.html";
+    <!-- Scripts -->
+    <script src="Scripts/sesion-global.js"></script>
 
-    document.getElementById("nombreUser").textContent = user.nombre;
-    document.getElementById("correoUser").textContent = user.email;
-    document.getElementById("fotoUser").src = user.foto || "img/default.png";
+    <script>
+        const user = JSON.parse(localStorage.getItem("usuarioActivo"));
 
-    function cerrarSesion() {
-        localStorage.removeItem("usuarioActivo");
-        window.location.href = "login.html";
-    }
-</script>
+        // Si no hay sesión → volver al login
+        if (!user) {
+            location.href = "login.html";
+        }
+
+        // Cargar datos visibles
+        document.getElementById("nombreUser").textContent = user.nombre;
+        document.getElementById("correoUser").textContent = user.email;
+        document.getElementById("fotoUser").src = user.foto || "img/default.png";
+
+        function cerrarSesion() {
+            localStorage.removeItem("usuarioActivo");
+            window.location.href = "login.html";
+        }
+    </script>
 
 </body>
 </html>

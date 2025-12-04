@@ -1,44 +1,77 @@
 // ===============================
-//   LISTA DE PRODUCTOS
+//  PRODUCTOS FIJOS DEL CATÁLOGO
 // ===============================
 
-const productos = [
-  { id: 1, titulo: "Creando el Futuro Digital", descripcion: "Representa el proceso de codificación.", imagen: "https://picsum.photos/400?random=1", precio: 15 },
-  { id: 2, titulo: "Proceso Creativo", descripcion: "Simboliza la creación artística activa.", imagen: "https://picsum.photos/400?random=2", precio: 18 },
-  { id: 3, titulo: "Ecosistema Web", descripcion: "Lenguajes esenciales del desarrollo web.", imagen: "https://picsum.photos/400?random=3", precio: 12 },
-  { id: 4, titulo: "Inspiración en Color", descripcion: "Arte y paletas de colores.", imagen: "https://picsum.photos/400?random=4", precio: 20 },
-  { id: 5, titulo: "Mente y Cuerpo", descripcion: "Disciplina deportiva visual.", imagen: "https://picsum.photos/400?random=5", precio: 10 },
-  { id: 6, titulo: "El Universo", descripcion: "Física y energía.", imagen: "https://picsum.photos/400?random=6", precio: 14 },
-  { id: 7, titulo: "Matemáticas", descripcion: "Retos y ecuaciones.", imagen: "https://picsum.photos/400?random=7", precio: 16 },
-  { id: 8, titulo: "Historia y Sociedad", descripcion: "Evolución humana.", imagen: "https://picsum.photos/400?random=8", precio: 19 },
-  { id: 9, titulo: "Inglés", descripcion: "Habilidades lingüísticas.", imagen: "https://picsum.photos/400?random=9", precio: 13 },
-  { id: 10, titulo: "Bases de Datos", descripcion: "Diseño de sistemas.", imagen: "https://picsum.photos/400?random=10", precio: 17 }
+const productosFijos = [
+  {
+    id: 1,
+    titulo: "Diseño de Logo Minimalista",
+    descripcion: "Logo profesional estilo minimalista, editable.",
+    precio: 25,
+    imagen: "img/logo1.jpg"
+  },
+  {
+    id: 2,
+    titulo: "Banner Publicitario",
+    descripcion: "Banner en alta calidad listo para imprimir.",
+    precio: 18,
+    imagen: "img/banner1.jpg"
+  },
+  {
+    id: 3,
+    titulo: "Flyer Digital",
+    descripcion: "Flyer moderno ideal para redes sociales.",
+    precio: 15,
+    imagen: "img/flyer1.jpg"
+  },
+  {
+    id: 4,
+    titulo: "Cartel Comercial",
+    descripcion: "Cartel limpio y profesional editable.",
+    precio: 20,
+    imagen: "img/cartel1.jpg"
+  },
+  {
+    id: 5,
+    titulo: "Mockup Profesional",
+    descripcion: "Mockup premium para exhibición de productos.",
+    precio: 30,
+    imagen: "img/mockup1.jpg"
+  }
 ];
 
-
 // ===============================
-//   CARGAR PRODUCTOS EN EL DOM
+//  FUNCIÓN PARA MOSTRAR CATÁLOGO
 // ===============================
 
-const contenedor = document.getElementById("catalogo");
+function cargarCatalogoFijo() {
+  const catalogo = document.getElementById("catalogo");
+  if (!catalogo) return;
 
-productos.forEach(p => {
-  const card = document.createElement("div");
-  card.classList.add("card");
+  productosFijos.forEach(p => {
+    const div = document.createElement("div");
+    div.className = "card";
 
-  card.innerHTML = `
-      <img src="${p.imagen}" alt="${p.titulo}">
+    div.innerHTML = `
+      <img src="${p.imagen}">
       <h3>${p.titulo}</h3>
       <p>${p.descripcion}</p>
 
       <div class="precio-carrito">
-          <span class="precio">S/ ${p.precio}</span>
+        <span class="precio">S/ ${p.precio.toFixed(2)}</span>
 
-          <button onclick="agregarAlCarrito(${p.id}, '${p.titulo.replace(/'/g, "\\'")}', ${p.precio}, '${p.imagen}')">
-              🛒 Añadir
-          </button>
+        <button onclick="agregarAlCarrito(${p.id}, '${p.titulo}', ${p.precio}, '${p.imagen}')">
+          🛒 Añadir
+        </button>
       </div>
-  `;
+    `;
 
-  contenedor.appendChild(card);
-});
+    catalogo.appendChild(div);
+  });
+}
+
+// ===============================
+//  AUTO-EJECUTAR
+// ===============================
+
+document.addEventListener("DOMContentLoaded", cargarCatalogoFijo);
