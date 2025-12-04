@@ -1,79 +1,62 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Carrito</title>
-
-    <style>
-        body { background:#0d0b1f; color:white; font-family:Arial; }
-        .container { width:80%; margin:50px auto; }
-        .item {
-            background:#1c1a33;
-            padding:20px;
-            border-radius:15px;
-            margin-bottom:20px;
-            display:flex;
-            gap:20px;
-            align-items:center;
-        }
-        img { width:120px; height:120px; object-fit:cover; border-radius:10px; }
-        button {
-            padding:12px 20px;
-            background:#b34cff;
-            border:none;
-            color:white;
-            border-radius:10px;
-            cursor:pointer;
-        }
-        #btnComprar {
-            margin-top:30px;
-            width:100%;
-            padding:15px;
-            font-size:18px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Carrito - Galería Virtual</title>
+  <link rel="stylesheet" href="Estilos/catalogo.css"/>
+  <style>
+    body{ background:#0d0b1f; color:#fff; font-family:Arial; margin:0; }
+    .navbar{ padding:18px 30px; display:flex; justify-content:space-between; align-items:center; background:#0d0b1f; }
+    .navbar-links{ display:flex; gap:18px; align-items:center; }
+    .navbar-links a{ color:#ddd; text-decoration:none; }
+    .container{ width:92%; max-width:1000px; margin:30px auto; background:rgba(255,255,255,0.03); padding:18px; border-radius:12px; }
+    table{ width:100%; border-collapse:collapse; color:#fff; }
+    th{ text-align:left; padding:12px; background:#201a37; border-bottom:1px solid rgba(255,255,255,0.04); }
+    td{ padding:12px; vertical-align:middle; border-bottom:1px solid rgba(255,255,255,0.04); }
+    .item-img{ width:70px; height:70px; object-fit:cover; border-radius:8px; }
+    .acciones button{ margin-right:8px; padding:6px 10px; border-radius:8px; border:none; cursor:pointer; background:#b34cff; color:white; }
+    .btn-danger{ background:#dc2626 !important; }
+    .total-box{ text-align:right; margin-top:12px; font-size:1.1rem; }
+    .final-buttons{ display:flex; justify-content:space-between; gap:10px; margin-top:14px; }
+    .btn-large{ padding:10px 16px; background:#b34cff; color:white; border:none; border-radius:10px; cursor:pointer; }
+  </style>
 </head>
-
 <body>
 
-<div class="container">
-    <h1>Carrito de Compras</h1>
-    <div id="lista"></div>
+  <nav class="navbar">
+    <div class="navbar-logo">Galería Virtual</div>
+    <div class="navbar-links">
+      <a href="inicio.html">Inicio</a>
+      <a href="Sobre_nosotros.html">Nosotros</a>
+      <a href="Contenido.html">Contenido</a>
+      <a href="publicar.html">Publicar +</a>
+      <div id="navbarUserBox"></div>
+      <div style="margin-left:12px; cursor:pointer;" onclick="location.href='carrito.html'">
+        <span id="cartCount">0</span> 🛒
+      </div>
+    </div>
+  </nav>
 
-    <button id="btnComprar" onclick="finalizarCompra()">Finalizar compra</button>
-</div>
+  <div class="container">
+    <h2>🛒 Tu carrito</h2>
 
-<script>
-    const lista = document.getElementById("lista");
-    const carrito = JSON.parse(localStorage.getItem("carrito") || "[]");
+    <table id="tablaCarrito">
+      <!-- cargado por carrito.js -->
+    </table>
 
-    carrito.forEach((item, i) => {
-        lista.innerHTML += `
-            <div class="item">
-                <img src="${item.img}">
-                <div>
-                    <h3>${item.titulo}</h3>
-                    <p>S/ ${item.precio}</p>
-                </div>
-                <button onclick="eliminar(${i})">Eliminar</button>
-            </div>
-        `;
-    });
+    <div class="total-box">
+      Total: S/ <span id="totalCarrito">0.00</span>
+    </div>
 
-    function eliminar(i) {
-        carrito.splice(i, 1);
-        localStorage.setItem("carrito", JSON.stringify(carrito));
-        location.reload();
-    }
+    <div class="final-buttons">
+      <button class="btn-large" onclick="vaciarCarrito()">🗑 Vaciar carrito</button>
+      <button class="btn-large" onclick="comprar(); location.href='compraexitosa.html'">💳 Finalizar compra</button>
+    </div>
+  </div>
 
-    function finalizarCompra() {
-        if (carrito.length === 0) {
-            alert("El carrito está vacío");
-            return;
-        }
-        window.location.href = "compraexitosa.html";
-    }
-</script>
-
+  <!-- scripts -->
+  <script src="Scripts/carrito.js"></script>
+  <script src="Scripts/sesion-global.js"></script>
 </body>
 </html>

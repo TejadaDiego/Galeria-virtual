@@ -1,11 +1,13 @@
-// ===============================
+// ===================================================
 //   CARGAR CARRITO EN TABLA
-// ===============================
+// ===================================================
 function cargarCarrito() {
     const tabla = document.getElementById("tablaCarrito");
+    const totalCarrito = document.getElementById("totalCarrito");
+
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
-    if (!tabla) return;
+    if (!tabla || !totalCarrito) return; // Evita errores si no es carrito.html
 
     tabla.innerHTML = `
         <tr>
@@ -28,7 +30,7 @@ function cargarCarrito() {
             <tr>
                 <td><img src="${item.imagen}" class="item-img"></td>
                 <td>${item.nombre}</td>
-                <td>S/ ${item.precio}</td>
+                <td>S/ ${item.precio.toFixed(2)}</td>
                 <td>${item.cantidad}</td>
                 <td>S/ ${subtotal.toFixed(2)}</td>
                 <td class="acciones">
@@ -40,14 +42,16 @@ function cargarCarrito() {
         `;
     });
 
-    document.getElementById("totalCarrito").textContent = total.toFixed(2);
+    totalCarrito.textContent = total.toFixed(2);
 
-    actualizarCarritoUI(); // actualiza el contador global del carrito
+    actualizarCarritoUI();
 }
 
-// ===============================
+
+
+// ===================================================
 //   SUMAR / RESTAR CANTIDAD
-// ===============================
+// ===================================================
 function cambiarCantidad(i, cantidad) {
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
@@ -61,9 +65,11 @@ function cambiarCantidad(i, cantidad) {
     cargarCarrito();
 }
 
-// ===============================
-//   ELIMINAR UN ITEM
-// ===============================
+
+
+// ===================================================
+//   ELIMINAR ITEM
+// ===================================================
 function eliminarItem(i) {
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
@@ -73,28 +79,38 @@ function eliminarItem(i) {
     cargarCarrito();
 }
 
-// ===============================
+
+
+// ===================================================
 //   VACIAR CARRITO
-// ===============================
+// ===================================================
 function vaciarCarrito() {
     localStorage.removeItem("carrito");
     cargarCarrito();
 }
 
-// ===============================
-//   COMPLETAR COMPRA
-// ===============================
+
+
+// ===================================================
+//   COMPRAR
+// ===================================================
 function comprar() {
-    if (confirm("¿Deseas completar la compra?")) {
-        alert("✔ Compra realizada con éxito");
-        vaciarCarrito();
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    if (carrito.length === 0) {
+        alert("No tienes productos en el carrito.");
+        return;
     }
+
+    window.location.href = "compraexitosa.html";
 }
 
-// ===============================
-//   INICIALIZACIÓN AL CARGAR PÁGINA
-// ===============================
+
+
+// ===================================================
+//   INICIALIZAR AL CARGAR PÁGINA
+// ===================================================
 document.addEventListener("DOMContentLoaded", () => {
-    cargarCarrito();
-    actualizarCarritoUI(); // vuelve a sincronizar el contador global
+    cargarCarrito();      // Carga tabla (solo funciona en carrito.html)
+    actualizarCarritoUI(); // Sincroniza el contador del carrito global
 });

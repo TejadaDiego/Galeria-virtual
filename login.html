@@ -19,7 +19,7 @@
             <li><a href="publicar.html">Publicar +</a></li>
 
             <li><a id="btnLoginNav" href="login.html">Iniciar sesión</a></li>
-            <li id="navbarUserBox" class="usuario-box"></li>
+            <li id="navbarUserBox"></li>
         </ul>
     </nav>
 
@@ -28,9 +28,9 @@
         <img class="login-logo" src="https://cdn-icons-png.flaticon.com/512/847/847969.png">
         <h2>¿Cómo deseas ingresar?</h2>
 
-        <button class="btn-rol" onclick="seleccionarRol('comprador')">🛒 Entrar como Comprador</button>
-        <button class="btn-rol" onclick="seleccionarRol('estudiante')">📚 Entrar como Estudiante</button>
-        <button class="btn-rol" onclick="seleccionarRol('admin')">🛡️ Entrar como Administrador</button>
+        <button class="btn-rol" onclick="seleccionarRol('comprador')">🛒 Comprador</button>
+        <button class="btn-rol" onclick="seleccionarRol('estudiante')">📚 Estudiante</button>
+        <button class="btn-rol" onclick="seleccionarRol('admin')">🛡️ Administrador</button>
     </div>
 
     <!-- FORMULARIO LOGIN -->
@@ -56,10 +56,9 @@
 
         <a class="crear-cuenta" href="registro.html">¿No tienes cuenta? Crear cuenta</a>
         <p onclick="volverRoles()" class="volver">⬅ Volver</p>
-
-        <p id="mensajeError" class="error" style="display:none;">Credenciales incorrectas</p>
     </div>
 
+    <!-- CONTROL DE PANTALLAS -->
     <script>
         function seleccionarRol(rol) {
             document.getElementById("selector-roles").style.display = "none";
@@ -67,9 +66,9 @@
             document.getElementById("tipoSeleccionado").value = rol;
 
             const titulo = document.getElementById("titulo-login");
-            if (rol == "comprador") titulo.textContent = "Acceso Comprador 🛒";
-            if (rol == "estudiante") titulo.textContent = "Acceso Estudiante 🎓";
-            if (rol == "admin") titulo.textContent = "Acceso Administrador 🛡️";
+            if (rol === "comprador") titulo.textContent = "Acceso Comprador 🛒";
+            if (rol === "estudiante") titulo.textContent = "Acceso Estudiante 🎓";
+            if (rol === "admin") titulo.textContent = "Acceso Administrador 🛡️";
         }
 
         function volverRoles() {
@@ -78,6 +77,7 @@
         }
     </script>
 
+    <!-- SCRIPTS -->
     <script src="Scripts/login-handler.js"></script>
     <script src="Scripts/sesion-global.js"></script>
 
