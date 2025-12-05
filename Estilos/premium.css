@@ -64,7 +64,7 @@ body {
     text-decoration: none;
     font-size: 15px;
     font-weight: 500;
-    transition: 0.2s;
+    transition: 0.2s ease;
 }
 
 .navbar-menu a:hover,
@@ -139,7 +139,7 @@ body {
     border-radius: 14px;
     padding: 15px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.35);
-    transition: 0.25s;
+    transition: 0.25s ease;
 }
 
 .card:hover {
@@ -187,7 +187,7 @@ body {
     padding: 10px 16px;
     border-radius: 8px;
     font-size: 14px;
-    transition: 0.2s;
+    transition: 0.2s ease;
     cursor: pointer;
 }
 
@@ -244,7 +244,7 @@ td {
     border-radius: 8px;
     border: none;
     cursor: pointer;
-    transition: 0.2s;
+    transition: 0.2s ease;
 }
 
 .btn:hover {

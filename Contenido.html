@@ -5,61 +5,148 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Contenido - Galería Virtual</title>
 
-  <link rel="stylesheet" href="Estilos/contenido.css"/>
+  <!-- CSS correcto del catálogo -->
+  <link rel="stylesheet" href="Estilos/catalogo.css"/>
+  <link rel="stylesheet" href="Estilos/Estilo.css">
 
-  <style>
-    body { background:#0d0b1f; color:#fff; font-family: Arial, sans-serif; margin:0; }
-    .navbar { padding:18px 30px; display:flex; justify-content:space-between; align-items:center; background:#0d0b1f; }
-    .navbar-logo { color:white; font-size:20px; font-weight:700; }
-    .navbar-links { display:flex; gap:18px; align-items:center; }
-    .navbar-links a { color:#ddd; text-decoration:none; font-size:15px; }
-    .navbar-links a.active { color:#b34cff; font-weight:700; }
-    .cart-box { display:flex; align-items:center; gap:8px; cursor:pointer; }
-    #cartCount { background:#b34cff; padding:2px 8px; border-radius:12px; font-weight:700; color:white; }
-    .grid { width:92%; max-width:1200px; margin:30px auto; display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:20px; }
-    .card { background:#151226; padding:14px; border-radius:12px; box-shadow:0 6px 20px rgba(0,0,0,.5); color:#eee; }
-    .card img{ width:100%; height:160px; object-fit:cover; border-radius:8px; }
-    .card h3{ margin:10px 0 6px; font-size:18px; }
-    .card p{ font-size:14px; opacity:.85; margin:0 0 10px; }
-    .precio-carrito { display:flex; justify-content:space-between; align-items:center; }
-    .precio { font-weight:700; color:#bde; }
-    .card button{ background:#b34cff; color:white; border:none; padding:8px 10px; border-radius:8px; cursor:pointer; }
-    .section-title { width:92%; max-width:1200px; margin:30px auto 10px; font-size:22px; }
-  </style>
 </head>
 
 <body>
 
+  <!-- NAVBAR -->
   <nav class="navbar">
-    <div class="navbar-logo">Galería Virtual</div>
-
-    <div class="navbar-links">
-      <a href="inicio.html">Inicio</a>
-      <a href="Sobre_nosotros.html">Nosotros</a>
-      <a href="Contenido.html" class="active">Contenido</a>
-      <a href="publicar.html">Publicar +</a>
+      <ul class="navbar-menu">
+          <li><a href="inicio.html">Inicio</a></li>
+          <li><a href="Sobre_nosotros.html">Nosotros</a></li>
+          <li><a href="Contenido.html" class="active">Contenido</a></li>
+          <li><a href="publicar.html">Publicar +</a></li>
+      </ul>
 
       <div class="cart-box" onclick="location.href='carrito.html'">
-        <span id="cartCount">0</span>
-        <span>🛒</span>
+          <span class="cart-count" id="cartCount">0</span>
+          🛒
       </div>
 
-      <div id="navbarUserBox"></div>
-    </div>
+      <div id="navbarUserBox" class="navbar-user"></div>
   </nav>
 
-  <h1 class="section-title">Trabajos destacados</h1>
+  <!-- TÍTULO -->
+  <h1 class="titulo">Trabajos Destacados</h1>
 
-  <div id="catalogo" class="grid"></div>
+  <!-- 🔥 CATÁLOGO FIJO DE 10 PRODUCTOS -->
+  <div id="catalogo" class="grid">
 
-  <h2 class="section-title">Trabajos subidos por la comunidad</h2>
+    <div class="card">
+      <img src="img/11.jpg" alt="Ilustración Digital">
+      <h3>Ilustración Digital</h3>
+      <p>Ilustración original en estilo digital, ideal para posters y portadas.</p>
+      <div class="precio-carrito">
+        <span class="precio">S/ 30.00</span>
+        <button onclick="agregarAlCarrito(1, 'Ilustración Digital', 30, 'img/11.jpg')">🛒 Añadir</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="img/12.jpg" alt="Logo Minimalista">
+      <h3>Logo Minimalista</h3>
+      <p>Identidad visual minimal para marcas modernas.</p>
+      <div class="precio-carrito">
+        <span class="precio">S/ 45.00</span>
+        <button onclick="agregarAlCarrito(2, 'Logo Minimalista', 45, 'img/12.jpg')">🛒 Añadir</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="img/13.jpg" alt="Retoque Fotográfico">
+      <h3>Retoque Fotográfico</h3>
+      <p>Edición y corrección de color profesional.</p>
+      <div class="precio-carrito">
+        <span class="precio">S/ 15.00</span>
+        <button onclick="agregarAlCarrito(3, 'Retoque Fotográfico', 15, 'img/13.jpg')">🛒 Añadir</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="img/14.jpg" alt="Diseño de Portada">
+      <h3>Diseño de Portada</h3>
+      <p>Portadas para libros, álbumes y publicaciones digitales.</p>
+      <div class="precio-carrito">
+        <span class="precio">S/ 35.00</span>
+        <button onclick="agregarAlCarrito(4, 'Diseño de Portada', 35, 'img/14.jpg')">🛒 Añadir</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="img/15.jpg" alt="Banner Publicitario">
+      <h3>Banner Publicitario</h3>
+      <p>Banners para redes y campañas publicitarias.</p>
+      <div class="precio-carrito">
+        <span class="precio">S/ 25.00</span>
+        <button onclick="agregarAlCarrito(5, 'Banner Publicitario', 25, 'img/15.jpg')">🛒 Añadir</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="img/16.jpg" alt="Render 3D">
+      <h3>Render 3D</h3>
+      <p>Modelado y renderizado para presentaciones profesionales.</p>
+      <div class="precio-carrito">
+        <span class="precio">S/ 55.00</span>
+        <button onclick="agregarAlCarrito(6, 'Render 3D', 55, 'img/16.jpg')">🛒 Añadir</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="img/17.jpg" alt="Ilustración Anime">
+      <h3>Ilustración Anime</h3>
+      <p>Retratos y escenas en estilo anime.</p>
+      <div class="precio-carrito">
+        <span class="precio">S/ 40.00</span>
+        <button onclick="agregarAlCarrito(7, 'Ilustración Anime', 40, 'img/17.jpg')">🛒 Añadir</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="img/18.jpg" alt="Edición de Video">
+      <h3>Edición de Video</h3>
+      <p>Montaje y edición para contenido multimedia.</p>
+      <div class="precio-carrito">
+        <span class="precio">S/ 60.00</span>
+        <button onclick="agregarAlCarrito(8, 'Edición de Video', 60, 'img/18.jpg')">🛒 Añadir</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="img/19.jpg" alt="Fotografía Profesional">
+      <h3>Fotografía Profesional</h3>
+      <p>Sesión fotográfica y postproducción.</p>
+      <div class="precio-carrito">
+        <span class="precio">S/ 50.00</span>
+        <button onclick="agregarAlCarrito(9, 'Fotografía Profesional', 50, 'img/19.jpg')">🛒 Añadir</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="img/20.jpg" alt="Vectorización">
+      <h3>Vectorización</h3>
+      <p>Vectorizado y escalado para impresión y merchandising.</p>
+      <div class="precio-carrito">
+        <span class="precio">S/ 20.00</span>
+        <button onclick="agregarAlCarrito(10, 'Vectorización', 20, 'img/20.jpg')">🛒 Añadir</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CONTENIDO AGREGADO POR USUARIOS -->
+  <h2 class="titulo">Trabajos Subidos por la Comunidad</h2>
   <div id="galeriaUser" class="grid"></div>
 
-  <!-- scripts funcionales -->
+  <!-- SCRIPTS FUNCIONALES  -->
   <script src="Scripts/producto.js"></script>
   <script src="Scripts/carrito.js"></script>
-  <script src="Scripts/script.js"></script>
   <script src="Scripts/sesion-global.js"></script>
+  <script src="Scripts/script.js"></script> <!-- login-handler (OPCIONAL PERO PERMITIDO) -->
 
 </body>
 </html>

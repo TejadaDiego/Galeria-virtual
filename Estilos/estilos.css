@@ -15,11 +15,11 @@
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  background: #222; 
+  background: #222;
   padding: 6px 12px;
   border-radius: 20px;
   transition: 0.25s ease;
-  border: 1px solid rgba(255,255,255,0.05);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .usuario-mini:hover {

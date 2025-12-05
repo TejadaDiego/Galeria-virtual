@@ -51,6 +51,7 @@ body {
   color: #fff;
   letter-spacing: 1px;
 }
+
 .logo span {
   color: #5E17EB;
   text-shadow: 0 0 8px rgba(94, 23, 235, 0.7);
@@ -70,6 +71,7 @@ body {
   transition: 0.3s;
   font-weight: 500;
 }
+
 .navbar a:hover {
   background: #5E17EB;
   box-shadow: 0 0 12px rgba(94, 23, 235, 0.55);
@@ -101,7 +103,6 @@ body {
   box-shadow: 0 0 20px rgba(94, 23, 235, 0.6);
 }
 
-/* === Título === */
 .login-card h2 {
   color: white;
   margin-bottom: 25px;

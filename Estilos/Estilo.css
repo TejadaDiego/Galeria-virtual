@@ -8,7 +8,7 @@ body {
 }
 
 /* ===========================
-   NAVBAR
+   NAVBAR GENERAL
 =========================== */
 .navbar {
   background-color: #111;
@@ -46,18 +46,6 @@ body {
 }
 
 /* ===========================
-   CONTENEDOR GENERAL
-=========================== */
-.container {
-  max-width: 1050px;
-  margin: 40px auto;
-  padding: 25px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.12);
-}
-
-/* ===========================
    USUARIO EN NAVBAR
 =========================== */
 .usuario-box {
@@ -90,9 +78,7 @@ body {
   font-weight: 500;
 }
 
-/* ===========================
-   BOTÓN DE CERRAR SESIÓN
-=========================== */
+/* botón dentro del usuario-box */
 .usuario-box button {
   background: #ef4444;
   color: #fff;
@@ -106,6 +92,18 @@ body {
 
 .usuario-box button:hover {
   background: #dc2626;
+}
+
+/* ===========================
+   CONTENEDOR GENERAL
+=========================== */
+.container {
+  max-width: 1050px;
+  margin: 40px auto;
+  padding: 25px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.12);
 }
 
 /* ===========================

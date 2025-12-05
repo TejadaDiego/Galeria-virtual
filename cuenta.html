@@ -3,83 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Mi Cuenta - Galería Virtual</title>
+
+    <!-- CSS de cuenta -->
     <link rel="stylesheet" href="Estilos/cuenta.css">
-
-    <style>
-        body { 
-            background:#0d0b1f; 
-            color:white; 
-            font-family: Arial; 
-        }
-
-        /* Espacio para la barra superior */
-        #navbar { margin-bottom: 40px; }
-
-        .container {
-            width: 450px;
-            margin: 50px auto;
-            background: #1c1a33;
-            padding: 35px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 0 15px #a569ff;
-        }
-        img {
-            width: 110px;
-            height:110px;
-            border-radius: 50%;
-            border: 3px solid #b34cff;
-            object-fit: cover;
-            margin-bottom: 10px;
-        }
-        button {
-            padding: 12px 20px;
-            margin-top: 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 10px;
-            background: #b34cff;
-            color: white;
-            cursor: pointer;
-            width: 70%;
-        }
-        button:hover {
-            background: #993dff;
-        }
-    </style>
 </head>
 
 <body>
 
-    <!-- NAVBAR GLOBAL DE SESIÓN -->
+    <!-- NAVBAR GLOBAL -->
     <nav id="navbar"></nav>
 
-    <div class="container">
-        <img id="fotoUser" src="img/default.png">
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="cuenta-container">
+
+        <img id="fotoUser" class="foto-perfil" src="img/default.png">
 
         <h2 id="nombreUser">Usuario</h2>
         <p id="correoUser"></p>
 
         <button onclick="location.href='perfil.html'">Editar perfil</button>
-        <button onclick="cerrarSesion()">Cerrar sesión</button>
+
+        <button class="btn-salir" onclick="cerrarSesion()">Cerrar sesión</button>
     </div>
 
-    <!-- Scripts -->
+    <!-- SCRIPTS GLOBALES -->
     <script src="Scripts/sesion-global.js"></script>
 
     <script>
         const user = JSON.parse(localStorage.getItem("usuarioActivo"));
 
-        // Si no hay sesión → volver al login
+        // Si no hay sesión → al login
         if (!user) {
             location.href = "login.html";
         }
 
-        // Cargar datos visibles
+        // Mostrar datos del usuario
         document.getElementById("nombreUser").textContent = user.nombre;
         document.getElementById("correoUser").textContent = user.email;
         document.getElementById("fotoUser").src = user.foto || "img/default.png";
 
+        // Cerrar sesión
         function cerrarSesion() {
             localStorage.removeItem("usuarioActivo");
             window.location.href = "login.html";
