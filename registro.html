@@ -3,11 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Registro</title>
+
+    <!-- CSS -->
     <link rel="stylesheet" href="Estilos/login.css">
     <link rel="stylesheet" href="Estilos/estilos.css">
+    <link rel="stylesheet" href="Estilos/premium.css">
 
     <style>
-        body { background:#0d0b1f; margin:0; color:white; }
+        body {
+            background:#0d0b1f;
+            margin:0;
+            font-family: Arial;
+            color:white;
+        }
 
         .registro-card {
             width: 380px;
@@ -16,15 +24,25 @@
             margin:60px auto;
             border-radius:15px;
             text-align:center;
-            color:white;
+            box-shadow:0 0 15px #a569ff;
+        }
+
+        h2 {
+            margin-bottom:10px;
         }
 
         input, select {
             width:100%;
-            padding:10px;
+            padding:12px;
             margin:10px 0;
             border-radius:8px;
             border:none;
+            background:#2c2850;
+            color:white;
+        }
+
+        input::placeholder {
+            color:#c9c3e6;
         }
 
         button {
@@ -35,7 +53,21 @@
             border:none;
             border-radius:8px;
             cursor:pointer;
-            margin-top:10px;
+            font-size:16px;
+            margin-top:15px;
+        }
+
+        button:hover {
+            background:#9b3de6;
+        }
+
+        a {
+            color:#b34cff;
+            text-decoration:none;
+        }
+
+        a:hover {
+            text-decoration:underline;
         }
     </style>
 </head>
@@ -47,11 +79,11 @@
 
     <form id="formRegistro">
 
-        <input type="text" name="nombre" required placeholder="Nombre completo">
+        <input type="text" name="nombre" required placeholder="Nombre completo" minlength="3">
 
         <input type="email" name="email" required placeholder="Correo electrónico">
 
-        <input type="password" name="password" required placeholder="Contraseña">
+        <input type="password" name="password" required placeholder="Contraseña" minlength="4">
 
         <select name="tipo" required>
             <option value="">Seleccionar tipo...</option>
@@ -60,10 +92,10 @@
             <option value="admin">Administrador</option>
         </select>
 
-        <button>Registrarse</button>
+        <button type="submit">Registrarse</button>
     </form>
 
-    <p>¿Ya tienes cuenta? <a href="login.html" style="color:#b34cff;">Inicia sesión</a></p>
+    <p>¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a></p>
 </div>
 
 <script>
@@ -72,21 +104,27 @@ document.getElementById("formRegistro").addEventListener("submit", async (e) => 
 
     const form = new FormData(e.target);
 
-    const res = await fetch("register.php", {
-        method:"POST",
-        body:form
-    });
+    try {
+        const res = await fetch("register.php", {
+            method: "POST",
+            body: form
+        });
 
-    const data = await res.json();
+        const data = await res.json();
 
-    if (data.success) {
-        alert("Usuario registrado correctamente");
+        if (data.success) {
+            alert("Usuario registrado correctamente 🎉");
 
-        localStorage.setItem("usuarioActivo", JSON.stringify(data.usuario));
+            // Guardar sesión de inmediato
+            localStorage.setItem("usuarioActivo", JSON.stringify(data.usuario));
 
-        location.href = "inicio.html";
-    } else {
-        alert("Error: " + data.error);
+            location.href = "inicio.html";
+        } else {
+            alert("Error: " + data.error);
+        }
+    } catch (err) {
+        alert("Error de conexión con el servidor");
+        console.error(err);
     }
 });
 </script>

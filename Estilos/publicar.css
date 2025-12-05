@@ -28,7 +28,7 @@ body {
   background-color: #1e293b;
   box-shadow: 0 3px 10px rgba(0,0,0,0.2);
   display: flex;
-  justify-content: space-between; /* Menú a la izquierda, avatar a la derecha */
+  justify-content: space-between;
   align-items: center;
   padding: 15px 25px;
   z-index: 1000;
@@ -70,7 +70,7 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-left: auto; /* lo empuja al borde derecho */
+  margin-left: auto;
   padding: 7px 16px;
   background-color: #334155;
   border-radius: 25px;
@@ -89,6 +89,7 @@ body {
   font-size: 0.95rem;
   font-weight: 500;
 }
+
 
 
 /* ==========================================================
@@ -192,4 +193,3 @@ button:hover {
     margin-left: 0;
   }
 }
-

@@ -1,100 +1,147 @@
-/* ==========================================================
-   NAVBAR + USUARIO — VERSIÓN UNIFICADA Y FUNCIONAL
-========================================================== */
-
-/* Caja del usuario (foto + nombre) */
-.usuario-box {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(255, 255, 255, 0.15);
-    padding: 6px 14px;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background 0.3s ease;
+/* === RESETEO === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.usuario-box:hover {
-    background: rgba(255, 255, 255, 0.25);
+body {
+  background: linear-gradient(180deg, #0a0826, #160835);
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* === NAVBAR === */
+.navbar {
+  width: 100%;
+  padding: 18px 50px;
+  background: #050314;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* LOGO */
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.logo span {
+  color: #b388ff;
+}
+
+/* MENÚ */
+.nav-links {
+  display: flex;
+  gap: 35px;
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 17px;
+  padding: 8px 16px;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links .active {
+  background: #5E17EB;
+  box-shadow: 0 0 12px #5E17EB;
+}
+
+/* USUARIO LOGUEADO */
+.usuario-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.15);
+  padding: 6px 14px;
+  border-radius: 20px;
 }
 
 .usuario-box img {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #5E17EB;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid #b388ff;
+  object-fit: cover;
 }
 
 .usuario-box span {
-    color: white;
-    font-weight: 600;
-    font-size: 0.95rem;
-    white-space: nowrap;
+  font-size: 15px;
+  font-weight: 600;
 }
 
-/* Botón Login */
-.btn-login {
-    background: #5b3fff;
-    padding: 6px 15px;
-    border-radius: 20px;
-    color: white;
-    text-decoration: none;
-    transition: 0.3s;
+/* TÍTULO GENERAL */
+.titulo-pagina {
+  text-align: center;
+  margin-top: 70px;
+  font-size: 32px;
+  font-weight: bold;
 }
 
-.btn-login:hover {
-    background: #7c5bff;
+/* SUBTÍTULO */
+.subtitulo {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 18px;
+  color: #c6b4ff;
 }
 
-/* Menú desplegable del usuario */
-.usuario-menu {
-    position: absolute;
-    right: 20px;
-    top: 70px;
-    background: #111;
-    padding: 15px;
-    width: 210px;
-    border-radius: 10px;
-    display: none;          /* oculto por defecto */
-    flex-direction: column;
-    gap: 12px;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.45);
-    z-index: 9999;
+/* SECCIÓN PRINCIPAL */
+.seccion {
+  width: 80%;
+  margin: auto;
+  margin-top: 50px;
+  line-height: 30px;
+  font-size: 18px;
 }
 
-.usuario-menu.activo {
-    display: flex;          /* se activa al hacer click */
+.seccion h2 {
+  margin-bottom: 15px;
+  font-size: 28px;
+  color: #d8caff;
 }
 
-/* Texto del menú */
-.usuario-menu p {
-    margin: 0;
-    color: #ccc;
-    font-size: 0.9rem;
+/* FORMULARIO (uso general) */
+.form-publicar {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
-/* Botones del menú */
-.usuario-menu button {
-    background: #333;
-    border: none;
-    padding: 10px;
-    border-radius: 6px;
-    color: white;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: 0.2s;
+.form-publicar input,
+.form-publicar textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  font-size: 16px;
 }
 
-.usuario-menu button:hover {
-    background: #444;
+.form-publicar button {
+  width: 150px;
+  padding: 10px;
+  background: #5E17EB;
+  border-radius: 10px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
 }
 
-/* Botón Cerrar Sesión */
-.usuario-menu .logout {
-    background: #d00000;
-}
-
-.usuario-menu .logout:hover {
-    background: #b30000;
+.form-publicar button:hover {
+  background: #7c3aed;
 }

@@ -1,39 +1,41 @@
 <?php
 session_start();
 
-// ===================================================
-// ACCIONES DIRECTAS EN ESTE MISMO ARCHIVO
-// ===================================================
+// =============================================
+// ACCIONES (ELIMINAR ITEM / VACIAR CARRITO)
+// =============================================
 
-// Quitar un producto
-if (isset($_POST["remove_id"])) {
-    $id = $_POST["remove_id"];
+// Eliminar un producto específico
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["remove_id"])) {
 
-    foreach ($_SESSION["cart"] as $i => $item) {
-        if ($item["id"] == $id) {
-            unset($_SESSION["cart"][$i]);
-            break;
+    $id = intval($_POST["remove_id"]);
+
+    if (isset($_SESSION["cart"])) {
+        foreach ($_SESSION["cart"] as $i => $item) {
+            if ($item["id"] == $id) {
+                unset($_SESSION["cart"][$i]);
+                break;
+            }
         }
+        $_SESSION["cart"] = array_values($_SESSION["cart"]); // Reindexar
     }
-
-    $_SESSION["cart"] = array_values($_SESSION["cart"]); // Reindexar
 }
 
-// Vaciar carrito
-if (isset($_POST["clear_cart"])) {
+// Vaciar carrito completamente
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["clear_cart"])) {
     unset($_SESSION["cart"]);
 }
 
-// ===================================================
-// Cargar carrito actualizado
-// ===================================================
+// =============================================
+// CARGAR CARRITO ACTUALIZADO
+// =============================================
 $cart = $_SESSION['cart'] ?? [];
 $total = 0;
 $qty_total = 0;
 
 foreach ($cart as $c) {
-    $total += $c['subtotal'];
-    $qty_total += $c['cantidad'];
+    $total += floatval($c['subtotal']);
+    $qty_total += intval($c['cantidad']);
 }
 ?>
 <!DOCTYPE html>
@@ -61,13 +63,19 @@ foreach ($cart as $c) {
             box-shadow: 0 8px 25px rgba(0,0,0,0.4);
         }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
         th {
             background: #5E17EB;
             padding: 12px;
             border-radius: 6px;
             text-align: left;
         }
+
         td {
             padding: 14px 10px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
@@ -90,8 +98,13 @@ foreach ($cart as $c) {
             cursor: pointer;
         }
 
-        .btn-danger { background: #dc2626; }
-        .btn-large { padding: 10px 20px; }
+        .btn-danger {
+            background: #dc2626;
+        }
+
+        .btn-large {
+            padding: 10px 20px;
+        }
 
         .total-box {
             text-align: right;
@@ -103,6 +116,8 @@ foreach ($cart as $c) {
             margin-top: 25px;
             display: flex;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         a.btn {
@@ -137,7 +152,9 @@ foreach ($cart as $c) {
 
         <?php foreach($cart as $item): ?>
         <tr>
-            <td><img src="<?= htmlspecialchars($item['imagen'] ?? 'Img/default.png') ?>" class="item-img"></td>
+            <td>
+                <img src="<?= htmlspecialchars($item['imagen'] ?? 'Img/default.png') ?>" class="item-img">
+            </td>
 
             <td><?= htmlspecialchars($item['titulo']) ?></td>
 
@@ -148,10 +165,10 @@ foreach ($cart as $c) {
             <td>S/ <?= number_format($item['subtotal'], 2) ?></td>
 
             <td>
-                <!-- ELIMINAR DESDE EL MISMO ARCHIVO -->
+                <!-- Eliminar producto -->
                 <form action="" method="POST" style="display:inline;">
                     <input type="hidden" name="remove_id" value="<?= $item['id'] ?>">
-                    <button class="btn-danger btn" type="submit">Eliminar</button>
+                    <button class="btn btn-danger" type="submit">Eliminar</button>
                 </form>
             </td>
         </tr>
@@ -164,7 +181,7 @@ foreach ($cart as $c) {
 
     <div class="final-buttons">
 
-        <!-- VACIAR CARRITO DESDE ESTE MISMO ARCHIVO -->
+        <!-- Vaciar carrito -->
         <form action="" method="POST">
             <button class="btn btn-danger btn-large" name="clear_cart" type="submit"
                 onclick="return confirm('¿Vaciar carrito por completo?')">
@@ -172,12 +189,14 @@ foreach ($cart as $c) {
             </button>
         </form>
 
-        <!-- FINALIZAR COMPRA -->
+        <!-- Finalizar compra -->
         <form action="checkout.php" method="POST">
             <input type="text" name="direccion" placeholder="Dirección (opcional)"
                 style="padding:8px; width:250px; border-radius:6px;">
             <button class="btn btn-large" type="submit"
-                onclick="return confirm('¿Confirmar compra?')">💳 Comprar</button>
+                onclick="return confirm('¿Confirmar compra?')">
+                💳 Comprar
+            </button>
         </form>
 
     </div>

@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Login Estudiante</title>
+
+  <!-- CSS existentes -->
   <link rel="stylesheet" href="Estilos/login.css">
   <link rel="stylesheet" href="Estilos/estilos.css">
 </head>
@@ -17,15 +19,22 @@
       <li><a href="Contenido.html">Contenido</a></li>
       <li><a href="publicar.html">Publicar +</a></li>
       <li><a id="btnLoginNav" href="login.html">Iniciar sesión</a></li>
+
+      <!-- Aquí sesion-global.js insertará el usuario si está logueado -->
       <li id="navbarUserBox"></li>
     </ul>
   </nav>
 
+  <!-- CARD DE LOGIN -->
   <div class="login-card" style="margin-top:110px;">
-    <img class="login-logo" src="https://cdn-icons-png.flaticon.com/512/847/847969.png">
+    <img class="login-logo"
+         src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
+         alt="estudiante">
+
     <h2>Acceso Estudiante 🎓</h2>
 
     <form id="loginForm">
+      <!-- Para que login-handler.js procese este login como estudiante -->
       <input type="hidden" name="tipo" value="estudiante">
 
       <div class="input-group">
@@ -44,6 +53,7 @@
     <a class="crear-cuenta" href="registro.html">Crear cuenta</a>
   </div>
 
+  <!-- JS existentes -->
   <script src="Scripts/login-handler.js"></script>
   <script src="Scripts/sesion-global.js"></script>
 

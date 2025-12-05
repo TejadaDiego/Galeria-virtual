@@ -4,12 +4,15 @@
   <meta charset="UTF-8">
   <title>Publicar Trabajo - Galería Virtual</title>
 
+  <!-- ESTILOS -->
   <link rel="stylesheet" href="Estilos/publicar.css">
-  <link rel="stylesheet" href="Estilos/Estilo.css">
+  <link rel="stylesheet" href="Estilos/estilo.css">
+  <link rel="stylesheet" href="Estilos/premium.css">
 
   <style>
-    body { background: #0d0b1f; margin:0; }
+    body { background: #0d0b1f; margin:0; font-family: Arial; }
 
+    /* NAV */
     .navbar {
       width: 100%;
       padding: 20px;
@@ -17,24 +20,56 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      box-shadow: 0 0 10px rgba(255,255,255,0.1);
+      position: sticky;
+      top:0;
+      z-index:10;
     }
 
-    .navbar-links { display:flex; gap:25px; align-items:center; }
-    .navbar-links a { color:white; text-decoration:none; font-size:17px; }
-    .navbar-links a.active { color:#b34cff; }
+    .navbar-logo {
+      font-size: 22px;
+      color: #ffffff;
+      font-weight: bold;
+    }
+
+    .navbar-links {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+    }
+
+    .navbar-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 17px;
+      transition: 0.3s;
+    }
+
+    .navbar-links a:hover {
+      color: #b34cff;
+    }
+
+    .navbar-links a.active {
+      color: #b34cff;
+      font-weight: bold;
+    }
 
     .navbar-user-box img {
-      width:45px; height:45px; border-radius:50%;
-      border:2px solid #a569ff; object-fit:cover;
+      width:45px; height:45px;
+      border-radius:50%;
+      border:2px solid #a569ff;
+      object-fit:cover;
+      cursor:pointer;
     }
+
   </style>
 </head>
 
 <body>
 
-<!-- NAV -->
+<!-- NAV AUTOGENERADO CON SESIÓN -->
 <nav class="navbar">
-  <div class="navbar-logo" style="color:white; font-size:22px;">Galería Virtual</div>
+  <div class="navbar-logo">Galería Virtual</div>
 
   <div class="navbar-links">
     <a href="inicio.html">Inicio</a>
@@ -42,12 +77,12 @@
     <a href="Contenido.html">Contenido</a>
     <a href="publicar.html" class="active">Publicar +</a>
 
-    <!-- Este será reemplazado automáticamente -->
+    <!-- Aquí sesion-global.js insertará el usuario -->
     <div id="navbarUserBox"></div>
   </div>
 </nav>
 
-<!-- FORMULARIO -->
+<!-- FORMULARIO PUBLICAR -->
 <div class="form-container">
   <h2>Publicar nuevo trabajo</h2>
 
@@ -65,16 +100,17 @@
     <label for="imagen">Imagen del trabajo:</label>
     <input type="file" id="imagen" name="imagen" accept="image/*" required>
 
-    <img id="previewImg" style="display:none; width:200px; border-radius:10px; margin-top:10px;">
+    <img id="previewImg"
+         style="display:none; width:200px; border-radius:10px; margin-top:10px;">
 
     <button type="submit">Subir trabajo</button>
   </form>
 </div>
 
-<!-- PUBLICAR.JS -->
+<!-- JS PARA PUBLICAR -->
 <script src="Scripts/publicar.js"></script>
 
-<!-- NAVBAR UNIVERSAL -->
+<!-- NAVBAR UNIVERSAL Y SESIÓN -->
 <script src="Scripts/sesion-global.js"></script>
 
 </body>

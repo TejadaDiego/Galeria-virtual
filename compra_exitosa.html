@@ -11,6 +11,7 @@
             font-family: Arial;
             text-align: center;
             padding-top: 100px;
+            margin: 0;
         }
         .box {
             background: #1c1a33;
@@ -20,9 +21,16 @@
             border-radius: 15px;
             box-shadow: 0 0 20px #a569ff;
         }
-        .box h1 { color: #b34cff; }
+        .box h1 {
+            color: #b34cff;
+            margin-bottom: 10px;
+        }
+        .box p {
+            font-size: 17px;
+            margin-bottom: 25px;
+        }
         .box button {
-            margin-top: 25px;
+            margin: 12px;
             padding: 12px 25px;
             font-size: 16px;
             background: #b34cff;
@@ -30,6 +38,10 @@
             border: none;
             border-radius: 10px;
             cursor: pointer;
+            transition: 0.3s;
+        }
+        .box button:hover {
+            background: #8f35d6;
         }
     </style>
 </head>
@@ -45,7 +57,12 @@
 </div>
 
 <script>
-    localStorage.removeItem("carrito");
+    // Vaciar carrito correctamente según tu proyecto
+    sessionStorage.removeItem("carrito");
+
+    // Actualizar contador del carrito si existe en el DOM
+    const cartCount = document.getElementById("cartCount");
+    if (cartCount) cartCount.textContent = "0";
 </script>
 
 </body>

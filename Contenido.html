@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Contenido - Galería Virtual</title>
 
-  <!-- CSS correcto del catálogo -->
+  <!-- CSS correctos -->
   <link rel="stylesheet" href="Estilos/catalogo.css"/>
-  <link rel="stylesheet" href="Estilos/Estilo.css">
+  <link rel="stylesheet" href="Estilos/Estilo.css"/>
+  <link rel="stylesheet" href="Estilos/premium.css"/>
 
 </head>
 
@@ -23,8 +24,7 @@
       </ul>
 
       <div class="cart-box" onclick="location.href='carrito.html'">
-          <span class="cart-count" id="cartCount">0</span>
-          🛒
+          <span class="cart-count" id="cartCount">0</span> 🛒
       </div>
 
       <div id="navbarUserBox" class="navbar-user"></div>
@@ -33,7 +33,7 @@
   <!-- TÍTULO -->
   <h1 class="titulo">Trabajos Destacados</h1>
 
-  <!-- 🔥 CATÁLOGO FIJO DE 10 PRODUCTOS -->
+  <!-- CATÁLOGO FIJO DE 10 PRODUCTOS -->
   <div id="catalogo" class="grid">
 
     <div class="card">
@@ -142,11 +142,11 @@
   <h2 class="titulo">Trabajos Subidos por la Comunidad</h2>
   <div id="galeriaUser" class="grid"></div>
 
-  <!-- SCRIPTS FUNCIONALES  -->
-  <script src="Scripts/producto.js"></script>
+  <!-- SCRIPTS FUNCIONALES -->
+  <script src="Scripts/productos.js"></script>  <!-- CORRECTO -->
   <script src="Scripts/carrito.js"></script>
   <script src="Scripts/sesion-global.js"></script>
-  <script src="Scripts/script.js"></script> <!-- login-handler (OPCIONAL PERO PERMITIDO) -->
-
+  <script src="Scripts/script.js"></script> <!-- login-handler -->
+  
 </body>
 </html>

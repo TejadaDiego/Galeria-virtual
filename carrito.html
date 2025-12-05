@@ -1,49 +1,130 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Carrito - Galería Virtual</title>
-  <link rel="stylesheet" href="Estilos/catalogo.css"/>
+
+  <!-- CSS reales de tu proyecto -->
   <link rel="stylesheet" href="Estilos/Estilo.css">
+  <link rel="stylesheet" href="Estilos/catalogo.css">
+  <link rel="stylesheet" href="Estilos/premium.css">
+
   <style>
-    body{ background:#0d0b1f; color:#fff; font-family:Arial; margin:0; }
-    .navbar{ padding:18px 30px; display:flex; justify-content:space-between; align-items:center; background:#0d0b1f; }
-    .navbar-links{ display:flex; gap:18px; align-items:center; }
-    .navbar-links a{ color:#ddd; text-decoration:none; }
-    .container{ width:92%; max-width:1000px; margin:30px auto; background:rgba(255,255,255,0.03); padding:18px; border-radius:12px; }
-    table{ width:100%; border-collapse:collapse; color:#fff; }
-    th{ text-align:left; padding:12px; background:#201a37; border-bottom:1px solid rgba(255,255,255,0.04); }
-    td{ padding:12px; vertical-align:middle; border-bottom:1px solid rgba(255,255,255,0.04); }
-    .item-img{ width:70px; height:70px; object-fit:cover; border-radius:8px; }
-    .acciones button{ margin-right:8px; padding:6px 10px; border-radius:8px; border:none; cursor:pointer; background:#b34cff; color:white; }
-    .btn-danger{ background:#dc2626 !important; }
-    .total-box{ text-align:right; margin-top:12px; font-size:1.1rem; }
-    .final-buttons{ display:flex; justify-content:space-between; gap:10px; margin-top:14px; }
-    .btn-large{ padding:10px 16px; background:#b34cff; color:white; border:none; border-radius:10px; cursor:pointer; }
+    body {
+      background:#0d0b1f;
+      color:#fff;
+      font-family: Arial;
+      margin: 0;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 1000px;
+      margin: 30px auto;
+      background: rgba(255,255,255,0.05);
+      padding: 18px;
+      border-radius: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      color: #fff;
+    }
+
+    th {
+      text-align: left;
+      padding: 12px;
+      background: #201a37;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+
+    td {
+      padding: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .item-img {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .acciones button {
+      margin-right: 8px;
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background:#b34cff;
+      color:white;
+    }
+
+    .btn-danger {
+      background:#dc2626 !important;
+    }
+
+    .total-box {
+      text-align: right;
+      margin-top: 12px;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .final-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .btn-large {
+      padding: 10px 16px;
+      background:#b34cff;
+      color:white;
+      border:none;
+      border-radius:10px;
+      cursor:pointer;
+      font-size: 15px;
+      transition:.3s;
+    }
+
+    .btn-large:hover {
+      background:#8f35d6;
+    }
   </style>
+
 </head>
 <body>
 
+  <!-- NAVBAR generado con Estilo.css -->
   <nav class="navbar">
-    <div class="navbar-logo">Galería Virtual</div>
-    <div class="navbar-links">
+    <div class="logo">Galería<span>Virtual</span></div>
+
+    <div class="nav-links">
       <a href="inicio.html">Inicio</a>
       <a href="Sobre_nosotros.html">Nosotros</a>
       <a href="Contenido.html">Contenido</a>
       <a href="publicar.html">Publicar +</a>
+
+      <!-- usuario logueado (lo llena login-handler.js) -->
       <div id="navbarUserBox"></div>
-      <div style="margin-left:12px; cursor:pointer;" onclick="location.href='carrito.html'">
+
+      <!-- carrito -->
+      <div style="cursor:pointer;" onclick="location.href='carrito.html'">
         <span id="cartCount">0</span> 🛒
       </div>
     </div>
   </nav>
 
+
+  <!-- CONTENIDO DEL CARRITO -->
   <div class="container">
     <h2>🛒 Tu carrito</h2>
 
     <table id="tablaCarrito">
-      <!-- cargado por carrito.js -->
+      <!-- cargado dinámicamente por carrito.js -->
     </table>
 
     <div class="total-box">
@@ -52,12 +133,15 @@
 
     <div class="final-buttons">
       <button class="btn-large" onclick="vaciarCarrito()">🗑 Vaciar carrito</button>
-      <button class="btn-large" onclick="comprar(); location.href='compraexitosa.html'">💳 Finalizar compra</button>
+      <button class="btn-large" onclick="comprar(); location.href='compra_exitosa.html'">💳 Finalizar compra</button>
     </div>
   </div>
 
-  <!-- scripts -->
-  <script src="Scripts/carrito.js"></script>
+  <!-- SCRIPTS REALES DE TU PROYECTO -->
+  <script src="Scripts/login-handler.js"></script>
+  <script src="Scripts/perfil.js"></script>
   <script src="Scripts/sesion-global.js"></script>
+  <script src="Scripts/carrito.js"></script>
+
 </body>
 </html>

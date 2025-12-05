@@ -10,6 +10,7 @@ body {
   color: white;
   font-family: Arial, Helvetica, sans-serif;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* === NAVBAR === */
@@ -57,7 +58,7 @@ body {
   box-shadow: 0 0 12px #5E17EB;
 }
 
-/* USUARIO (logueado) */
+/* USUARIO LOGUEADO */
 .usuario-box {
   display: flex;
   align-items: center;
@@ -72,6 +73,7 @@ body {
   height: 42px;
   border-radius: 50%;
   border: 2px solid #b388ff;
+  object-fit: cover;
 }
 
 .usuario-box span {
@@ -79,7 +81,7 @@ body {
   font-weight: 600;
 }
 
-/* TÍTULOS */
+/* TÍTULO GENERAL */
 .titulo-pagina {
   text-align: center;
   margin-top: 70px;
@@ -125,6 +127,7 @@ body {
   border-radius: 10px;
   border: none;
   outline: none;
+  font-size: 16px;
 }
 
 .form-publicar button {
@@ -136,6 +139,7 @@ body {
   border: none;
   cursor: pointer;
   font-weight: bold;
+  transition: 0.3s;
 }
 
 .form-publicar button:hover {
