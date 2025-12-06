@@ -64,14 +64,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 300);
   }
 
-  // Crear puntos del carrusel
-  function posicionCarrusel() {
-    puntos.innerHTML = "";
-    imagenes.forEach((_, i) => {
-      puntos.innerHTML += `<p class="${i === actual ? 'bold' : ''}">•</p>`;
-    });
-  }
-
   // Auto-play
   function iniciarAutoPlay() {
     autoPlay = setInterval(() => {
