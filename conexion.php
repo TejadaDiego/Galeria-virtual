@@ -3,7 +3,7 @@
 // Ajusta estos valores si tu XAMPP usa otro usuario/clave/puerto
 $servername = "127.0.0.1";
 $username = "root";
-$password = "dieguito.2006"; // o "dieguito.2006" si lo usas; asegúrate de que coincide con MySQL
+$password = ""; // o "dieguito.2006" si lo usas; asegúrate de que coincide con MySQL
 $dbname   = "galeria_virtual";
 $port     = 3307; // si usas 3307 en XAMPP, si usas 3306 pon 3306
 
