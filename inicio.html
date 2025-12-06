@@ -6,12 +6,21 @@
   <title>Inicio - Galería Virtual</title>
 
   <!-- CSS reales del proyecto -->
-  <link rel="stylesheet" href="Estilos/inicio.css"/>
   <link rel="stylesheet" href="Estilos/Estilo.css">
   <link rel="stylesheet" href="Estilos/premium.css"/>
 
   <style>
-    body{ background:#0d0b1f; color:#fff; font-family:Arial; margin:0; }
+    body{ 
+      background:#0d0b1f; 
+      color:#fff; 
+      font-family:Arial; 
+      margin:0; 
+    }
+
+    /* Elimina los puntos del carrusel */
+    #puntos{
+      display:none !important;
+    }
 
     .navbar{
       padding:18px 30px;
@@ -19,6 +28,12 @@
       justify-content:space-between;
       align-items:center;
       background:#0d0b1f;
+    }
+
+    .navbar-logo{
+      font-size:20px;
+      font-weight:700;
+      color:#b34cff;
     }
 
     .navbar-links{
@@ -33,6 +48,10 @@
       transition:0.2s;
     }
 
+    .navbar-links a:hover{
+      color:#b34cff;
+    }
+
     .navbar-links a.active{
       color:#b34cff;
       font-weight:700;
@@ -43,7 +62,10 @@
       padding:60px 20px 10px 20px;
     }
 
-    .hero h1{ font-size:36px; margin:0 0 8px 0; }
+    .hero h1{ 
+      font-size:36px; 
+      margin:0 0 8px 0; 
+    }
 
     .carrusel{
       width:92%;
@@ -79,6 +101,11 @@
       padding:10px 12px;
       border-radius:8px;
       cursor:pointer;
+      transition:0.2s;
+    }
+
+    .btn-carrusel:hover{
+      background:#8e37d3;
     }
 
     #texto{
@@ -86,12 +113,6 @@
       color:#ddd;
       margin-top:10px;
       min-height:40px;
-    }
-
-    #puntos{
-      text-align:center;
-      margin-top:8px;
-      color:#bdb;
     }
   </style>
 </head>
@@ -135,7 +156,7 @@
   </div>
 
   <div id="texto"></div>
-  <div id="puntos"></div>
+  <div id="puntos"></div> <!-- oculta pero necesario para tu JS -->
 
   <!-- SCRIPTS REALES DEL PROYECTO -->
   <script src="Scripts/app.js"></script>           
