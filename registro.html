@@ -27,10 +27,6 @@
             box-shadow:0 0 15px #a569ff;
         }
 
-        h2 {
-            margin-bottom:10px;
-        }
-
         input, select {
             width:100%;
             padding:12px;
@@ -39,10 +35,6 @@
             border:none;
             background:#2c2850;
             color:white;
-        }
-
-        input::placeholder {
-            color:#c9c3e6;
         }
 
         button {
@@ -63,11 +55,6 @@
 
         a {
             color:#b34cff;
-            text-decoration:none;
-        }
-
-        a:hover {
-            text-decoration:underline;
         }
     </style>
 </head>
@@ -79,17 +66,17 @@
 
     <form id="formRegistro">
 
-        <input type="text" name="nombre" required placeholder="Nombre completo" minlength="3">
+        <input type="text" name="nombre" required placeholder="Nombre completo">
 
         <input type="email" name="email" required placeholder="Correo electrónico">
 
-        <input type="password" name="password" required placeholder="Contraseña" minlength="4">
+        <input type="password" name="password" required placeholder="Contraseña">
 
         <select name="tipo" required>
             <option value="">Seleccionar tipo...</option>
-            <option value="comprador">Comprador</option>
-            <option value="estudiante">Estudiante</option>
-            <option value="admin">Administrador</option>
+            <option value="Comprador/Vendedor">Comprador/Vendedor</option>
+            <option value="Estudiante">Estudiante</option>
+            <option value="Admin">Administrador</option>
         </select>
 
         <button type="submit">Registrarse</button>
@@ -115,13 +102,14 @@ document.getElementById("formRegistro").addEventListener("submit", async (e) => 
         if (data.success) {
             alert("Usuario registrado correctamente 🎉");
 
-            // Guardar sesión de inmediato
+            // Guardar sesión
             localStorage.setItem("usuarioActivo", JSON.stringify(data.usuario));
 
             location.href = "inicio.html";
         } else {
             alert("Error: " + data.error);
         }
+
     } catch (err) {
         alert("Error de conexión con el servidor");
         console.error(err);

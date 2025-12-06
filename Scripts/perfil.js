@@ -1,107 +1,75 @@
-// ===============================
-//     PERFIL DEL USUARIO
-// ===============================
-
 document.addEventListener("DOMContentLoaded", () => {
 
-    let usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
-    let usuariosRegistrados = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
-
-    // Si no hay sesión → ir al login
+    const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
     if (!usuario) {
         window.location.href = "login.html";
         return;
     }
 
-    // ===============================
-    //   CARGAR DATOS DEL PERFIL
-    // ===============================
+    // Rellenar datos
+    document.getElementById("nombreUsuario").value = usuario.nombre;
+    document.getElementById("correoUsuario").value = usuario.email;
+    document.getElementById("tipoUsuario").textContent = usuario.tipo;
+    document.getElementById("fotoUsuario").src = usuario.foto;
 
-    const fotoUsuario = document.getElementById("fotoUsuario");
-    const nombreUsuario = document.getElementById("nombreUsuario");
-    const correoUsuario = document.getElementById("correoUsuario");
-    const usernameUsuario = document.getElementById("usernameUsuario");
-    const tipoUsuario = document.getElementById("tipoUsuario");
+    let nuevaFoto = null;
 
-    if (fotoUsuario) fotoUsuario.src = usuario.foto || "img/default.png";
-    if (nombreUsuario) nombreUsuario.value = usuario.nombre || "";
-    if (correoUsuario) correoUsuario.value = usuario.email || "";
-    if (usernameUsuario) usernameUsuario.value = usuario.username || "";
-    if (tipoUsuario) tipoUsuario.textContent = usuario.tipo || "Estudiante";
-
-    // ===============================
-    //   CAMBIAR FOTO LOCAL
-    // ===============================
-
-    const nuevaFoto = document.getElementById("nuevaFoto");
-
-    if (nuevaFoto) {
-        nuevaFoto.addEventListener("change", function () {
-            const file = this.files[0];
-            if (!file) return;
-
+    // Capturar selección de foto
+    document.getElementById("nuevaFoto").addEventListener("change", (e) => {
+        nuevaFoto = e.target.files[0];
+        if (nuevaFoto) {
             const reader = new FileReader();
-
-            reader.onload = function (e) {
-                if (fotoUsuario) fotoUsuario.src = e.target.result;
-
-                usuario.foto = e.target.result; // Guardar imagen en base64
+            reader.onload = function(e) {
+                document.getElementById("fotoUsuario").src = e.target.result;
             };
+            reader.readAsDataURL(nuevaFoto);
+        }
+    });
 
-            reader.readAsDataURL(file);
-        });
-    }
+    // GUARDAR CAMBIOS
+    document.getElementById("guardarCambios").addEventListener("click", async () => {
 
-    // ===============================
-    //   GUARDAR CAMBIOS
-    // ===============================
+        const nombre = document.getElementById("nombreUsuario").value;
+        const email = document.getElementById("correoUsuario").value;
 
-    const guardar = document.getElementById("guardarCambios");
+        if (nombre.trim() === "" || email.trim() === "") {
+            alert("Completa todos los campos.");
+            return;
+        }
 
-    if (guardar) {
-        guardar.onclick = () => {
+        const form = new FormData();
+        form.append("accion", "actualizarPerfil");
+        form.append("id", usuario.id);
+        form.append("nombre", nombre);
+        form.append("email", email);
+        form.append("fotoActual", usuario.foto);
 
-            // Validaciones básicas
-            if (!nombreUsuario.value.trim()) {
-                alert("El nombre no puede estar vacío");
-                return;
+        if (nuevaFoto) form.append("foto", nuevaFoto);
+
+        try {
+            const res = await fetch("login.php", {
+                method: "POST",
+                body: form
+            });
+
+            const data = await res.json();
+
+            if (data.success) {
+                localStorage.setItem("usuarioActivo", JSON.stringify(data.usuario));
+                alert("Perfil actualizado correctamente.");
+                location.reload();
+            } else {
+                alert("Error: " + data.error);
             }
-            if (!correoUsuario.value.trim()) {
-                alert("El correo no puede estar vacío");
-                return;
-            }
 
-            // Actualizar datos del usuario activo
-            usuario.nombre = nombreUsuario.value.trim();
-            usuario.email = correoUsuario.value.trim();
-            usuario.username = usernameUsuario.value.trim();
+        } catch (err) {
+            console.error(err);
+            alert("Error al conectarse con el servidor.");
+        }
+    });
 
-            // Sincronizar también en la lista global de usuarios
-            const index = usuariosRegistrados.findIndex(u => u.email === usuario.email || u.username === usuario.username);
-
-            if (index !== -1) {
-                usuariosRegistrados[index] = usuario;
-            }
-
-            // Guardar en localStorage
-            localStorage.setItem("usuarioActivo", JSON.stringify(usuario));
-            localStorage.setItem("usuariosRegistrados", JSON.stringify(usuariosRegistrados));
-
-            alert("✔ Cambios guardados correctamente");
-        };
-    }
-
-    // ===============================
-    //   CERRAR SESIÓN
-    // ===============================
-
-    const cerrar = document.getElementById("cerrarSesion");
-
-    if (cerrar) {
-        cerrar.onclick = () => {
-            localStorage.removeItem("usuarioActivo");
-            window.location.href = "login.html";
-        };
-    }
-
+    document.getElementById("cerrarSesion").addEventListener("click", () => {
+        localStorage.removeItem("usuarioActivo");
+        window.location.href = "login.html";
+    });
 });
