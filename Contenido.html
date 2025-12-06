@@ -10,6 +10,45 @@
   <link rel="stylesheet" href="Estilos/Estilo.css"/>
   <link rel="stylesheet" href="Estilos/premium.css"/>
 
+  <style>
+      /* Estilo pequeño para el header de usuario */
+      .user-mini-box {
+          display:flex;
+          align-items:center;
+          gap:8px;
+          padding:5px 10px;
+          background:#ffffff20;
+          border-radius:8px;
+          margin-left:10px;
+      }
+
+      .user-mini-box img {
+          width:32px;
+          height:32px;
+          border-radius:50%;
+          object-fit:cover;
+          border:2px solid #b34cff;
+      }
+
+      .user-mini-box span {
+          font-size:14px;
+          color:#fff;
+          font-weight:bold;
+      }
+
+      #btnLoginHeader a {
+          color:#fff;
+          background:#b34cff;
+          padding:8px 14px;
+          border-radius:6px;
+          text-decoration:none;
+          font-weight:bold;
+      }
+
+      #btnLoginHeader a:hover {
+          background:#8e2cd6;
+      }
+  </style>
 </head>
 
 <body>
@@ -23,11 +62,18 @@
           <li><a href="publicar.html">Publicar +</a></li>
       </ul>
 
+      <!-- Botón Iniciar Sesión -->
+      <li id="btnLoginHeader" style="display:none;">
+        <a href="login.html">Iniciar Sesión</a>
+      </li>
+
+      <!-- Carrito -->
       <div class="cart-box" onclick="location.href='carrito.html'">
           <span class="cart-count" id="cartCount">0</span> 🛒
       </div>
 
-      <div id="navbarUserBox" class="navbar-user"></div>
+      <!-- Foto + nombre -->
+      <div id="navbarUserBox"></div>
   </nav>
 
   <!-- TÍTULO -->
@@ -146,6 +192,34 @@
   <script src="Scripts/carrito.js"></script>
   <script src="Scripts/sesion-global.js"></script>
   <script src="Scripts/script.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", () => {
+
+          const nombre = sessionStorage.getItem("nombre");
+          const foto   = sessionStorage.getItem("foto");
+
+          const userBox = document.getElementById("navbarUserBox");
+          const btnLogin = document.getElementById("btnLoginHeader");
+
+          if (!nombre) {
+              // NO HAY USUARIO → Mostrar botón iniciar sesión
+              btnLogin.style.display = "block";
+              userBox.innerHTML = "";
+              return;
+          }
+
+          // SÍ HAY USUARIO → Mostrar foto + nombre
+          btnLogin.style.display = "none";
+
+          userBox.innerHTML = `
+              <div class="user-mini-box">
+                  <img src="${foto && foto !== '' ? 'uploads/' + foto : 'img/default.png'}">
+                  <span>${nombre}</span>
+              </div>
+          `;
+      });
+  </script>
 
 </body>
 </html>
