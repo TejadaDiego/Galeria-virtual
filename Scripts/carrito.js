@@ -94,7 +94,7 @@ function comprar() {
     alert("✔ Compra realizada con éxito");
     vaciarCarrito();
 
-    window.location.href = "compraexitosa.html";
+    window.location.href = "compra_exitosa.html";
 }
 
 // ===============================

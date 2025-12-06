@@ -1,51 +1,77 @@
-// Scripts/sesion-global.js
+// ========================================================
+//  Scripts/sesion-global.js
+//  Maneja la sesión en todas las páginas del sistema
+// ========================================================
+
 document.addEventListener("DOMContentLoaded", () => {
-  
-  const user = JSON.parse(localStorage.getItem('usuarioActivo'));
 
-  // Botones login (si existen)
-  const btnLoginElems = document.querySelectorAll('#btnLogin, #btnLoginNav');
+    // Elementos del navbar (si existen)
+    const contenedorUsuario = document.getElementById("contenedorUsuario");
+    const fotoUsuario = document.getElementById("fotoUsuario");
+    const nombreUsuario = document.getElementById("nombreUsuario");
 
-  // Cajas donde debe aparecer la mini info del usuario
-  const navbarBoxes = document.querySelectorAll('#navbarUserBox, #usuarioNav, .navbar-user, .usuario-box');
+    const linkLogin = document.getElementById("linkLogin");
+    const linkLogout = document.getElementById("linkLogout");
 
-  function showUser(u) {
-    // Ocultar botones de login
-    btnLoginElems.forEach(el => { 
-      if (el) el.style.display = 'none'; 
-    });
+    // Leer usuario desde localStorage
+    const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
 
-    // Mostrar cuadro mini con la foto y nombre
-    navbarBoxes.forEach(box => {
-      if (!box) return;
-      box.innerHTML = `
-        <div class="usuario-mini" onclick="location.href='cuenta.html'">
-          <img src="${u.foto || 'Img/default.png'}" class="user-photo" />
-          <span>${u.nombre}</span>
-        </div>`;
-    });
-  }
+    // =============================================
+    //    Si no hay usuario → redirigir al login
+    // =============================================
+    const paginasProtegidas = [
+        "inicio.html",
+        "contenido.html",
+        "publicar.html",
+        "mi_cuenta.html"
+    ];
 
-  function hideUser() {
-    btnLoginElems.forEach(el => { 
-      if (el) el.style.display = 'inline-block'; 
-    });
+    const archivoActual = window.location.pathname.split("/").pop();
 
-    navbarBoxes.forEach(box => { 
-      if (box) box.innerHTML = ''; 
-    });
-  }
-
-  // Estado inicial
-  if (user) showUser(user);
-  else hideUser();
-
-  // Detectar cambios de pestaña
-  window.addEventListener('storage', (e) => {
-    if (e.key === 'usuarioActivo') {
-      const newU = JSON.parse(localStorage.getItem('usuarioActivo'));
-      if (newU) showUser(newU);
-      else hideUser();
+    if (paginasProtegidas.includes(archivoActual) && !usuario) {
+        console.warn("No estás logueado → Redirigiendo al login...");
+        window.location.href = "index.html";
+        return;
     }
-  });
+
+    // =============================================
+    //    Si hay usuario → mostrar datos en navbar
+    // =============================================
+    if (usuario) {
+        if (contenedorUsuario) contenedorUsuario.style.display = "flex";
+
+        if (fotoUsuario) fotoUsuario.src = usuario.foto || "Img/default.png";
+        if (nombreUsuario) nombreUsuario.textContent = usuario.nombre;
+
+        if (linkLogin) linkLogin.style.display = "none";  // ocultar "Iniciar sesión"
+        if (linkLogout) linkLogout.style.display = "block"; // mostrar "Cerrar sesión"
+    } else {
+        // Usuario no logueado
+        if (contenedorUsuario) contenedorUsuario.style.display = "none";
+
+        if (linkLogin) linkLogin.style.display = "block";
+        if (linkLogout) linkLogout.style.display = "none";
+    }
+
+    // =============================================
+    //    Botón Cerrar Sesión
+    // =============================================
+    if (linkLogout) {
+        linkLogout.addEventListener("click", async () => {
+
+            // 1. Llamar al archivo PHP logout.php
+            try {
+                await fetch("Php/logout.php");
+            } catch (e) {
+                console.warn("No se pudo contactar logout.php, pero se cerrará la sesión local");
+            }
+
+            // 2. Eliminar storage
+            localStorage.removeItem("usuarioActivo");
+
+            // 3. Redirigir
+            window.location.href = "index.html";
+        });
+    }
+
 });

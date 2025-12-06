@@ -102,7 +102,7 @@ function comprar() {
         return;
     }
 
-    window.location.href = "compraexitosa.html";
+    window.location.href = "compra_exitosa.html";
 }
 
 

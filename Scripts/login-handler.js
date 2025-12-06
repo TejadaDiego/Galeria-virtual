@@ -4,7 +4,6 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    // Detectar si existe un loginForm en esta página
     const form = document.getElementById("loginForm");
     if (!form) {
         console.warn("login-handler.js: No se encontró loginForm en este HTML");
@@ -12,21 +11,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ========================================
-    //   Detectar ruta PHP según el login actual
+    //   RUTA CORRECTA DEL PHP
     // ========================================
-    let loginURL = "login.php";   // Por defecto (solo lo usa login.html)
-
-    const ruta = window.location.pathname.toLowerCase();
-
-    // Estos 3 logins usan Php/login.php
-    if (ruta.includes("logincomprador") ||
-        ruta.includes("loginestudiante") ||
-        ruta.includes("loginadmin")) {
-        loginURL = "login.php";
-    }
+    let loginURL = "login.php";   // ✔ ESTA ES LA RUTA REAL
 
     console.log("Login enviará datos a:", loginURL);
-
 
     // ========================================
     //   PROCESAR LOGIN
@@ -42,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: formData
             });
 
-            const txt = await res.text(); // por si el servidor responde texto
+            const txt = await res.text();
             let data;
 
             try {
@@ -64,11 +53,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     id: u.id,
                     nombre: u.nombre,
                     email: u.email,
-                    foto: u.foto && u.foto.trim() !== "" ? u.foto : "img/default.png",
+                    foto: u.foto && u.foto.trim() !== "" ? u.foto : "Img/default.png",
                     tipo: u.tipo
                 };
 
-                // Guardamos en localStorage
+                // Guardamos usuario
                 localStorage.setItem("usuarioActivo", JSON.stringify(usuarioActivo));
 
                 // Redirigir al inicio
