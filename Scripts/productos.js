@@ -1,46 +1,4 @@
 // ===============================
-//  PRODUCTOS FIJOS DEL CATÁLOGO
-// ===============================
-
-const productosFijos = [
-  {
-    id: 1,
-    titulo: "Diseño de Logo Minimalista",
-    descripcion: "Logo profesional estilo minimalista, editable.",
-    precio: 25,
-    imagen: "img/logo1.jpg"
-  },
-  {
-    id: 2,
-    titulo: "Banner Publicitario",
-    descripcion: "Banner en alta calidad listo para imprimir.",
-    precio: 18,
-    imagen: "img/banner1.jpg"
-  },
-  {
-    id: 3,
-    titulo: "Flyer Digital",
-    descripcion: "Flyer moderno ideal para redes sociales.",
-    precio: 15,
-    imagen: "img/flyer1.jpg"
-  },
-  {
-    id: 4,
-    titulo: "Cartel Comercial",
-    descripcion: "Cartel limpio y profesional editable.",
-    precio: 20,
-    imagen: "img/cartel1.jpg"
-  },
-  {
-    id: 5,
-    titulo: "Mockup Profesional",
-    descripcion: "Mockup premium para exhibición de productos.",
-    precio: 30,
-    imagen: "img/mockup1.jpg"
-  }
-];
-
-// ===============================
 //  FUNCIÓN PARA MOSTRAR CATÁLOGO
 // ===============================
 
