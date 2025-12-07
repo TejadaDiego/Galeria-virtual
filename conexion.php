@@ -3,7 +3,7 @@
 
 $servername = "localhost";   // <-- más seguro en Windows/XAMPP
 $username = "root";
-$password = "";
+$password = "dieguito.2006";
 $dbname   = "galeria_virtual";
 $port     = 3307; // si tu XAMPP usa 3307; si no, pon 3306
 
