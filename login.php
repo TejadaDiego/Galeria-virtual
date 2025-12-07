@@ -1,14 +1,14 @@
 <?php
-// Php/login.php
-error_reporting(0); // ⛔ Bloquea warnings que rompen el JSON
+// login.php
+error_reporting(0); // Oculta warnings que rompen JSON
 session_start();
 require_once __DIR__ . "/conexion.php";
 
 header("Content-Type: application/json; charset=utf-8");
 
-// ======================================================
-//  A) ACTUALIZAR PERFIL
-// ======================================================
+// ======================================================================
+// A) ACTUALIZAR PERFIL
+// ======================================================================
 if (isset($_POST['accion']) && $_POST['accion'] === 'actualizarPerfil') {
 
     $id     = intval($_POST['id']);
@@ -21,6 +21,10 @@ if (isset($_POST['accion']) && $_POST['accion'] === 'actualizarPerfil') {
     }
 
     $foto = "";
+
+    // =============================
+    // SUBIR FOTO (si viene)
+    // =============================
     if (!empty($_FILES['foto']['name'])) {
 
         $folder = __DIR__ . "/../uploads/";
@@ -34,6 +38,9 @@ if (isset($_POST['accion']) && $_POST['accion'] === 'actualizarPerfil') {
         }
     }
 
+    // =============================
+    // ACTUALIZAR EN BD
+    // =============================
     if ($foto === "") {
         $stmt = $conn->prepare("UPDATE usuarios SET nombre=?, email=? WHERE id=?");
         $stmt->bind_param("ssi", $nombre, $email, $id);
@@ -47,21 +54,19 @@ if (isset($_POST['accion']) && $_POST['accion'] === 'actualizarPerfil') {
     echo json_encode([
         "success" => true,
         "usuario" => [
-            "id"    => $id,
-            "nombre"=> $nombre,
-            "email" => $email,
-            "foto"  => $foto !== "" ? $foto : ($_POST['fotoActual'] ?? "img/default.png"),
+            "id"     => $id,
+            "nombre" => $nombre,
+            "email"  => $email,
+            "foto"   => $foto !== "" ? $foto : ($_POST['fotoActual'] ?? "img/default.png")
         ]
     ]);
-
     exit;
 }
 
-// ======================================================
-//  B) LOGIN NORMAL
-// ======================================================
-
-$email = trim($_POST['email'] ?? '');
+// ======================================================================
+// B) LOGIN NORMAL
+// ======================================================================
+$email    = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
 
 if ($email === '' || $password === '') {
@@ -69,6 +74,9 @@ if ($email === '' || $password === '') {
     exit;
 }
 
+// =============================
+// BUSCAR USUARIO
+// =============================
 $stmt = $conn->prepare("
     SELECT id, password_hash, nombre, foto, tipo, email
     FROM usuarios
@@ -87,29 +95,39 @@ if ($stmt->num_rows === 0) {
 $stmt->bind_result($id, $hash, $nombre, $foto, $tipo, $email_db);
 $stmt->fetch();
 
+// =============================
+// VERIFICAR CONTRASEÑA
+// =============================
 if (!password_verify($password, $hash)) {
     echo json_encode(["error" => "Contraseña incorrecta"]);
     exit;
 }
 
-if (!$foto) $foto = "img/default.png";
+if (!$foto || $foto == "") {
+    $foto = "img/default.png";
+}
 
+// =============================
+// CREAR SESIÓN
+// =============================
 $_SESSION['user_id'] = $id;
 $_SESSION['nombre']  = $nombre;
 $_SESSION['foto']    = $foto;
 $_SESSION['tipo']    = $tipo;
 
+// =============================
+// RESPUESTA JSON
+// =============================
 echo json_encode([
     "success" => true,
     "usuario" => [
-        "id"    => $id,
-        "nombre"=> $nombre,
-        "email" => $email_db,
-        "foto"  => $foto,
-        "tipo"  => $tipo
+        "id"     => $id,
+        "nombre" => $nombre,
+        "email"  => $email_db,
+        "foto"   => $foto,
+        "tipo"   => $tipo
     ]
-], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
 $stmt->close();
 $conn->close();
-?>

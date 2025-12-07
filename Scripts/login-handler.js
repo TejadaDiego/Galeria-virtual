@@ -1,5 +1,5 @@
 // ========================================================
-//  Scripts/login-handler.js  (VERSIÓN FINAL Y FUNCIONAL)
+//  Scripts/login-handler.js  (VERSIÓN FINAL SIN CARPETA PHP)
 // ========================================================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -11,9 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ========================================
-    //   RUTA CORRECTA DEL PHP
+    //   RUTA DEL PHP (SIN CARPETA)
     // ========================================
-    let loginURL = "login.php";   // ✔ ESTA ES LA RUTA REAL
+    let loginURL = "login.php";
 
     console.log("Login enviará datos a:", loginURL);
 
@@ -31,21 +31,26 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: formData
             });
 
-            const txt = await res.text();
+            const raw = await res.text();
+
+            console.log("Respuesta RAW del servidor:", raw);
+
             let data;
 
             try {
-                data = JSON.parse(txt);
+                data = JSON.parse(raw);
             } catch (e) {
-                alert("⚠ El servidor envió una respuesta inválida.");
-                console.error("Respuesta del servidor:", txt);
+                console.error("❌ JSON inválido recibido desde login.php");
+                console.error(raw);
+
+                alert("⚠ El servidor envió una respuesta inválida. Revisa login.php o conexion.php");
                 return;
             }
 
             // ========================================
             //   LOGIN CORRECTO
             // ========================================
-            if (res.ok && data.usuario) {
+            if (data.success && data.usuario) {
 
                 const u = data.usuario;
 
@@ -53,26 +58,34 @@ document.addEventListener("DOMContentLoaded", () => {
                     id: u.id,
                     nombre: u.nombre,
                     email: u.email,
-                    foto: u.foto && u.foto.trim() !== "" ? u.foto : "Img/default.png",
+                    foto: (u.foto && u.foto.trim() !== "" ? u.foto : "Img/default.png"),
                     tipo: u.tipo
                 };
 
-                // Guardamos usuario
+                // Guardar usuario
                 localStorage.setItem("usuarioActivo", JSON.stringify(usuarioActivo));
 
-                // Redirigir al inicio
+                console.log("Usuario logueado:", usuarioActivo);
+
+                // Redirigir
                 window.location.href = "inicio.html";
                 return;
             }
 
             // ========================================
-            //   ERRORES DEL SERVIDOR
+            //   ERROR DEL SERVIDOR
             // ========================================
-            alert(data.error || "Credenciales incorrectas");
+            if (data.error) {
+                alert(data.error);
+                return;
+            }
+
+            alert("Credenciales incorrectas.");
 
         } catch (error) {
             console.error("⚠ Error de conexión:", error);
             alert("No se pudo conectar con el servidor.");
         }
     });
+
 });
