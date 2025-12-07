@@ -1,73 +1,191 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio - Catálogo Virtual</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Inicio - Galería Virtual</title>
 
-    <!-- ===== CSS REALES DEL PROYECTO ===== -->
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="Estilo.css">
-    <link rel="stylesheet" href="estilos.css">
-    <link rel="stylesheet" href="styleC.css">
+  <!-- CSS reales del proyecto -->
+  <link rel="stylesheet" href="Estilos/Estilo.css">
+  <link rel="stylesheet" href="Estilos/premium.css"/>
+
+  <style>
+    body{ 
+      background:#0d0b1f; 
+      color:#fff; 
+      font-family:Arial; 
+      margin:0; 
+    }
+
+    /* Elimina los puntos del carrusel */
+    #puntos{
+      display:none !important;
+    }
+
+    .navbar{
+      padding:18px 30px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:#0d0b1f;
+    }
+
+    .navbar-logo{
+      font-size:20px;
+      font-weight:700;
+      color:#b34cff;
+    }
+
+    .navbar-links{
+      display:flex;
+      gap:18px;
+      align-items:center;
+    }
+
+    .navbar-links a{
+      color:#ddd;
+      text-decoration:none;
+      transition:0.2s;
+    }
+
+    .navbar-links a:hover{
+      color:#b34cff;
+    }
+
+    .navbar-links a.active{
+      color:#b34cff;
+      font-weight:700;
+    }
+
+    .hero{
+      text-align:center;
+      padding:60px 20px 10px 20px;
+    }
+
+    .hero h1{ 
+      font-size:36px; 
+      margin:0 0 8px 0; 
+    }
+
+    .carrusel{
+      width:92%;
+      max-width:900px;
+      margin:26px auto;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      justify-content:center;
+    }
+
+    .carrusel-img{
+      width:640px;
+      height:320px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#121022;
+      border-radius:10px;
+      overflow:hidden;
+    }
+
+    .carrusel-img img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .btn-carrusel{
+      background:#b34cff;
+      color:white;
+      border:none;
+      padding:10px 12px;
+      border-radius:8px;
+      cursor:pointer;
+      transition:0.2s;
+    }
+
+    .btn-carrusel:hover{
+      background:#8e37d3;
+    }
+
+    #texto{
+      text-align:center;
+      color:#ddd;
+      margin-top:10px;
+      min-height:40px;
+    }
+  </style>
 </head>
 
 <body>
 
-    <!-- ======================= NAVBAR ======================= -->
-    <header class="header">
-        <nav class="navbar">
-            <div class="logo">Mi Catálogo</div>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-logo">Galería Virtual</div>
 
-            <ul class="menu">
-                <li><a href="inicio.html" class="active">Inicio</a></li>
-                <li><a href="catalogo.html">Catálogo</a></li>
-                <li><a href="premium.html">Premium</a></li>
-                <li><a href="nosotros.html">Nosotros</a></li>
-            </ul>
+    <div class="navbar-links">
+      <a href="inicio.html" class="active">Inicio</a>
+      <a href="Sobre_nosotros.html">Nosotros</a>
+      <a href="Contenido.html">Contenido</a>
+      <a href="publicar.html">Publicar +</a>
 
-            <div class="cuenta">
-                <a id="btn-login-nav" href="login.html" class="btn-login">Ingresar</a>
-                <a id="btn-cuenta-nav" href="cuenta.html" class="btn-cuenta" style="display:none;">Cuenta</a>
-            </div>
-        </nav>
-    </header>
+      <!-- USER + CARRITO -->
+      <div style="margin-left:14px; display:flex; align-items:center;">
+        
+        <!-- AQUI sesion-global.js inserta el usuario si está logueado -->
+        <div id="navbarUserBox"></div>
 
-
-    <!-- ======================= HERO ======================= -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Bienvenido a tu Catálogo Virtual</h1>
-            <p>Publica, vende y gestiona tus productos fácilmente.</p>
-            <a href="publicar.html" class="btn-principal">Publicar Ahora</a>
+        <!-- BOTÓN LOGIN SI NO HAY SESIÓN -->
+        <div id="btnLoginHeader" style="display:none; margin-left:15px;">
+          <a href="login.html" style="color:#ddd; text-decoration:none;">Iniciar Sesión</a>
         </div>
-    </section>
 
-
-    <!-- ======================= PRODUCTOS DESTACADOS ======================= -->
-    <section class="destacados">
-        <h2>Productos Destacados</h2>
-
-        <div id="contenedor-destacados" class="cards-container">
-            <!-- productos.js rellenará este contenedor -->
+        <!-- CARRITO -->
+        <div style="margin-left:10px; cursor:pointer;" onclick="location.href='carrito.html'">
+          <span id="cartCount">0</span> 🛒
         </div>
-    </section>
+      </div>
+    </div>
+  </nav>
 
+  <!-- HERO -->
+  <div class="hero">
+    <h1>Bienvenido a la Galería Virtual</h1>
+    <p>Explora trabajos, adquiere contenido y publica tus creaciones.</p>
+  </div>
 
-    <!-- ======================= FOOTER ======================= -->
-    <footer class="footer">
-        <p>© 2025 - Catálogo Virtual | Todos los derechos reservados</p>
-    </footer>
+  <!-- CARRUSEL -->
+  <div class="carrusel">
+    <button id="atras" class="btn-carrusel">⬅</button>
+    <div id="img" class="carrusel-img"></div>
+    <button id="adelante" class="btn-carrusel">➡</button>
+  </div>
 
+  <div id="texto"></div>
+  <div id="puntos"></div> <!-- oculta pero necesario para tu JS -->
 
-    <!-- ========= SCRIPTS FUNCIONALES ========= -->
-    <script src="scripts/sesion-global.js"></script>
-    <script src="scripts/app.js"></script>
-    <script src="scripts/script.js"></script>
-    <script src="scripts/productos.js"></script>
+  <!-- SCRIPTS REALES DEL PROYECTO -->
+  <script src="Scripts/app.js"></script>           
+  <script src="Scripts/carrito.js"></script>       
+  <script src="Scripts/sesion-global.js"></script> 
+  <script src="Scripts/login-handler.js"></script> <!-- ESTE ES EL BUENO -->
 
-    <!-- Login solo para detectar si hay sesión -->
-    <script src="scripts/login-handler.js"></script>
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+      // login-handler.js ya carga window.userData si existe sesión
+      setTimeout(() => {
+          const btnLogin = document.getElementById("btnLoginHeader");
+
+          if (!window.userData) {
+              // Usuario NO logueado → mostrar botón
+              btnLogin.style.display = "block";
+          } else {
+              // Usuario logueado → ocultar botón
+              btnLogin.style.display = "none";
+          }
+      }, 300); // esperamos a que login-handler.js termine
+  });
+  </script>
 
 </body>
 </html>

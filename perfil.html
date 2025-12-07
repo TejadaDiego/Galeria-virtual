@@ -1,161 +1,117 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Perfil - Galería Virtual</title>
+  <meta charset="UTF-8">
+  <title>Publicar Trabajo - Galería Virtual</title>
 
-    <!-- CSS reales -->
-    <link rel="stylesheet" href="Estilos/perfil.css">
-    <link rel="stylesheet" href="Estilos/style.css">
+  <!-- ESTILOS -->
+  <link rel="stylesheet" href="Estilos/publicar.css">
+  <link rel="stylesheet" href="Estilos/estilo.css">
+  <link rel="stylesheet" href="Estilos/premium.css">
 
-    <style>
-        body {
-            background: #0d0b1f;
-            color: white;
-            font-family: Arial;
-            margin: 0;
-            padding: 0;
-        }
+  <style>
+    body { background: #0d0b1f; margin:0; font-family: Arial; }
 
-        .contenedor-perfil {
-            width: 450px;
-            margin: 40px auto;
-            background: #1c1a33;
-            padding: 35px;
-            border-radius: 15px;
-            box-shadow: 0 0 15px #a569ff;
-        }
+    /* NAV */
+    .navbar {
+      width: 100%;
+      padding: 20px;
+      background: #0d0b1f;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 0 10px rgba(255,255,255,0.1);
+      position: sticky;
+      top:0;
+      z-index:10;
+    }
 
-        .foto-contenedor {
-            text-align: center;
-            margin-bottom: 25px;
-        }
+    .navbar-logo {
+      font-size: 22px;
+      color: #ffffff;
+      font-weight: bold;
+    }
 
-        .foto-usuario {
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            border: 3px solid #b34cff;
-            object-fit: cover;
-        }
+    .navbar-links {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+    }
 
-        .btn-subir-foto {
-            display: inline-block;
-            margin-top: 10px;
-            background: #b34cff;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 10px;
-            cursor: pointer;
-        }
+    .navbar-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 17px;
+      transition: 0.3s;
+    }
 
-        .datos-perfil {
-            margin-top: 20px;
-        }
+    .navbar-links a:hover {
+      color: #b34cff;
+    }
 
-        .campo {
-            margin-bottom: 20px;
-        }
+    .navbar-links a.active {
+      color: #b34cff;
+      font-weight: bold;
+    }
 
-        .campo label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #cbaaff;
-        }
+    .navbar-user-box img {
+      width:45px; height:45px;
+      border-radius:50%;
+      border:2px solid #a569ff;
+      object-fit:cover;
+      cursor:pointer;
+    }
 
-        .campo input {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
-            background: #2c284d;
-            color: white;
-            font-size: 15px;
-        }
-
-        .tipo-texto {
-            background: #2c284d;
-            padding: 10px;
-            border-radius: 8px;
-        }
-
-        .btn-guardar,
-        .btn-cerrar {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 10px;
-            margin-top: 15px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .btn-guardar {
-            background: #b34cff;
-            color: white;
-        }
-
-        .btn-cerrar {
-            background: #b34cff;
-            color: white;
-            margin-top: 10px;
-        }
-    </style>
+  </style>
 </head>
 
 <body>
 
-    <!-- NAVBAR generado automáticamente por sesion-global.js -->
-    <nav id="navbar"></nav>
+<!-- NAV AUTOGENERADO CON SESIÓN -->
+<nav class="navbar">
+  <div class="navbar-logo">Galería Virtual</div>
 
-    <!-- CONTENIDO DEL PERFIL -->
-    <main class="contenedor-perfil">
+  <div class="navbar-links">
+    <a href="inicio.html">Inicio</a>
+    <a href="Sobre_nosotros.html">Nosotros</a>
+    <a href="Contenido.html">Contenido</a>
+    <a href="publicar.html" class="active">Publicar +</a>
 
-        <!-- FOTO -->
-        <div class="foto-contenedor">
-            <img id="fotoUsuario" src="img/default.png" class="foto-usuario" alt="Foto de perfil">
+    <!-- Aquí sesion-global.js insertará el usuario -->
+    <div id="navbarUserBox"></div>
+  </div>
+</nav>
 
-            <label class="btn-subir-foto">
-                Cambiar foto
-                <input type="file" id="nuevaFoto" accept="image/*" hidden>
-            </label>
-        </div>
+<!-- FORMULARIO PUBLICAR -->
+<div class="form-container">
+  <h2>Publicar nuevo trabajo</h2>
 
-        <!-- DATOS DEL PERFIL -->
-        <div class="datos-perfil">
+  <form id="formPublicar" enctype="multipart/form-data">
 
-            <div class="campo">
-                <label>Nombre completo</label>
-                <input type="text" id="nombreUsuario" placeholder="Tu nombre">
-            </div>
+    <label for="titulo">Nombre del trabajo:</label>
+    <input type="text" id="titulo" name="titulo" required>
 
-            <div class="campo">
-                <label>Correo electrónico</label>
-                <input type="email" id="correoUsuario" placeholder="correo@ejemplo.com">
-            </div>
+    <label for="descripcion">Descripción:</label>
+    <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
 
-            <div class="campo">
-                <label>Usuario (Login)</label>
-                <input type="text" id="usernameUsuario" placeholder="Tu usuario">
-            </div>
+    <label for="precio">Precio (S/):</label>
+    <input type="number" id="precio" name="precio" step="0.01" required>
 
-            <div class="campo">
-                <label>Tipo de Usuario</label>
-                <p id="tipoUsuario" class="tipo-texto"></p>
-            </div>
+    <label for="imagen">Imagen del trabajo:</label>
+    <input type="file" id="imagen" name="imagen" accept="image/*" required>
 
-            <button id="guardarCambios" class="btn-guardar">Guardar cambios</button>
-            <button id="cerrarSesion" class="btn-cerrar">Cerrar Sesión</button>
+    <img id="previewImg"
+         style="display:none; width:200px; border-radius:10px; margin-top:10px;">
 
-        </div>
-    </main>
+    <button type="submit">Subir trabajo</button>
+  </form>
+</div>
 
-    <!-- Scripts reales del proyecto -->
-    <script src="Scripts/sesion-global.js"></script>
-    <script src="Scripts/perfil.js"></script>
+<!-- JS PARA PUBLICAR -->
+<script src="Scripts/publicar.js"></script>
+
+<!-- NAVBAR UNIVERSAL Y SESIÓN -->
+<script src="Scripts/sesion-global.js"></script>
 
 </body>
 </html>
