@@ -129,18 +129,17 @@
       <a href="Contenido.html">Contenido</a>
       <a href="publicar.html">Publicar +</a>
 
-      <!-- USER + CARRITO -->
       <div style="margin-left:14px; display:flex; align-items:center;">
         
-        <!-- AQUI sesion-global.js inserta el usuario si está logueado -->
+        <!-- Donde aparecerá el nombre + foto del usuario -->
         <div id="navbarUserBox"></div>
 
-        <!-- BOTÓN LOGIN SI NO HAY SESIÓN -->
+        <!-- Botón de login si NO hay sesión -->
         <div id="btnLoginHeader" style="display:none; margin-left:15px;">
           <a href="login.html" style="color:#ddd; text-decoration:none;">Iniciar Sesión</a>
         </div>
 
-        <!-- CARRITO -->
+        <!-- Carrito -->
         <div style="margin-left:10px; cursor:pointer;" onclick="location.href='carrito.html'">
           <span id="cartCount">0</span> 🛒
         </div>
@@ -162,28 +161,46 @@
   </div>
 
   <div id="texto"></div>
-  <div id="puntos"></div> <!-- oculta pero necesario para tu JS -->
+  <div id="puntos"></div>
 
-  <!-- SCRIPTS REALES DEL PROYECTO -->
-  <script src="Scripts/app.js"></script>           
-  <script src="Scripts/carrito.js"></script>       
-  <script src="Scripts/sesion-global.js"></script> 
-  <script src="Scripts/login-handler.js"></script> <!-- ESTE ES EL BUENO -->
+  <!-- SCRIPTS -->
+
+  <!-- Carrusel -->
+  <script src="Scripts/app.js"></script>
+
+  <!-- Carrito -->
+  <script src="Scripts/carrito.js"></script>
+
+  <!-- Manejo de sesión global -->
+  <script src="Scripts/sesion-global.js"></script>
+
+  <!-- Login + almacenamiento de sesión -->
+  <script src="Scripts/login-handler.js"></script>
 
   <script>
   document.addEventListener("DOMContentLoaded", () => {
-      // login-handler.js ya carga window.userData si existe sesión
       setTimeout(() => {
           const btnLogin = document.getElementById("btnLoginHeader");
+          const userBox = document.getElementById("navbarUserBox");
 
-          if (!window.userData) {
-              // Usuario NO logueado → mostrar botón
-              btnLogin.style.display = "block";
-          } else {
-              // Usuario logueado → ocultar botón
+          // login-handler.js asigna window.userData si hay sesión
+          if (window.userData) {
               btnLogin.style.display = "none";
+
+              // Mostrar usuario en navbar
+              userBox.innerHTML = `
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <img src="${window.userData.foto || 'https://cdn-icons-png.flaticon.com/512/847/847969.png'}" 
+                         style="width:32px; height:32px; border-radius:50%;">
+                    <span>${window.userData.nombre}</span>
+                  </div>
+              `;
+          } else {
+              // Usuario NO logueado
+              btnLogin.style.display = "block";
+              userBox.innerHTML = "";
           }
-      }, 300); // esperamos a que login-handler.js termine
+      }, 300);
   });
   </script>
 

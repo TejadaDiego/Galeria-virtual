@@ -31,7 +31,7 @@
 
     <h2>Acceso Comprador 🛒</h2>
 
-    <form id="loginForm">
+    <form id="loginForm" method="POST" autocomplete="off">
       <!-- Para que login-handler.js identifique este login como comprador -->
       <input type="hidden" name="tipo" value="comprador">
 
@@ -51,7 +51,7 @@
     <a class="crear-cuenta" href="registro.html">Crear cuenta</a>
   </div>
 
-  <!-- Scripts existentes -->
+  <!-- Scripts -->
   <script src="Scripts/login-handler.js"></script>
   <script src="Scripts/sesion-global.js"></script>
 

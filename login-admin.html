@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Login Administrador</title>
 
-  <!-- CSS existentes en tu proyecto -->
+  <!-- CSS existentes -->
   <link rel="stylesheet" href="Estilos/login.css">
   <link rel="stylesheet" href="Estilos/estilos.css">
 </head>
@@ -20,7 +20,7 @@
       <li><a href="publicar.html">Publicar +</a></li>
       <li><a id="btnLoginNav" href="login.html">Iniciar sesión</a></li>
 
-      <!-- Aquí el JS sesion-global.js coloca el nombre del usuario -->
+      <!-- Aquí sesion-global.js cargará el nombre del usuario -->
       <li id="navbarUserBox"></li>
     </ul>
   </nav>
@@ -31,8 +31,8 @@
 
     <h2>Acceso Administrador 🛡️</h2>
 
-    <form id="loginForm">
-      <!-- Indica al login-handler.js que este login es de admin -->
+    <form id="loginForm" method="POST" autocomplete="off">
+      <!-- Identifica este login como tipo admin -->
       <input type="hidden" name="tipo" value="admin">
 
       <div class="input-group">
@@ -51,7 +51,7 @@
     <a class="crear-cuenta" href="registro.html">Crear cuenta</a>
   </div>
 
-  <!-- Scripts existentes y corregidos -->
+  <!-- Scripts -->
   <script src="Scripts/login-handler.js"></script>
   <script src="Scripts/sesion-global.js"></script>
 
