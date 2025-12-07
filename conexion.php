@@ -3,7 +3,7 @@
 
 $servername = "localhost";   
 $username = "root";
-$password = "";
+$password = "dieguito.2006";
 $dbname   = "galeria_virtual";
 $port     = 3307; // usa 3306 si tu MySQL está ahí
 
