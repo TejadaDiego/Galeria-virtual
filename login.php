@@ -1,15 +1,13 @@
 <?php
-// =======================================
-//  LOGIN.PHP CORREGIDO
-// =======================================
 error_reporting(0);
 session_start();
 
 header("Content-Type: application/json; charset=utf-8");
-
 require_once __DIR__ . "/conexion.php";
 
-// --- Si es actualización de perfil ---
+// =========================================================
+// ACTUALIZAR PERFIL
+// =========================================================
 if (isset($_POST['accion']) && $_POST['accion'] === 'actualizarPerfil') {
 
     $id     = intval($_POST['id']);
@@ -46,14 +44,16 @@ if (isset($_POST['accion']) && $_POST['accion'] === 'actualizarPerfil') {
             "id"     => $id,
             "nombre" => $nombre,
             "email"  => $email,
-            "foto"   => $fotoFinal
+            "foto"   => $fotoFinal,
         ]
     ]);
-
     exit;
 }
 
-// --- LOGIN NORMAL ---
+// =========================================================
+// LOGIN NORMAL
+// =========================================================
+
 $email    = trim($_POST["email"] ?? "");
 $password = $_POST["password"] ?? "";
 
@@ -82,11 +82,8 @@ if (!password_verify($password, $hash)) {
 
 if (!$foto) $foto = "img/default.png";
 
-// --- GUARDAR SESIÓN (solo por seguridad, pero no impide localStorage) ---
 $_SESSION["user_id"] = $id;
-$_SESSION["nombre"]  = $nombre;
 
-// --- RESPUESTA JSON ---
 echo json_encode([
     "success" => true,
     "usuario" => [
@@ -97,6 +94,3 @@ echo json_encode([
         "tipo"   => $tipo
     ]
 ]);
-
-$stmt->close();
-$conn->close();
