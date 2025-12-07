@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
 $username   = "root";
-$password   = "dieguito.2006"; // SE MANTIENE
+$password   = ""; // SE MANTIENE
 $dbname     = "galeria_virtual";
 $port       = 3307;
 
