@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    // Rellenar datos
     document.getElementById("nombreUsuario").value = usuario.nombre;
     document.getElementById("correoUsuario").value = usuario.email;
     document.getElementById("tipoUsuario").textContent = usuario.tipo;
@@ -14,25 +13,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let nuevaFoto = null;
 
-    // Capturar selección de foto
     document.getElementById("nuevaFoto").addEventListener("change", (e) => {
         nuevaFoto = e.target.files[0];
         if (nuevaFoto) {
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = e => {
                 document.getElementById("fotoUsuario").src = e.target.result;
             };
             reader.readAsDataURL(nuevaFoto);
         }
     });
 
-    // GUARDAR CAMBIOS
     document.getElementById("guardarCambios").addEventListener("click", async () => {
 
-        const nombre = document.getElementById("nombreUsuario").value;
-        const email = document.getElementById("correoUsuario").value;
+        const nombre = document.getElementById("nombreUsuario").value.trim();
+        const email = document.getElementById("correoUsuario").value.trim();
 
-        if (nombre.trim() === "" || email.trim() === "") {
+        if (nombre === "" || email === "") {
             alert("Completa todos los campos.");
             return;
         }
@@ -47,19 +44,13 @@ document.addEventListener("DOMContentLoaded", () => {
         if (nuevaFoto) form.append("foto", nuevaFoto);
 
         try {
-            const res = await fetch("login.php", {
-                method: "POST",
-                body: form
-            });
-
+            const res = await fetch("login.php", { method: "POST", body: form });
             const data = await res.json();
 
             if (data.success) {
                 localStorage.setItem("usuarioActivo", JSON.stringify(data.usuario));
-                alert("Perfil actualizado correctamente.");
+                alert("Perfil actualizado.");
                 location.reload();
-            } else {
-                alert("Error: " + data.error);
             }
 
         } catch (err) {
@@ -72,4 +63,5 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.removeItem("usuarioActivo");
         window.location.href = "login.html";
     });
+
 });
