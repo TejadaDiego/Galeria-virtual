@@ -1,29 +1,17 @@
 <?php
 // conexion.php
-// Ajusta tu configuración
-$servername = "127.0.0.1";
-$username   = "root";
-$password   = "dieguito.2006";
-$dbname     = "galeria_virtual";
-$port       = 3307;
 
-// Ocultar warnings que rompan JSON
-error_reporting(E_ERROR | E_PARSE);
+$servername = "localhost";   // <-- más seguro en Windows/XAMPP
+$username = "root";
+$password = "dieguito.2006";
+$dbname   = "galeria_virtual";
+$port     = 3307; // si tu XAMPP usa 3307; si no, pon 3306
 
 $conn = new mysqli($servername, $username, $password, $dbname, $port);
 
 if ($conn->connect_error) {
-
-    // --- MUY IMPORTANTE ---
-    // Enviar error en formato JSON
-    header("Content-Type: application/json; charset=utf-8");
     http_response_code(500);
-
-    echo json_encode([
-        "error" => "Error de conexión a la base de datos",
-        "detalle" => $conn->connect_error
-    ]);
-
+    echo "Conexión fallida: " . $conn->connect_error;
     exit;
 }
 
