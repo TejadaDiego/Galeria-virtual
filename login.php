@@ -1,6 +1,5 @@
 <?php
-// login.php
-error_reporting(0); // Oculta warnings que rompen JSON
+error_reporting(0);
 session_start();
 require_once __DIR__ . "/conexion.php";
 
@@ -22,12 +21,10 @@ if (isset($_POST['accion']) && $_POST['accion'] === 'actualizarPerfil') {
 
     $foto = "";
 
-    // =============================
-    // SUBIR FOTO (si viene)
-    // =============================
+    // SUBIR FOTO OPCIONAL
     if (!empty($_FILES['foto']['name'])) {
 
-        $folder = __DIR__ . "/../uploads/";
+        $folder = __DIR__ . "/uploads/";
         if (!is_dir($folder)) mkdir($folder, 0777, true);
 
         $nombreArchivo = "user_" . $id . "_" . time() . ".jpg";
@@ -38,9 +35,7 @@ if (isset($_POST['accion']) && $_POST['accion'] === 'actualizarPerfil') {
         }
     }
 
-    // =============================
-    // ACTUALIZAR EN BD
-    // =============================
+    // ACTUALIZACIÓN SQL
     if ($foto === "") {
         $stmt = $conn->prepare("UPDATE usuarios SET nombre=?, email=? WHERE id=?");
         $stmt->bind_param("ssi", $nombre, $email, $id);
@@ -64,7 +59,7 @@ if (isset($_POST['accion']) && $_POST['accion'] === 'actualizarPerfil') {
 }
 
 // ======================================================================
-// B) LOGIN NORMAL
+// B) LOGIN
 // ======================================================================
 $email    = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
@@ -74,15 +69,11 @@ if ($email === '' || $password === '') {
     exit;
 }
 
-// =============================
-// BUSCAR USUARIO
-// =============================
 $stmt = $conn->prepare("
     SELECT id, password_hash, nombre, foto, tipo, email
     FROM usuarios
     WHERE email = ?
 ");
-
 $stmt->bind_param("s", $email);
 $stmt->execute();
 $stmt->store_result();
@@ -95,29 +86,18 @@ if ($stmt->num_rows === 0) {
 $stmt->bind_result($id, $hash, $nombre, $foto, $tipo, $email_db);
 $stmt->fetch();
 
-// =============================
-// VERIFICAR CONTRASEÑA
-// =============================
 if (!password_verify($password, $hash)) {
     echo json_encode(["error" => "Contraseña incorrecta"]);
     exit;
 }
 
-if (!$foto || $foto == "") {
-    $foto = "img/default.png";
-}
+if (!$foto) $foto = "img/default.png";
 
-// =============================
-// CREAR SESIÓN
-// =============================
 $_SESSION['user_id'] = $id;
 $_SESSION['nombre']  = $nombre;
 $_SESSION['foto']    = $foto;
 $_SESSION['tipo']    = $tipo;
 
-// =============================
-// RESPUESTA JSON
-// =============================
 echo json_encode([
     "success" => true,
     "usuario" => [
