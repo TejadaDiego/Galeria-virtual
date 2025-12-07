@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Carrito - Galería Virtual</title>
 
-  <!-- CSS reales de tu proyecto -->
+  <!-- CSS reales -->
   <link rel="stylesheet" href="Estilos/Estilo.css">
   <link rel="stylesheet" href="Estilos/catalogo.css">
   <link rel="stylesheet" href="Estilos/premium.css">
@@ -98,33 +98,15 @@
 </head>
 <body>
 
-  <!-- NAVBAR generado con Estilo.css -->
-  <nav class="navbar">
-    <div class="logo">Galería<span>Virtual</span></div>
-
-    <div class="nav-links">
-      <a href="inicio.html">Inicio</a>
-      <a href="Sobre_nosotros.html">Nosotros</a>
-      <a href="Contenido.html">Contenido</a>
-      <a href="publicar.html">Publicar +</a>
-
-      <!-- usuario logueado (lo llena login-handler.js) -->
-      <div id="navbarUserBox"></div>
-
-      <!-- carrito -->
-      <div style="cursor:pointer;" onclick="location.href='carrito.html'">
-        <span id="cartCount">0</span> 🛒
-      </div>
-    </div>
-  </nav>
-
+  <!-- NAVBAR correcto (compatible con sesion-global.js) -->
+  <nav id="navbar" class="navbar"></nav>
 
   <!-- CONTENIDO DEL CARRITO -->
   <div class="container">
     <h2>🛒 Tu carrito</h2>
 
     <table id="tablaCarrito">
-      <!-- cargado dinámicamente por carrito.js -->
+      <!-- Contenido dinámico de carrito.js -->
     </table>
 
     <div class="total-box">
@@ -137,10 +119,10 @@
     </div>
   </div>
 
-  <!-- SCRIPTS REALES DE TU PROYECTO -->
+  <!-- Scripts -->
+  <script src="Scripts/sesion-global.js"></script>
   <script src="Scripts/login-handler.js"></script>
   <script src="Scripts/perfil.js"></script>
-  <script src="Scripts/sesion-global.js"></script>
   <script src="Scripts/carrito.js"></script>
 
 </body>

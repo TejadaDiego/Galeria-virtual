@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="Estilos/premium.css"/>
 
   <style>
-      /* Estilo pequeño para el header de usuario */
       .user-mini-box {
           display:flex;
           align-items:center;
@@ -62,24 +61,24 @@
           <li><a href="publicar.html">Publicar +</a></li>
       </ul>
 
-      <!-- Botón Iniciar Sesión -->
-      <li id="btnLoginHeader" style="display:none;">
+      <!-- LOGIN -->
+      <div id="btnLoginHeader" style="display:none;">
         <a href="login.html">Iniciar Sesión</a>
-      </li>
+      </div>
 
-      <!-- Carrito -->
+      <!-- CARRITO -->
       <div class="cart-box" onclick="location.href='carrito.html'">
           <span class="cart-count" id="cartCount">0</span> 🛒
       </div>
 
-      <!-- Foto + nombre -->
+      <!-- USER -->
       <div id="navbarUserBox"></div>
   </nav>
 
   <!-- TÍTULO -->
   <h1 class="titulo">Trabajos Destacados</h1>
 
-  <!-- CATÁLOGO FIJO DE 10 PRODUCTOS -->
+  <!-- 10 PRODUCTOS FIJOS -->
   <div id="catalogo" class="grid">
 
     <div class="card">
@@ -184,11 +183,11 @@
 
   </div>
 
-  <!-- CONTENIDO AGREGADO POR USUARIOS -->
+  <!-- CONTENIDO DE USUARIOS -->
   <h2 class="titulo">Trabajos Subidos por la Comunidad</h2>
   <div id="galeriaUser" class="grid"></div>
 
-  <!-- SCRIPTS FUNCIONALES -->
+  <!-- SCRIPTS -->
   <script src="Scripts/carrito.js"></script>
   <script src="Scripts/sesion-global.js"></script>
   <script src="Scripts/script.js"></script>
@@ -198,23 +197,20 @@
 
           const nombre = sessionStorage.getItem("nombre");
           const foto   = sessionStorage.getItem("foto");
-
           const userBox = document.getElementById("navbarUserBox");
           const btnLogin = document.getElementById("btnLoginHeader");
 
           if (!nombre) {
-              // NO HAY USUARIO → Mostrar botón iniciar sesión
               btnLogin.style.display = "block";
               userBox.innerHTML = "";
               return;
           }
 
-          // SÍ HAY USUARIO → Mostrar foto + nombre
           btnLogin.style.display = "none";
 
           userBox.innerHTML = `
               <div class="user-mini-box">
-                  <img src="${foto && foto !== '' ? 'uploads/' + foto : 'img/default.png'}">
+                  <img src="${foto ? foto : 'img/default.png'}">
                   <span>${nombre}</span>
               </div>
           `;
