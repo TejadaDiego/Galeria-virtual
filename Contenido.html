@@ -52,8 +52,9 @@
 
 <body>
 
-  <!-- NAVBAR -->
+  <!-- NAVBAR UNIFICADO -->
   <nav class="navbar">
+
       <ul class="navbar-menu">
           <li><a href="inicio.html">Inicio</a></li>
           <li><a href="Sobre_nosotros.html">Nosotros</a></li>
@@ -61,18 +62,22 @@
           <li><a href="publicar.html">Publicar +</a></li>
       </ul>
 
-      <!-- BOTÓN LOGIN (solo si no hay sesión) -->
-      <div id="btnLoginHeader">
-        <a href="login.html">Iniciar Sesión</a>
-      </div>
+      <div style="display:flex; align-items:center; gap:15px;">
 
-      <!-- CARRITO -->
-      <div class="cart-box" onclick="location.href='carrito.html'">
-          <span class="cart-count" id="cartCount">0</span> 🛒
-      </div>
+          <!-- LOGIN -->
+          <div id="btnLoginHeader">
+            <a href="login.html">Iniciar Sesión</a>
+          </div>
 
-      <!-- USER -->
-      <div id="navbarUserBox"></div>
+          <!-- USUARIO (cargado por sesion-global.js) -->
+          <div id="navbarUserBox"></div>
+
+          <!-- CARRITO -->
+          <div class="cart-box" style="cursor:pointer;" onclick="location.href='carrito.html'">
+              <span class="cart-count" id="cartCount">0</span> 🛒
+          </div>
+
+      </div>
   </nav>
 
   <!-- TÍTULO -->
