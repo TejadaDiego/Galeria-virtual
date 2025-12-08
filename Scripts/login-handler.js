@@ -1,48 +1,52 @@
-// Scripts/login-handler.js
 document.addEventListener("DOMContentLoaded", () => {
+    const form = document.querySelector("#loginForm");
+    if (!form) return;
 
-    const loginForms = document.querySelectorAll(".login-form");
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-    if (loginForms.length === 0) {
-        console.warn("⚠ No se encontró ningún formulario .login-form");
-        return;
-    }
+        const email = document.querySelector("#email").value.trim();
+        const password = document.querySelector("#password").value.trim();
 
-    loginForms.forEach(form => {
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault();
+        // Validación básica
+        if (!email || !password) {
+            alert("Completa todos los campos");
+            return;
+        }
 
-            const formData = new FormData(form);
+        try {
+            const response = await fetch("Php/login.php", {
+                method: "POST",
+                body: new FormData(form),
+            });
 
-            try {
-                const response = await fetch("login.php", {
-                    method: "POST",
-                    body: formData
-                });
+            const data = await response.json();
 
-                const data = await response.json();
-
-                if (data.ok) {
-
-                    // Guardar sesión global
-                    localStorage.setItem("usuarioActivo", JSON.stringify({
-                        nombre: data.nombre,
-                        email: data.email,
-                        foto: data.foto || "https://cdn-icons-png.flaticon.com/512/847/847969.png"
-                    }));
-
-                    window.location.href = "inicio.html";
-                } 
-                else {
-                    alert(data.msg || "Correo o contraseña incorrectos");
-                }
-
-            } catch (error) {
-                console.error(error);
-                alert("Error de conexión. Asegúrate de que Apache está activo y login.php existe.");
+            if (data.status === "error") {
+                alert(data.message);
+                return;
             }
 
-        });
-    });
+            const user = data.user;
 
+            // Guardar sesión
+            localStorage.setItem("usuario", JSON.stringify(user));
+
+            // Redirección por rol
+            switch (user.rol) {
+                case "admin":
+                    window.location.href = "admin.html";
+                    break;
+                case "comprador":
+                    window.location.href = "iniciocomprador.html";
+                    break;
+                case "estudiante":
+                default:
+                    window.location.href = "inicio.html";
+            }
+
+        } catch (err) {
+            alert("Error de conexión con el servidor.");
+        }
+    });
 });

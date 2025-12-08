@@ -1,49 +1,47 @@
 <?php
-// Php/login.php
-session_start();
-header("Content-Type: application/json; charset=UTF-8");
+header("Content-Type: application/json");
 
-require_once __DIR__ . "/conexion.php";
+// Seguridad para evitar errores de CORS con fetch
+header("Access-Control-Allow-Origin: *");
 
-$email    = trim($_POST["email"] ?? "");
-$password = $_POST["password"] ?? "";
+require_once "conexion.php";
 
-// Validación básica
-if ($email === "" || $password === "") {
-    echo json_encode([
-        "ok" => false,
-        "msg" => "Por favor, completa todos los campos."
-    ]);
+$email = $_POST['email'] ?? '';
+$password = $_POST['password'] ?? '';
+
+if ($email == "" || $password == "") {
+    echo json_encode(["status" => "error", "message" => "Campos vacíos"]);
     exit;
 }
 
-// Buscar usuario
-$stmt = $conn->prepare("SELECT id, nombre, email, password_hash, foto FROM usuarios WHERE email = ?");
+$sql = "SELECT id, nombre, email, password, rol FROM usuarios WHERE email = ?";
+$stmt = $conexion->prepare($sql);
 $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
-$user = $result->fetch_assoc();
 
-// Validar credenciales
-if (!$user || !password_verify($password, $user["password_hash"])) {
-    echo json_encode([
-        "ok" => false,
-        "msg" => "Correo o contraseña incorrectos."
-    ]);
+if ($result->num_rows === 0) {
+    echo json_encode(["status" => "error", "message" => "Usuario no encontrado"]);
     exit;
 }
 
-// Guardar sesión
-$_SESSION["user_id"] = $user["id"];
-$_SESSION["nombre"]  = $user["nombre"];
-$_SESSION["email"]   = $user["email"];
-$_SESSION["foto"]    = $user["foto"];
+$user = $result->fetch_assoc();
 
-// Responder al login-handler.js
+if (!password_verify($password, $user["password"])) {
+    echo json_encode(["status" => "error", "message" => "Contraseña incorrecta"]);
+    exit;
+}
+
 echo json_encode([
-    "ok"     => true,
-    "nombre" => $user["nombre"],
-    "email"  => $user["email"],
-    "foto"   => $user["foto"] ?? ""
+    "status" => "success",
+    "user" => [
+        "id" => $user["id"],
+        "nombre" => $user["nombre"],
+        "email" => $user["email"],
+        "rol" => $user["rol"]
+    ]
 ]);
 
+$stmt->close();
+$conexion->close();
+?>

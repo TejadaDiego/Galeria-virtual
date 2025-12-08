@@ -1,75 +1,30 @@
 <?php
-session_start();
-require_once __DIR__ . "/conexion.php";
+header("Content-Type: application/json");
 
-header("Content-Type: application/json; charset=utf-8");
+require_once "conexion.php";
 
-// Obtener datos
-$nombre   = trim($_POST['nombre'] ?? '');
-$email    = trim($_POST['email'] ?? '');
-$password = trim($_POST['password'] ?? '');
-$tipo     = trim($_POST['tipo'] ?? 'Comprador/Vendedor');
+$nombre = $_POST['nombre'] ?? '';
+$email = $_POST['email'] ?? '';
+$password = $_POST['password'] ?? '';
+$rol = $_POST['rol'] ?? 'estudiante';
 
-// Validar campos
-if ($nombre === '' || $email === '' || $password === '') {
-    http_response_code(400);
-    echo json_encode(["error" => "Rellena todos los campos"]);
+if ($nombre == "" || $email == "" || $password == "") {
+    echo json_encode(["status" => "error", "message" => "Campos vacíos"]);
     exit;
 }
 
-// Validar email
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    http_response_code(400);
-    echo json_encode(["error" => "Email inválido"]);
-    exit;
-}
+$passwordHash = password_hash($password, PASSWORD_BCRYPT);
 
-// ¿Email existe?
-$stmt = $conn->prepare("SELECT id FROM usuarios WHERE email = ?");
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$stmt->store_result();
-
-if ($stmt->num_rows > 0) {
-    http_response_code(400);
-    echo json_encode(["error" => "Email ya registrado"]);
-    exit;
-}
-
-$stmt->close();
-
-// Hash
-$hash = password_hash($password, PASSWORD_DEFAULT);
-
-// Insertar
-$stmt = $conn->prepare("INSERT INTO usuarios (nombre, email, password_hash, tipo, foto)
-                        VALUES (?, ?, ?, ?, 'Img/default.png')");
-$stmt->bind_param("ssss", $nombre, $email, $hash, $tipo);
+$sql = "INSERT INTO usuarios (nombre, email, password, rol) VALUES (?, ?, ?, ?)";
+$stmt = $conexion->prepare($sql);
+$stmt->bind_param("ssss", $nombre, $email, $passwordHash, $rol);
 
 if ($stmt->execute()) {
-
-    $id = $stmt->insert_id;
-
-    // Crear sesión automática
-    $_SESSION['user_id'] = $id;
-    $_SESSION['nombre']  = $nombre;
-    $_SESSION['foto']    = "Img/default.png";
-    $_SESSION['tipo']    = $tipo;
-
-    echo json_encode([
-        "success" => true,
-        "usuario" => [
-            "id"     => $id,
-            "nombre" => $nombre,
-            "email"  => $email,
-            "foto"   => "Img/default.png",
-            "tipo"   => $tipo
-        ]
-    ]);
+    echo json_encode(["status" => "success", "message" => "Usuario registrado correctamente"]);
 } else {
-    http_response_code(500);
-    echo json_encode(["error" => "Error al registrar: " . $stmt->error]);
+    echo json_encode(["status" => "error", "message" => "Error al registrar"]);
 }
 
 $stmt->close();
-$conn->close();
+$conexion->close();
+?>
