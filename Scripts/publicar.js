@@ -34,10 +34,10 @@ document.getElementById("formPublicar").addEventListener("submit", async functio
     const form = document.getElementById("formPublicar");
     const formData = new FormData(form);
 
-    // ==== Enviar id del usuario ====
+    // Enviar ID del usuario
     formData.append("usuario_id", usuario.id);
 
-    // ==== Validaciones ====
+    // Validaciones
     if (!formData.get("titulo") ||
         !formData.get("descripcion") ||
         !formData.get("precio")) {
@@ -53,30 +53,34 @@ document.getElementById("formPublicar").addEventListener("submit", async functio
     }
 
     try {
-        // ==== Enviar al backend ====
+        // Enviar al servidor
         const res = await fetch("publicar_handler.php", {
             method: "POST",
             body: formData
         });
 
         const data = await res.json();
+        console.log("Respuesta del servidor:", data);
 
-        // ==== Respuesta del servidor ====
-        if (data.status === "success" || data.success === true) {
-
+        // === RESPUESTAS CORRECTAS ===
+        if (data.success === true) {
             alert("✅ Trabajo publicado correctamente.");
 
-            // Limpiar formulario
             form.reset();
             previewImg.style.display = "none";
             previewImg.src = "";
 
-            // Redirigir a Contenido.html
             window.location.href = "Contenido.html";
-
-        } else {
-            alert("❌ Error del servidor: " + data.message);
+            return;
         }
+
+        // === RESPUESTAS DE ERROR ===
+        if (data.error) {
+            alert("❌ Error del servidor: " + data.error);
+            return;
+        }
+
+        alert("⚠️ Respuesta desconocida del servidor.");
 
     } catch (error) {
         console.error(error);

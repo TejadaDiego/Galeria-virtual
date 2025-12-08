@@ -110,24 +110,9 @@
   </form>
 </div>
 
-<script src="Scripts/publicar.js"></script>
+<!-- Scripts correctos y en orden -->
 <script src="Scripts/sesion-global.js"></script>
-
-<!-- PREVIEW IMG -->
-<script>
-document.getElementById("imagen").addEventListener("change", function () {
-    const archivo = this.files[0];
-    if (!archivo) return;
-
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const img = document.getElementById("previewImg");
-        img.src = e.target.result;
-        img.style.display = "block";
-    };
-    reader.readAsDataURL(archivo);
-});
-</script>
+<script src="Scripts/publicar.js"></script>
 
 </body>
 </html>
