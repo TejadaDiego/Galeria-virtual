@@ -5,7 +5,7 @@ require_once __DIR__ . "/conexion.php";
 header('Content-Type: application/json; charset=utf-8');
 
 // ================================
-// CONSULTA SEGURA
+// CONSULTA DE TRABAJOS
 // ================================
 $sql = "
     SELECT 
@@ -17,14 +17,14 @@ $sql = "
         u.nombre AS autor
     FROM trabajos t
     LEFT JOIN usuarios u ON t.publicado_por = u.id
-    ORDER BY t.creado_en DESC
+    ORDER BY t.id DESC
 ";
 
 $res = $conn->query($sql);
 
 if (!$res) {
     echo json_encode([
-        "error" => "Error en la consulta: " . $conn->error
+        "error" => "Error en la consulta SQL: " . $conn->error
     ]);
     exit;
 }
@@ -33,13 +33,21 @@ $trabajos = [];
 
 while ($fila = $res->fetch_assoc()) {
 
-    // Imagen por defecto si está vacía
+    // ================================
+    // VALIDAR IMAGEN
+    // ================================
+    
+    // Si no hay imagen guardada
     if (empty($fila["imagen"])) {
-        $fila["imagen"] = "Img/default.png";
+        $fila["imagen"] = "img/default.png";
     } else {
-        // Si tu carpeta está en /Uploads/
-        if (!file_exists("../" . $fila["imagen"])) {
-            $fila["imagen"] = "Img/default.png";
+
+        // Ruta absoluta en disco
+        $rutaFisica = __DIR__ . '/../' . $fila["imagen"];
+
+        // Si el archivo NO existe → usar una default
+        if (!file_exists($rutaFisica)) {
+            $fila["imagen"] = "img/default.png";
         }
     }
 

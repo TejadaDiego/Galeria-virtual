@@ -23,18 +23,29 @@ imagenInput.addEventListener("change", function (e) {
 document.getElementById("formPublicar").addEventListener("submit", async function (e) {
     e.preventDefault();
 
+    // Obtener usuario logueado
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+    if (!usuario) {
+        alert("⚠️ Debes iniciar sesión para publicar.");
+        window.location.href = "login.html";
+        return;
+    }
+
     const form = document.getElementById("formPublicar");
     const formData = new FormData(form);
+
+    // ==== Enviar id del usuario ====
+    formData.append("usuario_id", usuario.id);
 
     // ==== Validaciones ====
     if (!formData.get("titulo") ||
         !formData.get("descripcion") ||
         !formData.get("precio")) {
+
         alert("⚠️ Todos los campos son obligatorios.");
         return;
     }
 
-    // VALIDAR IMAGEN OBLIGATORIA
     const archivo = formData.get("imagen");
     if (!archivo || archivo.size === 0) {
         alert("⚠️ Debes seleccionar una imagen.");
@@ -51,14 +62,20 @@ document.getElementById("formPublicar").addEventListener("submit", async functio
         const data = await res.json();
 
         // ==== Respuesta del servidor ====
-        if (data.success) {
+        if (data.status === "success" || data.success === true) {
+
             alert("✅ Trabajo publicado correctamente.");
 
+            // Limpiar formulario
             form.reset();
             previewImg.style.display = "none";
             previewImg.src = "";
+
+            // Redirigir a Contenido.html
+            window.location.href = "Contenido.html";
+
         } else {
-            alert("❌ Error del servidor: " + data.error);
+            alert("❌ Error del servidor: " + data.message);
         }
 
     } catch (error) {

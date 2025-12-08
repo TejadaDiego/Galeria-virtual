@@ -47,6 +47,24 @@
       #btnLoginHeader a:hover {
           background:#8e2cd6;
       }
+
+      /* Tarjetas de comunidad */
+      .card-user {
+          background:#1a1635;
+          padding:15px;
+          border-radius:10px;
+          box-shadow:0 0 10px #0003;
+          text-align:center;
+      }
+      .card-user img {
+          width:100%;
+          height:180px;
+          object-fit:cover;
+          border-radius:10px;
+      }
+      .card-user h3 { color:white; margin:8px 0; }
+      .card-user p { color:#bbb; margin:4px 0 10px; font-size:14px; }
+      .card-user .precio { font-weight:bold; color:#b34cff; }
   </style>
 </head>
 
@@ -69,7 +87,7 @@
             <a href="login.html">Iniciar Sesión</a>
           </div>
 
-          <!-- USUARIO (cargado por sesion-global.js) -->
+          <!-- USUARIO AUTOCARGADO POR sesion-global.js -->
           <div id="navbarUserBox"></div>
 
           <!-- CARRITO -->
@@ -196,6 +214,41 @@
   <script src="Scripts/carrito.js"></script>
   <script src="Scripts/sesion-global.js"></script>
   <script src="Scripts/script.js"></script>
+
+  <!-- SCRIPT PARA MOSTRAR TRABAJOS PUBLICADOS -->
+  <script>
+      async function cargarPublicaciones() {
+
+          try {
+              const res = await fetch("get_trabajos.php");
+              const data = await res.json();
+
+              const contenedor = document.getElementById("galeriaUser");
+              contenedor.innerHTML = "";
+
+              if (!Array.isArray(data) || data.length === 0) {
+                  contenedor.innerHTML = "<p style='color:white;'>Aún no hay trabajos publicados.</p>";
+                  return;
+              }
+
+              data.forEach(t => {
+                  contenedor.innerHTML += `
+                      <div class="card-user">
+                          <img src="${t.imagen}">
+                          <h3>${t.titulo}</h3>
+                          <p>${t.descripcion}</p>
+                          <p class="precio">S/ ${t.precio}</p>
+                      </div>
+                  `;
+              });
+
+          } catch (err) {
+              console.error(err);
+          }
+      }
+
+      cargarPublicaciones();
+  </script>
 
 </body>
 </html>

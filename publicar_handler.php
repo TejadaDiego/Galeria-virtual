@@ -1,59 +1,67 @@
 <?php
 // Php/publicar_handler.php
-session_start();
 require_once __DIR__ . "/conexion.php";
 
 header("Content-Type: application/json; charset=utf-8");
 
-// Validar sesión
-if (!isset($_SESSION['user_id'])) {
+// ================================
+// 1. VALIDAR QUE LLEGUE usuario_id
+// ================================
+if (!isset($_POST['usuario_id'])) {
     http_response_code(401);
     echo json_encode(["error" => "Debes iniciar sesión"]);
     exit;
 }
 
-$usuario_id = intval($_SESSION['user_id']);
+$usuario_id = intval($_POST['usuario_id']);
 
-// Obtener datos
-$titulo = trim($_POST['titulo'] ?? '');
-$descripcion = trim($_POST['descripcion'] ?? '');
-$precio = floatval($_POST['precio'] ?? 0);
+// ================================
+// 2. OBTENER CAMPOS
+// ================================
+$titulo = trim($_POST["titulo"] ?? "");
+$descripcion = trim($_POST["descripcion"] ?? "");
+$precio = floatval($_POST["precio"] ?? 0);
 
-// Validaciones
-if ($titulo === '' || $precio <= 0) {
+// ================================
+// 3. VALIDACIONES
+// ================================
+if ($titulo === "" || $descripcion === "" || $precio <= 0) {
     http_response_code(400);
     echo json_encode(["error" => "Campos incompletos o inválidos"]);
     exit;
 }
 
-// ---------- MANEJO DE LA IMAGEN ----------
+// ================================
+// 4. MANEJO DE IMAGEN
+// ================================
 $nombreArchivoBD = null;
 
-if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
+if (isset($_FILES["imagen"]) && $_FILES["imagen"]["error"] === UPLOAD_ERR_OK) {
 
-    // Carpeta donde guardar
-    $carpeta = __DIR__ . "/uploads/";
+    $carpeta = __DIR__ . "/uploads/trabajos/";
+
     if (!is_dir($carpeta)) {
         mkdir($carpeta, 0777, true);
     }
 
-    // Sanitizar nombre
-    $safeName = preg_replace('/[^a-zA-Z0-9._-]/', '_', basename($_FILES["imagen"]["name"]));
-    $nombreFinal = time() . "_" . $safeName;
+    $ext = pathinfo($_FILES["imagen"]["name"], PATHINFO_EXTENSION);
+    $nombreFinal = "trabajo_" . time() . "." . $ext;
+
     $rutaDestino = $carpeta . $nombreFinal;
 
-    // Mover archivo
-    if (!move_uploaded_file($_FILES['imagen']['tmp_name'], $rutaDestino)) {
+    if (!move_uploaded_file($_FILES["imagen"]["tmp_name"], $rutaDestino)) {
         http_response_code(500);
-        echo json_encode(["error" => "Error al guardar la imagen"]);
+        echo json_encode(["error" => "No se pudo guardar la imagen"]);
         exit;
     }
 
-    // Ruta accesible desde el navegador
-    $nombreArchivoBD = "uploads/" . $nombreFinal;
+    // Ruta accesible desde navegador
+    $nombreArchivoBD = "uploads/trabajos/" . $nombreFinal;
 }
 
-// ---------- INSERTAR EN BD ----------
+// ================================
+// 5. INSERTAR EN BASE DE DATOS
+// ================================
 $sql = "INSERT INTO trabajos (titulo, descripcion, precio, imagen, publicado_por)
         VALUES (?, ?, ?, ?, ?)";
 
