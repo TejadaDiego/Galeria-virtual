@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             try {
 
-                let response = await fetch("Php/login.php", {   // ← ruta correcta
+                let response = await fetch("login.php", {   // ← ruta correcta
                     method: "POST",
                     body: formData
                 });
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             } catch (error) {
                 console.error("Error:", error);
-                alert("Error de conexión con el servidor. Revisa que Apache esté encendido y que la ruta Php/login.php exista.");
+                alert("Error de conexión con el servidor. Revisa que Apache esté encendido y que la ruta login.php exista.");
             }
 
         });
