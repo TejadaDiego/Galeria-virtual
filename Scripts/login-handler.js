@@ -1,52 +1,50 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.querySelector("#loginForm");
-    if (!form) return;
+    // Seleccionar TODOS los formularios de login
+    const forms = document.querySelectorAll(".login-form");
+    if (forms.length === 0) return;
 
-    form.addEventListener("submit", async (e) => {
-        e.preventDefault();
+    forms.forEach(form => {
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
 
-        const email = document.querySelector("#email").value.trim();
-        const password = document.querySelector("#password").value.trim();
+            const formData = new FormData(form);
 
-        // Validación básica
-        if (!email || !password) {
-            alert("Completa todos los campos");
-            return;
-        }
+            // Obtener email / password de cualquier login
+            const email = formData.get("email")?.trim();
+            const password = formData.get("password")?.trim();
+            const tipo = formData.get("tipo") || "estudiante"; 
+            // si no tiene tipo, será estudiante por defecto
 
-        try {
-            const response = await fetch("Php/login.php", {
-                method: "POST",
-                body: new FormData(form),
-            });
-
-            const data = await response.json();
-
-            if (data.status === "error") {
-                alert(data.message);
+            if (!email || !password) {
+                alert("Completa todos los campos.");
                 return;
             }
 
-            const user = data.user;
+            try {
+                // LLAMAMOS DIRECTAMENTE A login.php (SIN CARPETA Php)
+                const response = await fetch("login.php", {
+                    method: "POST",
+                    body: formData,
+                });
 
-            // Guardar sesión
-            localStorage.setItem("usuario", JSON.stringify(user));
+                const data = await response.json();
 
-            // Redirección por rol
-            switch (user.rol) {
-                case "admin":
-                    window.location.href = "admin.html";
-                    break;
-                case "comprador":
-                    window.location.href = "iniciocomprador.html";
-                    break;
-                case "estudiante":
-                default:
-                    window.location.href = "inicio.html";
+                if (data.status === "error") {
+                    alert(data.message);
+                    return;
+                }
+
+                const user = data.user;
+
+                // Guardar sesión global
+                localStorage.setItem("usuario", JSON.stringify(user));
+
+                // Redirección ÚNICA (solo tienes un inicio)
+                window.location.href = "inicio.html";
+
+            } catch (error) {
+                alert("Error de conexión con el servidor. Verifica que Apache esté encendido.");
             }
-
-        } catch (err) {
-            alert("Error de conexión con el servidor.");
-        }
+        });
     });
 });
