@@ -11,7 +11,6 @@
   <style>
     body { background:#0d0b1f; margin:0; font-family:Arial; }
 
-    /* NAV */
     .navbar {
       width:100%;
       padding:20px;
@@ -53,37 +52,38 @@
       font-weight:bold;
     }
 
-    .navbar-user-box img{
+    #navbarUserBox img{
       width:45px;
       height:45px;
       border-radius:50%;
       border:2px solid #a569ff;
       object-fit:cover;
-      cursor:pointer;
     }
   </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
+<!-- NAVBAR UNIFICADO -->
 <nav class="navbar">
+
   <div class="navbar-logo">Galería Virtual</div>
 
   <div class="navbar-links">
-    <a href="inicio.html">Inicio</a>
-    <a href="Sobre_nosotros.html">Nosotros</a>
-    <a href="Contenido.html">Contenido</a>
-    <a href="publicar.html" class="active">Publicar +</a>
-
-    <!-- BOTÓN LOGIN (solo si no hay sesión) -->
-    <div id="btnLoginHeader">
-      <a href="login.html">Iniciar Sesión</a>
-    </div>
-
-    <!-- APARECE FOTO + NOMBRE DEL USUARIO -->
-    <div id="navbarUserBox"></div>
+      <a href="inicio.html">Inicio</a>
+      <a href="Sobre_nosotros.html">Nosotros</a>
+      <a href="Contenido.html">Contenido</a>
+      <a href="publicar.html" class="active">Publicar +</a>
   </div>
+
+  <!-- BOTÓN LOGIN -->
+  <div id="btnLoginHeader">
+      <a href="login.html">Iniciar Sesión</a>
+  </div>
+
+  <!-- USUARIO LOGUEADO -->
+  <div id="navbarUserBox"></div>
+
 </nav>
 
 <!-- FORMULARIO PUBLICAR -->
@@ -110,11 +110,10 @@
   </form>
 </div>
 
-<!-- SCRIPTS -->
 <script src="Scripts/publicar.js"></script>
 <script src="Scripts/sesion-global.js"></script>
 
-<!-- PREVIEW DE IMAGEN -->
+<!-- PREVIEW IMG -->
 <script>
 document.getElementById("imagen").addEventListener("change", function () {
     const archivo = this.files[0];
@@ -122,9 +121,9 @@ document.getElementById("imagen").addEventListener("change", function () {
 
     const reader = new FileReader();
     reader.onload = function(e) {
-      const img = document.getElementById("previewImg");
-      img.src = e.target.result;
-      img.style.display = "block";
+        const img = document.getElementById("previewImg");
+        img.src = e.target.result;
+        img.style.display = "block";
     };
     reader.readAsDataURL(archivo);
 });
