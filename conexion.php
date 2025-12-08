@@ -4,7 +4,7 @@ $servername = "127.0.0.1";
 $username   = "root";
 $password   = "dieguito.2006"; 
 $dbname     = "galeria_virtual";
-$port       = 9516; // EL PUERTO REAL DE TU MYSQL AHORA
+$port       = 3307; // EL PUERTO REAL DE TU MYSQL AHORA
 
 $conn = new mysqli($servername, $username, $password, $dbname, $port);
 
