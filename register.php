@@ -1,12 +1,11 @@
 <?php
 header("Content-Type: application/json");
-
 require_once "conexion.php";
 
-$nombre   = $_POST['nombre'] ?? '';
-$email    = $_POST['email'] ?? '';
+$nombre = $_POST['nombre'] ?? '';
+$email = $_POST['email'] ?? '';
 $password = $_POST['password'] ?? '';
-$tipo     = $_POST['tipo'] ?? 'Comprador/Vendedor'; // valor por defecto
+$tipo = $_POST['tipo'] ?? 'Comprador/Vendedor';
 
 // Validación
 if ($nombre === "" || $email === "" || $password === "") {
@@ -14,22 +13,25 @@ if ($nombre === "" || $email === "" || $password === "") {
     exit;
 }
 
-// Hashear contraseña
+// Encriptar contraseña
 $passwordHash = password_hash($password, PASSWORD_BCRYPT);
 
 // Insertar usuario
 $sql = "INSERT INTO usuarios (nombre, email, password_hash, tipo) VALUES (?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
+
+if (!$stmt) {
+    echo json_encode(["status" => "error", "message" => "Error interno"]);
+    exit;
+}
+
 $stmt->bind_param("ssss", $nombre, $email, $passwordHash, $tipo);
 
 if ($stmt->execute()) {
 
-    // Obtener ID recién insertado
-    $id = $stmt->insert_id;
-
-    // Construir objeto usuario para enviar al frontend
+    // Usuario recién creado
     $usuario = [
-        "id"     => $id,
+        "id"     => $stmt->insert_id,
         "nombre" => $nombre,
         "email"  => $email,
         "tipo"   => $tipo,
@@ -37,15 +39,14 @@ if ($stmt->execute()) {
     ];
 
     echo json_encode([
-        "status"  => "success",
-        "message" => "Usuario registrado correctamente",
+        "status" => "success",
         "usuario" => $usuario
     ]);
 
 } else {
     echo json_encode([
         "status" => "error",
-        "message" => "Error al registrar usuario"
+        "message" => "El correo ya existe o ocurrió un error."
     ]);
 }
 
