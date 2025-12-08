@@ -2,7 +2,7 @@
 
 $servername = "127.0.0.1";
 $username   = "root";
-$password   = "dieguito.2006"; 
+$password   = ""; 
 $dbname     = "galeria_virtual";
 $port       = 3307; // EL PUERTO REAL DE TU MYSQL AHORA
 
