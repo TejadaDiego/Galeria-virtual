@@ -22,15 +22,25 @@
             justify-content:space-between;
             align-items:center;
             box-shadow:0 0 10px rgba(255,255,255,0.1);
+            position:sticky;
+            top:0;
+            z-index:100;
         }
 
         .navbar-logo { font-size:22px; font-weight:bold; color:white; }
         .navbar-links { display:flex; gap:25px; }
         .navbar-links a { color:white; text-decoration:none; font-size:17px; }
 
+        /* CENTRAR CONTENIDO */
+        .page-wrapper {
+            width:100%;
+            display:flex;
+            justify-content:center;
+            padding-top:40px;
+        }
+
         .cuenta-container {
-            max-width:450px;
-            margin:60px auto;
+            width:420px;
             padding:25px;
             background:#1a1635;
             border-radius:15px;
@@ -90,38 +100,37 @@
             <a href="publicar.html">Publicar</a>
         </div>
 
-        <!-- Botón login -->
         <div id="btnLoginHeader">
             <a href="login.html">Iniciar Sesión</a>
         </div>
 
-        <!-- Usuario -->
         <div id="navbarUserBox"></div>
     </nav>
 
-    <!-- CONTENEDOR PRINCIPAL -->
-    <div class="cuenta-container">
+    <!-- CONTENIDO CENTRADO -->
+    <div class="page-wrapper">
+        <div class="cuenta-container">
 
-        <!-- FOTO Y DATOS -->
-        <img id="fotoUser" class="foto-perfil" src="img/user.png">
-        <h2 id="nombreUser">Usuario</h2>
-        <p id="correoUser"></p>
+            <img id="fotoUser" class="foto-perfil" src="img/user.png">
 
-        <button onclick="location.href='perfil.html'">Editar perfil</button>
+            <h2 id="nombreUser">Usuario</h2>
+            <p id="correoUser"></p>
 
-        <hr>
+            <button onclick="location.href='perfil.html'">Editar perfil</button>
 
-        <!-- CAMBIAR CONTRASEÑA -->
-        <h3>Cambiar contraseña</h3>
+            <hr>
 
-        <input type="password" id="passActual" placeholder="Contraseña actual">
-        <input type="password" id="passNueva" placeholder="Nueva contraseña">
-        <input type="password" id="passConfirm" placeholder="Confirmar nueva contraseña">
+            <h3>Cambiar contraseña</h3>
 
-        <button id="btnCambiarPass">Actualizar contraseña</button>
+            <input type="password" id="passActual" placeholder="Contraseña actual">
+            <input type="password" id="passNueva" placeholder="Nueva contraseña">
+            <input type="password" id="passConfirm" placeholder="Confirmar nueva contraseña">
 
-        <button class="btn-salir" onclick="cerrarSesion()">Cerrar sesión</button>
+            <button id="btnCambiarPass">Actualizar contraseña</button>
 
+            <button class="btn-salir" onclick="cerrarSesion()">Cerrar sesión</button>
+
+        </div>
     </div>
 
     <!-- SCRIPTS -->
@@ -137,6 +146,7 @@
         document.getElementById("correoUser").textContent = user.email;
         document.getElementById("fotoUser").src = user.foto ? "uploads/" + user.foto : "img/user.png";
 
+        // Cerrar sesión
         function cerrarSesion() {
             localStorage.removeItem("usuario");
             window.location.href = "login.html";
@@ -145,9 +155,9 @@
         // CAMBIAR CONTRASEÑA
         document.getElementById("btnCambiarPass").addEventListener("click", async () => {
 
-            const passActual = passActual.value.trim();
-            const passNueva = passNueva.value.trim();
-            const passConfirm = passConfirm.value.trim();
+            const passActual = document.getElementById("passActual").value.trim();
+            const passNueva = document.getElementById("passNueva").value.trim();
+            const passConfirm = document.getElementById("passConfirm").value.trim();
 
             if (!passActual || !passNueva || !passConfirm) {
                 alert("Todos los campos son obligatorios.");
@@ -165,26 +175,16 @@
             form.append("passActual", passActual);
             form.append("passNueva", passNueva);
 
-            try {
-                const res = await fetch("cuenta.php", {
-                    method:"POST",
-                    body:form
-                });
+            const res = await fetch("cuenta.php", { method:"POST", body:form });
+            const data = await res.json();
 
-                const data = await res.json();
-
-                if (data.status === "success") {
-                    alert("Contraseña actualizada correctamente.");
-                    passActual.value = "";
-                    passNueva.value = "";
-                    passConfirm.value = "";
-                } else {
-                    alert(data.message);
-                }
-
-            } catch (e) {
-                console.error(e);
-                alert("Error al conectar con el servidor.");
+            if (data.status === "success") {
+                alert("Contraseña actualizada correctamente.");
+                document.getElementById("passActual").value = "";
+                document.getElementById("passNueva").value = "";
+                document.getElementById("passConfirm").value = "";
+            } else {
+                alert(data.message);
             }
         });
     </script>
