@@ -77,12 +77,12 @@
     <a href="Contenido.html">Contenido</a>
     <a href="publicar.html" class="active">Publicar +</a>
 
-    <!-- BOTÓN LOGIN (solo se muestra sin sesión) -->
-    <li id="btnLoginHeader" style="display:none;">
+    <!-- BOTÓN LOGIN (solo si no hay sesión) -->
+    <div id="btnLoginHeader">
       <a href="login.html">Iniciar Sesión</a>
-    </li>
+    </div>
 
-    <!-- AQUI sesion-global.js insertará foto + nombre -->
+    <!-- Aquí aparece la foto + nombre del usuario -->
     <div id="navbarUserBox"></div>
   </div>
 </nav>
@@ -115,31 +115,44 @@
 <script src="Scripts/publicar.js"></script>
 <script src="Scripts/sesion-global.js"></script>
 
+<!-- PREVIEW DE IMAGEN -->
 <script>
-/* --- CONTROL DE VISIBILIDAD LOGIN / USUARIO --- */
-/* sesion-global.js ya trae userData desde loginhandler.php */
+document.getElementById("imagen").addEventListener("change", function () {
+    const archivo = this.files[0];
+    if (!archivo) return;
 
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const img = document.getElementById("previewImg");
+      img.src = e.target.result;
+      img.style.display = "block";
+    };
+    reader.readAsDataURL(archivo);
+});
+</script>
+
+<!-- CONTROL DE SESIÓN (solo esta página) -->
+<script>
 document.addEventListener("DOMContentLoaded", () => {
-    const storedUser = localStorage.getItem("userData");
-    const btnLogin = document.getElementById("btnLoginHeader");
-    const userBox = document.getElementById("navbarUserBox");
 
-    if (!storedUser) {
-        // NO HAY USUARIO - Mostrar botón login
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+    const btnLogin = document.getElementById("btnLoginHeader");
+    const userBox  = document.getElementById("navbarUserBox");
+
+    if (!usuario) {
+        // Si no hay usuario, mostrar Login
         btnLogin.style.display = "block";
         userBox.innerHTML = "";
         return;
     }
 
-    // SI HAY USUARIO
-    let u = JSON.parse(storedUser);
-
+    // Ocultar login y mostrar usuario
     btnLogin.style.display = "none";
 
     userBox.innerHTML = `
       <div class="navbar-user-box" style="display:flex; align-items:center; gap:10px;">
-        <img src="uploads/${u.foto}" alt="Usuario">
-        <span style="color:#fff; font-size:16px;">${u.nombre}</span>
+        <img src="${usuario.foto || 'img/user.png'}" alt="Usuario">
+        <span style="color:#fff; font-size:16px;">${usuario.nombre}</span>
       </div>
     `;
 });

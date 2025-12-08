@@ -52,9 +52,24 @@
             font-weight: bold;
         }
 
+        /* LOGIN */
+        #btnLoginHeader a {
+            color:white;
+            background:#b34cff;
+            padding:8px 14px;
+            border-radius:8px;
+            text-decoration:none;
+            font-weight:bold;
+        }
+
+        #btnLoginHeader a:hover {
+            background:#9128e0;
+        }
+
+        /* PERFIL */
         .perfil-container {
             width: 400px;
-            margin: 50px auto;
+            margin: 60px auto;
             background: #1a1635;
             padding: 25px;
             border-radius: 15px;
@@ -103,6 +118,15 @@
         #cerrarSesion:hover {
             background: #b12;
         }
+
+        /* NAVBAR USER IMAGE */
+        #navbarUserBox img {
+            width:40px;
+            height:40px;
+            border-radius:50%;
+            border:2px solid #b34cff;
+            object-fit:cover;
+        }
     </style>
 </head>
 
@@ -122,12 +146,19 @@ document.addEventListener("DOMContentLoaded", () => {
 <!-- NAVBAR -->
 <nav class="navbar">
     <div class="navbar-logo">Galería Virtual</div>
+
     <div class="navbar-links">
         <a href="inicio.html">Inicio</a>
         <a href="Contenido.html">Contenido</a>
         <a href="publicar.html">Publicar</a>
         <a href="perfil.html" class="active">Mi Perfil</a>
 
+        <!-- Botón de inicio de sesión (solo si NO hay usuario) -->
+        <div id="btnLoginHeader">
+            <a href="login.html">Iniciar Sesión</a>
+        </div>
+
+        <!-- Aquí aparece la foto + nombre -->
         <div id="navbarUserBox"></div>
     </div>
 </nav>

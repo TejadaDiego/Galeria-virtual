@@ -17,11 +17,6 @@
       margin:0; 
     }
 
-    /* Elimina los puntos del carrusel */
-    #puntos{
-      display:none !important;
-    }
-
     .navbar{
       padding:18px 30px;
       display:flex;
@@ -135,7 +130,7 @@
         <div id="navbarUserBox"></div>
 
         <!-- Botón de login si NO hay sesión -->
-        <div id="btnLoginHeader" style="display:none; margin-left:15px;">
+        <div id="btnLoginHeader" style="margin-left:15px;">
           <a href="login.html" style="color:#ddd; text-decoration:none;">Iniciar Sesión</a>
         </div>
 
@@ -164,45 +159,38 @@
   <div id="puntos"></div>
 
   <!-- SCRIPTS -->
-
-  <!-- Carrusel -->
   <script src="Scripts/app.js"></script>
-
-  <!-- Carrito -->
   <script src="Scripts/carrito.js"></script>
-
-  <!-- Manejo de sesión global -->
   <script src="Scripts/sesion-global.js"></script>
-
-  <!-- Login + almacenamiento de sesión -->
   <script src="Scripts/login-handler.js"></script>
 
+  <!-- CONTROL DE SESIÓN SOLO PARA ESTA PÁGINA -->
   <script>
   document.addEventListener("DOMContentLoaded", () => {
-      setTimeout(() => {
-          const btnLogin = document.getElementById("btnLoginHeader");
-          const userBox = document.getElementById("navbarUserBox");
 
-          // login-handler.js asigna window.userData si hay sesión
-          if (window.userData) {
-              btnLogin.style.display = "none";
+      const usuario = JSON.parse(localStorage.getItem("usuario"));
+      const btnLogin = document.getElementById("btnLoginHeader");
+      const userBox = document.getElementById("navbarUserBox");
 
-              // Mostrar usuario en navbar
-              userBox.innerHTML = `
-                  <div style="display:flex; align-items:center; gap:10px;">
-                    <img src="${window.userData.foto || 'https://cdn-icons-png.flaticon.com/512/847/847969.png'}" 
-                         style="width:32px; height:32px; border-radius:50%;">
-                    <span>${window.userData.nombre}</span>
-                  </div>
-              `;
-          } else {
-              // Usuario NO logueado
-              btnLogin.style.display = "block";
-              userBox.innerHTML = "";
-          }
-      }, 300);
+      if (!usuario) {
+          // Usuario NO logueado
+          btnLogin.style.display = "block";
+          userBox.innerHTML = "";
+          return;
+      }
+
+      // Usuario logueado → ocultar login y mostrar info
+      btnLogin.style.display = "none";
+
+      userBox.innerHTML = `
+          <div style="display:flex; align-items:center; gap:10px;">
+            <img src="${usuario.foto || 'img/user.png'}"
+                 style="width:32px; height:32px; border-radius:50%;">
+            <span>${usuario.nombre}</span>
+          </div>
+      `;
   });
   </script>
 
 </body>
-</html>  
+</html>

@@ -61,8 +61,8 @@
           <li><a href="publicar.html">Publicar +</a></li>
       </ul>
 
-      <!-- LOGIN -->
-      <div id="btnLoginHeader" style="display:none;">
+      <!-- BOTÓN LOGIN (solo si no hay sesión) -->
+      <div id="btnLoginHeader">
         <a href="login.html">Iniciar Sesión</a>
       </div>
 
@@ -191,31 +191,6 @@
   <script src="Scripts/carrito.js"></script>
   <script src="Scripts/sesion-global.js"></script>
   <script src="Scripts/script.js"></script>
-
-  <script>
-      document.addEventListener("DOMContentLoaded", () => {
-
-          const nombre = sessionStorage.getItem("nombre");
-          const foto   = sessionStorage.getItem("foto");
-          const userBox = document.getElementById("navbarUserBox");
-          const btnLogin = document.getElementById("btnLoginHeader");
-
-          if (!nombre) {
-              btnLogin.style.display = "block";
-              userBox.innerHTML = "";
-              return;
-          }
-
-          btnLogin.style.display = "none";
-
-          userBox.innerHTML = `
-              <div class="user-mini-box">
-                  <img src="${foto ? foto : 'img/default.png'}">
-                  <span>${nombre}</span>
-              </div>
-          `;
-      });
-  </script>
 
 </body>
 </html>

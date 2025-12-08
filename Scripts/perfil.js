@@ -1,31 +1,26 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    // Obtener usuario desde la sesión REAL
+    // Obtener usuario desde localStorage
     const usuario = JSON.parse(localStorage.getItem("usuario"));
+    if (!usuario) return;
 
-    if (!usuario) {
-        window.location.href = "login.html";
-        return;
-    }
-
-    // Rellenar datos en el formulario
+    // Rellenar datos
     document.getElementById("nombreUsuario").value = usuario.nombre;
     document.getElementById("correoUsuario").value = usuario.email;
     document.getElementById("tipoUsuario").textContent = usuario.tipo;
-    document.getElementById("fotoUsuario").src = usuario.foto || "img/user.png";
+    document.getElementById("fotoUsuario").src = usuario.foto ? "uploads/" + usuario.foto : "img/user.png";
 
-    let nuevaFoto = null;
+    let nuevaFotoFile = null;
 
-    // mostrar preview al cargar foto
+    // PREVIEW FOTO
     document.getElementById("nuevaFoto").addEventListener("change", (e) => {
-        nuevaFoto = e.target.files[0];
-
-        if (nuevaFoto) {
+        nuevaFotoFile = e.target.files[0];
+        if (nuevaFotoFile) {
             const reader = new FileReader();
-            reader.onload = function (e) {
-                document.getElementById("fotoUsuario").src = e.target.result;
+            reader.onload = function(evt) {
+                document.getElementById("fotoUsuario").src = evt.target.result;
             };
-            reader.readAsDataURL(nuevaFoto);
+            reader.readAsDataURL(nuevaFotoFile);
         }
     });
 
@@ -33,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("guardarCambios").addEventListener("click", async () => {
 
         const nombre = document.getElementById("nombreUsuario").value.trim();
-        const email = document.getElementById("correoUsuario").value.trim();
+        const email  = document.getElementById("correoUsuario").value.trim();
 
         if (nombre === "" || email === "") {
             alert("Completa todos los campos.");
@@ -47,37 +42,34 @@ document.addEventListener("DOMContentLoaded", () => {
         form.append("email", email);
         form.append("fotoActual", usuario.foto ?? "");
 
-        if (nuevaFoto) {
-            form.append("foto", nuevaFoto);
+        if (nuevaFotoFile) {
+            form.append("foto", nuevaFotoFile);
         }
 
         try {
             const res = await fetch("perfil.php", {
                 method: "POST",
-                body: form
+                body: form,
             });
 
             const data = await res.json();
             console.log(data);
 
             if (data.status === "success") {
-
-                // Actualizar sesión con la nueva información
+                // Guardar nueva sesión
                 localStorage.setItem("usuario", JSON.stringify(data.usuario));
-
                 alert("Perfil actualizado correctamente.");
                 location.reload();
             } else {
                 alert("Error: " + data.message);
             }
-
-        } catch (err) {
-            console.error(err);
-            alert("Error al conectarse con el servidor.");
+        } catch (e) {
+            console.error(e);
+            alert("Error al conectar con el servidor.");
         }
     });
 
-    // cerrar sesión
+    // CERRAR SESIÓN
     document.getElementById("cerrarSesion").addEventListener("click", () => {
         localStorage.removeItem("usuario");
         window.location.href = "login.html";
