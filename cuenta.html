@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <title>Mi Cuenta - Galería Virtual</title>
 
-    <link rel="stylesheet" href="Estilos/cuenta.css">
-
     <style>
         body {
             background:#0d0b1f;
@@ -14,6 +12,7 @@
             color:white;
         }
 
+        /* NAVBAR */
         nav.navbar {
             width:100%;
             padding:20px;
@@ -21,7 +20,7 @@
             display:flex;
             justify-content:space-between;
             align-items:center;
-            box-shadow:0 0 10px rgba(255,255,255,0.1);
+            box-shadow:0 0 10px rgba(255,255,255,0.08);
             position:sticky;
             top:0;
             z-index:100;
@@ -31,28 +30,38 @@
         .navbar-links { display:flex; gap:25px; }
         .navbar-links a { color:white; text-decoration:none; font-size:17px; }
 
-        /* CENTRAR CONTENIDO */
+        /* CONTENIDO CENTRADO TIPO PERFIL */
         .page-wrapper {
             width:100%;
+            min-height:calc(100vh - 110px);
             display:flex;
             justify-content:center;
+            align-items:flex-start;
             padding-top:40px;
         }
 
+        /* TARJETA DE CUENTA (MISMO ESTILO QUE PERFIL) */
         .cuenta-container {
             width:420px;
-            padding:25px;
+            padding:30px;
             background:#1a1635;
-            border-radius:15px;
-            box-shadow:0 0 15px #a569ff;
+            border-radius:20px;
+            box-shadow:0 0 25px #a569ff7a;
             text-align:center;
+            animation: fadeIn 0.45s ease-in-out;
+        }
+
+        /* ANIMACIÓN */
+        @keyframes fadeIn {
+            from { opacity:0; transform:translateY(25px); }
+            to   { opacity:1; transform:translateY(0); }
         }
 
         .foto-perfil {
-            width:130px;
-            height:130px;
+            width:140px;
+            height:140px;
             border-radius:50%;
-            border:3px solid #a569ff;
+            border:3px solid #b34cff;
             object-fit:cover;
             margin-bottom:15px;
         }
@@ -60,7 +69,7 @@
         input {
             width:100%;
             padding:12px;
-            margin:10px 0;
+            margin:8px 0;
             border:none;
             border-radius:8px;
             background:#2c2850;
@@ -77,19 +86,29 @@
             color:white;
             cursor:pointer;
             font-size:15px;
+            font-weight:bold;
         }
 
         button:hover { background:#9d38e0; }
-        .btn-salir { background:#d33 !important; }
-        .btn-salir:hover { background:#b11 !important; }
 
-        hr { border:1px solid #333; margin:25px 0; }
+        .btn-salir {
+            background:#d33 !important;
+        }
+
+        .btn-salir:hover {
+            background:#b11 !important;
+        }
+
+        hr {
+            border:1px solid #3b3566;
+            margin:25px 0;
+        }
     </style>
 </head>
 
 <body>
 
-    <!-- NAVBAR GLOBAL -->
+    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="navbar-logo">Galería Virtual</div>
 
@@ -107,7 +126,7 @@
         <div id="navbarUserBox"></div>
     </nav>
 
-    <!-- CONTENIDO CENTRADO -->
+    <!-- CONTENEDOR CENTRAL -->
     <div class="page-wrapper">
         <div class="cuenta-container">
 
@@ -133,7 +152,7 @@
         </div>
     </div>
 
-    <!-- SCRIPTS -->
+    <!-- Sesión global -->
     <script src="Scripts/sesion-global.js"></script>
 
     <script>
@@ -141,12 +160,11 @@
         const user = JSON.parse(localStorage.getItem("usuario"));
         if (!user) window.location.href = "login.html";
 
-        // Mostrar info
+        // Cargar info
         document.getElementById("nombreUser").textContent = user.nombre;
         document.getElementById("correoUser").textContent = user.email;
         document.getElementById("fotoUser").src = user.foto ? "uploads/" + user.foto : "img/user.png";
 
-        // Cerrar sesión
         function cerrarSesion() {
             localStorage.removeItem("usuario");
             window.location.href = "login.html";
@@ -160,12 +178,12 @@
             const passConfirm = document.getElementById("passConfirm").value.trim();
 
             if (!passActual || !passNueva || !passConfirm) {
-                alert("Todos los campos son obligatorios.");
+                alert("Completa todos los campos.");
                 return;
             }
 
             if (passNueva !== passConfirm) {
-                alert("Las contraseñas nuevas no coinciden.");
+                alert("Las contraseñas no coinciden.");
                 return;
             }
 
@@ -180,9 +198,9 @@
 
             if (data.status === "success") {
                 alert("Contraseña actualizada correctamente.");
-                document.getElementById("passActual").value = "";
-                document.getElementById("passNueva").value = "";
-                document.getElementById("passConfirm").value = "";
+                passActual.value = "";
+                passNueva.value = "";
+                passConfirm.value = "";
             } else {
                 alert(data.message);
             }
