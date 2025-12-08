@@ -1,4 +1,7 @@
-// ========= FUNCIONES BÁSICAS ========= //
+// =========================================
+// ========= FUNCIONES BÁSICAS =============
+// =========================================
+
 function redirigir(pagina) {
   window.location.href = pagina;
 }
@@ -11,7 +14,11 @@ function togglePassword(id, el) {
 }
 
 
-// ========= GUARDAR SESIÓN ========= //
+
+// =========================================
+// ========= GUARDAR SESIÓN =================
+// =========================================
+
 function guardarSesion(tipo, email) {
   const usuario = {
     tipo: tipo,
@@ -37,111 +44,122 @@ function guardarSesion(tipo, email) {
 
 
 
-// ========= LOGIN COMPRADOR ========= //
-const formComprador = document.getElementById("formComprador");
+// =========================================
+// ========= LOGIN COMPRADOR =================
+// =========================================
 
-if (formComprador) {
-  formComprador.addEventListener("submit", (e) => {
-    e.preventDefault();
+document.addEventListener("DOMContentLoaded", () => {
+  const formComprador = document.getElementById("formComprador");
 
-    const email = document.getElementById("emailComprador").value.trim();
-    const pass = document.getElementById("passComprador").value.trim();
-    const error = document.getElementById("errorComprador");
+  if (formComprador) {
+    formComprador.addEventListener("submit", (e) => {
+      e.preventDefault();
 
-    if (!email || !pass) {
-      error.style.display = "block";
-      error.textContent = "Completa todos los campos.";
-      return;
-    }
+      const email = document.getElementById("emailComprador").value.trim();
+      const pass = document.getElementById("passComprador").value.trim();
+      const error = document.getElementById("errorComprador");
 
-    guardarSesion("Comprador", email);
-  });
-}
+      if (!email || !pass) {
+        error.style.display = "block";
+        error.textContent = "Completa todos los campos.";
+        return;
+      }
 
-
-
-// ========= LOGIN ESTUDIANTE ========= //
-const formEstudiante = document.getElementById("formEstudiante");
-
-if (formEstudiante) {
-  formEstudiante.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const email = document.getElementById("emailEstudiante").value.trim();
-    const pass = document.getElementById("passEstudiante").value.trim();
-    const error = document.getElementById("errorEstudiante");
-
-    if (!email || !pass) {
-      error.style.display = "block";
-      error.textContent = "Completa todos los campos.";
-      return;
-    }
-
-    guardarSesion("Estudiante", email);
-  });
-}
+      guardarSesion("Comprador", email);
+    });
+  }
 
 
 
-// ========= LOGIN ADMIN ========= //
-const formAdmin = document.getElementById("formAdmin");
+  // =========================================
+  // ========= LOGIN ESTUDIANTE ===============
+  // =========================================
 
-if (formAdmin) {
-  formAdmin.addEventListener("submit", (e) => {
-    e.preventDefault();
+  const formEstudiante = document.getElementById("formEstudiante");
 
-    const user = document.getElementById("userAdmin").value.trim();
-    const pass = document.getElementById("passAdmin").value.trim();
-    const error = document.getElementById("errorAdmin");
+  if (formEstudiante) {
+    formEstudiante.addEventListener("submit", (e) => {
+      e.preventDefault();
 
-    if (!user || !pass) {
-      error.style.display = "block";
-      error.textContent = "Completa todos los campos.";
-      return;
-    }
+      const email = document.getElementById("emailEstudiante").value.trim();
+      const pass = document.getElementById("passEstudiante").value.trim();
+      const error = document.getElementById("errorEstudiante");
 
-    if (pass !== "certus10") {
-      error.style.display = "block";
-      error.textContent = "Contraseña incorrecta. Intenta nuevamente.";
-      return;
-    }
+      if (!email || !pass) {
+        error.style.display = "block";
+        error.textContent = "Completa todos los campos.";
+        return;
+      }
 
-    guardarSesion("Admin", user);
-  });
-}
+      guardarSesion("Estudiante", email);
+    });
+  }
 
 
 
+  // =========================================
+  // ========= LOGIN ADMIN =====================
+  // =========================================
 
-// ========= MOSTRAR USUARIO LOGEADO EN NAVBAR ========= //
-window.addEventListener("DOMContentLoaded", () => {
+  const formAdmin = document.getElementById("formAdmin");
+
+  if (formAdmin) {
+    formAdmin.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const user = document.getElementById("userAdmin").value.trim();
+      const pass = document.getElementById("passAdmin").value.trim();
+      const error = document.getElementById("errorAdmin");
+
+      if (!user || !pass) {
+        error.style.display = "block";
+        error.textContent = "Completa todos los campos.";
+        return;
+      }
+
+      if (pass !== "certus10") {
+        error.style.display = "block";
+        error.textContent = "Contraseña incorrecta. Intenta nuevamente.";
+        return;
+      }
+
+      guardarSesion("Admin", user);
+    });
+  }
+
+
+
+  // =========================================
+  // ===== MOSTRAR USUARIO EN NAVBAR ==========
+  // =========================================
+
   const nav = document.querySelector(".navbar");
-  if (!nav) return;
+  if (nav) {
+    const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
+    if (usuario) {
+      // Ocultar botón "Iniciar sesión"
+      const loginBtn = nav.querySelector('a[href="login.html"]');
+      if (loginBtn) loginBtn.style.display = "none";
 
-  const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
-  if (!usuario) return;
+      // Insertar caja de usuario
+      const userBoxHTML = `
+        <div class="navbar-user-box" id="navbarUserBox">
+          <img src="${usuario.foto}" alt="Foto usuario">
+          <div class="user-info">
+            <span>${usuario.nombre}</span>
+          </div>
+          <button id="logoutBtn" class="logout-btn">Salir</button>
+        </div>
+      `;
 
-  // Ocultar botón "Iniciar sesión"
-  const loginBtn = nav.querySelector('a[href="login.html"]');
-  if (loginBtn) loginBtn.style.display = "none";
+      nav.insertAdjacentHTML("beforeend", userBoxHTML);
 
-  // Insertar caja de usuario
-  const userBoxHTML = `
-    <div class="navbar-user-box" id="navbarUserBox">
-      <img src="${usuario.foto}" alt="Foto usuario">
-      <div class="user-info">
-        <span>${usuario.nombre}</span>
-      </div>
-      <button id="logoutBtn" class="logout-btn">Salir</button>
-    </div>
-  `;
-
-  nav.insertAdjacentHTML("beforeend", userBoxHTML);
-
-  // Cerrar sesión
-  document.getElementById("logoutBtn").addEventListener("click", () => {
-    localStorage.removeItem("usuarioActivo");
-    alert("Sesión cerrada correctamente.");
-    window.location.href = "login.html";
-  });
+      // Botón de cerrar sesión
+      document.getElementById("logoutBtn").addEventListener("click", () => {
+        localStorage.removeItem("usuarioActivo");
+        alert("Sesión cerrada correctamente.");
+        window.location.href = "login.html";
+      });
+    }
+  }
 });
