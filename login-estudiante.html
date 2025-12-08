@@ -4,30 +4,58 @@
   <meta charset="UTF-8">
   <title>Login Estudiante</title>
 
+  <!-- CSS existentes -->
   <link rel="stylesheet" href="Estilos/login.css">
   <link rel="stylesheet" href="Estilos/estilos.css">
 </head>
-
 <body>
 
-<nav class="navbar">
-  <h2 class="logo">Galería <span>Virtual</span></h2>
-</nav>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <h2 class="logo">Galería <span>Virtual</span></h2>
+    <ul>
+      <li><a href="inicio.html">Inicio</a></li>
+      <li><a href="Sobre_nosotros.html">Nosotros</a></li>
+      <li><a href="Contenido.html">Contenido</a></li>
+      <li><a href="publicar.html">Publicar +</a></li>
+      <li><a id="btnLoginNav" href="login.html">Iniciar sesión</a></li>
 
-<div class="login-card" style="margin-top:110px;">
-  <img class="login-logo" src="https://cdn-icons-png.flaticon.com/512/847/847969.png">
+      <!-- Aquí sesion-global.js insertará el usuario -->
+      <li id="navbarUserBox"></li>
+    </ul>
+  </nav>
 
-  <h2>Acceso Estudiante</h2>
+  <!-- CARD DE LOGIN -->
+  <div class="login-card" style="margin-top:110px;">
+    <img class="login-logo"
+         src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
+         alt="estudiante">
 
-  <form id="loginForm">
-    <input type="email" id="email" required placeholder="Correo">
-    <input type="password" id="password" required placeholder="Contraseña">
-    <button type="submit" class="btn-submit">Entrar</button>
-  </form>
-</div>
+    <h2>Acceso Estudiante 🎓</h2>
 
-<script src="Scripts/login-handler.js"></script>
-<script src="Scripts/sesion-global.js"></script>
+    <!-- FORMULARIO CORREGIDO -->
+    <form class="login-form">
+      <input type="hidden" name="tipo" value="estudiante">
+
+      <div class="input-group">
+        <span>📧</span>
+        <input name="email" type="email" required placeholder="Correo">
+      </div>
+
+      <div class="input-group">
+        <span>🔒</span>
+        <input name="password" type="password" required placeholder="Contraseña">
+      </div>
+
+      <button class="btn-submit" type="submit">Entrar</button>
+    </form>
+
+    <a class="crear-cuenta" href="registro.html">Crear cuenta</a>
+  </div>
+
+  <!-- JS -->
+  <script src="Scripts/login-handler.js"></script>
+  <script src="Scripts/sesion-global.js"></script>
 
 </body>
-</html>
+</html>  loginestudiante.html,
