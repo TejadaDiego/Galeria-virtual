@@ -99,15 +99,15 @@ document.getElementById("formRegistro").addEventListener("submit", async (e) => 
 
         const data = await res.json();
 
-        if (data.success) {
+        if (data.status === "success") {
             alert("Usuario registrado correctamente 🎉");
 
-            // Guardar sesión
-            localStorage.setItem("usuarioActivo", JSON.stringify(data.usuario));
+            // Guardar sesión con el usuario recién creado
+            localStorage.setItem("usuario", JSON.stringify(data.usuario));
 
             location.href = "inicio.html";
         } else {
-            alert("Error: " + data.error);
+            alert("Error: " + data.message);
         }
 
     } catch (err) {
@@ -116,6 +116,7 @@ document.getElementById("formRegistro").addEventListener("submit", async (e) => 
     }
 });
 </script>
+
 
 </body>
 </html>

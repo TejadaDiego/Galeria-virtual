@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Seleccionar TODOS los formularios de login
     const forms = document.querySelectorAll(".login-form");
     if (forms.length === 0) return;
 
@@ -9,11 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const formData = new FormData(form);
 
-            // Obtener email / password de cualquier login
             const email = formData.get("email")?.trim();
             const password = formData.get("password")?.trim();
-            const tipo = formData.get("tipo") || "estudiante"; 
-            // si no tiene tipo, será estudiante por defecto
 
             if (!email || !password) {
                 alert("Completa todos los campos.");
@@ -21,14 +17,27 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             try {
-                // LLAMAMOS DIRECTAMENTE A login.php (SIN CARPETA Php)
                 const response = await fetch("login.php", {
                     method: "POST",
                     body: formData,
                 });
 
-                const data = await response.json();
+                // Verificar si el servidor respondió correctamente
+                if (!response.ok) {
+                    throw new Error("Respuesta HTTP inválida");
+                }
 
+                // Intentar convertir la respuesta a JSON
+                let data;
+                try {
+                    data = await response.json();
+                } catch (parseError) {
+                    console.error("Error al convertir JSON:", parseError);
+                    alert("Respuesta inesperada del servidor.");
+                    return;
+                }
+
+                // Verificar errores enviados por PHP
                 if (data.status === "error") {
                     alert(data.message);
                     return;
@@ -36,13 +45,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const user = data.user;
 
-                // Guardar sesión global
+                // Guardamos usuario en localStorage
                 localStorage.setItem("usuario", JSON.stringify(user));
 
-                // Redirección ÚNICA (solo tienes un inicio)
+                // Redirección después de login exitoso
                 window.location.href = "inicio.html";
 
             } catch (error) {
+                console.error("Error en login:", error);
                 alert("Error de conexión con el servidor. Verifica que Apache esté encendido.");
             }
         });
