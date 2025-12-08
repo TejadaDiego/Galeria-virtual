@@ -5,7 +5,7 @@ require_once __DIR__ . "/conexion.php";
 header("Content-Type: application/json; charset=utf-8");
 
 // ================================
-// 1. VALIDAR QUE LLEGUE usuario_id
+// 1. VALIDAR usuario_id PROVENIENTE DEL FRONTEND
 // ================================
 if (!isset($_POST['usuario_id'])) {
     http_response_code(401);
@@ -36,10 +36,12 @@ if ($titulo === "" || $descripcion === "" || $precio <= 0) {
 // ================================
 $nombreArchivoBD = null;
 
+// *** CORRECCIÓN IMPORTANTE: RUTA REAL ***
+$carpeta = __DIR__ . "/../uploads/trabajos/";
+
 if (isset($_FILES["imagen"]) && $_FILES["imagen"]["error"] === UPLOAD_ERR_OK) {
 
-    $carpeta = __DIR__ . "/uploads/trabajos/";
-
+    // Crear carpeta si no existe
     if (!is_dir($carpeta)) {
         mkdir($carpeta, 0777, true);
     }
@@ -84,3 +86,4 @@ if ($stmt->execute()) {
 
 $stmt->close();
 $conn->close();
+?>
