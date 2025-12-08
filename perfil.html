@@ -1,116 +1,159 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Publicar Trabajo - Galería Virtual</title>
+    <meta charset="UTF-8">
+    <title>Mi Perfil - Galería Virtual</title>
 
-  <!-- ESTILOS -->
-  <link rel="stylesheet" href="Estilos/publicar.css">
-  <link rel="stylesheet" href="Estilos/estilo.css">
-  <link rel="stylesheet" href="Estilos/premium.css">
+    <link rel="stylesheet" href="Estilos/estilos.css">
+    <link rel="stylesheet" href="Estilos/premium.css">
 
-  <style>
-    body { background: #0d0b1f; margin:0; font-family: Arial; }
+    <style>
+        body {
+            background: #0d0b1f;
+            margin: 0;
+            font-family: Arial;
+            color: white;
+        }
 
-    /* NAV */
-    .navbar {
-      width: 100%;
-      padding: 20px;
-      background: #0d0b1f;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 0 10px rgba(255,255,255,0.1);
-      position: sticky;
-      top:0;
-      z-index:10;
-    }
+        .navbar {
+            width: 100%;
+            padding: 20px;
+            background: #0d0b1f;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(255,255,255,0.1);
+            position: sticky;
+            top:0;
+            z-index:10;
+        }
 
-    .navbar-logo {
-      font-size: 22px;
-      color: #ffffff;
-      font-weight: bold;
-    }
+        .navbar-logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
 
-    .navbar-links {
-      display: flex;
-      gap: 25px;
-      align-items: center;
-    }
+        .navbar-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
 
-    .navbar-links a {
-      color: white;
-      text-decoration: none;
-      font-size: 17px;
-      transition: 0.3s;
-    }
+        .navbar-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 17px;
+            transition: 0.3s;
+        }
 
-    .navbar-links a:hover {
-      color: #b34cff;
-    }
+        .navbar-links a:hover,
+        .navbar-links a.active {
+            color: #b34cff;
+            font-weight: bold;
+        }
 
-    .navbar-links a.active {
-      color: #b34cff;
-      font-weight: bold;
-    }
+        .perfil-container {
+            width: 400px;
+            margin: 50px auto;
+            background: #1a1635;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px #a569ff;
+            text-align: center;
+        }
 
-    .navbar-user-box img {
-      width:45px; height:45px;
-      border-radius:50%;
-      border:2px solid #a569ff;
-      object-fit:cover;
-      cursor:pointer;
-    }
+        .perfil-container img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid #a569ff;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
 
-  </style>
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: #2c2850;
+            border: none;
+            border-radius: 8px;
+            color: white;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #b34cff;
+            border: none;
+            color: white;
+            border-radius: 8px;
+            margin-top: 12px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #9b3de6;
+        }
+
+        #cerrarSesion {
+            background: #d33;
+        }
+
+        #cerrarSesion:hover {
+            background: #b12;
+        }
+    </style>
 </head>
 
 <body>
 
-<!-- NAV AUTOGENERADO CON SESIÓN -->
+<!-- PROTECCIÓN DE SESIÓN -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+    if (!usuario) {
+        alert("Debes iniciar sesión.");
+        window.location.href = "login.html";
+    }
+});
+</script>
+
+<!-- NAVBAR -->
 <nav class="navbar">
-  <div class="navbar-logo">Galería Virtual</div>
+    <div class="navbar-logo">Galería Virtual</div>
+    <div class="navbar-links">
+        <a href="inicio.html">Inicio</a>
+        <a href="Contenido.html">Contenido</a>
+        <a href="publicar.html">Publicar</a>
+        <a href="perfil.html" class="active">Mi Perfil</a>
 
-  <div class="navbar-links">
-    <a href="inicio.html">Inicio</a>
-    <a href="Sobre_nosotros.html">Nosotros</a>
-    <a href="Contenido.html">Contenido</a>
-    <a href="publicar.html" class="active">Publicar +</a>
-
-    <!-- Aquí sesion-global.js insertará el usuario -->
-    <div id="navbarUserBox"></div>
-  </div>
+        <div id="navbarUserBox"></div>
+    </div>
 </nav>
 
-<!-- FORMULARIO PUBLICAR -->
-<div class="form-container">
-  <h2>Publicar nuevo trabajo</h2>
+<!-- PERFIL -->
+<div class="perfil-container">
 
-  <form id="formPublicar" enctype="multipart/form-data">
+    <h2>Mi Perfil</h2>
 
-    <label for="titulo">Nombre del trabajo:</label>
-    <input type="text" id="titulo" name="titulo" required>
+    <img id="fotoUsuario" src="img/user.png">
 
-    <label for="descripcion">Descripción:</label>
-    <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
+    <input type="file" id="nuevaFoto" accept="image/*">
 
-    <label for="precio">Precio (S/):</label>
-    <input type="number" id="precio" name="precio" step="0.01" required>
+    <input type="text" id="nombreUsuario" placeholder="Nombre completo">
 
-    <label for="imagen">Imagen del trabajo:</label>
-    <input type="file" id="imagen" name="imagen" accept="image/*" required>
+    <input type="email" id="correoUsuario" placeholder="Correo electrónico">
 
-    <img id="previewImg"
-         style="display:none; width:200px; border-radius:10px; margin-top:10px;">
+    <p style="margin-top:5px;">Tipo: <span id="tipoUsuario"></span></p>
 
-    <button type="submit">Subir trabajo</button>
-  </form>
+    <button id="guardarCambios">Guardar cambios</button>
+    <button id="cerrarSesion">Cerrar sesión</button>
+
 </div>
 
-<!-- JS PARA PUBLICAR -->
-<script src="Scripts/publicar.js"></script>
-
-<!-- NAVBAR UNIVERSAL Y SESIÓN -->
+<!-- JS -->
+<script src="Scripts/perfil.js"></script>
 <script src="Scripts/sesion-global.js"></script>
 
 </body>
