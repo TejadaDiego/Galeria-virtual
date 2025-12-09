@@ -55,8 +55,11 @@
 
 <script>
 function elegirRol(rol) {
+    // Guardar el rol correctamente
     localStorage.setItem("tipoLogin", rol);
-    window.location.href = "login.html"; // 🔥 Luego va al formulario REAL
+
+    // Enviar al login
+    window.location.href = "login.html";
 }
 </script>
 
