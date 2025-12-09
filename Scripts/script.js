@@ -163,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
 
           // Llamar a logout.php
-          await fetch("Php/logout.php", { method: "POST" });
+          await fetch("logout.php", { method: "POST" });
 
           // Quitar usuario local
           localStorage.removeItem("usuarioActivo");
