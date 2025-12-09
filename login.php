@@ -2,13 +2,16 @@
 header("Content-Type: application/json; charset=UTF-8");
 require_once "conexion.php";
 
-// =======================
-// VALIDAR CAMPOS RECIBIDOS
-// =======================
+// ==============================
+// LEER CAMPOS
+// ==============================
 $email = trim($_POST["email"] ?? "");
 $password = $_POST["password"] ?? "";
 $tipo = trim($_POST["tipo"] ?? "");
 
+// ==============================
+// VALIDACIONES BÁSICAS
+// ==============================
 if ($email === "" || $password === "" || $tipo === "") {
     echo json_encode([
         "success" => false,
@@ -17,9 +20,9 @@ if ($email === "" || $password === "" || $tipo === "") {
     exit;
 }
 
-// ==========================
-// CONSULTA SEGÚN EMAIL + TIPO
-// ==========================
+// ==============================
+// CONSULTA: EMAIL + TIPO
+// ==============================
 $sql = "SELECT id, nombre, email, password_hash, tipo, foto 
         FROM usuarios 
         WHERE email = ? AND tipo = ?
@@ -30,7 +33,7 @@ $stmt = $conn->prepare($sql);
 if (!$stmt) {
     echo json_encode([
         "success" => false,
-        "error" => "Error interno al preparar la consulta."
+        "error" => "Error interno al preparar consulta SQL."
     ]);
     exit;
 }
@@ -39,22 +42,22 @@ $stmt->bind_param("ss", $email, $tipo);
 $stmt->execute();
 $result = $stmt->get_result();
 
-// ==========================
-// NO EXISTE USUARIO
-// ==========================
+// ==============================
+// USUARIO NO EXISTE
+// ==============================
 if ($result->num_rows === 0) {
     echo json_encode([
         "success" => false,
-        "error" => "Usuario no encontrado o tipo de acceso incorrecto."
+        "error" => "Usuario no encontrado o el tipo de acceso no coincide."
     ]);
     exit;
 }
 
 $user = $result->fetch_assoc();
 
-// ==========================
-// VALIDAR PASSWORD
-// ==========================
+// ==============================
+// VALIDAR CONTRASEÑA
+// ==============================
 if (!password_verify($password, $user["password_hash"])) {
     echo json_encode([
         "success" => false,
@@ -63,9 +66,9 @@ if (!password_verify($password, $user["password_hash"])) {
     exit;
 }
 
-// ==========================
-// LOGIN EXITOSO
-// ==========================
+// ==============================
+// LOGIN CORRECTO
+// ==============================
 echo json_encode([
     "success" => true,
     "usuario" => [

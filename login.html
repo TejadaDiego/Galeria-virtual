@@ -67,35 +67,46 @@
 </div>
 
 <script>
-// ==============================
-// LEER ROL SELECCIONADO
-// ==============================
-const tipo = localStorage.getItem("tipoLogin");
+// =============================================
+// LEER EL ROL GUARDADO Y MAPEARLO A LA BD REAL
+// =============================================
 
-// Si no hay rol seleccionado → regresar a elegir rol
+let tipo = localStorage.getItem("tipoLogin");
+
 if (!tipo) {
     alert("Debe seleccionar un tipo de acceso.");
     window.location.href = "seleccionar_rol.html";
 }
 
-// Cambiar el título dependiendo del rol
+// Mapeo de roles del frontend → backend
+const rolesBD = {
+    "comprador": "Comprador/Vendedor",
+    "estudiante": "Estudiante",
+    "admin": "Administrador"
+};
+
+const tipoReal = rolesBD[tipo];
+
+// Cambiar título según tipo
 const titulo = document.getElementById("tituloLogin");
 
 switch (tipo) {
-    case "usuario":
-        titulo.textContent = "Iniciar Sesión - Usuario";
+    case "comprador":
+        titulo.textContent = "Iniciar Sesión - Comprador/Vendedor";
         break;
-    case "publicador":
-        titulo.textContent = "Iniciar Sesión - Publicador";
+
+    case "estudiante":
+        titulo.textContent = "Iniciar Sesión - Estudiante";
         break;
+
     case "admin":
         titulo.textContent = "Iniciar Sesión - Administrador";
         break;
 }
 
-// ==============================
-// PROCESO LOGIN
-// ==============================
+// =============================================
+// PROCESO DE LOGIN
+// =============================================
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -105,7 +116,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     const fd = new FormData();
     fd.append("email", email);
     fd.append("password", pass);
-    fd.append("tipo", tipo);
+    fd.append("tipo", tipoReal); // ← ENVÍA EL VALOR REAL DE LA BD
 
     const res = await fetch("login.php", { method: "POST", body: fd });
     const data = await res.json();
