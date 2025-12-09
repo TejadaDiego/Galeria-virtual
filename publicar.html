@@ -128,12 +128,10 @@
       <a href="publicar.html" class="active">Publicar +</a>
   </div>
 
-  <!-- BOTÓN LOGIN -->
   <div id="btnLoginHeader">
       <a href="login.html">Iniciar Sesión</a>
   </div>
 
-  <!-- USUARIO LOGUEADO -->
   <div id="navbarUserBox"></div>
 
 </nav>
@@ -156,17 +154,79 @@
     <label for="imagen">Imagen del trabajo:</label>
     <input type="file" id="imagen" name="imagen" accept="image/*" required>
 
-    <!-- PREVIEW -->
     <img id="previewImg">
 
     <button type="submit">Subir trabajo</button>
   </form>
 </div>
 
-<!-- Scripts correctos y en orden -->
+<!-- Scripts en orden correcto -->
 <script src="Scripts/sesion-global.js?v=1"></script>
-<script src="Scripts/publicar.js?v=3"></script>
-<Script src="Scripts/script.js"></Script>
+<script src="Scripts/script.js?v=1"></script>
+
+<script>
+/* ============================
+   PREVIEW DE IMAGEN
+============================ */
+document.getElementById("imagen").addEventListener("change", function() {
+    const file = this.files[0];
+    const preview = document.getElementById("previewImg");
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+            preview.src = reader.result;
+            preview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+/* ============================
+   PUBLICAR TRABAJO
+============================ */
+document.getElementById("formPublicar").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const titulo = document.getElementById("titulo").value.trim();
+    const descripcion = document.getElementById("descripcion").value.trim();
+    const precio = document.getElementById("precio").value.trim();
+    const imagen = document.getElementById("imagen").files[0];
+
+    if (!titulo || !descripcion || !precio || !imagen) {
+        alert("Por favor completa todos los campos.");
+        return;
+    }
+
+    let formData = new FormData();
+    formData.append("titulo", titulo);
+    formData.append("descripcion", descripcion);
+    formData.append("precio", precio);
+    formData.append("imagen", imagen);
+
+    try {
+        const res = await fetch("publicar.php", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await res.json();
+
+        if (!data.success) {
+            alert("Error: " + data.error);
+            return;
+        }
+
+        alert("🎉 Tu trabajo se ha subido con éxito.");
+        document.getElementById("formPublicar").reset();
+        document.getElementById("previewImg").style.display = "none";
+
+    } catch (err) {
+        console.error(err);
+        alert("Error al conectar con el servidor.");
+    }
+});
+</script>
 
 </body>
 </html>
