@@ -68,41 +68,53 @@
 
 
 <!-- ======================================================
-     SCRIPTS NECESARIOS
+     SCRIPTS NECESARIOS (rutas corregidas)
 ====================================================== -->
 
-<!-- 1️⃣ Script que gestiona el login (JS moderno) -->
-<script src="js/loginhandler.js"></script>
+<script src="Scripts/login-handler.js"></script>
+<script src="Scripts/script.js"></script>
 
-<!-- 2️⃣ Script general del sistema (navbar, logout, roles, etc.) -->
-<script src="js/script.js"></script>
-
-<!-- 3️⃣ Script local para ajustar el título según el rol -->
 <script>
-  // Leer rol elegido en seleccionar_rol.html
-  let tipo = localStorage.getItem("tipoLogin");
+// ==========================================
+// VALIDAR ROL SELECCIONADO
+// ==========================================
 
-  if (!tipo) {
-    alert("Debe seleccionar un tipo de acceso.");
+let tipo = localStorage.getItem("tipoLogin");
+
+// Validación fuerte
+if (!tipo || tipo === "undefined" || tipo === null) {
+    localStorage.removeItem("tipoLogin");
     window.location.href = "seleccionar_rol.html";
-  }
+}
 
-  // Mapeo: frontend → backend (BD)
-  const rolesBD = {
-      comprador: "Comprador/Vendedor",
-      estudiante: "Estudiante",
-      admin: "Administrador"
-  };
+// ==========================================
+// MAPEAR ROLES DEL FRONTEND → BD REAL
+// ==========================================
 
-  // Convertir tipo a formato real del ENUM MySQL
-  let tipoReal = rolesBD[tipo];
+const rolesBD = {
+    comprador: "Comprador/Vendedor",
+    estudiante: "Estudiante",
+    admin: "Administrador"
+};
 
-  // Cambiar título visual
-  const titulo = document.getElementById("tituloLogin");
-  titulo.textContent = "Iniciar Sesión - " + tipoReal;
+let tipoReal = rolesBD[tipo];
 
-  // Guardamos el tipo real para loginhandler.js
-  localStorage.setItem("tipoLoginReal", tipoReal);
+// Si el tipo no mapea, regresar
+if (!tipoReal) {
+    localStorage.removeItem("tipoLogin");
+    window.location.href = "seleccionar_rol.html";
+}
+
+// ==========================================
+// CAMBIAR TÍTULO DEL LOGIN
+// ==========================================
+
+document.getElementById("tituloLogin").textContent =
+    "Iniciar Sesión - " + tipoReal;
+
+// Guardamos tipo real para loginhandler.js
+localStorage.setItem("tipoLoginReal", tipoReal);
+
 </script>
 
 </body>
