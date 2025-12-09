@@ -14,6 +14,7 @@ $sql = "
         t.descripcion, 
         t.precio, 
         t.imagen, 
+        t.publicado_por,     -- 👈 NECESARIO para eliminar o validar dueño
         u.nombre AS autor
     FROM trabajos t
     LEFT JOIN usuarios u ON t.publicado_por = u.id
@@ -34,18 +35,19 @@ $trabajos = [];
 while ($fila = $res->fetch_assoc()) {
 
     // ================================
-    // VALIDAR IMAGEN
+    // VALIDAR RUTA DE IMAGEN
     // ================================
     
-    // Si no hay imagen guardada
     if (empty($fila["imagen"])) {
+        // No hay imagen en BD
         $fila["imagen"] = "img/default.png";
+
     } else {
 
-        // Ruta absoluta en disco
+        // Ruta física real       (publicar_handler.php guarda: uploads/trabajos/...)
         $rutaFisica = __DIR__ . '/../' . $fila["imagen"];
 
-        // Si el archivo NO existe → usar una default
+        // Si no existe el archivo físico → usar una imagen fallback
         if (!file_exists($rutaFisica)) {
             $fila["imagen"] = "img/default.png";
         }
