@@ -26,7 +26,33 @@
       text-align: center;
     }
 
-    input, button, select {
+    /* BOTONES DE TIPOS DE LOGIN */
+    .tipo-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .tipo-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background: #1b1936;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border: 1px solid #553c9a;
+      transition: .3s;
+    }
+
+    .tipo-btn:hover {
+      background: #a569ff;
+    }
+
+    input, button {
       width: 100%;
       padding: 12px;
       margin-top: 12px;
@@ -42,12 +68,6 @@
     }
 
     button:hover { background: #8b46ff; }
-
-    select {
-      background: #1b1936;
-      color: white;
-      border: 1px solid #553c9a;
-    }
   </style>
 </head>
 
@@ -56,17 +76,15 @@
 <div class="login-container">
   <h2 id="tituloLogin">Selecciona tu tipo de acceso</h2>
 
-  <!-- SELECTOR NUEVO: obligatorio antes de login -->
-  <select id="tipoLogin">
-    <option value="" disabled selected>Elegir tipo...</option>
-    <option value="usuario">👤 Usuario</option>
-    <option value="publicador">🛒 Publicador</option>
-    <option value="admin">🛠 Administrador</option>
-  </select>
+  <!-- NUEVOS BOTONES -->
+  <div class="tipo-buttons">
+    <button class="tipo-btn" onclick="seleccionarTipo('usuario')">👤 Usuario</button>
+    <button class="tipo-btn" onclick="seleccionarTipo('publicador')">🛒 Publicador</button>
+    <button class="tipo-btn" onclick="seleccionarTipo('admin')">🛠 Administrador</button>
+  </div>
 
   <!-- FORMULARIO LOGIN -->
   <form class="login-form">
-
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" disabled required>
 
@@ -81,7 +99,6 @@
   </form>
 
   <hr style="margin: 20px 0; opacity: .3;">
-
 </div>
 
 <!-- ============================== -->
@@ -89,46 +106,44 @@
 <!-- ============================== -->
 
 <script>
-// =====================================================
-// ACTIVAR FORMULARIO SOLO CUANDO SE ELIJA EL TIPO
-// =====================================================
-document.getElementById("tipoLogin").addEventListener("change", function() {
+// Guardará el tipo seleccionado
+let tipoSeleccionado = "";
 
-    const tipo = this.value;
+// =====================================================
+// ACTIVAR FORMULARIO CUANDO SE ELIJA EL TIPO
+// =====================================================
+function seleccionarTipo(tipo) {
+    tipoSeleccionado = tipo;
+    localStorage.setItem("tipoLogin", tipo);
+
+    // Cambia el título del login
     const titulo = document.getElementById("tituloLogin");
-
-    // Cambiar título dinámico
     if (tipo === "usuario") titulo.textContent = "Iniciar Sesión - Usuario";
     if (tipo === "publicador") titulo.textContent = "Iniciar Sesión - Publicador";
     if (tipo === "admin") titulo.textContent = "Iniciar Sesión - Administrador";
 
-    // Habilitar campos
+    // Habilita campos
     document.getElementById("email").disabled = false;
     document.getElementById("password").disabled = false;
     document.getElementById("btnIngresar").disabled = false;
-});
+}
 
 // =====================================================
-// INTERCEPTAR LOGIN Y AGREGAR EL TIPO SELECCIONADO
+// INTERCEPTO LOGIN PARA ENVIAR EL TIPO
 // =====================================================
 document.querySelector(".login-form").addEventListener("submit", function(e) {
     e.preventDefault();
 
-    const tipo = document.getElementById("tipoLogin").value;
-    if (!tipo) {
-        alert("Selecciona tu tipo de acceso antes de continuar.");
+    if (!tipoSeleccionado) {
+        alert("Selecciona un tipo de acceso primero.");
         return;
     }
 
-    // Guardamos el tipo de login para que login-handler.js lo use
-    localStorage.setItem("tipoLogin", tipo);
-
-    // Dejamos que login-handler haga el login normal
     loginHandler();
 });
 
 // =====================================================
-// FUNCIÓN COMPATIBLE CON TU login-handler.js
+// FUNCIÓN COMPATIBLE CON login-handler.js
 // =====================================================
 async function loginHandler() {
     const email = document.getElementById("email").value.trim();
@@ -138,7 +153,7 @@ async function loginHandler() {
     const fd = new FormData();
     fd.append("email", email);
     fd.append("password", pass);
-    fd.append("tipo", tipo); // <-- IMPORTANTE
+    fd.append("tipo", tipo);
 
     const res = await fetch("login_handler.php", { method: "POST", body: fd });
     const data = await res.json();
