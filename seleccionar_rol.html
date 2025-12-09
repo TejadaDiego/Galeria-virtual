@@ -48,15 +48,20 @@
 <div class="container">
     <h2>Selecciona tu tipo de acceso</h2>
 
-    <button class="rol-btn" onclick="elegirRol('usuario')">👤 Usuario</button>
-    <button class="rol-btn" onclick="elegirRol('publicador')">🛒 Publicador</button>
+    <button class="rol-btn" onclick="elegirRol('comprador')">👤 Usuario</button>
+    <button class="rol-btn" onclick="elegirRol('estudiante')">🛒 Publicador</button>
     <button class="rol-btn" onclick="elegirRol('admin')">🛠 Administrador</button>
 </div>
 
 <script>
 function elegirRol(rol) {
+    // Guarda el rol para PHP o JS si lo necesitas
     localStorage.setItem("tipoLogin", rol);
-    window.location.href = "login.html";
+
+    // Redirige al login correspondiente
+    if (rol === "comprador") window.location.href = "login-comprador.html";
+    if (rol === "estudiante") window.location.href = "login-estudiante.html";
+    if (rol === "admin") window.location.href = "login-admin.html";
 }
 </script>
 

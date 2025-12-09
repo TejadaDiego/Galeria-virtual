@@ -38,7 +38,6 @@
       width: 100%;
       padding: 12px;
       border-radius: 8px;
-      border: none;
       cursor: pointer;
       background: #1b1936;
       color: white;
@@ -68,6 +67,13 @@
     }
 
     button:hover { background: #8b46ff; }
+
+    /* Ocultar el formulario hasta elegir rol */
+    .disabled {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
   </style>
 </head>
 
@@ -83,19 +89,19 @@
     <button class="tipo-btn" onclick="seleccionarTipo('admin')">🛠 Administrador</button>
   </div>
 
-  <!-- FORMULARIO LOGIN -->
-  <form class="login-form">
+  <!-- FORMULARIO LOGIN (DESHABILITADO INICIALMENTE) -->
+  <form class="login-form disabled">
     <label for="email">Email:</label>
-    <input type="email" id="email" name="email" disabled required>
+    <input type="email" id="email" name="email" required>
 
     <label for="password">Contraseña:</label>
-    <input type="password" id="password" name="password" disabled required>
+    <input type="password" id="password" name="password" required>
 
     <div class="registro">
       ¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a>
     </div>
 
-    <button type="submit" id="btnIngresar" disabled>Ingresar</button>
+    <button type="submit" id="btnIngresar">Ingresar</button>
   </form>
 
   <hr style="margin: 20px 0; opacity: .3;">
@@ -120,14 +126,12 @@ function seleccionarTipo(tipo) {
     if (tipo === "publicador") titulo.textContent = "Iniciar Sesión - Publicador";
     if (tipo === "admin") titulo.textContent = "Iniciar Sesión - Administrador";
 
-    // Activar formulario
-    document.getElementById("email").disabled = false;
-    document.getElementById("password").disabled = false;
-    document.getElementById("btnIngresar").disabled = false;
+    // Activar formulario completo
+    document.querySelector(".login-form").classList.remove("disabled");
 }
 
 /* ======================================
-      PROCESO DE LOGIN COMPLETO
+      LOGIN COMPLETO
 ====================================== */
 document.querySelector(".login-form").addEventListener("submit", function(e) {
     e.preventDefault();
@@ -140,6 +144,9 @@ document.querySelector(".login-form").addEventListener("submit", function(e) {
     loginHandler();
 });
 
+/* ======================================
+      ENVÍO AL BACKEND
+====================================== */
 async function loginHandler() {
     const email = document.getElementById("email").value.trim();
     const pass = document.getElementById("password").value.trim();
@@ -162,7 +169,6 @@ async function loginHandler() {
 }
 </script>
 
-<!-- Scripts globales de tu proyecto -->
 <script src="Scripts/script.js"></script>
 <script src="Scripts/sesion-global.js"></script>
 
