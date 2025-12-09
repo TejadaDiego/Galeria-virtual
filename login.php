@@ -2,16 +2,10 @@
 header("Content-Type: application/json; charset=UTF-8");
 require_once "conexion.php";
 
-// ==============================
-// LEER CAMPOS
-// ==============================
 $email = trim($_POST["email"] ?? "");
 $password = $_POST["password"] ?? "";
 $tipo = trim($_POST["tipo"] ?? "");
 
-// ==============================
-// VALIDACIONES BÁSICAS
-// ==============================
 if ($email === "" || $password === "" || $tipo === "") {
     echo json_encode([
         "success" => false,
@@ -20,31 +14,16 @@ if ($email === "" || $password === "" || $tipo === "") {
     exit;
 }
 
-// ==============================
-// CONSULTA: EMAIL + TIPO EXACTO
-// ==============================
 $sql = "SELECT id, nombre, email, password_hash, tipo, foto 
         FROM usuarios 
         WHERE email = ? AND tipo = ?
         LIMIT 1";
 
 $stmt = $conn->prepare($sql);
-
-if (!$stmt) {
-    echo json_encode([
-        "success" => false,
-        "error" => "Error interno en el servidor."
-    ]);
-    exit;
-}
-
 $stmt->bind_param("ss", $email, $tipo);
 $stmt->execute();
 $result = $stmt->get_result();
 
-// ==============================
-// USUARIO NO EXISTE
-// ==============================
 if ($result->num_rows === 0) {
     echo json_encode([
         "success" => false,
@@ -55,9 +34,6 @@ if ($result->num_rows === 0) {
 
 $user = $result->fetch_assoc();
 
-// ==============================
-// VALIDAR PASSWORD HASH
-// ==============================
 if (!password_verify($password, $user["password_hash"])) {
     echo json_encode([
         "success" => false,
@@ -66,9 +42,6 @@ if (!password_verify($password, $user["password_hash"])) {
     exit;
 }
 
-// ==============================
-// LOGIN EXITOSO
-// ==============================
 echo json_encode([
     "success" => true,
     "usuario" => [
@@ -79,7 +52,3 @@ echo json_encode([
         "foto"   => $user["foto"] ?? ""
     ]
 ]);
-
-$stmt->close();
-$conn->close();
-?>

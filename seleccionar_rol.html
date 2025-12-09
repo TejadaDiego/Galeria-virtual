@@ -35,27 +35,23 @@
         transition: 0.3s;
         font-weight: bold;
     }
-
-    .rol-btn:hover {
-        background: #a569ff;
-    }
+    .rol-btn:hover { background: #a569ff; }
 </style>
 
 </head>
-
 <body>
 
 <div class="container">
     <h2>Selecciona tu tipo de acceso</h2>
 
-    <button class="rol-btn" onclick="elegirRol('Comprador/Vendedor')">👤 Comprador / Vendedor</button>
-    <button class="rol-btn" onclick="elegirRol('Estudiante')">🎓 Estudiante / Publicador</button>
-    <button class="rol-btn" onclick="elegirRol('Administrador')">🛠 Administrador</button>
+    <button class="rol-btn" onclick="elegirRol('comprador')">👤 Comprador / Vendedor</button>
+    <button class="rol-btn" onclick="elegirRol('estudiante')">🎓 Estudiante / Publicador</button>
+    <button class="rol-btn" onclick="elegirRol('admin')">🛠 Administrador</button>
 </div>
 
 <script>
 function elegirRol(rol) {
-    localStorage.setItem("tipoLogin", rol);
+    localStorage.setItem("tipoLogin", rol); 
     window.location.href = "login.html";
 }
 </script>

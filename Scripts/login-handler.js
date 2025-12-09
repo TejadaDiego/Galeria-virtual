@@ -1,76 +1,89 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const forms = document.querySelectorAll(".login-form, #loginForm");
-    if (forms.length === 0) return;
 
-    forms.forEach(form => {
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault();
+    const form = document.getElementById("loginForm");
+    if (!form) return;
 
-            const formData = new FormData(form);
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-            // ======================
-            // LEER CAMPOS
-            // ======================
-            let email = formData.get("email")?.trim();
-            let password = formData.get("password")?.trim();
+        // ==========================
+        // LEER ROL DEL FRONTEND
+        // ==========================
+        const tipoFrontend = localStorage.getItem("tipoLogin");
 
-            // Tipo de usuario (rol)
-            let tipo = formData.get("tipo");
-            if (!tipo) {
-                tipo = localStorage.getItem("tipoLogin");
-                formData.append("tipo", tipo);
+        if (!tipoFrontend) {
+            alert("Debe seleccionar un tipo de acceso.");
+            window.location.href = "seleccionar_rol.html";
+            return;
+        }
+
+        // ==========================
+        // MAPEO AL TIPO REAL DE BD
+        // ==========================
+        const rolesBD = {
+            comprador: "Comprador/Vendedor",
+            estudiante: "Estudiante",
+            admin: "Administrador"
+        };
+
+        const tipoReal = rolesBD[tipoFrontend];
+
+        if (!tipoReal) {
+            alert("Tipo de usuario inválido.");
+            return;
+        }
+
+        // ==========================
+        // VALIDAR CAMPOS
+        // ==========================
+        const email = form.email.value.trim();
+        const password = form.password.value.trim();
+
+        if (!email || !password) {
+            alert("Completa todos los campos.");
+            return;
+        }
+
+        // ==========================
+        // ARMAR FORM DATA
+        // ==========================
+        const fd = new FormData();
+        fd.append("email", email);
+        fd.append("password", password);
+        fd.append("tipo", tipoReal);
+
+        // ==========================
+        // CONSULTA AL BACKEND
+        // ==========================
+        try {
+            const res = await fetch("login.php", { method: "POST", body: fd });
+
+            if (!res.ok) {
+                throw new Error("Error de conexión con el servidor.");
             }
 
-            // ======================
-            // VALIDACIONES
-            // ======================
-            if (!email || !password) {
-                alert("Completa todos los campos.");
+            const data = await res.json();
+
+            console.log("RESPUESTA DEL SERVIDOR:", data);
+
+            if (!data.success) {
+                alert("Error: " + data.error);
                 return;
             }
 
-            if (!tipo) {
-                alert("Debe seleccionar un tipo de acceso.");
-                window.location.href = "seleccionar_rol.html";
-                return;
-            }
+            // ==========================
+            // GUARDAR SESIÓN
+            // ==========================
+            localStorage.setItem("usuario", JSON.stringify(data.usuario));
 
-            // ======================
-            // PETICIÓN AL BACKEND
-            // ======================
-            try {
-                const response = await fetch("login.php", {
-                    method: "POST",
-                    body: formData,
-                });
+            // ==========================
+            // REDIRIGIR
+            // ==========================
+            window.location.href = "inicio.html";
 
-                if (!response.ok) {
-                    throw new Error("Respuesta inesperada del servidor.");
-                }
-
-                const data = await response.json();
-                console.log("RESPUESTA LOGIN.PHP:", data);
-
-                // Error desde PHP
-                if (!data.success) {
-                    alert(data.error);
-                    return;
-                }
-
-                // ======================
-                // GUARDAR SESIÓN
-                // ======================
-                localStorage.setItem("usuario", JSON.stringify(data.usuario));
-
-                // ======================
-                // REDIRIGIR
-                // ======================
-                window.location.href = "inicio.html";
-
-            } catch (error) {
-                console.error("ERROR EN LOGIN:", error);
-                alert("No se pudo conectar con el servidor.");
-            }
-        });
+        } catch (error) {
+            console.error("ERROR EN LOGIN:", error);
+            alert("No se pudo conectar con el servidor.");
+        }
     });
 });
