@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Contenido - Galería Virtual</title>
 
-  <!-- CSS -->
+  <!-- CSS correctos -->
   <link rel="stylesheet" href="Estilos/catalogo.css"/>
   <link rel="stylesheet" href="Estilos/Estilo.css"/>
   <link rel="stylesheet" href="Estilos/premium.css"/>
@@ -28,7 +28,7 @@
       }
       .card-user h3 { color:white; margin:8px 0; font-weight:700; }
       .card-user p { color:#bbb; margin:4px 0 10px; font-size:14px; }
-      .card-user .precio { font-weight:bold; color:#b34cff; }
+      .card-user .precio { font-weight:bold; color:#b34cff; font-size:16px; }
 
       .btn-add {
           width:100%;
@@ -84,6 +84,7 @@
 
   <!-- 10 PRODUCTOS FIJOS -->
   <div id="catalogo" class="grid">
+
     <div class="card">
       <img src="img/11.jpg" alt="Ilustración Digital">
       <h3>Ilustración Digital</h3>
@@ -114,11 +115,79 @@
       </div>
     </div>
 
-    <!-- ... mantuve tus 10 tarjetas originales tal como están ... -->
+    <div class="card">
+      <img src="img/14.jpg" alt="Diseño de Portada">
+      <h3>Diseño de Portada</h3>
+      <p>Portadas para libros y álbumes.</p>
+      <div class="precio-carrito">
+        <span class="precio">S/ 35.00</span>
+        <button onclick="agregarAlCarrito(4, 'Diseño de Portada', 35, 'img/14.jpg')">🛒 Añadir</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="img/15.jpg" alt="Banner Publicitario">
+      <h3>Banner Publicitario</h3>
+      <p>Ideal para campañas en redes sociales.</p>
+      <div class="precio-carrito">
+        <span class="precio">S/ 25.00</span>
+        <button onclick="agregarAlCarrito(5, 'Banner Publicitario', 25, 'img/15.jpg')">🛒 Añadir</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="img/16.jpg" alt="Render 3D">
+      <h3>Render 3D</h3>
+      <p>Modelado y renderizado profesional.</p>
+      <div class="precio-carrito">
+        <span class="precio">S/ 55.00</span>
+        <button onclick="agregarAlCarrito(6, 'Render 3D', 55, 'img/16.jpg')">🛒 Añadir</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="img/17.jpg" alt="Ilustración Anime">
+      <h3>Ilustración Anime</h3>
+      <p>Retratos personalizados en estilo anime.</p>
+      <div class="precio-carrito">
+        <span class="precio">S/ 40.00</span>
+        <button onclick="agregarAlCarrito(7, 'Ilustración Anime', 40, 'img/17.jpg')">🛒 Añadir</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="img/18.jpg" alt="Edición de Video">
+      <h3>Edición de Video</h3>
+      <p>Edición profesional para contenido multimedia.</p>
+      <div class="precio-carrito">
+        <span class="precio">S/ 60.00</span>
+        <button onclick="agregarAlCarrito(8, 'Edición de Video', 60, 'img/18.jpg')">🛒 Añadir</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="img/19.jpg" alt="Fotografía Profesional">
+      <h3>Fotografía Profesional</h3>
+      <p>Sesiones fotográficas y postproducción.</p>
+      <div class="precio-carrito">
+        <span class="precio">S/ 50.00</span>
+        <button onclick="agregarAlCarrito(9, 'Fotografía Profesional', 50, 'img/19.jpg')">🛒 Añadir</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="img/20.jpg" alt="Vectorización">
+      <h3>Vectorización</h3>
+      <p>Diseños escalables de alta calidad.</p>
+      <div class="precio-carrito">
+        <span class="precio">S/ 20.00</span>
+        <button onclick="agregarAlCarrito(10, 'Vectorización', 20, 'img/20.jpg')">🛒 Añadir</button>
+      </div>
+    </div>
 
   </div>
 
-  <!-- CONTENIDO DINÁMICO -->
+  <!-- TITULO DINAMICO -->
   <h2 class="titulo">Trabajos Subidos por la Comunidad</h2>
   <div id="galeriaUser" class="grid"></div>
 
@@ -127,8 +196,9 @@
   <script src="Scripts/sesion-global.js"></script>
   <script src="Scripts/script.js"></script>
 
-  <!-- SCRIPT PARA MOSTRAR TRABAJOS PUBLICADOS -->
+  <!-- SCRIPT PARA CARGAR PUBLICACIONES DINÁMICAS -->
   <script>
+
       const usuario = JSON.parse(localStorage.getItem("usuario"));
 
       async function cargarPublicaciones() {
@@ -197,6 +267,7 @@
               alert("Error al eliminar: " + data.error);
           }
       }
+
   </script>
 
 </body>
