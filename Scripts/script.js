@@ -24,13 +24,13 @@ function guardarSesion(tipo, email) {
     tipo: tipo,
     email: email,
     nombre:
-      tipo === "Admin"
+      tipo === "Administrador"
         ? "Administrador"
         : tipo === "Estudiante"
         ? "Estudiante"
         : "Comprador/Vendedor",
     foto:
-      tipo === "Admin"
+      tipo === "Administrador"
         ? "img/admin.png"
         : tipo === "Estudiante"
         ? "img/student.png"
@@ -45,8 +45,10 @@ function guardarSesion(tipo, email) {
 
 
 // =========================================
-// ===== PROCESOS DE LOGIN ==================
+// ========= PROCESOS DE LOGIN (HTML viejo) =
 // =========================================
+// *Este bloque queda por compatibilidad con páginas antiguas
+// *NO interfiere con login.php + login-handler.js
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -123,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      guardarSesion("Admin", user);
+      guardarSesion("Administrador", user);
     });
   }
 
@@ -143,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const loginBtn = nav.querySelector('a[href="login.html"]');
       if (loginBtn) loginBtn.style.display = "none";
 
-      // Insertar bloque de usuario
+      // Caja de usuario en el navbar
       const userBoxHTML = `
         <div class="navbar-user-box" id="navbarUserBox">
           <img src="${usuario.foto}" alt="Foto usuario">
@@ -157,26 +159,30 @@ document.addEventListener("DOMContentLoaded", () => {
       nav.insertAdjacentHTML("beforeend", userBoxHTML);
 
       // ==============================
-      // CERRAR SESIÓN (CORREGIDO)
+      // CERRAR SESIÓN — 100% FUNCIONAL
       // ==============================
       document.getElementById("logoutBtn").addEventListener("click", async () => {
         try {
+          // Ejecutar logout.php
+          await fetch("Php/logout.php", { method: "POST" });
 
-          // Llamar a logout.php
-          await fetch("logout.php", { method: "POST" });
-
-          // Quitar usuario local
+          // Limpiar almacenamiento local
           localStorage.removeItem("usuarioActivo");
           localStorage.removeItem("tipoLogin");
 
           alert("Sesión cerrada correctamente.");
 
-          // Redirigir a selección de rol
+          // Redirigir SIEMPRE a seleccionar rol
           window.location.href = "seleccionar_rol.html";
 
         } catch (err) {
-          console.error(err);
-          alert("Error al cerrar sesión.");
+          console.error("Error en logout:", err);
+
+          // Aun con error, cerrar sesión local y redirigir
+          localStorage.removeItem("usuarioActivo");
+          localStorage.removeItem("tipoLogin");
+
+          window.location.href = "seleccionar_rol.html";
         }
       });
     }
