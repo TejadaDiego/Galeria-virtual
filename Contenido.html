@@ -5,13 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Contenido - Galería Virtual</title>
 
-  <!-- CSS correctos -->
+  <!-- CSS -->
   <link rel="stylesheet" href="Estilos/catalogo.css"/>
   <link rel="stylesheet" href="Estilos/Estilo.css"/>
   <link rel="stylesheet" href="Estilos/premium.css"/>
 
   <style>
-      /* Tarjeta de trabajos de usuarios */
       .card-user {
           background:#1a1635;
           padding:15px;
@@ -26,9 +25,21 @@
           object-fit:cover;
           border-radius:10px;
       }
-      .card-user h3 { color:white; margin:8px 0; font-weight:700; }
-      .card-user p { color:#bbb; margin:4px 0 10px; font-size:14px; }
-      .card-user .precio { font-weight:bold; color:#b34cff; font-size:16px; }
+      .card-user h3 { 
+          color:white; 
+          margin:8px 0; 
+          font-weight:700; 
+      }
+      .card-user p { 
+          color:#bbb; 
+          margin:4px 0 10px; 
+          font-size:14px; 
+      }
+      .card-user .precio { 
+          font-weight:bold; 
+          color:#b34cff; 
+          font-size:16px; 
+      }
 
       .btn-add {
           width:100%;
@@ -73,7 +84,7 @@
           <div id="btnLoginHeader"><a href="login.html">Iniciar Sesión</a></div>
           <div id="navbarUserBox"></div>
 
-          <div class="cart-box" style="cursor:pointer;" onclick="location.href='carrito.html'">
+          <div class="cart-box" onclick="location.href='carrito.html'" style="cursor:pointer;">
               <span id="cartCount">0</span> 🛒
           </div>
       </div>
@@ -187,20 +198,17 @@
 
   </div>
 
-  <!-- TITULO DINAMICO -->
   <h2 class="titulo">Trabajos Subidos por la Comunidad</h2>
   <div id="galeriaUser" class="grid"></div>
 
-  <!-- SCRIPTS -->
+  <!-- JS -->
   <script src="Scripts/carrito.js"></script>
   <script src="Scripts/sesion-global.js"></script>
-  <script src="Scripts/script.js"></script>
 
-  <!-- SCRIPT PARA CARGAR PUBLICACIONES DINÁMICAS -->
   <script>
-
       const usuario = JSON.parse(localStorage.getItem("usuario"));
 
+      // Cargar trabajos de la BD
       async function cargarPublicaciones() {
           try {
               const res = await fetch("get_trabajos.php");
@@ -215,12 +223,13 @@
               }
 
               data.forEach(t => {
-
                   let btnEliminar = "";
+
                   if (usuario && usuario.id == t.publicado_por) {
                       btnEliminar = `
-                          <button class="btn-delete" onclick="eliminarTrabajo(${t.id}, this)">🗑 Eliminar</button>
-                      `;
+                        <button class="btn-delete" onclick="eliminarTrabajo(${t.id}, this)">
+                            🗑 Eliminar
+                        </button>`;
                   }
 
                   cont.innerHTML += `
@@ -241,30 +250,38 @@
               });
 
           } catch (err) {
-              console.error(err);
+              console.error("Error al cargar trabajos:", err);
           }
       }
 
       cargarPublicaciones();
 
+
+      // Eliminar trabajo
       async function eliminarTrabajo(id, boton) {
           if (!confirm("¿Eliminar este trabajo?")) return;
 
           const fd = new FormData();
           fd.append("id", id);
 
-          const res = await fetch("eliminar_trabajo.php", {
-              method: "POST",
-              body: fd
-          });
+          try {
+              const res = await fetch("eliminar_trabajo.php", {
+                  method: "POST",
+                  body: fd
+              });
 
-          const data = await res.json();
+              const data = await res.json();
 
-          if (data.success) {
-              alert("Trabajo eliminado correctamente.");
-              boton.closest(".card-user").remove();
-          } else {
-              alert("Error al eliminar: " + data.error);
+              if (data.success) {
+                  alert("Trabajo eliminado correctamente.");
+                  boton.closest(".card-user").remove();
+              } else {
+                  alert("Error al eliminar: " + data.error);
+              }
+
+          } catch (error) {
+              alert("Error de conexión con el servidor.");
+              console.error(error);
           }
       }
 
