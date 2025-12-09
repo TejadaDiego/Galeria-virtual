@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Carrito - Galería Virtual</title>
 
-  <!-- CSS reales -->
   <link rel="stylesheet" href="Estilos/Estilo.css">
   <link rel="stylesheet" href="Estilos/catalogo.css">
   <link rel="stylesheet" href="Estilos/premium.css">
@@ -13,7 +12,7 @@
   <style>
     body {
       background:#0d0b1f;
-      color:#fff;
+      color:white;
       font-family: Arial;
       margin: 0;
     }
@@ -30,14 +29,13 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      color: #fff;
     }
 
     th {
-      text-align: left;
       padding: 12px;
-      background: #201a37;
+      background:#1b1430;
       border-bottom: 1px solid rgba(255,255,255,0.2);
+      text-align: left;
     }
 
     td {
@@ -53,18 +51,16 @@
     }
 
     .acciones button {
-      margin-right: 8px;
       padding: 6px 10px;
       border-radius: 8px;
       border: none;
       cursor: pointer;
+      margin-right: 6px;
       background:#b34cff;
       color:white;
     }
 
-    .btn-danger {
-      background:#dc2626 !important;
-    }
+    .btn-danger { background:#dc2626 !important; }
 
     .total-box {
       text-align: right;
@@ -87,27 +83,22 @@
       border-radius:10px;
       cursor:pointer;
       font-size: 15px;
-      transition:.3s;
+      transition: .3s;
     }
 
-    .btn-large:hover {
-      background:#8f35d6;
-    }
+    .btn-large:hover { background:#8f35d6; }
   </style>
 
 </head>
 <body>
 
-  <!-- NAVBAR correcto (compatible con sesion-global.js) -->
+  <!-- NAVBAR generado por sesion-global.js -->
   <nav id="navbar" class="navbar"></nav>
 
-  <!-- CONTENIDO DEL CARRITO -->
   <div class="container">
     <h2>🛒 Tu carrito</h2>
 
-    <table id="tablaCarrito">
-      <!-- Contenido dinámico de carrito.js -->
-    </table>
+    <table id="tablaCarrito"></table>
 
     <div class="total-box">
       Total: S/ <span id="totalCarrito">0.00</span>
@@ -115,15 +106,49 @@
 
     <div class="final-buttons">
       <button class="btn-large" onclick="vaciarCarrito()">🗑 Vaciar carrito</button>
-      <button class="btn-large" onclick="comprar(); location.href='compra_exitosa.html'">💳 Finalizar compra</button>
+      <button class="btn-large" onclick="procesarCompra()">💳 Finalizar compra</button>
     </div>
   </div>
 
   <!-- Scripts -->
   <script src="Scripts/sesion-global.js"></script>
-  <script src="Scripts/login-handler.js"></script>
-  <script src="Scripts/perfil.js"></script>
   <script src="Scripts/carrito.js"></script>
+
+  <script>
+      async function procesarCompra() {
+          const usuario = JSON.parse(localStorage.getItem("usuario"));
+          const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+          if (!usuario) {
+              alert("Debes iniciar sesión para comprar.");
+              return;
+          }
+
+          if (carrito.length === 0) {
+              alert("El carrito está vacío.");
+              return;
+          }
+
+          const fd = new FormData();
+          fd.append("usuario_id", usuario.id);
+          fd.append("carrito", JSON.stringify(carrito));
+
+          const res = await fetch("finalizar_compra.php", {
+              method: "POST",
+              body: fd
+          });
+
+          const data = await res.json();
+
+          if (data.success) {
+              alert("✔ Compra registrada con éxito");
+              vaciarCarrito();
+              window.location.href = "compra_exitosa.html";
+          } else {
+              alert("❌ Error: " + data.error);
+          }
+      }
+  </script>
 
 </body>
 </html>
