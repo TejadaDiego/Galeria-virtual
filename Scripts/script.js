@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("logoutBtn").addEventListener("click", async () => {
         try {
           // Ejecutar logout.php
-          await fetch("Php/logout.php", { method: "POST" });
+          await fetch("logout.php", { method: "POST" });
 
           // Limpiar almacenamiento local
           localStorage.removeItem("usuarioActivo");
