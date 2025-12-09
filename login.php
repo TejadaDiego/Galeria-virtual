@@ -21,7 +21,7 @@ if ($email === "" || $password === "" || $tipo === "") {
 }
 
 // ==============================
-// CONSULTA: EMAIL + TIPO
+// CONSULTA: EMAIL + TIPO EXACTO
 // ==============================
 $sql = "SELECT id, nombre, email, password_hash, tipo, foto 
         FROM usuarios 
@@ -33,7 +33,7 @@ $stmt = $conn->prepare($sql);
 if (!$stmt) {
     echo json_encode([
         "success" => false,
-        "error" => "Error interno al preparar consulta SQL."
+        "error" => "Error interno en el servidor."
     ]);
     exit;
 }
@@ -56,7 +56,7 @@ if ($result->num_rows === 0) {
 $user = $result->fetch_assoc();
 
 // ==============================
-// VALIDAR CONTRASEÑA
+// VALIDAR PASSWORD HASH
 // ==============================
 if (!password_verify($password, $user["password_hash"])) {
     echo json_encode([
@@ -67,7 +67,7 @@ if (!password_verify($password, $user["password_hash"])) {
 }
 
 // ==============================
-// LOGIN CORRECTO
+// LOGIN EXITOSO
 // ==============================
 echo json_encode([
     "success" => true,
