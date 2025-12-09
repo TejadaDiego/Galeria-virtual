@@ -8,11 +8,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const formData = new FormData(form);
 
-            const email = formData.get("email")?.trim();
-            const password = formData.get("password")?.trim();
-            let tipo = formData.get("tipo"); // viene desde los login por rol
+            let email = formData.get("email")?.trim();
+            let password = formData.get("password")?.trim();
+            let tipo = formData.get("tipo");
 
-            // Si el formulario no trae "tipo", lo leemos desde localStorage (caso login.html)
+            // Caso login.html (rol seleccionado antes)
             if (!tipo) {
                 tipo = localStorage.getItem("tipoLogin");
                 formData.append("tipo", tipo);
@@ -29,40 +29,28 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             try {
-                const response = await fetch("login_handler.php", {
+                const response = await fetch("login.php", {
                     method: "POST",
                     body: formData,
                 });
 
-                if (!response.ok) {
-                    throw new Error("Respuesta HTTP inválida");
-                }
+                if (!response.ok) throw new Error("HTTP error");
 
-                let data;
-                try {
-                    data = await response.json();
-                } catch (parseError) {
-                    console.error("Error al convertir JSON:", parseError);
-                    alert("El servidor respondió con formato incorrecto.");
+                const data = await response.json();
+                console.log("RESPUESTA:", data);
+
+                if (!data.success) {
+                    alert(data.error || "Datos incorrectos");
                     return;
                 }
 
-                if (data.status === "error" || !data.success) {
-                    alert(data.message || data.error);
-                    return;
-                }
+                localStorage.setItem("usuario", JSON.stringify(data.usuario));
 
-                const user = data.usuario || data.user;
-
-                // Guardamos usuario en localStorage
-                localStorage.setItem("usuario", JSON.stringify(user));
-
-                // Redirección
                 window.location.href = "inicio.html";
 
             } catch (error) {
                 console.error("Error en login:", error);
-                alert("Error de conexión con el servidor. Asegúrate de que Apache/XAMPP esté ejecutándose.");
+                alert("Error al conectar con el servidor.");
             }
         });
     });
