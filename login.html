@@ -76,7 +76,7 @@
 <div class="login-container">
   <h2 id="tituloLogin">Selecciona tu tipo de acceso</h2>
 
-  <!-- NUEVOS BOTONES -->
+  <!-- BOTONES DE ROLES -->
   <div class="tipo-buttons">
     <button class="tipo-btn" onclick="seleccionarTipo('usuario')">👤 Usuario</button>
     <button class="tipo-btn" onclick="seleccionarTipo('publicador')">🛒 Publicador</button>
@@ -106,31 +106,29 @@
 <!-- ============================== -->
 
 <script>
-// Guardará el tipo seleccionado
 let tipoSeleccionado = "";
 
-// =====================================================
-// ACTIVAR FORMULARIO CUANDO SE ELIJA EL TIPO
-// =====================================================
+/* ======================================
+      ACTIVAR LOGIN AL SELECCIONAR ROL
+====================================== */
 function seleccionarTipo(tipo) {
     tipoSeleccionado = tipo;
     localStorage.setItem("tipoLogin", tipo);
 
-    // Cambia el título del login
     const titulo = document.getElementById("tituloLogin");
     if (tipo === "usuario") titulo.textContent = "Iniciar Sesión - Usuario";
     if (tipo === "publicador") titulo.textContent = "Iniciar Sesión - Publicador";
     if (tipo === "admin") titulo.textContent = "Iniciar Sesión - Administrador";
 
-    // Habilita campos
+    // Activar formulario
     document.getElementById("email").disabled = false;
     document.getElementById("password").disabled = false;
     document.getElementById("btnIngresar").disabled = false;
 }
 
-// =====================================================
-// INTERCEPTO LOGIN PARA ENVIAR EL TIPO
-// =====================================================
+/* ======================================
+      PROCESO DE LOGIN COMPLETO
+====================================== */
 document.querySelector(".login-form").addEventListener("submit", function(e) {
     e.preventDefault();
 
@@ -142,9 +140,6 @@ document.querySelector(".login-form").addEventListener("submit", function(e) {
     loginHandler();
 });
 
-// =====================================================
-// FUNCIÓN COMPATIBLE CON login-handler.js
-// =====================================================
 async function loginHandler() {
     const email = document.getElementById("email").value.trim();
     const pass = document.getElementById("password").value.trim();
@@ -167,6 +162,7 @@ async function loginHandler() {
 }
 </script>
 
+<!-- Scripts globales de tu proyecto -->
 <script src="Scripts/script.js"></script>
 <script src="Scripts/sesion-global.js"></script>
 

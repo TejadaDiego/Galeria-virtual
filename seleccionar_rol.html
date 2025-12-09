@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Seleccionar Acceso</title>
+
+<style>
+    body {
+        margin: 0;
+        background: #0d0b1f;
+        font-family: Arial, sans-serif;
+        color: white;
+    }
+
+    .container {
+        width: 350px;
+        margin: 100px auto;
+        padding: 30px;
+        background: #14122b;
+        border-radius: 12px;
+        box-shadow: 0 0 15px #000;
+        text-align: center;
+    }
+
+    .rol-btn {
+        width: 100%;
+        padding: 14px;
+        margin: 12px 0;
+        border-radius: 8px;
+        border: 1px solid #8257e6;
+        background: #1b1936;
+        color: white;
+        font-size: 17px;
+        cursor: pointer;
+        transition: 0.3s;
+        font-weight: bold;
+    }
+
+    .rol-btn:hover {
+        background: #a569ff;
+    }
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Selecciona tu tipo de acceso</h2>
+
+    <button class="rol-btn" onclick="elegirRol('usuario')">👤 Usuario</button>
+    <button class="rol-btn" onclick="elegirRol('publicador')">🛒 Publicador</button>
+    <button class="rol-btn" onclick="elegirRol('admin')">🛠 Administrador</button>
+</div>
+
+<script>
+function elegirRol(rol) {
+    localStorage.setItem("tipoLogin", rol);
+    window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>
