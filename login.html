@@ -49,7 +49,7 @@
 <div class="login-container">
   <h2 id="tituloLogin">Iniciar Sesión</h2>
 
-  <form class="login-form" id="loginForm">
+  <form id="loginForm">
     <label>Email:</label>
     <input type="email" id="email" required>
 
@@ -67,27 +67,22 @@
 </div>
 
 <script>
-// --------------------------------------
-// LEER EL TIPO GUARDADO DESDE seleccionar_rol.html
-// --------------------------------------
+// LEER ROL GUARDADO
 const tipo = localStorage.getItem("tipoLogin");
 
-// Si no hay un tipo guardado → regresar
 if (!tipo) {
-    alert("Debes seleccionar un tipo de acceso.");
+    alert("Debe seleccionar un tipo de acceso.");
     window.location.href = "seleccionar_rol.html";
 }
 
-// Cambiar título según tipo
 const titulo = document.getElementById("tituloLogin");
 
+// Mostrar texto según el tipo
 if (tipo === "comprador") titulo.textContent = "Iniciar Sesión - Usuario";
 if (tipo === "estudiante") titulo.textContent = "Iniciar Sesión - Publicador";
 if (tipo === "admin") titulo.textContent = "Iniciar Sesión - Administrador";
 
-// --------------------------------------
-// PROCESO DE LOGIN
-// --------------------------------------
+// PROCESO LOGIN
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -97,7 +92,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     const fd = new FormData();
     fd.append("email", email);
     fd.append("password", pass);
-    fd.append("tipo", tipo); // ← este es el valor correcto !
+    fd.append("tipo", tipo);
 
     const res = await fetch("login_handler.php", { method: "POST", body: fd });
     const data = await res.json();
@@ -110,9 +105,6 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     }
 });
 </script>
-
-<script src="Scripts/script.js"></script>
-<script src="Scripts/sesion-global.js"></script>
 
 </body>
 </html>
