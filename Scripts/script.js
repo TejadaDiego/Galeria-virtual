@@ -45,10 +45,14 @@ function guardarSesion(tipo, email) {
 
 
 // =========================================
-// ========= LOGIN COMPRADOR =================
+// ===== PROCESOS DE LOGIN ==================
 // =========================================
 
 document.addEventListener("DOMContentLoaded", () => {
+
+  // -------------------
+  // LOGIN COMPRADOR
+  // -------------------
   const formComprador = document.getElementById("formComprador");
 
   if (formComprador) {
@@ -65,16 +69,14 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      guardarSesion("Comprador", email);
+      guardarSesion("Comprador/Vendedor", email);
     });
   }
 
 
-
-  // =========================================
-  // ========= LOGIN ESTUDIANTE ===============
-  // =========================================
-
+  // -------------------
+  // LOGIN ESTUDIANTE
+  // -------------------
   const formEstudiante = document.getElementById("formEstudiante");
 
   if (formEstudiante) {
@@ -96,11 +98,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-
-  // =========================================
-  // ========= LOGIN ADMIN =====================
-  // =========================================
-
+  // -------------------
+  // LOGIN ADMIN
+  // -------------------
   const formAdmin = document.getElementById("formAdmin");
 
   if (formAdmin) {
@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (pass !== "certus10") {
         error.style.display = "block";
-        error.textContent = "Contraseña incorrecta. Intenta nuevamente.";
+        error.textContent = "Contraseña incorrecta.";
         return;
       }
 
@@ -130,18 +130,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // =========================================
-  // ===== MOSTRAR USUARIO EN NAVBAR ==========
+  // ===== MOSTRAR USUARIO + LOGOUT ========== 
   // =========================================
 
   const nav = document.querySelector(".navbar");
+
   if (nav) {
     const usuario = JSON.parse(localStorage.getItem("usuarioActivo"));
+
     if (usuario) {
       // Ocultar botón "Iniciar sesión"
       const loginBtn = nav.querySelector('a[href="login.html"]');
       if (loginBtn) loginBtn.style.display = "none";
 
-      // Insertar caja de usuario
+      // Insertar bloque de usuario
       const userBoxHTML = `
         <div class="navbar-user-box" id="navbarUserBox">
           <img src="${usuario.foto}" alt="Foto usuario">
@@ -154,11 +156,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
       nav.insertAdjacentHTML("beforeend", userBoxHTML);
 
-      // Botón de cerrar sesión
-      document.getElementById("logoutBtn").addEventListener("click", () => {
-        localStorage.removeItem("usuarioActivo");
-        alert("Sesión cerrada correctamente.");
-        window.location.href = "login.html";
+      // ==============================
+      // CERRAR SESIÓN (CORREGIDO)
+      // ==============================
+      document.getElementById("logoutBtn").addEventListener("click", async () => {
+        try {
+
+          // Llamar a logout.php
+          await fetch("Php/logout.php", { method: "POST" });
+
+          // Quitar usuario local
+          localStorage.removeItem("usuarioActivo");
+          localStorage.removeItem("tipoLogin");
+
+          alert("Sesión cerrada correctamente.");
+
+          // Redirigir a selección de rol
+          window.location.href = "seleccionar_rol.html";
+
+        } catch (err) {
+          console.error(err);
+          alert("Error al cerrar sesión.");
+        }
       });
     }
   }
