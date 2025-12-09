@@ -35,20 +35,21 @@ $trabajos = [];
 while ($fila = $res->fetch_assoc()) {
 
     // ================================
-    // RUTA DE LA IMAGEN CORRECTA
+    // CORREGIR RUTA DE IMAGEN
     // ================================
+
     if (!empty($fila["imagen"])) {
 
-        // Construimos la ruta pública
+        // Ruta pública correcta
         $rutaPublica = "uploads/" . $fila["imagen"];
 
-        // Ruta física real para validar
-        $rutaFisica = __DIR__ . "/../uploads/" . $fila["imagen"];
+        // Ruta física real correcta (sin ../)
+        $rutaFisica = __DIR__ . "/uploads/" . $fila["imagen"];
 
         if (file_exists($rutaFisica)) {
             $fila["imagen"] = $rutaPublica;
         } else {
-            $fila["imagen"] = "img/default.png"; // fallback
+            $fila["imagen"] = "img/default.png";
         }
 
     } else {
