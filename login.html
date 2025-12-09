@@ -26,7 +26,7 @@
       text-align: center;
     }
 
-    input, button {
+    input, button, select {
       width: 100%;
       padding: 12px;
       margin-top: 12px;
@@ -42,28 +42,42 @@
     }
 
     button:hover { background: #8b46ff; }
+
+    select {
+      background: #1b1936;
+      color: white;
+      border: 1px solid #553c9a;
+    }
   </style>
 </head>
 
 <body>
 
 <div class="login-container">
-  <h2>Iniciar Sesión</h2>
+  <h2 id="tituloLogin">Selecciona tu tipo de acceso</h2>
 
-  <!-- FORMULARIO LOGIN PRINCIPAL -->
+  <!-- SELECTOR NUEVO: obligatorio antes de login -->
+  <select id="tipoLogin">
+    <option value="" disabled selected>Elegir tipo...</option>
+    <option value="usuario">👤 Usuario</option>
+    <option value="publicador">🛒 Publicador</option>
+    <option value="admin">🛠 Administrador</option>
+  </select>
+
+  <!-- FORMULARIO LOGIN -->
   <form class="login-form">
+
     <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
+    <input type="email" id="email" name="email" disabled required>
 
     <label for="password">Contraseña:</label>
-    <input type="password" id="password" name="password" required>
+    <input type="password" id="password" name="password" disabled required>
 
     <div class="registro">
       ¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a>
     </div>
 
-    <!-- Este login general NO tiene tipo, lo decide login-handler.js -->
-    <button type="submit">Ingresar</button>
+    <button type="submit" id="btnIngresar" disabled>Ingresar</button>
   </form>
 
   <hr style="margin: 20px 0; opacity: .3;">
@@ -74,14 +88,72 @@
 <!--      SCRIPTS NECESARIOS       -->
 <!-- ============================== -->
 
-<!-- Lógica de login simple / sesiones -->
-<script src="Scripts/script.js"></script>
+<script>
+// =====================================================
+// ACTIVAR FORMULARIO SOLO CUANDO SE ELIJA EL TIPO
+// =====================================================
+document.getElementById("tipoLogin").addEventListener("change", function() {
 
-<!-- Maneja sesión global en navbar -->
+    const tipo = this.value;
+    const titulo = document.getElementById("tituloLogin");
+
+    // Cambiar título dinámico
+    if (tipo === "usuario") titulo.textContent = "Iniciar Sesión - Usuario";
+    if (tipo === "publicador") titulo.textContent = "Iniciar Sesión - Publicador";
+    if (tipo === "admin") titulo.textContent = "Iniciar Sesión - Administrador";
+
+    // Habilitar campos
+    document.getElementById("email").disabled = false;
+    document.getElementById("password").disabled = false;
+    document.getElementById("btnIngresar").disabled = false;
+});
+
+// =====================================================
+// INTERCEPTAR LOGIN Y AGREGAR EL TIPO SELECCIONADO
+// =====================================================
+document.querySelector(".login-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const tipo = document.getElementById("tipoLogin").value;
+    if (!tipo) {
+        alert("Selecciona tu tipo de acceso antes de continuar.");
+        return;
+    }
+
+    // Guardamos el tipo de login para que login-handler.js lo use
+    localStorage.setItem("tipoLogin", tipo);
+
+    // Dejamos que login-handler haga el login normal
+    loginHandler();
+});
+
+// =====================================================
+// FUNCIÓN COMPATIBLE CON TU login-handler.js
+// =====================================================
+async function loginHandler() {
+    const email = document.getElementById("email").value.trim();
+    const pass = document.getElementById("password").value.trim();
+    const tipo = localStorage.getItem("tipoLogin");
+
+    const fd = new FormData();
+    fd.append("email", email);
+    fd.append("password", pass);
+    fd.append("tipo", tipo); // <-- IMPORTANTE
+
+    const res = await fetch("login_handler.php", { method: "POST", body: fd });
+    const data = await res.json();
+
+    if (data.success) {
+        localStorage.setItem("usuario", JSON.stringify(data.usuario));
+        window.location.href = "inicio.html";
+    } else {
+        alert("Error: " + data.error);
+    }
+}
+</script>
+
+<script src="Scripts/script.js"></script>
 <script src="Scripts/sesion-global.js"></script>
 
-<!-- Valida login + envía datos a PHP + guarda usuario -->
-<script src="Scripts/login-handler.js"></script>
-
 </body>
-</html> 
+</html>
