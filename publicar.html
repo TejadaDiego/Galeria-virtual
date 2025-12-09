@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Publicar Trabajo - Galería Virtual</title>
 
+  <!-- CSS DEL PROYECTO -->
   <link rel="stylesheet" href="Estilos/publicar.css">
   <link rel="stylesheet" href="Estilos/estilo.css">
   <link rel="stylesheet" href="Estilos/premium.css">
@@ -11,6 +12,7 @@
   <style>
     body { background:#0d0b1f; margin:0; font-family:Arial; }
 
+    /* NAV */
     .navbar {
       width:100%;
       padding:20px;
@@ -59,6 +61,56 @@
       border:2px solid #a569ff;
       object-fit:cover;
     }
+
+    /* PREVIEW IMAGEN */
+    #previewImg {
+      width: 300px;
+      height: auto;
+      border-radius: 12px;
+      border: 2px solid #a569ff;
+      display: none;
+      margin-top: 15px;
+      box-shadow:0 0 10px rgba(165,105,255,0.5);
+    }
+
+    .form-container {
+      max-width: 500px;
+      margin: 40px auto;
+      background:#1a1635;
+      padding:25px;
+      border-radius:15px;
+      box-shadow:0 0 15px #000;
+      color:white;
+    }
+
+    input, textarea {
+      width:100%;
+      padding:12px;
+      margin-top:8px;
+      border-radius:8px;
+      border:none;
+      background:#2c2850;
+      color:white;
+    }
+
+    button {
+      width:100%;
+      padding:14px;
+      margin-top:20px;
+      background:#b34cff;
+      color:white;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      font-size:16px;
+      font-weight:bold;
+      transition:0.3s;
+    }
+
+    button:hover {
+      background:#8c32e6;
+    }
+
   </style>
 </head>
 
@@ -104,16 +156,16 @@
     <label for="imagen">Imagen del trabajo:</label>
     <input type="file" id="imagen" name="imagen" accept="image/*" required>
 
-    <img id="previewImg" style="display:none; width:200px; border-radius:10px; margin-top:10px;">
+    <!-- PREVIEW -->
+    <img id="previewImg">
 
     <button type="submit">Subir trabajo</button>
   </form>
 </div>
 
 <!-- Scripts correctos y en orden -->
-<script src="Scripts/sesion-global.js"></script>
-<script src="Scripts/publicar.js?v=2"></script>
-
+<script src="Scripts/sesion-global.js?v=1"></script>
+<script src="Scripts/publicar.js?v=3"></script>
 
 </body>
 </html>
