@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Iniciar Sesión</title>
 
-  <!-- CSS reales del proyecto -->
   <link rel="stylesheet" href="Estilos/login.css">
   <link rel="stylesheet" href="Estilos/estilos.css">
 
@@ -26,31 +25,6 @@
       text-align: center;
     }
 
-    /* BOTONES DE TIPOS DE LOGIN */
-    .tipo-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .tipo-btn {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      background: #1b1936;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      border: 1px solid #553c9a;
-      transition: .3s;
-    }
-
-    .tipo-btn:hover {
-      background: #a569ff;
-    }
-
     input, button {
       width: 100%;
       padding: 12px;
@@ -66,31 +40,19 @@
       cursor: pointer;
     }
 
-    button:hover { background: #8b46ff; }
-
-    /* Ocultar el formulario hasta elegir rol */
-    .disabled {
-      opacity: 0.4;
-      pointer-events: none;
+    button:hover {
+      background: #8b46ff;
     }
-
   </style>
 </head>
 
 <body>
 
 <div class="login-container">
-  <h2 id="tituloLogin">Selecciona tu tipo de acceso</h2>
+  <h2 id="tituloLogin">Iniciar Sesión</h2>
 
-  <!-- BOTONES DE ROLES -->
-  <div class="tipo-buttons">
-    <button class="tipo-btn" onclick="seleccionarTipo('usuario')">👤 Usuario</button>
-    <button class="tipo-btn" onclick="seleccionarTipo('publicador')">🛒 Publicador</button>
-    <button class="tipo-btn" onclick="seleccionarTipo('admin')">🛠 Administrador</button>
-  </div>
-
-  <!-- FORMULARIO LOGIN (DESHABILITADO INICIALMENTE) -->
-  <form class="login-form disabled">
+  <!-- FORMULARIO LOGIN -->
+  <form class="login-form">
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" required>
 
@@ -108,49 +70,30 @@
 </div>
 
 <!-- ============================== -->
-<!--      SCRIPTS NECESARIOS       -->
+<!--      LOGICA DEL LOGIN         -->
 <!-- ============================== -->
 
 <script>
-let tipoSeleccionado = "";
+// Recuperar el rol seleccionado en seleccionar_rol.html
+const tipo = localStorage.getItem("tipoLogin");
 
-/* ======================================
-      ACTIVAR LOGIN AL SELECCIONAR ROL
-====================================== */
-function seleccionarTipo(tipo) {
-    tipoSeleccionado = tipo;
-    localStorage.setItem("tipoLogin", tipo);
-
-    const titulo = document.getElementById("tituloLogin");
-    if (tipo === "usuario") titulo.textContent = "Iniciar Sesión - Usuario";
-    if (tipo === "publicador") titulo.textContent = "Iniciar Sesión - Publicador";
-    if (tipo === "admin") titulo.textContent = "Iniciar Sesión - Administrador";
-
-    // Activar formulario completo
-    document.querySelector(".login-form").classList.remove("disabled");
+// Cambiar el título según rol
+if (tipo === "usuario") {
+    tituloLogin.textContent = "Iniciar Sesión - Usuario";
+} else if (tipo === "publicador") {
+    tituloLogin.textContent = "Iniciar Sesión - Publicador";
+} else if (tipo === "admin") {
+    tituloLogin.textContent = "Iniciar Sesión - Administrador";
+} else {
+    // Si no hay rol, redirigir de nuevo
+    window.location.href = "seleccionar_rol.html";
 }
 
-/* ======================================
-      LOGIN COMPLETO
-====================================== */
-document.querySelector(".login-form").addEventListener("submit", function(e) {
+document.querySelector(".login-form").addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    if (!tipoSeleccionado) {
-        alert("Selecciona un tipo de acceso primero.");
-        return;
-    }
-
-    loginHandler();
-});
-
-/* ======================================
-      ENVÍO AL BACKEND
-====================================== */
-async function loginHandler() {
     const email = document.getElementById("email").value.trim();
     const pass = document.getElementById("password").value.trim();
-    const tipo = localStorage.getItem("tipoLogin");
 
     const fd = new FormData();
     fd.append("email", email);
@@ -166,7 +109,7 @@ async function loginHandler() {
     } else {
         alert("Error: " + data.error);
     }
-}
+});
 </script>
 
 <script src="Scripts/script.js"></script>
