@@ -164,6 +164,10 @@
 <script src="Scripts/sesion-global.js?v=1"></script>
 <script src="Scripts/script.js?v=1"></script>
 
+<!-- Scripts en orden correcto -->
+<script src="Scripts/sesion-global.js?v=1"></script>
+<script src="Scripts/script.js?v=1"></script>
+
 <script>
 /* ============================
    PREVIEW DE IMAGEN
@@ -188,6 +192,13 @@ document.getElementById("imagen").addEventListener("change", function() {
 document.getElementById("formPublicar").addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+    if (!usuario) {
+        alert("Debes iniciar sesión para publicar.");
+        window.location.href = "login.html";
+        return;
+    }
+
     const titulo = document.getElementById("titulo").value.trim();
     const descripcion = document.getElementById("descripcion").value.trim();
     const precio = document.getElementById("precio").value.trim();
@@ -204,13 +215,17 @@ document.getElementById("formPublicar").addEventListener("submit", async (e) => 
     formData.append("precio", precio);
     formData.append("imagen", imagen);
 
+    // 🔥 Agregar usuario_id obligatorio para BD
+    formData.append("usuario_id", usuario.id);
+
     try {
-        const res = await fetch("publicar.php", {
+        const res = await fetch("publicar_handler.php", {
             method: "POST",
             body: formData
         });
 
         const data = await res.json();
+        console.log("Respuesta servidor:", data);
 
         if (!data.success) {
             alert("Error: " + data.error);
@@ -222,11 +237,12 @@ document.getElementById("formPublicar").addEventListener("submit", async (e) => 
         document.getElementById("previewImg").style.display = "none";
 
     } catch (err) {
-        console.error(err);
+        console.error("Error:", err);
         alert("Error al conectar con el servidor.");
     }
 });
 </script>
+
 
 </body>
 </html>
