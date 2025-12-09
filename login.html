@@ -49,11 +49,11 @@
 <div class="login-container">
   <h2 id="tituloLogin">Iniciar Sesión</h2>
 
-  <form class="login-form">
-    <label for="email">Email:</label>
+  <form class="login-form" id="loginForm">
+    <label>Email:</label>
     <input type="email" id="email" required>
 
-    <label for="password">Contraseña:</label>
+    <label>Contraseña:</label>
     <input type="password" id="password" required>
 
     <div class="registro">
@@ -67,32 +67,28 @@
 </div>
 
 <script>
-// Leer tipo de login desde seleccionar_rol.html
+// --------------------------------------
+// LEER EL TIPO GUARDADO DESDE seleccionar_rol.html
+// --------------------------------------
 const tipo = localStorage.getItem("tipoLogin");
 
-// Validar que sí exista
+// Si no hay un tipo guardado → regresar
 if (!tipo) {
-    alert("Debe seleccionar un tipo de acceso.");
+    alert("Debes seleccionar un tipo de acceso.");
     window.location.href = "seleccionar_rol.html";
 }
 
-// Cambiar título según rol
+// Cambiar título según tipo
 const titulo = document.getElementById("tituloLogin");
 
-switch (tipo) {
-    case "usuario":
-        titulo.textContent = "Iniciar Sesión - Usuario";
-        break;
-    case "publicador":
-        titulo.textContent = "Iniciar Sesión - Publicador";
-        break;
-    case "admin":
-        titulo.textContent = "Iniciar Sesión - Administrador";
-        break;
-}
-    
-// Manejo del formulario
-document.querySelector(".login-form").addEventListener("submit", async (e) => {
+if (tipo === "comprador") titulo.textContent = "Iniciar Sesión - Usuario";
+if (tipo === "estudiante") titulo.textContent = "Iniciar Sesión - Publicador";
+if (tipo === "admin") titulo.textContent = "Iniciar Sesión - Administrador";
+
+// --------------------------------------
+// PROCESO DE LOGIN
+// --------------------------------------
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const email = document.getElementById("email").value.trim();
@@ -101,7 +97,7 @@ document.querySelector(".login-form").addEventListener("submit", async (e) => {
     const fd = new FormData();
     fd.append("email", email);
     fd.append("password", pass);
-    fd.append("tipo", tipo);
+    fd.append("tipo", tipo); // ← este es el valor correcto !
 
     const res = await fetch("login_handler.php", { method: "POST", body: fd });
     const data = await res.json();
