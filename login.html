@@ -67,22 +67,35 @@
 </div>
 
 <script>
-// LEER ROL GUARDADO
+// ==============================
+// LEER ROL SELECCIONADO
+// ==============================
 const tipo = localStorage.getItem("tipoLogin");
 
+// Si no hay rol seleccionado → regresar a elegir rol
 if (!tipo) {
     alert("Debe seleccionar un tipo de acceso.");
     window.location.href = "seleccionar_rol.html";
 }
 
+// Cambiar el título dependiendo del rol
 const titulo = document.getElementById("tituloLogin");
 
-// Mostrar texto según el tipo
-if (tipo === "comprador") titulo.textContent = "Iniciar Sesión - Usuario";
-if (tipo === "estudiante") titulo.textContent = "Iniciar Sesión - Publicador";
-if (tipo === "admin") titulo.textContent = "Iniciar Sesión - Administrador";
+switch (tipo) {
+    case "usuario":
+        titulo.textContent = "Iniciar Sesión - Usuario";
+        break;
+    case "publicador":
+        titulo.textContent = "Iniciar Sesión - Publicador";
+        break;
+    case "admin":
+        titulo.textContent = "Iniciar Sesión - Administrador";
+        break;
+}
 
+// ==============================
 // PROCESO LOGIN
+// ==============================
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
