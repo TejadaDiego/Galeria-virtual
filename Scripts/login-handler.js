@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // MAPEO AL TIPO REAL DE BD
         // ==========================
         const rolesBD = {
-            comprador: "Profesor",
+            comprador: "Comprador/Vendedor",
             estudiante: "Estudiante",
             admin: "Administrador"
         };

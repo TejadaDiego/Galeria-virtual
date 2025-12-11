@@ -28,7 +28,7 @@ function guardarSesion(tipo, email) {
         ? "Administrador"
         : tipo === "Estudiante"
         ? "Estudiante"
-        : "Profesor",
+        : "Comprador/Vendedor",
     foto:
       tipo === "Administrador"
         ? "img/admin.png"
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      guardarSesion("Profesor", email);
+      guardarSesion("Comprador/Vendedor", email);
     });
   }
 
